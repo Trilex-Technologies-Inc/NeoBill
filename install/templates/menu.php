@@ -21,12 +21,33 @@
  */
 ?>
 
-        <ul id="navlist">
-            <li><?php if (isset($_POST['install_step']) && $_POST['install_step'] > '0') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '&nbsp;&nbsp;&nbsp;';} ?> <?php echo _INSTALLERSTEP0; ?></li>
-            <li><?php if (isset($_POST['install_step']) && $_POST['install_step'] > '1') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '1.';} ?> <?php echo _INSTALLERSTEP1; ?></li>
-            <li><?php if (isset($_POST['install_step']) && $_POST['install_step'] > '2') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '2.';} ?> <?php echo _INSTALLERSTEP2; ?></li>
-            <li><?php if (isset($_POST['install_step']) && $_POST['install_step'] > '3') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '3.';} ?> <?php echo _INSTALLERSTEP3; ?></li>
-            <li><?php if (isset($_POST['install_step']) && $_POST['install_step'] > '4') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '4.';} ?> <?php echo _INSTALLERSTEP4; ?></li>
-            <li><?php if (isset($_POST['install_step']) && $_POST['install_step'] > '5') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '5.';} ?> <?php echo _INSTALLERSTEP5; ?></li>
-            <li><?php if (isset($_POST['install_step']) && $_POST['install_step'] > '6') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '6.';} ?> <?php echo _INSTALLERSTEP6; ?></li>
-        </ul>
+	        <ul id="navlist" class="list-group small">
+	            <li class="list-group-item d-flex gap-2 align-items-start">
+	                <span class="text-success fw-bold"><?php echo (isset($_POST['install_step']) && $_POST['install_step'] > '0') ? '&#10003;' : '&nbsp;'; ?></span>
+	                <span><?php echo _INSTALLERSTEP0; ?></span>
+	            </li>
+	            <li class="list-group-item d-flex gap-2 align-items-start">
+	                <span class="text-success fw-bold"><?php echo (isset($_POST['install_step']) && $_POST['install_step'] > '1') ? '&#10003;' : '1.'; ?></span>
+	                <span><?php echo _INSTALLERSTEP1; ?></span>
+	            </li>
+	            <li class="list-group-item d-flex gap-2 align-items-start">
+	                <span class="text-success fw-bold"><?php echo (isset($_POST['install_step']) && $_POST['install_step'] > '2') ? '&#10003;' : '2.'; ?></span>
+	                <span><?php echo _INSTALLERSTEP2; ?></span>
+	            </li>
+	            <li class="list-group-item d-flex gap-2 align-items-start">
+	                <span class="text-success fw-bold"><?php echo (isset($_POST['install_step']) && $_POST['install_step'] > '3') ? '&#10003;' : '3.'; ?></span>
+	                <span><?php echo _INSTALLERSTEP3; ?></span>
+	            </li>
+	            <li class="list-group-item d-flex gap-2 align-items-start">
+	                <span class="text-success fw-bold"><?php echo (isset($_POST['install_step']) && $_POST['install_step'] > '4') ? '&#10003;' : '4.'; ?></span>
+	                <span><?php echo _INSTALLERSTEP4; ?></span>
+	            </li>
+	            <li class="list-group-item d-flex gap-2 align-items-start">
+	                <span class="text-success fw-bold"><?php echo (isset($_POST['install_step']) && $_POST['install_step'] > '5') ? '&#10003;' : '5.'; ?></span>
+	                <span><?php echo _INSTALLERSTEP5; ?></span>
+	            </li>
+	            <li class="list-group-item d-flex gap-2 align-items-start">
+	                <span class="text-success fw-bold"><?php echo (isset($_POST['install_step']) && $_POST['install_step'] > '6') ? '&#10003;' : '6.'; ?></span>
+	                <span><?php echo _INSTALLERSTEP6; ?></span>
+	            </li>
+	        </ul>

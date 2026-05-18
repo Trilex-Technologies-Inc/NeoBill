@@ -41,7 +41,14 @@
         <ul class="systemrequirements">
           <li class="description"><?php echo _INSTALLERPERMISSIONSFILE, ':'; ?></li>
 <?php
-  $file = realpath($filepath . 'config/config.inc.php');
+  $config_dir = $filepath . 'config/';
+  $sample_file = $config_dir . 'config-sample.inc.php';
+  $file = $config_dir . 'config.inc.php';
+
+  if (!file_exists($file) && is_writable($config_dir) && file_exists($sample_file)) {
+    create_config_file();
+  }
+
   if (!file_exists($file)) {
     echo  '         <li class="failed">', $file, '</li>', "\n";
     echo '          <li class="failed">', "The configuration file does not exist, please make sure config.inc.php exists in directory config", '.</li>', "\n";
@@ -97,14 +104,14 @@
           </ul>
           <div class="submit">
 <?php
-  if ($checkfailed) {
-    echo '            <input type="hidden" name="install_step" value="2" />', "\n";
-    echo '            <input type="submit" value="', _INSTALLERRECHECK, '" />', "\n";
-  } else {
-    echo '            <input type="hidden" name="function" value="config_system" />', "\n";
-    echo '            <input type="hidden" name="install_step" value="3" />', "\n";
-    echo '            <input type="submit" value="', _INSTALLERNEXT, '" />', "\n";
-  }
-?>
-          </div>
-        </form>
+	  if ($checkfailed) {
+	    echo '            <input type="hidden" name="install_step" value="2" />', "\n";
+	    echo '            <input class="btn btn-secondary" type="submit" value="', _INSTALLERRECHECK, '" />', "\n";
+	  } else {
+	    echo '            <input type="hidden" name="function" value="config_system" />', "\n";
+	    echo '            <input type="hidden" name="install_step" value="3" />', "\n";
+	    echo '            <input class="btn btn-primary" type="submit" value="', _INSTALLERNEXT, '" />', "\n";
+	  }
+	?>
+	          </div>
+	        </form>

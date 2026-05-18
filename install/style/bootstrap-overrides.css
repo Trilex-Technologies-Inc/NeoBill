@@ -1,0 +1,50 @@
+/*
+ * Bootstrap overrides for installer UI.
+ * Keeps legacy markup working while using Bootstrap layout and typography.
+ */
+
+body {
+    font-size: 1rem;
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+#content1 {
+    width: auto;
+    max-width: 980px;
+}
+
+#content2 {
+    background-color: transparent;
+}
+
+/* Legacy installer CSS sets very small heading sizes. Let Bootstrap handle it. */
+h1, h2, h3 {
+    font-size: inherit;
+}
+
+/* Legacy sidebar/main column rules should not fight Bootstrap grid. */
+.leftnav,
+#maincolumn {
+    float: none;
+    width: auto;
+    margin: 0;
+    padding: 0;
+}
+
+/* Old progress bar styles should not override Bootstrap progress. */
+.progressbarbox,
+.percentcomplete {
+    background: none;
+    border: 0;
+    height: auto;
+}
+
+/* The old "submit" box looked like a gray bar; Bootstrap buttons look better. */
+.submit {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin-top: 1rem;
+}
+

@@ -38,7 +38,6 @@
     require_once 'languages/' . $_COOKIE['language'] . '.php';
   } else {
     require_once 'languages/english.php';
-	require_once 'languages/deutsch.php';
   }
   require_once 'include/setting.php';
   

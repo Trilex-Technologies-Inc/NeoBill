@@ -266,7 +266,13 @@ function add_ModuleDBO( &$dbo ) {
         printf("Errormessage: %s\n", mysqli_error($link));    
     }
  
-    mysqli_stmt_bind_param($stmt, 'sssss', $dbo->getName(), $dbo->getType(), $dbo->getEnabled(), $dbo->getShortDescription(), $dbo->getDescription());
+    $name = $dbo->getName();
+    $type = $dbo->getType();
+    $enabled = $dbo->getEnabled();
+    $shortdescription = $dbo->getShortDescription();
+    $description = $dbo->getDescription();
+
+    mysqli_stmt_bind_param($stmt, 'sssss', $name, $type, $enabled, $shortdescription, $description);
     
     mysqli_stmt_execute($stmt);
     

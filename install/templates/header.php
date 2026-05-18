@@ -20,39 +20,48 @@
  *
 */
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo _ISOLANGUAGECODE; ?>">
-    <head>
-        <link rel="stylesheet" href="style/neobill.css" type="text/css" />
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <meta name="description" content="Open Source Customer Management and Billing Software for Web Hosts" />
-        <meta name="robots" content="index, follow" />
-        <meta name="resource-type" content="document" />
-        <meta http-equiv="expires" content="0" />
-        <meta name="author" content="John Diamond" />
-        <meta name="author" content="Yves Kreis" />
-        <meta name="copyright" content="Copyright (C) 2006-2008 by John Diamond" />
-        <meta name="copyright" content="Copyright (C) 2009 by Yves Kreis" />
-        <meta name="revisit-after" content="1 days" />
-        <meta name="distribution" content="global" />
-        <meta name="rating" content="general" />
-        <title>NeoBill :: Open Source Customer Management and Billing Software for Web Hosts</title>
-    </head>
-    <body>
-        <div id="content1">
-            <div id="content2">
-                <div class="leftnav">
-                    <div id="navcontainer">
-                        <h1><?php echo _INSTALLERSTEPS; ?></h1><?php include "templates/menu.php"; ?>
-                    </div>
-                    <div class="helpbox"><?php include "templates/help.php"; ?>
-                    </div>
-                </div>
-                <div id="maincolumn">
-                    <div class="header">
-                        <div id="logo">
-                            <img src="images/logo.gif" alt="NEOBILL" />
-                        </div>
-                        <div style="clear: both;">
-                        </div>
-                    </div><?php include "templates/graph.php"; ?>
+<!doctype html>
+<html lang="<?php echo _ISOLANGUAGECODE; ?>">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="style/neobill.css" type="text/css" />
+	<link rel="stylesheet" href="style/bootstrap-overrides.css" type="text/css" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="description" content="Open Source Customer Management and Billing Software for Web Hosts" />
+	<meta name="robots" content="index, follow" />
+	<meta name="resource-type" content="document" />
+	<meta http-equiv="expires" content="0" />
+	<meta name="author" content="John Diamond" />
+	<meta name="author" content="Yves Kreis" />
+	<meta name="copyright" content="Copyright (C) 2006-2008 by John Diamond" />
+	<meta name="copyright" content="Copyright (C) 2009 by Yves Kreis" />
+	<meta name="revisit-after" content="1 days" />
+	<meta name="distribution" content="global" />
+	<meta name="rating" content="general" />
+	<title>NeoBill :: Open Source Customer Management and Billing Software for Web Hosts</title>
+</head>
+
+<body class="bg-light">
+	<div id="content1" class="container py-4">
+		<div id="content2" class="card shadow-sm">
+			<div class="card-body">
+				<div class="row g-4">
+					<aside class="col-12 col-md-3">
+						<h5 class="mb-2"><?php echo _INSTALLERSTEPS; ?></h5>
+						<?php include "templates/menu.php"; ?>
+						<div class="card mt-3">
+							<div class="card-body p-3">
+								<?php include "templates/help.php"; ?>
+							</div>
+						</div>
+					</aside>
+					<main class="col-12 col-md-9">
+						<div class="d-flex align-items-center justify-content-between mb-3">
+							<div class="d-flex align-items-center gap-2">
+								<img src="images/logo.gif" alt="NEOBILL" style="max-height: 48px;" />
+							</div>
+						</div>
+						<?php include "templates/graph.php"; ?>

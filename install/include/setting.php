@@ -21,7 +21,14 @@
 */
 
 function check_installed() {
-    $file = fopen('../config/config.inc.php', 'r');
+    $target = '../config/config.inc.php';
+    if (!file_exists($target)) {
+        if (!create_config_file()) {
+            return false;
+        }
+    }
+
+    $file = fopen($target, 'r');
     if (!$file) {
         return false;
     }
@@ -46,6 +53,39 @@ function modify_config_install() {
     $fp = fopen('../config/config.inc.php', 'w+');
     fwrite($fp, $config_php);
     fclose($fp);
+}
+
+function create_config_file() {
+    $source = '../config/config-sample.inc.php';
+    $target = '../config/config.inc.php';
+
+    if (file_exists($target)) {
+        return true;
+    }
+
+    if (!file_exists($source)) {
+        return false;
+    }
+
+    $config_php = file_get_contents($source);
+    if ($config_php === false) {
+        return false;
+    }
+
+    $config_php = preg_replace("/\\\$config\['installed'\]\\s*=\\s*1;/", "\$config['installed'] = 0;", $config_php, 1);
+    if ($config_php === null) {
+        return false;
+    }
+
+    $fp = fopen($target, 'w+');
+    if (!$fp) {
+        return false;
+    }
+
+    fwrite($fp, $config_php);
+    fclose($fp);
+
+    return true;
 }
 
 function modify_config_db() {

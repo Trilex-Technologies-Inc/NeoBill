@@ -21,10 +21,8 @@
  */
 ?>
 
-        <h1 class="help_title"><?php echo _INSTALLERNEEDHELP; ?>?</h1>
-        <ul>
-            <li><a href="http://forums.neobill.net"><?php echo _INSTALLERPUBLICFORUMS; ?></a></li>
-        </ul>
-		<ul>
-            <li><a href="http://www.neobill.net"><?php echo _INSTALLERPUBLICSITE; ?></a></li>
-        </ul>
+	        <div class="fw-semibold mb-2"><?php echo _INSTALLERNEEDHELP; ?>?</div>
+	        <div class="d-grid gap-2">
+	            <a class="btn btn-outline-secondary btn-sm" href="http://forums.neobill.net"><?php echo _INSTALLERPUBLICFORUMS; ?></a>
+	            <a class="btn btn-outline-secondary btn-sm" href="http://www.neobill.net"><?php echo _INSTALLERPUBLICSITE; ?></a>
+	        </div>

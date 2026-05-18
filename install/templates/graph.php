@@ -21,9 +21,9 @@
  */
 ?>
 
-        <div class="grapharea">
-            <div class="progressbarbox">
-                <div class="percentcomplete" style="width: <?php echo $percent; ?>"></div>
-            </div>
-            <p id="progressstatus"><?php echo str_replace('%0', $percent, _INSTALLERPERCENT); ?></p>
-        </div>
+	        <div class="grapharea">
+	            <div class="progress" role="progressbar" aria-label="Installer progress" aria-valuenow="<?php echo (int)preg_replace('/[^0-9]/', '', $percent); ?>" aria-valuemin="0" aria-valuemax="100">
+	                <div class="progress-bar bg-warning text-dark" style="width: <?php echo $percent; ?>"></div>
+	            </div>
+	            <p id="progressstatus" class="text-end small text-muted mt-1 mb-3"><?php echo str_replace('%0', $percent, _INSTALLERPERCENT); ?></p>
+	        </div>

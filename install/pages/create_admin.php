@@ -37,33 +37,33 @@ if (isset($_POST['username'])) {
 if (isset($_POST['email'])) {
 	$email = $_POST['email'];
 }
-?>
-<script type="text/javascript" src="javascript/password.js"></script>
-<h2><?php echo _INSTALLERADMIN; ?></h2>
-<br />
-<?php
-if (isset($message) && $message != '') {
 	?>
-<p class="error"><?php echo $message; ?>!</p>
-	<?php
-}
-?>
-<form method="post" action="index.php">
-    <table border="0" cellpadding="5" summary="Create Admin Account"><tr>
-            <td class="dbtitle"><?php echo _INSTALLERADMINFIRSTNAME; ?>:</td>
-            <td><input type="text" name="firstname" value="<?php echo $firstname; ?>"/></td>
-        </tr><tr>
-            <td class="dbtitle"><?php echo _INSTALLERADMINLASTNAME; ?>:</td>
-            <td><input type="text" name="lastname" value="<?php echo $lastname; ?>"/></td>
-        </tr><tr>
-            <td class="dbtitle"><?php echo _INSTALLERADMINUSERNAME; ?>: *</td>
-            <td><input type="text" name="username" value="<?php echo $username; ?>" /></td>
-        </tr><tr>
-            <td class="dbtitle"><?php echo _INSTALLERADMINPASSWORD; ?>: *</td>
-            <td><input type="password" name="password-1" onblur="_password(this);" onkeyup="_password(this);" /></td>
-        </tr><tr>
-            <td class="dbtitle"><?php echo _INSTALLERADMINPASSWORDSTRENGTH; ?>:</td>
-            <td valign="top" class="pwdChkTd">
+	<script type="text/javascript" src="javascript/password.js"></script>
+	<h2><?php echo _INSTALLERADMIN; ?></h2>
+	<br />
+<?php
+	if (isset($message) && $message != '') {
+		?>
+	<p class="error alert alert-danger py-2"><?php echo $message; ?>!</p>
+		<?php
+	}
+	?>
+	<form method="post" action="index.php">
+	    <table class="table table-sm align-middle" border="0" cellpadding="5" summary="Create Admin Account"><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERADMINFIRSTNAME; ?>:</td>
+	            <td><input class="form-control form-control-sm" type="text" name="firstname" value="<?php echo $firstname; ?>"/></td>
+	        </tr><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERADMINLASTNAME; ?>:</td>
+	            <td><input class="form-control form-control-sm" type="text" name="lastname" value="<?php echo $lastname; ?>"/></td>
+	        </tr><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERADMINUSERNAME; ?>: *</td>
+	            <td><input class="form-control form-control-sm" type="text" name="username" value="<?php echo $username; ?>" /></td>
+	        </tr><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERADMINPASSWORD; ?>: *</td>
+	            <td><input class="form-control form-control-sm" type="password" name="password-1" onblur="_password(this);" onkeyup="_password(this);" /></td>
+	        </tr><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERADMINPASSWORDSTRENGTH; ?>:</td>
+	            <td valign="top" class="pwdChkTd">
                 <table cellpadding="0" cellspacing="0" class="pwdChkTbl" summary="Password Strength"><tr>
                         <td id="idSM0" class="pwdChkCon" align="center">
                             <span id="idSMT" style="display: inline; font-weight: normal; color: #666;"><?php echo _INSTALLERADMINPASSWORDSTRENGTHNOTRATED; ?></span>
@@ -75,21 +75,21 @@ if (isset($message) && $message != '') {
                         <td id="idSM4" class="pwdChkCon" align="center" style="border-left: solid 1px #fff"><span id="idSMT4" style="display: none;"><?php echo _INSTALLERADMINPASSWORDSTRENGTHBEST ?></span></td>
                     </tr></table>
             </td>
-        </tr><tr>
-            <td class="dbtitle"><?php echo _INSTALLERADMINPASSWORDRETYPE; ?>: *</td>
-            <td>
-                <table cellpadding="0" cellspacing="0" summary="Password Check"><tr>
-                        <td><input type="password" name="password-2" onblur="_password(this);" onkeyup="_password(this);" /></td>
-                        <td><div style="margin-left: 5px;" id="result">&nbsp;</div></td>
-                    </tr></table>
-            </td>
-        </tr><tr>
-            <td class="dbtitle"><?php echo _INSTALLERADMINEMAIL; ?>: *</td>
-            <td><input type="text" name="email" value="<?php echo $email;?>" /></td>
-        </tr></table>
-    <div class="submit">
-        <input type="hidden" name="function" value="create_admin" />
-        <input type="hidden" name="install_step" value="5" />
-        <input type="submit" value="<?php echo _INSTALLERNEXT;?>" />
-    </div>
-</form>
+	        </tr><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERADMINPASSWORDRETYPE; ?>: *</td>
+	            <td>
+	                <table cellpadding="0" cellspacing="0" summary="Password Check"><tr>
+	                        <td><input class="form-control form-control-sm" type="password" name="password-2" onblur="_password(this);" onkeyup="_password(this);" /></td>
+	                        <td><div style="margin-left: 5px;" id="result">&nbsp;</div></td>
+	                    </tr></table>
+	            </td>
+	        </tr><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERADMINEMAIL; ?>: *</td>
+	            <td><input class="form-control form-control-sm" type="text" name="email" value="<?php echo $email;?>" /></td>
+	        </tr></table>
+	    <div class="submit d-grid">
+	        <input type="hidden" name="function" value="create_admin" />
+	        <input type="hidden" name="install_step" value="5" />
+	        <input class="btn btn-primary" type="submit" value="<?php echo _INSTALLERNEXT;?>" />
+	    </div>
+	</form>

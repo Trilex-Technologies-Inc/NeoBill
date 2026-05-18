@@ -23,12 +23,12 @@
 <h2><?php echo _INSTALLERLICENSE; ?></h2>
 <br />
 <p><?php echo _INSTALLERLICENSEEXPLANATION; ?></p>
-<form action="index.php" method="post">
-    <div id="iframe">
-        <?php echo _INSTALLERGNULICENSE ?>
-    </div>
-    <div class="submit">
-        <input type="hidden" name="install_step" value="2" />
-        <input type="submit" value="<?php echo _INSTALLERACCEPT; ?>" />
-    </div>
-</form>
+	<form action="index.php" method="post">
+	    <div id="iframe">
+	        <?php echo _INSTALLERGNULICENSE ?>
+	    </div>
+	    <div class="submit d-grid">
+	        <input type="hidden" name="install_step" value="2" />
+	        <input class="btn btn-primary" type="submit" value="<?php echo _INSTALLERACCEPT; ?>" />
+	    </div>
+	</form>

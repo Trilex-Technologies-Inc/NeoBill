@@ -53,38 +53,38 @@ if (isset($_POST['nameserver-4'])) {
 <h2><?php echo _INSTALLERCOMPANY; ?></h2>
 <br />
 <?php
-if (isset($message) && $message != '') {
-    ?>
-<p class="error"><?php echo $message; ?>!</p>
-    <?php
-}
-?>
-<form method="post" action="index.php">
-    <table border="0" cellpadding="5" summary="Company Info"><tr>
-            <td class="dbtitle"><?php echo _INSTALLERCOMPANYNAME; ?>: *</td>
-            <td><input type="text" name="company" value="<?php echo $company; ?>"/></td>
-        </tr><tr>
-            <td class="dbtitle"><?php echo _INSTALLERCOMPANYEMAIL; ?>: *</td>
-            <td><input type="text" name="email" value="<?php echo $email; ?>" /></td>
-        </tr><tr>
-            <td class="dbtitle"><?php echo _INSTALLERCOMPANYCURRENCY; ?>: *</td>
-            <td><input type="text" name="currency" value="<?php echo $currency; ?>" size="1" /></td>
-        </tr><tr>
-            <td class="dbtitle"><?php echo _INSTALLERCOMPANYNAMESERVER; ?> 1: *</td>
-            <td><input type="text" name="nameserver-1" value="<?php echo $nameserver_1; ?>" /></td>
-        </tr><tr>
-            <td class="dbtitle"><?php echo _INSTALLERCOMPANYNAMESERVER; ?> 2: *</td>
-            <td><input type="text" name="nameserver-2" value="<?php echo $nameserver_2; ?>" /></td>
-        </tr><tr>
-            <td class="dbtitle"><?php echo _INSTALLERCOMPANYNAMESERVER; ?> 3:</td>
-            <td><input type="text" name="nameserver-3" value="<?php echo $nameserver_3; ?>" /></td>
-        </tr><tr>
-            <td class="dbtitle"><?php echo _INSTALLERCOMPANYNAMESERVER; ?> 4:</td>
-            <td><input type="text" name="nameserver-4" value="<?php echo $nameserver_4; ?>" /></td>
-        </tr></table>
-    <div class="submit">
-        <input type="hidden" name="function" value="create_company" />
-        <input type="hidden" name="install_step" value="6" />
-        <input type="submit" value="<?php echo _INSTALLERNEXT; ?>" />
-    </div>
-</form>
+	if (isset($message) && $message != '') {
+	    ?>
+	<p class="error alert alert-danger py-2"><?php echo $message; ?>!</p>
+	    <?php
+	}
+	?>
+	<form method="post" action="index.php">
+	    <table class="table table-sm align-middle" border="0" cellpadding="5" summary="Company Info"><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERCOMPANYNAME; ?>: *</td>
+	            <td><input class="form-control form-control-sm" type="text" name="company" value="<?php echo $company; ?>"/></td>
+	        </tr><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERCOMPANYEMAIL; ?>: *</td>
+	            <td><input class="form-control form-control-sm" type="text" name="email" value="<?php echo $email; ?>" /></td>
+	        </tr><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERCOMPANYCURRENCY; ?>: *</td>
+	            <td><input class="form-control form-control-sm" type="text" name="currency" value="<?php echo $currency; ?>" size="1" /></td>
+	        </tr><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERCOMPANYNAMESERVER; ?> 1: *</td>
+	            <td><input class="form-control form-control-sm" type="text" name="nameserver-1" value="<?php echo $nameserver_1; ?>" /></td>
+	        </tr><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERCOMPANYNAMESERVER; ?> 2: *</td>
+	            <td><input class="form-control form-control-sm" type="text" name="nameserver-2" value="<?php echo $nameserver_2; ?>" /></td>
+	        </tr><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERCOMPANYNAMESERVER; ?> 3:</td>
+	            <td><input class="form-control form-control-sm" type="text" name="nameserver-3" value="<?php echo $nameserver_3; ?>" /></td>
+	        </tr><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERCOMPANYNAMESERVER; ?> 4:</td>
+	            <td><input class="form-control form-control-sm" type="text" name="nameserver-4" value="<?php echo $nameserver_4; ?>" /></td>
+	        </tr></table>
+	    <div class="submit d-grid">
+	        <input type="hidden" name="function" value="create_company" />
+	        <input type="hidden" name="install_step" value="6" />
+	        <input class="btn btn-primary" type="submit" value="<?php echo _INSTALLERNEXT; ?>" />
+	    </div>
+	</form>
