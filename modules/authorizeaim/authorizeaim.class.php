@@ -14,9 +14,9 @@
 // Base class
 require_once BASE_PATH . "modules/PaymentGatewayModule.class.php";
 
-// New Authorize.net SDK code
-define("AUTHORIZENET_SANDBOX", TRUE); // TRUE for TEST, FALSE for real dough
-require_once BASE_PATH . "modules/authorizeaim/sdk/AuthorizeNet.php";
+// New Authorize.net SDK code (disabled - AuthorizeNet.php integration commented out)
+// define("AUTHORIZENET_SANDBOX", TRUE); // TRUE for TEST, FALSE for real dough
+// require_once BASE_PATH . "modules/authorizeaim/sdk/AuthorizeNet.php";
 
 // Positions in the AIM response record
 define( AIM_RESP_CODE, 0 );
@@ -235,14 +235,12 @@ class AuthorizeAIM extends PaymentGatewayModule {
 				"x_phone" => substr( $contactDBO->getPhone(), 0, 25 ),
 				"x_fax" => substr( $contactDBO->getFax(), 0, 25 ) ) );
 		
-		// Carry out the transaction
+		// Carry out the transaction using the old POST method. The AuthorizeNet.php SDK integration is disabled.
 		$resp = $this->executeTransaction( $message );
-		*/
-				
-		// New SDK method
-		//$transaction = new AuthorizeNetAIM($this->getLoginID(), $this->getTransactionKey());
 		
 		/*
+		// New SDK method using AuthorizeNet.php - disabled for now.
+		$transaction = new AuthorizeNetAIM($this->getLoginID(), $this->getTransactionKey());
 		$transaction->amount = $paymentDBO->getAmount();
 		$transaction->card_num = $cardNumber;
 		$transaction->exp_date = $expireDate;
@@ -259,13 +257,6 @@ class AuthorizeAIM extends PaymentGatewayModule {
 		$customerData->zip = substr( $contactDBO->getPostalCode(), 0, 20 );
  
 		$transaction->setFields($customerData);
-		*/
-
-		$transaction = new AuthorizeNetAIM('95n98SqG5', '4gc88U7xV5g78TYU');
-		$transaction->amount = '9.99';
-		$transaction->card_num = '4007000000027';
-		$transaction->exp_date = '10/16';
-		
 		$response = $transaction->authorizeAndCapture();
 		
 		if ($response->approved) {
@@ -274,8 +265,9 @@ class AuthorizeAIM extends PaymentGatewayModule {
 		} else {
 			echo $response->error_message;
 		}
+		*/
 		// Parse the transaction response
-		switch ( $response ) {
+		switch ( $resp[AIM_RESP_CODE] ) {
 			case AIM_APPROVED:
 				$paymentDBO->setStatus( $authOnly ? "Authorized" : "Completed" );
 				$paymentDBO->setTransaction1( $resp[AIM_RESP_TRANSACTION_ID] );

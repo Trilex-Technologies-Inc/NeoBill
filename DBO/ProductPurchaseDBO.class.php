@@ -79,9 +79,14 @@ class ProductPurchaseDBO extends PurchaseDBO {
      *
      * @param ProductDBO The product that is/was purchased
      */
-    public function setPurchasable( ProductDBO $productDBO ) {
-        // This function is meant to force purchasable to be a ProductDBO
-        parent::setPurchasable( $productDBO );
+    public function setPurchasable( PurchasableDBO $purchasable ) {
+        // Keep compatibility with SaleDBO::setPurchasable(PurchasableDBO $purchasable)
+        // while still enforcing ProductDBO at runtime.
+        if( !( $purchasable instanceof ProductDBO ) ) {
+            throw new InvalidArgumentException( "Expected ProductDBO" );
+        }
+
+        parent::setPurchasable( $purchasable );
     }
 
     /**

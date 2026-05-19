@@ -59,8 +59,13 @@ class OrderDomainDBO extends OrderItemDBO {
      *
      * @param DomainServiceDBO The domain service to be purchased
      */
-    public function setPurchasable( DomainServiceDBO $purchasable ) {
-        // The purpose of this function is to forc the purchasable to be a DomainServiceDBO
+    public function setPurchasable( PurchasableDBO $purchasable ) {
+        // Keep compatibility with SaleDBO::setPurchasable(PurchasableDBO $purchasable)
+        // while still enforcing DomainServiceDBO at runtime.
+        if( !( $purchasable instanceof DomainServiceDBO ) ) {
+            throw new InvalidArgumentException( "Expected DomainServiceDBO" );
+        }
+
         parent::setPurchasable( $purchasable );
     }
 
