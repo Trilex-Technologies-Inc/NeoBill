@@ -175,7 +175,7 @@ function create_admin() {
     mysql_connect($db['hostname'], $db['username'], base64_decode($db['password'])) or die(_INSTALLERDBCONNECTFAILED . ': ' . mysql_error());
     mysql_query("set names 'utf8' collate 'utf8_general_ci';") or die(_INSTALLERDBNAMESFAILED . ': ' . mysql_error());
     mysql_select_db($db['database']) or die(_INSTALLERDBSELECTFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `user` (`username`, `password`, `type`, `contactname`, `email`, `language`) VALUES ('$username', '$password', 'Administrator', '$contactname', '$email', '{$_COOKIE['language']}');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `user` (`username`, `password`, `type`, `contactname`, `email`, `language`) VALUES ('" . mysql_real_escape_string($username) . "', '" . mysql_real_escape_string($password) . "', 'Administrator', '" . mysql_real_escape_string($contactname) . "', '" . mysql_real_escape_string($email) . "', '" . mysql_real_escape_string($_COOKIE['language']) . "');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
     mysql_close();
 }
 
@@ -216,15 +216,15 @@ function create_company() {
     mysql_connect($db['hostname'], $db['username'], base64_decode($db['password'])) or die(_INSTALLERDBCONNECTFAILED . ': ' . mysql_error());
     mysql_query("set names 'utf8' collate 'utf8_general_ci';") or die(_INSTALLERDBNAMESFAILED . ': ' . mysql_error());
     mysql_select_db($db['database']) or die(_INSTALLERDBSELECTFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('company_name', '$company');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('email_contact', '$email');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('email_notification', '$email');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('locale_language', '{$_COOKIE['language']}');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('locale_currency', '$currency');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_1', '$nameserver_1');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_2', '$nameserver_2');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_3', '$nameserver_3');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_4', '$nameserver_4');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('company_name', '" . mysql_real_escape_string($company) . "');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('email_contact', '" . mysql_real_escape_string($email) . "');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('email_notification', '" . mysql_real_escape_string($email) . "');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('locale_language', '" . mysql_real_escape_string($_COOKIE['language']) . "');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('locale_currency', '" . mysql_real_escape_string($currency) . "');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_1', '" . mysql_real_escape_string($nameserver_1) . "');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_2', '" . mysql_real_escape_string($nameserver_2) . "');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_3', '" . mysql_real_escape_string($nameserver_3) . "');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_4', '" . mysql_real_escape_string($nameserver_4) . "');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
     mysql_close();
 }
 
