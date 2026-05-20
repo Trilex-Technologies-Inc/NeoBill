@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 {form name="register_domain"}
   <div class="form">
     <table>
@@ -23,4 +23,5 @@
       </tbody>
     </table>
   </div>
-{/form}
+{/form}
+</div>

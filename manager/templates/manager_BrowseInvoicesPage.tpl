@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 <div class="action">
   <p class="header">Actions</p>
   {form name="browse_invoices_action"}

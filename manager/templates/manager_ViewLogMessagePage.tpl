@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 <h2> {echo phrase="VIEW_LOG_MESSAGE"} </h2>
 <div class="properties">
   <table>

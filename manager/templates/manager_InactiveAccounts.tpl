@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 <div class="action">
   <p class="header">{echo phrase="ACTIONS"}</p>
   {form name="inactive_accounts_action"}

@@ -21,6 +21,25 @@ body.menu {
 	background-color: #f0f0f0;
 }
 
+/* Bootstrap layout overrides (scoped) */
+body.bootstrap-layout .logo,
+body.bootstrap-layout .loggedin,
+body.bootstrap-layout .manager_error,
+body.bootstrap-layout .manager_content,
+body.bootstrap-layout .manager_contentform {
+	float: none;
+	width: auto;
+	margin-left: 0;
+}
+
+body.bootstrap-layout .manager_content,
+body.bootstrap-layout .manager_error,
+body.bootstrap-layout .manager_contentform,
+body.bootstrap-layout .loggedin,
+body.bootstrap-layout .logo {
+	border: 0;
+}
+
 /******************************************************
  * Mast head
  ******************************************************/

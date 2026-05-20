@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 <h2>SolidState {echo phrase="LOG"}</h2>
 <div class="table">
   {form name="log"}

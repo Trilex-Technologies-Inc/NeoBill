@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 <h2>{echo phrase="CONFIRM_IP"} {dbo_echo dbo="server_dbo" field="hostname"}</h2>
 <div class="properties">
   {form name="add_ip_confirm"}

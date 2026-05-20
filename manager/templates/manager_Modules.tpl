@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 <h2> {echo phrase="MODULES"} </h2><div class="action">  <p class="header">Actions</p>  <!--      <form name="users_action" method="POST" action="manager_content.php?page=modules&amp;submit=modules_action">    <input name="add" size="" class="" value="Create Module" type="submit">      </form>      --></div>
 <div class="table">
   {form name="modules"}

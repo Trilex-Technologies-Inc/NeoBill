@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 <p class="message"> 
   {echo phrase="CONFIRM_NEW_USER"}
 </p>
@@ -37,4 +37,5 @@
       </tr>
     </table>
   </div>
-{/form}
+{/form}
+</div>

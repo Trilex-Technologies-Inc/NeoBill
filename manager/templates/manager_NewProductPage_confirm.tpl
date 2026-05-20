@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 <p class="message">
   {echo phrase="NEW_PRODUCT_CONFIRM"}
 </p>
@@ -34,4 +34,5 @@
       </tr>
     </table>
   </div>
-{/form}
+{/form}
+</div>

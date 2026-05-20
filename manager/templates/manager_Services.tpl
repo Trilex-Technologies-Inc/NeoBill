@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 <h2> {echo phrase="PRODUCTS_SERVICES_SUMMARY"} </h2>
 <div class="properties">
   <table style="width: 90%">

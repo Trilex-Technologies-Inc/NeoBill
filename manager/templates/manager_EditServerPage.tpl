@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 <div class="form">
   {form name="edit_server"}
     <table>

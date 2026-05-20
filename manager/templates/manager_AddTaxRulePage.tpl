@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 {form name="new_tax_rule"}
   <div class="form">
     <table>
@@ -40,4 +40,5 @@
         </tr>
     </table>
   </div>
-{/form}
+{/form}
+</div>

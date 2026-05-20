@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 <h2>{echo phrase="FULFILLED_ORDERS"}</h2>
 
 <div class="table">

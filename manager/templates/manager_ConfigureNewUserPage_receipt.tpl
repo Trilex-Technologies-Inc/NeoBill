@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 <p class="message">
   {echo phrase="USER_CREATED"}.
 </p>

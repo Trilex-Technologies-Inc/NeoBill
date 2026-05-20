@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 <h2> {echo phrase="REGISTERED_DOMAINS"} </h2>
 
 <div class="search">

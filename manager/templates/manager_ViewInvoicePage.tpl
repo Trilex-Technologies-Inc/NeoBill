@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 {dbo_assign dbo="invoice_dbo" var="invoice_id" field="id"}
 
 <div class="action">

@@ -7,7 +7,7 @@
     var activeTab = "{$tab}";
   </script>
 {/if}
-<div class="manager_content"
+<div class="manager_content">
 <div id="a_tabbar" 
      class="dhtmlxTabBar" 
      style="margin-top: 0.5em;"  

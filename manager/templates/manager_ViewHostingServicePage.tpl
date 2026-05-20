@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 {form name="view_hosting_action"}
   <h2> {echo phrase="WEB_HOSTING_SERVICE"} </h2>
   <div class="properties">
@@ -66,4 +66,5 @@
         </tr>
     </table>
   </div>
-{/form}
+{/form}
+</div>

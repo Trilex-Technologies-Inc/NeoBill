@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 {form name="view_domain_service_action"}
   <h2> {echo phrase="DOMAIN_SERVICE"} </h2>
   <div class="properties">
@@ -70,4 +70,5 @@
         </tr>
     </table>
   </div>
-{/form}
+{/form}
+</div>

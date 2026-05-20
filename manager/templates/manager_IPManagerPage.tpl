@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 <h2>{echo phrase="IP_ADDRESS_POOL"}</h2>
 <div class="search">
   {form name="search_ips"}

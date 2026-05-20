@@ -1,4 +1,4 @@
-<div class="manager_content"</div>
+<div class="manager_content">
 <h2> {echo phrase="TRANSFER_DOMAIN"} </h2>
 
 {form name="transfer_domain_confirm"}
@@ -72,4 +72,5 @@
       </tr>
     </table>
   </div>
-{/form}
+{/form}
+</div>
