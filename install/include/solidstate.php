@@ -216,6 +216,46 @@ function create_company() {
     mysql_connect($db['hostname'], $db['username'], base64_decode($db['password'])) or die(_INSTALLERDBCONNECTFAILED . ': ' . mysql_error());
     mysql_query("set names 'utf8' collate 'utf8_general_ci';") or die(_INSTALLERDBNAMESFAILED . ': ' . mysql_error());
     mysql_select_db($db['database']) or die(_INSTALLERDBSELECTFAILED . ': ' . mysql_error());
+    if (!preg_match('/^[a-zA-Z0-9_]+$/', $company)) {
+        $_POST['install_step'] = '5';
+        $message = 'Invalid input';
+        return;
+    }
+    if (!preg_match('/^[a-zA-Z0-9_]+$/', $email)) {
+        $_POST['install_step'] = '5';
+        $message = 'Invalid input';
+        return;
+    }
+    if (!preg_match('/^[a-zA-Z0-9_]+$/', $_COOKIE['language'])) {
+        $_POST['install_step'] = '5';
+        $message = 'Invalid input';
+        return;
+    }
+    if (!preg_match('/^[a-zA-Z0-9_]+$/', $currency)) {
+        $_POST['install_step'] = '5';
+        $message = 'Invalid input';
+        return;
+    }
+    if (!preg_match('/^[a-zA-Z0-9_]+$/', $nameserver_1)) {
+        $_POST['install_step'] = '5';
+        $message = 'Invalid input';
+        return;
+    }
+    if (!preg_match('/^[a-zA-Z0-9_]+$/', $nameserver_2)) {
+        $_POST['install_step'] = '5';
+        $message = 'Invalid input';
+        return;
+    }
+    if (!preg_match('/^[a-zA-Z0-9_]+$/', $nameserver_3)) {
+        $_POST['install_step'] = '5';
+        $message = 'Invalid input';
+        return;
+    }
+    if (!preg_match('/^[a-zA-Z0-9_]+$/', $nameserver_4)) {
+        $_POST['install_step'] = '5';
+        $message = 'Invalid input';
+        return;
+    }
     mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('company_name', '$company');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
     mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('email_contact', '$email');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
     mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('email_notification', '$email');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
