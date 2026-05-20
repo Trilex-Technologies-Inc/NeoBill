@@ -1,6 +1,7 @@
 {form name="edit_domain"}
   <div class="form">
-    <table>
+    <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
       <thead>
         <tr>
           <td colspan="2"> [EDIT_DOMAIN] </td>
@@ -39,12 +40,14 @@
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
 {/form}
 
 {form name="renew_domain"}
   <div class="form">
-    <table>
+    <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
       <thead>
         <tr>
           <th colspan="2"> [RENEW_DOMAIN] </th>
@@ -73,5 +76,6 @@
         </tr>
       </tfoot>
     </table>
+    </div>
   </div>
 {/form}

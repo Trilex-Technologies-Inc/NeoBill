@@ -12,7 +12,8 @@
 
 {form name="edit_hosting_purchase"}
   <div class="form">
-    <table>
+    <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
       <thead>
         <tr>
           <th colspan="2"> [EDIT_HOSTING_SERVICE_PURCHASE] </th>
@@ -66,5 +67,6 @@
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
 {/form}

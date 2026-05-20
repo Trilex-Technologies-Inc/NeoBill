@@ -5,7 +5,8 @@
 {form name="delete_product"}
   <h2> {echo phrase="PRODUCT"} </h2>
   <div class="properties">
-    <table style="width: 575px">
+    <div class="table-responsive">
+    <table style="width: 575px" class="table table-sm table-striped align-middle">
       <tr>
         <th> {echo phrase="PRODUCT_NAME"}: </th>
         <td> {dbo_echo dbo="product_dbo" field="name"} </td>
@@ -28,5 +29,6 @@
         <td/>
       </tr>
     </table>
+    </div>
   </div>
 {/form}

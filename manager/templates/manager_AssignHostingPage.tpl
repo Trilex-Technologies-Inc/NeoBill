@@ -1,6 +1,7 @@
 {form name="assign_hosting"}
   <div class="form">
-    <table>
+    <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
       <thead>
         <tr>
           <th colspan="2"> [ASSIGN_HOSTING]: {dbo_echo dbo="account_dbo" field="accountname"} </th>
@@ -51,5 +52,6 @@
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
 {/form}

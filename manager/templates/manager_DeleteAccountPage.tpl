@@ -5,7 +5,8 @@
 {form name="delete_account"}
   <h2> {echo phrase="ACCOUNT"} </h2>
   <div class="properties">
-    <table>
+    <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
       <tr>
         <th> {echo phrase="ACCOUNT_ID"}: </th>
         <td> {dbo_echo dbo="account_dbo" field="id"} </td>
@@ -81,5 +82,6 @@
         <td/>
       </tr>
     </table>
+    </div>
   </div>
 {/form}

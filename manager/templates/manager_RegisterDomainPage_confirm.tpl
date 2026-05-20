@@ -3,7 +3,8 @@
 {form name="register_domain_confirm"}
   <div class="properties">
     <p> {echo phrase="REGISTER_DOMAIN_CONFIRM"} </p>
-    <table>
+    <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
       <tr>
         <th> {echo phrase="ACCOUNT_NAME"}: </th>
         <td> {dbo_echo dbo="dspdbo" field="accountname"} </td>
@@ -70,5 +71,6 @@
         </td>
       </tr>
     </table>
+    </div>
   </div>
 {/form}

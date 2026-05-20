@@ -8,7 +8,8 @@
   <h2>{echo phrase="ORDER"} #{dbo_echo dbo="orderdbo" field="id"}</h2>
 
   <div class="properties">
-    <table style="width: 35em">
+    <div class="table-responsive">
+    <table style="width: 35em" class="table table-sm table-striped align-middle">
       <tr>
         <th> {echo phrase="ORDER_ID"}: </th>
         <td> {dbo_echo dbo="orderdbo" field="id"} </td>
@@ -42,6 +43,7 @@
         <td> <textarea rows="6" cols="40" readonly="true">{dbo_echo dbo="orderdbo" field="note"}</textarea> </td>
       </tr>
     </table>
+    </div>
   </div>
 
   {dbo_assign dbo="orderdbo" field="accounttype" var="accounttype"}
@@ -50,7 +52,8 @@
     <h2> {echo phrase="CONTACT_INFORMATION"} </h2>
  
     <div class="form">
-      <table style="width: 35em">
+      <div class="table-responsive">
+      <table style="width: 35em" class="table table-sm table-striped align-middle">
         <tr>
           <th> {form_description field="businessname"} </th>
           <td> {form_element dbo="orderdbo" field="businessname" size="40"} </td>
@@ -100,11 +103,13 @@
           <td> {form_element dbo="orderdbo" field="fax" size="15"} </td>
         </tr>
       </table>
+      </div>
     </div>
 
     <h2> {echo phrase="ACCOUNT_INFORMATION"} </h2>
      <div class="properties">
-      <table style="width: 35em">
+      <div class="table-responsive">
+      <table style="width: 35em" class="table table-sm table-striped align-middle">
         <tr>
           <th> {form_description field="username"} </th>
           <td> {form_element dbo="orderdbo" field="username" size="10"} </a>
@@ -117,13 +122,15 @@
           </td>
         </tr>
       </table>
+      </div>
      </div>
 
   {else}
 
     <h2> {echo phrase="ACCOUNT_INFORMATION"} </h2>
      <div class="form">
-      <table style="width: 35em">
+      <div class="table-responsive">
+      <table style="width: 35em" class="table table-sm table-striped align-middle">
         <tr>
           <th> {echo phrase="ACCOUNT"}: </th>
           <td> <a href="manager_content.php?page=accounts_view_account&account={dbo_echo dbo="accountdbo" field="id"}">{dbo_echo dbo="accountdbo" field="accountname"}</a>
@@ -133,6 +140,7 @@
           <td> {dbo_echo|currency dbo="accountdbo" field="balance"} </td>
         </tr>
       </table>
+      </div>
      </div>
 
   {/if}

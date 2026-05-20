@@ -1,7 +1,8 @@
 <h2> {echo phrase="DOMAINS_SUMMARY"} </h2>
 <div class="search">
   {form name="search_domaindbo_table"}
-    <table>
+    <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
       <tr>
         <th> {echo phrase="SEARCH"} </th>
         <td> 
@@ -17,11 +18,13 @@
         </td>
       </tr>
     </table>
+    </div>
   {/form}
 </div>
 <p/>
 <div class="properties">
-  <table style="width: 90%">
+  <div class="table-responsive">
+  <table style="width: 90%" class="table table-sm table-striped align-middle">
     <tr>
       <th> {echo phrase="ACTIVE_DOMAINS"} </th>
       <td> <a href="manager_content.php?page=domains_browse">{$domains_count}</a> </td>
@@ -32,4 +35,5 @@
       <td> <a href="manager_content.php?page=domains_expired">{$expired_domains_count}</a> </td>
     </tr>
   </table>
+  </div>
 </div>

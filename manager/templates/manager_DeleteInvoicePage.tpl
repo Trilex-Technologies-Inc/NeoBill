@@ -8,7 +8,8 @@
 
 {form name="delete_invoice"}
   <div class="properties">
-    <table>
+    <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
       <tr>
         <th> {echo phrase="ACCOUNT"}: </th>
         <td> {dbo_echo dbo="invoice_dbo" field="accountname"} (ID: {dbo_echo dbo="invoice_dbo" field="accountid"})</td>
@@ -43,6 +44,7 @@
         </td>
       </tr>
     </table>
+    </div>
   </div>
 {/form}
 

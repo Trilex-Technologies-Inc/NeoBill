@@ -5,7 +5,8 @@
 {form name="delete_domain_service"}
   <h2> {echo phrase="DOMAIN_SERVICE"} </h2>
   <div class="properties">
-    <table style="width: 575px">
+    <div class="table-responsive">
+    <table style="width: 575px" class="table table-sm table-striped align-middle">
         <tr>
           <th> TLD: </th>
           <td> .{dbo_echo dbo="domain_service_dbo" field="tld"} </td>
@@ -68,5 +69,6 @@
           <td/>
         </tr>
     </table>
+    </div>
   </div>
 {/form}

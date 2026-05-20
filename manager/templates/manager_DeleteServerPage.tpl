@@ -5,7 +5,8 @@
 </p>
 
 <div class="properties">
-  <table>
+  <div class="table-responsive">
+  <table class="table table-sm table-striped align-middle">
     <tr>
       <th> {echo phrase="HOSTNAME"}: </th>
       <td> {dbo_echo dbo="server_dbo" field="hostname"} </td>
@@ -23,4 +24,5 @@
        </td>
     </tr>
   </table>
+  </div>
 </div>
