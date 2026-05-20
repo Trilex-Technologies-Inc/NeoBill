@@ -6,7 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <title>NeoBill Manager - {$location|capitalize}</title>
     <link rel="stylesheet" type="text/css" href="./style.css" /> 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link rel="shortcut icon" type="image/png" href="./vendor/flexy/assets/images/logos/favicon.png" />
+    <link rel="stylesheet" href="./vendor/flexy/assets/css/styles.min.css" />
     <link rel="stylesheet" type="text/css" href="./css/demos.css" />
     <script src="./js/jquery-1.7.js"></script>
 	<script src="./js/jquery.ui.core.js"></script>
@@ -60,6 +61,6 @@
         </div>
       </div>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="./vendor/flexy/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

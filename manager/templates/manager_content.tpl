@@ -6,7 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <title>{$company_name} - Manager Interface</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />  
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link rel="shortcut icon" type="image/png" href="./vendor/flexy/assets/images/logos/favicon.png" />
+    <link rel="stylesheet" href="./vendor/flexy/assets/css/styles.min.css" />
     <script src="js/jquery-1.7.js"></script>
 	<script src="js/jquery.ui.core.js"></script>
 	<script src="js/jquery.ui.widget.js"></script>
@@ -44,14 +45,40 @@
   {/if}
 
  
-    {include file="$header_template"}
-    <div class="clearfix"></div>
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6"
+      data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+      {include file="$header_template"}
+      {if isset($username) && $username != ""}
+      <div class="body-wrapper">
+        <header class="app-header">
+          <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="navbar-collapse justify-content-end px-0">
+              <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                <li class="nav-item dropdown">
+                  <a class="nav-link" href="javascript:void(0)" id="nbUserMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="fw-semibold">{$username}</span>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="nbUserMenu">
+                    <div class="message-body">
+                      <a href="manager_content.php?page=home&amp;action=logout" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </header>
+        <div class="body-wrapper-inner">
+          <div class="container-fluid">
+      {else}
+        <div class="container-fluid py-4">
+      {/if}
 
       {* Display any error messages *}
       {capture assign="_page_errors_html"}{page_errors}{/capture}
       {capture assign="_page_messages_html"}{page_messages}{/capture}
       {if trim($_page_errors_html) != "" || trim($_page_messages_html) != ""}
-        <div class="container mt-3">
+        <div class="container-fluid mt-3">
           {if trim($_page_errors_html) != ""}
             <div class="alert alert-danger py-2 mb-2 manager_error" role="alert">{$_page_errors_html}</div>
           {/if}
@@ -61,13 +88,20 @@
         </div>
       {/if}
 
-      <main class="container my-4">
         {* Include the page content *}
         {include file="$content_template"}
-      </main>
 
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+      {if isset($username) && $username != ""}
+          </div>
+        </div>
+      </div>
+      {else}
+        </div>
+      {/if}
 
+    </div>
+
+    <script src="./vendor/flexy/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
   </body>
 
