@@ -1,4 +1,5 @@
 <?php
+
 /**
  * AuthorizeAIM.class.php
  *
@@ -6,7 +7,7 @@
  *
  * @package modules
  * @author John Diamond <jdiamond@solid-state.org>
-  * @copyright John Diamond <jdiamond@solid-state.org>
+ * @copyright John Diamond <jdiamond@solid-state.org>
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  * @author #2 Xiao Zhao/Mat <john316rocks@gmail.com>
  */
@@ -19,15 +20,15 @@ require_once BASE_PATH . "modules/PaymentGatewayModule.class.php";
 // require_once BASE_PATH . "modules/authorizeaim/sdk/AuthorizeNet.php";
 
 // Positions in the AIM response record
-define( AIM_RESP_CODE, 0 );
-define( AIM_RESP_REASON_TEXT, 3 );
-define( AIM_RESP_APPROVAL_CODE, 5 );
-define( AIM_RESP_TRANSACTION_ID, 6 );
+define(AIM_RESP_CODE, 0);
+define(AIM_RESP_REASON_TEXT, 3);
+define(AIM_RESP_APPROVAL_CODE, 5);
+define(AIM_RESP_TRANSACTION_ID, 6);
 
 // AIM Response codes
-define( AIM_APPROVED, "1" );
-define( AIM_DECLINED, "2" );
-define( AIM_ERROR,    "3" );
+define(AIM_APPROVED, "1");
+define(AIM_DECLINED, "2");
+define(AIM_ERROR,    "3");
 
 /**
  * AuthorizeAIM
@@ -38,7 +39,8 @@ define( AIM_ERROR,    "3" );
  * @package modules
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class AuthorizeAIM extends PaymentGatewayModule {
+class AuthorizeAIM extends PaymentGatewayModule
+{
 	/**
 	 * @var string Authorize.net API version
 	 */
@@ -99,14 +101,17 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 * @param PaymentDBO $paymentDBO Payment DBO for this transaction
 	 * @return boolean False when there is an error processing the transaction
 	 */
-	function authorize( $contactDBO, $cardNumber, $expireDate, $cardCode, &$paymentDBO ) {
+	function authorize($contactDBO, $cardNumber, $expireDate, $cardCode, &$paymentDBO)
+	{
 		// The charge method does the actual work (notice the auth only flag)
-		return $this->charge( $contactDBO,
-				$cardNumber,
-				$expireDate,
-				$cardCode,
-				$paymentDBO,
-				true );
+		return $this->charge(
+			$contactDBO,
+			$cardNumber,
+			$expireDate,
+			$cardCode,
+			$paymentDBO,
+			true
+		);
 	}
 
 	/**
@@ -119,14 +124,17 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 * @param PaymentDBO $paymentDBO Payment DBO for this transaction
 	 * @return boolean False when there is an error processing the transaction
 	 */
-	function authorizeAndCapture( $contactDBO, $cardNumber, $expireDate, $cardCode, &$paymentDBO ) {
+	function authorizeAndCapture($contactDBO, $cardNumber, $expireDate, $cardCode, &$paymentDBO)
+	{
 		// The charge method does the actual work (notice the auth only flag)
-		return $this->charge( $contactDBO,
-				$cardNumber,
-				$expireDate,
-				$cardCode,
-				$paymentDBO,
-				false );
+		return $this->charge(
+			$contactDBO,
+			$cardNumber,
+			$expireDate,
+			$cardCode,
+			$paymentDBO,
+			false
+		);
 	}
 
 	/**
@@ -137,10 +145,11 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 * @param array $params Key => Value array
 	 * @return string POST data
 	 */
-	function buildPOSTFields( $params ) {
+	function buildPOSTFields($params)
+	{
 		$fields = "";
-		foreach( $params as $key => $value ) {
-			$fields .= sprintf( "%s=%s&", $key, urlencode( $value ) );
+		foreach ($params as $key => $value) {
+			$fields .= sprintf("%s=%s&", $key, urlencode($value));
 		}
 		return $fields;
 	}
@@ -151,9 +160,11 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 * @param PaymentDBO $paymentDBO Previously authorized payment DBO
 	 * @return boolean False on a processing error
 	 */
-	function capture( &$paymentDBO ) {
+	function capture(&$paymentDBO)
+	{
 		$message =
-				$this->buildPOSTFields( array( "x_login"  => $this->getLoginID(),
+			$this->buildPOSTFields(array(
+				"x_login"  => $this->getLoginID(),
 				"x_version" => $this->getAPIVersion(),
 				"x_delim_char" => $this->getDelimiter(),
 				"x_delim_data" => "TRUE",
@@ -161,29 +172,32 @@ class AuthorizeAIM extends PaymentGatewayModule {
 				"x_method" => "CC",
 				"x_tran_key" => $this->getTransactionKey(),
 				"x_trans_id" => $paymentDBO->getTransaction1(),
-				"x_amount" => $paymentDBO->getAmount() ) );
+				"x_amount" => $paymentDBO->getAmount()
+			));
 
 		// Carry out the transaction
-		$resp = $this->executeTransaction( $message );
+		$resp = $this->executeTransaction($message);
 
 		// Parse the transaction response
-		switch ( $resp[AIM_RESP_CODE] ) {
+		switch ($resp[AIM_RESP_CODE]) {
 			case AIM_APPROVED:
-				$paymentDBO->setStatus( "Completed" );
-				$paymentDBO->setTransaction1( $resp[AIM_RESP_TRANSACTION_ID] );
-				$paymentDBO->setTransaction2( $resp[AIM_RESP_APPROVAL_CODE] );
+				$paymentDBO->setStatus("Completed");
+				$paymentDBO->setTransaction1($resp[AIM_RESP_TRANSACTION_ID]);
+				$paymentDBO->setTransaction2($resp[AIM_RESP_APPROVAL_CODE]);
 				break;
 
 			case AIM_DECLINED:
-				$paymentDBO->setStatus( "Declined" );
-				$paymentDBO->setStatusMessage( substr( $resp[AIM_RESP_REASON_TEXT], 0, 255 ) );
+				$paymentDBO->setStatus("Declined");
+				$paymentDBO->setStatusMessage(substr($resp[AIM_RESP_REASON_TEXT], 0, 255));
 				break;
 
 			case AIM_ERROR:
 			default:
-				log_error( "AuthorizeAIM::capture()",
-						"An error occured while processing an Authorize.net transaction: " .
-						$resp[AIM_RESP_REASON_TEXT] );
+				log_error(
+					"AuthorizeAIM::capture()",
+					"An error occured while processing an Authorize.net transaction: " .
+						$resp[AIM_RESP_REASON_TEXT]
+				);
 				return false;
 				break;
 		}
@@ -202,12 +216,13 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 * $param boolean $authOnly When true, the transaction will be authorized only
 	 * @return boolean False when there is an error processing the transaction
 	 */
-	function charge( $contactDBO, $cardNumber, $expireDate, $cardCode, &$paymentDBO, $authOnly ) {
+	function charge($contactDBO, $cardNumber, $expireDate, $cardCode, &$paymentDBO, $authOnly)
+	{
 		// Build PaymentDBO
-		$paymentDBO->setDate( DBConnection::format_datetime( time() ) );
-		$paymentDBO->setType( "Module" );
-		$paymentDBO->setModule( $this->getName() );
-		
+		$paymentDBO->setDate(DBConnection::format_datetime(time()));
+		$paymentDBO->setType("Module");
+		$paymentDBO->setModule($this->getName());
+
 		/* old busted method
 		// Construct a list of parameters to be passed to Authorize.net
 		$message =
@@ -267,28 +282,34 @@ class AuthorizeAIM extends PaymentGatewayModule {
 		}
 		*/
 		// Parse the transaction response
-		switch ( $resp[AIM_RESP_CODE] ) {
+		switch ($resp[AIM_RESP_CODE]) {
 			case AIM_APPROVED:
-				$paymentDBO->setStatus( $authOnly ? "Authorized" : "Completed" );
-				$paymentDBO->setTransaction1( $resp[AIM_RESP_TRANSACTION_ID] );
-				$paymentDBO->setTransaction2( $resp[AIM_RESP_APPROVAL_CODE] );
-				if ( !$this->saveTransaction( $resp[AIM_RESP_TRANSACTION_ID],
-				substr( $cardNumber, -1, 4 ) ) ) {
-					fatal_error( "AuthorizeAIM::authorize",
-							"Failed to save transaction data: " );
+				$paymentDBO->setStatus($authOnly ? "Authorized" : "Completed");
+				$paymentDBO->setTransaction1($resp[AIM_RESP_TRANSACTION_ID]);
+				$paymentDBO->setTransaction2($resp[AIM_RESP_APPROVAL_CODE]);
+				if (!$this->saveTransaction(
+					$resp[AIM_RESP_TRANSACTION_ID],
+					substr($cardNumber, -1, 4)
+				)) {
+					fatal_error(
+						"AuthorizeAIM::authorize",
+						"Failed to save transaction data: "
+					);
 				}
 
 				break;
 
 			case AIM_DECLINED:
-				$paymentDBO->setStatus( "Declined" );
-				$paymentDBO->setStatusMessage( $resp[AIM_RESP_REASON_TEXT] );
+				$paymentDBO->setStatus("Declined");
+				$paymentDBO->setStatusMessage($resp[AIM_RESP_REASON_TEXT]);
 				break;
 
 			case AIM_ERROR:
-				log_error( "AuthorizeAIM::authorize()",
-						"An error occured while processing an Authorize.net transaction: " .
-						$resp[AIM_RESP_REASON_TEXT] );
+				log_error(
+					"AuthorizeAIM::authorize()",
+					"An error occured while processing an Authorize.net transaction: " .
+						$resp[AIM_RESP_REASON_TEXT]
+				);
 				return false;
 				break;
 		}
@@ -301,22 +322,23 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 *
 	 * @return boolean True for success
 	 */
-	function createTables() {
+	function createTables()
+	{
 		$DB = DBConnection::getDBConnection();
 
 		// Wipe out old tables
 		$sql = "DROP TABLE IF EXISTS `authorizeaim`";
-		if ( !mysql_query( $sql, $DB->handle() ) ) {
+		if (!mysql_query($sql, $DB->handle())) {
 			return false;
 		}
 
 		// Create new ones
 		$sql = "CREATE TABLE IF NOT EXISTS `authorizeaim` ( " .
-				"`transid` varchar(10) NOT NULL, " .
-				"`lastdigits` varchar(4) NOT NULL, " .
-				"PRIMARY KEY  (`transid`)" .
-				") ENGINE=MyISAM DEFAULT CHARSET=latin1";
-		return mysql_query( $sql, $DB->handle() );
+			"`transid` varchar(10) NOT NULL, " .
+			"`lastdigits` varchar(4) NOT NULL, " .
+			"PRIMARY KEY  (`transid`)" .
+			") ENGINE=MyISAM DEFAULT CHARSET=latin1";
+		return mysql_query($sql, $DB->handle());
 	}
 
 	/**
@@ -327,16 +349,17 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 * @param string $postData POST data (use buildPOSTFields)
 	 * @return array Response record, broken into an associative array
 	 */
-	function executeTransaction( $postData ) {
+	function executeTransaction($postData)
+	{
 
-		$ch = curl_init( $this->getURL() );
-		curl_setopt( $ch, CURLOPT_HEADER, 0 );
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-		curl_setopt( $ch, CURLOPT_POSTFIELDS, rtrim( $postData, "& " ) );
-		$resp = curl_exec( $ch );
-		curl_close( $ch );
+		$ch = curl_init($this->getURL());
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, rtrim($postData, "& "));
+		$resp = curl_exec($ch);
+		curl_close($ch);
 
-		return explode( $this->getDelimiter(), $resp );
+		return explode($this->getDelimiter(), $resp);
 	}
 
 	/**
@@ -344,7 +367,8 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 *
 	 * @return string The version of the AIM API that is being used
 	 */
-	function getAPIVersion() {
+	function getAPIVersion()
+	{
 		return $this->APIVersion;
 	}
 
@@ -353,7 +377,8 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 *
 	 * @return string Configuration page name
 	 */
-	function getConfigPage() {
+	function getConfigPage()
+	{
 		return $this->configPage;
 	}
 
@@ -362,7 +387,8 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 *
 	 * @return string Delimiter Character
 	 */
-	function getDelimiter() {
+	function getDelimiter()
+	{
 		return $this->delimiter;
 	}
 
@@ -371,7 +397,8 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 *
 	 * @return string Authorize.net Login ID
 	 */
-	function getLoginID() {
+	function getLoginID()
+	{
 		return $this->loginID;
 	}
 
@@ -380,7 +407,8 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 *
 	 * @return string Transaction key
 	 */
-	function getTransactionKey() {
+	function getTransactionKey()
+	{
 		return $this->transactionKey;
 	}
 
@@ -389,7 +417,8 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 *
 	 * @return string Authorize.net transaction URL
 	 */
-	function getURL() {
+	function getURL()
+	{
 		return $this->url;
 	}
 
@@ -401,14 +430,15 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 *
 	 * @return boolean True for success
 	 */
-	function init() {
+	function init()
+	{
 		parent::init();
 
 		// Load settings
-		$this->setDelimiter( $this->moduleDBO->loadSetting( "delimiter" ) );
-		$this->setLoginID( $this->moduleDBO->loadSetting( "loginid" ) );
-		$this->setTransactionKey( $this->moduleDBO->loadSetting( "transactionkey" ) );
-		$this->setURL( $this->moduleDBO->loadSetting( "url" ) );
+		$this->setDelimiter($this->moduleDBO->loadSetting("delimiter"));
+		$this->setLoginID($this->moduleDBO->loadSetting("loginid"));
+		$this->setTransactionKey($this->moduleDBO->loadSetting("transactionkey"));
+		$this->setURL($this->moduleDBO->loadSetting("url"));
 	}
 
 	/**
@@ -417,13 +447,16 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 * Invoked when the module is installed.  Calls the parent first, which does
 	 * most of the work, then saves the default settings to the DB.
 	 */
-	function install() {
+	function install()
+	{
 		parent::install();
 
-		if ( !$this->createTables() ) {
-			throw new ModuleInstallFailedException( "authorizeaim",
-			"Failed to create database tables for AuthorizeAIM module:" .
-					mysql_error() );
+		if (!$this->createTables()) {
+			throw new ModuleInstallFailedException(
+				"authorizeaim",
+				"Failed to create database tables for AuthorizeAIM module:" .
+					mysql_error()
+			);
 		}
 
 		$this->saveSettings();
@@ -435,25 +468,30 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 * @param string $transactionID The transaction to load
 	 * @return array Transaction record from database
 	 */
-	function loadTransaction( $transactionID ) {
+	function loadTransaction($transactionID)
+	{
 		$DB = DBConnection::getDBConnection();
 
-		$sql = $DB->build_select_sql( "authorizeaim",
-				"*",
-				"transid=" . $transactionID,
-				null,
-				null,
-				null,
-				null );
+		$sql = $DB->build_select_sql(
+			"authorizeaim",
+			"*",
+			"transid=" . $transactionID,
+			null,
+			null,
+			null,
+			null
+		);
 
 		// Run query
-		if ( !($result = @mysql_query( $sql, $DB->handle() ) ) ) {
+		if (!($result = @mysql_query($sql, $DB->handle()))) {
 			// Query error
-			fatal_error( "AuthorizeAIM::loadTransaction()",
-					"Attempt to load transaction failed on SELECT" );
+			fatal_error(
+				"AuthorizeAIM::loadTransaction()",
+				"Attempt to load transaction failed on SELECT"
+			);
 		}
 
-		return mysql_fetch_array( $result );
+		return mysql_fetch_array($result);
 	}
 
 	/**
@@ -462,16 +500,20 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 * @param PaymentDBO $paymentDBO Previously authorized & captured payment DBO
 	 * @return boolean False on a processing error
 	 */
-	function refund( &$paymentDBO ) {
+	function refund(&$paymentDBO)
+	{
 		// Load transaction data
-		if ( null ==
-				($transactionData = $this->loadTransaction( $paymentDBO->getTransaction1() ) ) ) {
+		if (
+			null ==
+			($transactionData = $this->loadTransaction($paymentDBO->getTransaction1()))
+		) {
 			return false;
 		}
 
 		// Build Authorize.net transaction record
 		$message =
-				$this->buildPOSTFields( array( "x_login"  => $this->getLoginID(),
+			$this->buildPOSTFields(array(
+				"x_login"  => $this->getLoginID(),
 				"x_version" => $this->getAPIVersion(),
 				"x_delim_char" => $this->getDelimiter(),
 				"x_delim_data" => "TRUE",
@@ -480,29 +522,32 @@ class AuthorizeAIM extends PaymentGatewayModule {
 				"x_tran_key" => $this->getTransactionKey(),
 				"x_trans_id" => $paymentDBO->getTransaction1(),
 				"x_card_num" => $transactionData['lastdigits'],
-				"x_amount" => $paymentDBO->getAmount() ) );
+				"x_amount" => $paymentDBO->getAmount()
+			));
 
 		// Carry out the transaction
-		$resp = $this->executeTransaction( $message );
+		$resp = $this->executeTransaction($message);
 
 		// Parse the transaction response
-		switch ( $resp[AIM_RESP_CODE] ) {
+		switch ($resp[AIM_RESP_CODE]) {
 			case AIM_APPROVED:
-				$paymentDBO->setStatus( "Refunded" );
-				$paymentDBO->setTransaction1( $resp[AIM_RESP_TRANSACTION_ID] );
-				$paymentDBO->setTransaction2( $resp[AIM_RESP_APPROVAL_CODE] );
+				$paymentDBO->setStatus("Refunded");
+				$paymentDBO->setTransaction1($resp[AIM_RESP_TRANSACTION_ID]);
+				$paymentDBO->setTransaction2($resp[AIM_RESP_APPROVAL_CODE]);
 				break;
 
 			case AIM_DECLINED:
-				$paymentDBO->setStatus( "Declined" );
-				$paymentDBO->setStatusMessage( substr( $resp[AIM_RESP_REASON_TEXT], 0, 255 ) );
+				$paymentDBO->setStatus("Declined");
+				$paymentDBO->setStatusMessage(substr($resp[AIM_RESP_REASON_TEXT], 0, 255));
 				break;
 
 			case AIM_ERROR:
 			default:
-				log_error( "AuthorizeAIM::refund()",
-						"An error occured while processing an Authorize.net transaction: " .
-						$resp[AIM_RESP_REASON_TEXT] );
+				log_error(
+					"AuthorizeAIM::refund()",
+					"An error occured while processing an Authorize.net transaction: " .
+						$resp[AIM_RESP_REASON_TEXT]
+				);
 				return false;
 				break;
 		}
@@ -513,12 +558,13 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	/**
 	 * Save Reseller Club Settings
 	 */
-	function saveSettings() {
+	function saveSettings()
+	{
 		// Save default settings
-		$this->moduleDBO->saveSetting( "delimiter", $this->getDelimiter() );
-		$this->moduleDBO->saveSetting( "loginid", $this->getLoginID() );
-		$this->moduleDBO->saveSetting( "transactionkey", $this->getTransactionKey() );
-		$this->moduleDBO->saveSetting( "url", $this->getURL() );
+		$this->moduleDBO->saveSetting("delimiter", $this->getDelimiter());
+		$this->moduleDBO->saveSetting("loginid", $this->getLoginID());
+		$this->moduleDBO->saveSetting("transactionkey", $this->getTransactionKey());
+		$this->moduleDBO->saveSetting("url", $this->getURL());
 	}
 
 	/**
@@ -528,23 +574,29 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 * @param string $lastDigits Last 4 digits of the card
 	 * @return boolean True for success
 	 */
-	function saveTransaction( $transactionID, $lastDigits ) {
+	function saveTransaction($transactionID, $lastDigits)
+	{
 		$DB = DBConnection::getDBConnection();
 
-		if ( $this->loadTransaction( $transactionID ) ) {
+		if ($this->loadTransaction($transactionID)) {
 			// Update
-			$sql = $DB->build_update_sql( "authorizeaim",
-					"transid = " . $transactionID,
-					array( "lastdigits" => $lastDigits ) );
-		}
-		else {
+			$sql = $DB->build_update_sql(
+				"authorizeaim",
+				"transid = " . $transactionID,
+				array("lastdigits" => $lastDigits)
+			);
+		} else {
 			// Insert
-			$sql = $DB->build_insert_sql( "authorizeaim",
-					array( "transid" => $transactionID,
-					"lastdigits" => $lastDigits ) );
+			$sql = $DB->build_insert_sql(
+				"authorizeaim",
+				array(
+					"transid" => $transactionID,
+					"lastdigits" => $lastDigits
+				)
+			);
 		}
 
-		return mysql_query( $sql, $DB->handle() );
+		return mysql_query($sql, $DB->handle());
 	}
 
 	/**
@@ -552,7 +604,8 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 *
 	 * @param string $char Delimiter character
 	 */
-	function setDelimiter( $char ) {
+	function setDelimiter($char)
+	{
 		$this->delimiter = $char;
 	}
 
@@ -561,7 +614,8 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 *
 	 * @param string $loginID Authorize.net Login ID
 	 */
-	function setLoginID( $loginID ) {
+	function setLoginID($loginID)
+	{
 		$this->loginID = $loginID;
 	}
 
@@ -570,7 +624,8 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 *
 	 * @param string $key Authorize.net transaction key
 	 */
-	function setTransactionKey( $key ) {
+	function setTransactionKey($key)
+	{
 		$this->transactionKey = $key;
 	}
 
@@ -579,7 +634,8 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 *
 	 * @param string $url Authorize.net transaction URL
 	 */
-	function setURL( $url ) {
+	function setURL($url)
+	{
 		$this->url = $url;
 	}
 
@@ -589,38 +645,43 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 * @param PaymentDBO $paymentDBO Previously authorized payment DBO
 	 * @return boolean False on a processing error
 	 */
-	function void( &$paymentDBO ) {
+	function void(&$paymentDBO)
+	{
 		$message =
-				$this->buildPOSTFields( array( "x_login"  => $this->getLoginID(),
+			$this->buildPOSTFields(array(
+				"x_login"  => $this->getLoginID(),
 				"x_version" => $this->getAPIVersion(),
 				"x_delim_char" => $this->getDelimiter(),
 				"x_delim_data" => "TRUE",
 				"x_type" => "VOID",
 				"x_method" => "CC",
 				"x_tran_key" => $this->getTransactionKey(),
-				"x_trans_id" => $paymentDBO->getTransaction1() ) );
+				"x_trans_id" => $paymentDBO->getTransaction1()
+			));
 
 		// Carry out the transaction
-		$resp = $this->executeTransaction( $message );
+		$resp = $this->executeTransaction($message);
 
 		// Parse the transaction response
-		switch ( $resp[AIM_RESP_CODE] ) {
+		switch ($resp[AIM_RESP_CODE]) {
 			case AIM_APPROVED:
-				$paymentDBO->setStatus( "Voided" );
-				$paymentDBO->setTransaction1( $resp[AIM_RESP_TRANSACTION_ID] );
-				$paymentDBO->setTransaction2( $resp[AIM_RESP_APPROVAL_CODE] );
+				$paymentDBO->setStatus("Voided");
+				$paymentDBO->setTransaction1($resp[AIM_RESP_TRANSACTION_ID]);
+				$paymentDBO->setTransaction2($resp[AIM_RESP_APPROVAL_CODE]);
 				break;
 
 			case AIM_DECLINED:
-				$paymentDBO->setStatus( "Declined" );
-				$paymentDBO->setStatusMessage( substr( $resp[AIM_RESP_REASON_TEXT], 0, 255 ) );
+				$paymentDBO->setStatus("Declined");
+				$paymentDBO->setStatusMessage(substr($resp[AIM_RESP_REASON_TEXT], 0, 255));
 				break;
 
 			case AIM_ERROR:
 			default:
-				log_error( "AuthorizeAIM::void()",
-						"An error occured while processing an Authorize.net transaction: " .
-						$resp[AIM_RESP_REASON_TEXT] );
+				log_error(
+					"AuthorizeAIM::void()",
+					"An error occured while processing an Authorize.net transaction: " .
+						$resp[AIM_RESP_REASON_TEXT]
+				);
 				return false;
 				break;
 		}
@@ -628,4 +689,3 @@ class AuthorizeAIM extends PaymentGatewayModule {
 		return true;
 	}
 }
-?>

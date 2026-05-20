@@ -127,11 +127,13 @@ function display_page( $page ) {
 		$smarty->display( Page::selectTemplateFile( $conf['main_template'] ) );
 	}
 
-	// Remove messages and errors from session
-	$session = $page->getPageSession();
-	unset( $session['errors'] );
-	unset( $session['messages'] );
-}
+		// Remove messages and errors from session
+		$session =& $page->getPageSession();
+		if ( is_array( $session ) ) {
+			unset( $session['errors'] );
+			unset( $session['messages'] );
+		}
+	}
 
 /**
  * Handle Post Request

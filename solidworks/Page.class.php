@@ -367,8 +367,8 @@ class Page {
                 }
             }
 
-            if ( !isset( $_SESSION[$this->getName()] ) ) {
-                // Create a place holder in the session for this Page's data
+            if ( !isset( $_SESSION[$this->getName()] ) || !is_array( $_SESSION[$this->getName()] ) ) {
+                // Create (or repair) a place holder in the session for this Page's data
                 $_SESSION[$this->getName()] = array();
             }
 
