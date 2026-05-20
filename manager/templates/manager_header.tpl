@@ -19,12 +19,18 @@
 
           <li class="sidebar-item">
             <a class="sidebar-link" href="manager_content.php?page=home" aria-expanded="false">
+              <span class="sidebar-icon">
+                <i class="ti ti-home"></i>
+              </span>
               <span class="hide-menu">Home</span>
             </a>
           </li>
 
           <li class="sidebar-item">
             <a class="sidebar-link has-arrow" href="#nb-accounts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="nb-accounts">
+              <span class="sidebar-icon">
+                <i class="ti ti-users"></i>
+              </span>
               <span class="hide-menu">Accounts</span>
             </a>
             <ul id="nb-accounts" class="collapse first-level" data-bs-parent="#sidebarnav">
@@ -38,6 +44,9 @@
 
           <li class="sidebar-item">
             <a class="sidebar-link has-arrow" href="#nb-billing" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="nb-billing">
+              <span class="sidebar-icon">
+                <i class="ti ti-receipt"></i>
+              </span>
               <span class="hide-menu">Billing &amp; Invoices</span>
             </a>
             <ul id="nb-billing" class="collapse first-level" data-bs-parent="#sidebarnav">
@@ -51,6 +60,9 @@
 
           <li class="sidebar-item">
             <a class="sidebar-link has-arrow" href="#nb-services" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="nb-services">
+              <span class="sidebar-icon">
+                <i class="ti ti-package"></i>
+              </span>
               <span class="hide-menu">Products &amp; Services</span>
             </a>
             <ul id="nb-services" class="collapse first-level" data-bs-parent="#sidebarnav">
@@ -65,6 +77,9 @@
 
           <li class="sidebar-item">
             <a class="sidebar-link has-arrow" href="#nb-domains" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="nb-domains">
+              <span class="sidebar-icon">
+                <i class="ti ti-world"></i>
+              </span>
               <span class="hide-menu">Domains</span>
             </a>
             <ul id="nb-domains" class="collapse first-level" data-bs-parent="#sidebarnav">
@@ -77,6 +92,9 @@
 
           <li class="sidebar-item">
             <a class="sidebar-link has-arrow" href="#nb-admin" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="nb-admin">
+              <span class="sidebar-icon">
+                <i class="ti ti-settings"></i>
+              </span>
               <span class="hide-menu">Administration</span>
             </a>
             <ul id="nb-admin" class="collapse first-level" data-bs-parent="#sidebarnav">
@@ -89,6 +107,9 @@
 
           <li class="sidebar-item">
             <a class="sidebar-link has-arrow" href="#nb-about" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="nb-about">
+              <span class="sidebar-icon">
+                <i class="ti ti-info-circle"></i>
+              </span>
               <span class="hide-menu">About NeoBill</span>
             </a>
             <ul id="nb-about" class="collapse first-level" data-bs-parent="#sidebarnav">

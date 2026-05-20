@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="./style.css" />  
     <link rel="shortcut icon" type="image/png" href="./vendor/flexy/assets/images/logos/favicon.png" />
     <link rel="stylesheet" href="./vendor/flexy/assets/css/styles.min.css" />
+    <link rel="stylesheet" href="./css/neobill_flexy_overrides.css" />
     <script src="js/jquery-1.7.js"></script>
 	<script src="js/jquery.ui.core.js"></script>
 	<script src="js/jquery.ui.widget.js"></script>

@@ -1,112 +1,60 @@
 <div class="manager_content">
 
-{form name="new_invoice"}
+  {form name="new_invoice"}
 
-  <div class="form">
+    <div class="form">
 
-    <div class="table-responsive">
-    <table class="table table-sm table-striped align-middle">
+      <div class="mb-4">
+        <h4>[CREATE_INVOICE]</h4>
+      </div>
 
-      <thead>
+      <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label">{form_description field="account"}</label>
+        <div class="col-sm-9">
+          {if isset($account_name)}
+            <p class="form-control-plaintext">{$account_name}</p>
+            <input type="hidden" name="account" value="{$account}"/>
+          {else}
+            {form_element field="account"}
+          {/if}
+        </div>
+      </div>
 
-        <tr>
+      <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label">{form_description field="date"}</label>
+        <div class="col-sm-9">
+          {form_element field="date"}
+        </div>
+      </div>
 
-          <th colspan="2"> [CREATE_INVOICE] </th>
+      <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label">[INVOICE_PERIOD]</label>
+        <div class="col-sm-9 d-flex gap-2">
+          {form_element field="periodbegin"} to {form_element field="periodend" value=$nextMonth}
+        </div>
+      </div>
 
-        </tr>
+      <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label">{form_description field="terms"}</label>
+        <div class="col-sm-9">
+          {form_element field="terms" size="2"}
+        </div>
+      </div>
 
-      </thead>
+      <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label">{form_description field="note"}</label>
+        <div class="col-sm-9">
+          {form_element field="note" cols="45" rows="13" class="form-control"}
+        </div>
+      </div>
 
-      <tfoot>
+      <div class="d-flex justify-content-between mt-4">
+        <div>{form_element field="cancel"}</div>
+        <div>{form_element field="continue"}</div>
+      </div>
 
-      <tr>
-
-          <td class="left">
-
-            {form_element field="cancel"}
-
-          </td>
-
-          <td class="right">
-
-            {form_element field="continue"} 
-
-          </td>
-
-        </tr>
-
-      </tfoot>
-
-      <tbody>
-
-        <tr>
-
-          <th> {form_description field="account"} </th>
-
-          <td> 
-
-            {if isset($account_name)}
-
-              {$account_name}
-
-              <input type="hidden" name="account" value="{$account}"/>
-
-            {else}
-
-              {form_element field="account"}
-
-            {/if}
-
-          </td>
-
-        </tr>
-
-        <tr>
-
-          <th> {form_description field="date"} </th>
-
-          <td> {form_element field="date"} </td>
-
-        </tr>
-
-        <tr>
-
-          <th> [INVOICE_PERIOD] </th>
-
-          <td> 
-
-            {form_element field="periodbegin"} to
-
-            {form_element field="periodend" value=$nextMonth}
-
-          </td>
-
-        </tr>
-
-        <tr>
-
-          <th> {form_description field="terms"} </th>
-
-          <td> {form_element field="terms" size="2"} </td>
-
-        </tr>
-
-        <tr>
-
-          <th> {form_description field="note"} </th>
-
-          <td> {form_element field="note" cols="45" rows="13"} </td>
-
-        </tr>
-
-      </tbody>
-
-    </table>
     </div>
 
-  </div>
-
-{/form}
+  {/form}
 
 </div>
-
