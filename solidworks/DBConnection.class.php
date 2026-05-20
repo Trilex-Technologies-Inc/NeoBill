@@ -363,6 +363,14 @@ class DBConnection {
 			// No columns provided - default to all
 			$columns = "*";
 		}
+		if ( $columns !== "*" ) {
+			$column_list = explode( ',', $columns );
+			foreach ( $column_list as $col ) {
+				if ( !preg_match( '/^[a-zA-Z0-9_]+$/', trim( $col ) ) ) {
+					throw new DBException( "Invalid input" );
+				}
+			}
+		}
 
 		// Begin building SELECT statement
 		$sql = sprintf( "SELECT %s FROM `%s`", $columns, $table_name );
