@@ -22,7 +22,13 @@
 .sidebar-nav ul .sidebar-item .sidebar-link {
   white-space: nowrap;
 }
-.left-sidebar .scroll-sidebar{
-height: auto;
+
+/* Give nested menus some indentation so they don't stick to the edge */
+.sidebar-nav ul .sidebar-item > ul.first-level {
+  padding-left: 12px;
+}
+
+.sidebar-nav ul .sidebar-item .first-level .sidebar-item > .sidebar-link {
+  padding-left: 18px;
 }
 
