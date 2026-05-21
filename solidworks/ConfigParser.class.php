@@ -178,6 +178,83 @@ class ConfigParser {
 							strtolower( $value ) == "true" :
 							$value;
 				}
+
+				// Bootstrap-friendly default classes (can be overridden in application.conf)
+				if ( !isset( $field_data['class'] ) && isset( $field_data['widget'] ) ) {
+					switch ( strtolower( $field_data['widget'] ) ) {
+						// Text-like inputs
+						case "text":
+						case "password":
+						case "date":
+						case "currency":
+							$field_data['class'] = "form-control";
+							break;
+
+						// Textareas
+						case "textarea":
+							$field_data['class'] = "form-control";
+							break;
+
+						// Select-like controls
+						case "select":
+						case "country":
+						case "themeselect":
+						case "languageselect":
+						case "accountselect":
+						case "invoiceselect":
+						case "tldselect":
+						case "productselect":
+						case "hostingselect":
+						case "serverselect":
+						case "ipselect":
+						case "purchasabletermselect":
+						case "registrarmoduleselect":
+						case "moduleselect":
+						case "paymentmoduleselect":
+							$field_data['class'] = "form-select";
+							break;
+
+						// Checkboxes & radios
+						case "checkbox":
+						case "radio":
+							$field_data['class'] = "form-check-input";
+							break;
+
+						// Buttons: leave unset by default (primary/secondary/danger varies per field)
+						case "submit":
+							$fieldNameLower = strtolower( $this->form_field_name );
+
+							// Cancel-type actions
+							if ( isset( $field_data['cancel'] ) && $field_data['cancel'] == true ) {
+								$field_data['class'] = "btn btn-secondary";
+								break;
+							}
+
+							// Destructive actions
+							if ( strpos( $fieldNameLower, "delete" ) !== false ||
+									strpos( $fieldNameLower, "remove" ) !== false ||
+									strpos( $fieldNameLower, "kill" ) !== false ||
+									strpos( $fieldNameLower, "void" ) !== false ) {
+								$field_data['class'] = "btn btn-danger";
+								break;
+							}
+
+							// Back/secondary navigation
+							if ( $fieldNameLower == "back" ||
+									$fieldNameLower == "goback" ||
+									strpos( $fieldNameLower, "cancel" ) !== false ) {
+								$field_data['class'] = "btn btn-secondary";
+								break;
+							}
+
+							// Default primary button
+							$field_data['class'] = "btn btn-primary";
+							break;
+
+						default:
+							break;
+					}
+				}
 				/*
 	$field_data['widget'] = $attrs['WIDGET'];
 	$field_data['validator'] = $attrs['VALIDATOR'];
