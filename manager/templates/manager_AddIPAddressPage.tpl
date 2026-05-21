@@ -3,59 +3,49 @@
 
   {form name="add_ip_address"}
 
-    <div class="table-responsive">
-    <table class="table table-sm table-striped align-middle">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">[ADD_IPS] {dbo_echo dbo="server_dbo" field="hostname"}</h5>
+      </div>
+      
+      <div class="card-body">
+        
+        <!-- Begin Address -->
+        <div class="row mb-3">
+          <div class="col-sm-4 col-md-3 col-lg-2">
+            <label class="form-label fw-bold">
+              {form_description field="begin_address"}
+            </label>
+          </div>
+          <div class="col-sm-8 col-md-9 col-lg-10">
+            {form_element field="begin_address" class="form-control"}
+          </div>
+        </div>
 
-      <thead>
+        <!-- End Address -->
+        <div class="row mb-4">
+          <div class="col-sm-4 col-md-3 col-lg-2">
+            <label class="form-label fw-bold">
+              {form_description field="end_address"}
+            </label>
+          </div>
+          <div class="col-sm-8 col-md-9 col-lg-10">
+            {form_element field="end_address" class="form-control"}
+          </div>
+        </div>
 
-        <tr>
+        <!-- Buttons -->
+        <div class="row mt-4">
+          <div class="col-12 d-flex justify-content-between justify-content-md-start gap-2">
+            {form_element field="continue" class="btn btn-primary"}
+            {form_element field="cancel" class="btn btn-secondary"}
+          </div>
+        </div>
 
-          <th colspan="2"> [ADD_IPS] {dbo_echo dbo="server_dbo" field="hostname"} </th>
-
-        </tr>
-
-      </thead>
-
-      <tfoot>
-
-        <tr>
-
-          <td class="left">
-
-            {form_element field="continue"}
-
-          </td>
-
-          <td class="right">
-
-            {form_element field="cancel"}
-
-          </td>
-
-        </tr>
-
-      </tfoot>
-
-      <tr>
-
-        <th> {form_description field="begin_address"} </th>
-
-        <td> {form_element field="begin_address"} </td>
-
-      </tr>
-
-      <tr>
-
-        <th> {form_description field="end_address"} </th>
-
-        <td> {form_element field="end_address"} </td>
-
-      </tr>
-
-    </table>
+      </div>
     </div>
 
   {/form}
 
 </div>
-
+</div>
