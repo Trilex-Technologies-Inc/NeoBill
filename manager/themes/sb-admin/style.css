@@ -1,0 +1,163 @@
+/* SB Admin theme overrides for NeoBill manager */
+
+body {
+  background-color: #f5f7fb;
+  color: #343a40;
+}
+
+.page-wrapper {
+  min-height: 100vh;
+  background-color: #f5f7fb;
+}
+
+.left-sidebar {
+  background-color: #0d1b38;
+  min-height: 100vh;
+  width: 250px;
+}
+
+.left-sidebar .brand-logo {
+  background-color: #0b4ff0;
+  color: #fff;
+  padding: 1.25rem 1.5rem;
+}
+
+.left-sidebar .brand-logo .logo-img img {
+  height: 44px;
+}
+
+.sidebar-nav {
+  padding: 1rem 0;
+}
+
+#sidebarnav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-item {
+  margin: 0;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 1.5rem;
+  color: #cfd7e4;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  color: #8fb3ff;
+}
+
+.sidebar-link .hide-menu {
+  margin-left: 0.9rem;
+  font-size: 0.95rem;
+}
+
+.nav-small-cap .hide-menu {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  padding: 1rem 1.5rem 0.6rem;
+}
+
+.collapse.first-level {
+  margin-left: 0;
+}
+
+.collapse.first-level .sidebar-item .sidebar-link {
+  padding-left: 3rem;
+}
+
+.app-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e8eaed;
+  padding: 0.75rem 1.5rem;
+}
+
+.navbar {
+  padding: 0;
+}
+
+.navbar-nav .nav-item .nav-link {
+  color: #475569;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #0d6efd;
+}
+
+.body-wrapper-inner {
+  padding: 1.75rem 1.5rem 2.5rem;
+}
+
+.container-fluid {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.75rem 1.5rem rgba(15, 23, 42, 0.08);
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-title {
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+
+.alert {
+  border-radius: 0.75rem;
+}
+
+.manager_error {
+  border-radius: 0.75rem;
+}
+
+.dropdown-menu {
+  border-radius: 0.75rem;
+  box-shadow: 0 0.75rem 1.5rem rgba(15, 23, 42, 0.12);
+}
+
+.message-body .btn {
+  width: 100%;
+}
+
+.page-wrapper #main-wrapper {
+  background-color: #f5f7fb;
+}
+
+@media (max-width: 1200px) {
+  .left-sidebar {
+    position: relative;
+    width: 100%;
+  }
+
+  .sidebar-link,
+  .nav-small-cap .hide-menu {
+    padding-left: 1rem;
+  }
+
+  .body-wrapper-inner {
+    padding: 1rem;
+  }
+}
