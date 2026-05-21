@@ -1,15 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <title>NeoBill Manager - {$location|capitalize}</title>
+
+    {* Base styles *}
     <link rel="stylesheet" type="text/css" href="./style.css" />
-    <link rel="stylesheet" href="./vendor/flexy/assets/css/styles.min.css" />
-    <link rel="stylesheet" href="./css/neobill_flexy_overrides.css" />
-    <link rel="stylesheet" href="./css/jquery.ui.all.css" />
+    <link rel="stylesheet" href="./vendor/flexy/assets/libs/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./vendor/flexy/assets/css/icons/tabler-icons/tabler-icons.css" />
+
+    {* SB Admin (StartBootstrap) *}
+    <link rel="stylesheet" href="./themes/sb-admin/vendor/sb-admin/css/styles.css" />
     <link rel="stylesheet" type="text/css" href="./themes/sb-admin/style.css" />
+
+    {* Legacy UI (some pages rely on jQuery UI widgets) *}
+    <link rel="stylesheet" href="./css/jquery.ui.all.css" />
     <script src="./js/jquery-1.7.js"></script>
     <script src="./js/jquery.ui.core.js"></script>
     <script src="./js/jquery.ui.widget.js"></script>
@@ -23,67 +28,51 @@
   </head>
 
   {if isset( $jsFunction )}
-    <body class="bootstrap-layout" onLoad="{$jsFunction}">
+    <body class="sb-nav-fixed" onLoad="{$jsFunction}">
   {else}
-    <body class="bootstrap-layout">
+    <body class="sb-nav-fixed">
   {/if}
 
-    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6"
-      data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
-      {include file="$header_template"}
-      {if isset($username) && $username != ""}
-      <div class="body-wrapper">
-        <header class="app-header">
-          <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="navbar-collapse justify-content-end px-0">
-              <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                <li class="nav-item dropdown">
-                  <a class="nav-link" href="javascript:void(0)" id="nbUserMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="fw-semibold">{$username}</span>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="nbUserMenu">
-                    <div class="message-body">
-                      <a href="manager_content.php?page=home&amp;action=logout" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </nav>
-        </header>
-        <div class="body-wrapper-inner">
-          <div class="container-fluid">
-      {else}
-        <div class="container-fluid py-4">
-      {/if}
+    {include file="$header_template"}
 
-      {* Display any error messages *}
-      {capture assign="_page_errors_html"}{page_errors}{/capture}
-      {capture assign="_page_messages_html"}{page_messages}{/capture}
-      {if trim($_page_errors_html) != "" || trim($_page_messages_html) != ""}
-        <div class="container-fluid mt-3">
-          {if trim($_page_errors_html) != ""}
-            <div class="alert alert-danger py-2 mb-2 manager_error" role="alert">{$_page_errors_html}</div>
-          {/if}
-          {if trim($_page_messages_html) != ""}
-            <div class="alert alert-info py-2 mb-3 manager_error" role="status">{$_page_messages_html}</div>
-          {/if}
-        </div>
-      {/if}
+    {if isset($username) && $username != ""}
+      <div id="layoutSidenav_content">
+        <main>
+          <div class="container-fluid px-4 pt-4">
 
-      {* Include the page content *}
-      {include file="$content_template"}
+            {* Display any error/messages *}
+            {capture assign="_page_errors_html"}{page_errors}{/capture}
+            {capture assign="_page_messages_html"}{page_messages}{/capture}
+            {if trim($_page_errors_html) != "" || trim($_page_messages_html) != ""}
+              {if trim($_page_errors_html) != ""}
+                <div class="alert alert-danger py-2 mb-3 manager_error" role="alert">{$_page_errors_html}</div>
+              {/if}
+              {if trim($_page_messages_html) != ""}
+                <div class="alert alert-info py-2 mb-3 manager_error" role="status">{$_page_messages_html}</div>
+              {/if}
+            {/if}
 
-      {if isset($username) && $username != ""}
+            {* Page content *}
+            {include file="$content_template"}
           </div>
-        </div>
-      </div>
-      {else}
-        </div>
-      {/if}
+        </main>
 
+        <footer class="py-4 bg-light mt-auto">
+          <div class="container-fluid px-4">
+            <div class="d-flex align-items-center justify-content-between small">
+              <div class="text-muted">NeoBill Manager</div>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
+    {else}
+      <div class="container-fluid py-4">
+        {include file="$content_template"}
+      </div>
+    {/if}
 
     <script src="./vendor/flexy/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./themes/sb-admin/vendor/sb-admin/js/scripts.js"></script>
   </body>
 </html>

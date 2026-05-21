@@ -1,130 +1,133 @@
 {if isset($username) && $username != ""}
-  <!-- Sidebar Start -->
-  <aside class="left-sidebar">
-    <div>
-      <div class="brand-logo d-flex align-items-center justify-content-between">
-        <a href="manager_content.php?page=home" class="text-nowrap logo-img">
-          <img src="images/logo.gif" alt="NeoBill" style="height:40px;" />
+  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand ps-3" href="manager_content.php?page=home">NeoBill</a>
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+      <i class="ti ti-menu-2"></i>
+    </button>
+
+    <div class="d-none d-md-inline-block ms-auto me-3">
+      <span class="text-white-50 small">{$username}</span>
+    </div>
+
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="ti ti-user-circle"></i>
         </a>
-        <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-          <span class="fs-6">×</span>
-        </div>
-      </div>
-
-      <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
-        <ul id="sidebarnav">
-          <li class="nav-small-cap">
-            <span class="hide-menu">Navigation</span>
-          </li>
-
-          <li class="sidebar-item">
-            <a class="sidebar-link" href="manager_content.php?page=home" aria-expanded="false">
-              <span class="sidebar-icon">
-                <i class="ti ti-home"></i>
-              </span>
-              <span class="hide-menu">Home</span>
-            </a>
-          </li>
-
-          <li class="sidebar-item">
-            <a class="sidebar-link has-arrow" href="#nb-accounts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="nb-accounts">
-              <span class="sidebar-icon">
-                <i class="ti ti-users"></i>
-              </span>
-              <span class="hide-menu">Accounts</span>
-            </a>
-            <ul id="nb-accounts" class="collapse first-level" data-bs-parent="#sidebarnav">
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=accounts_browse"><span class="hide-menu">Active Accounts</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=accounts_browse_pending"><span class="hide-menu">Pending Accounts</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=accounts_browse_inactive"><span class="hide-menu">Inactive Accounts</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=pending_orders"><span class="hide-menu">Pending Orders</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=fulfilled_orders"><span class="hide-menu">Fulfilled Orders</span></a></li>
-            </ul>
-          </li>
-
-          <li class="sidebar-item">
-            <a class="sidebar-link has-arrow" href="#nb-billing" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="nb-billing">
-              <span class="sidebar-icon">
-                <i class="ti ti-receipt"></i>
-              </span>
-              <span class="hide-menu">Billing &amp; Invoices</span>
-            </a>
-            <ul id="nb-billing" class="collapse first-level" data-bs-parent="#sidebarnav">
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=billing_invoices_outstanding"><span class="hide-menu">Outstanding Invoices</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=billing_invoices"><span class="hide-menu">All Invoices</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=billing_generate"><span class="hide-menu">Generate Invoices</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=billing_add_payment"><span class="hide-menu">Enter Payment</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=taxes"><span class="hide-menu">Taxes</span></a></li>
-            </ul>
-          </li>
-
-          <li class="sidebar-item">
-            <a class="sidebar-link has-arrow" href="#nb-services" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="nb-services">
-              <span class="sidebar-icon">
-                <i class="ti ti-package"></i>
-              </span>
-              <span class="hide-menu">Products &amp; Services</span>
-            </a>
-            <ul id="nb-services" class="collapse first-level" data-bs-parent="#sidebarnav">
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=services_web_hosting"><span class="hide-menu">Web Hosting Services</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=services_domain_services"><span class="hide-menu">Domain Services</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=services_products"><span class="hide-menu">Other Products</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=addon"><span class="hide-menu">Add-Ons</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=services_servers"><span class="hide-menu">Servers</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=services_ip_manager"><span class="hide-menu">IP Addresses</span></a></li>
-            </ul>
-          </li>
-
-          <li class="sidebar-item">
-            <a class="sidebar-link has-arrow" href="#nb-domains" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="nb-domains">
-              <span class="sidebar-icon">
-                <i class="ti ti-world"></i>
-              </span>
-              <span class="hide-menu">Domains</span>
-            </a>
-            <ul id="nb-domains" class="collapse first-level" data-bs-parent="#sidebarnav">
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=domains_browse"><span class="hide-menu">Registered Domains</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=domains_expired"><span class="hide-menu">Expired Domains</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=domains_register"><span class="hide-menu">Register New Domain</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=transfer_domain"><span class="hide-menu">Transfer Domain</span></a></li>
-            </ul>
-          </li>
-
-          <li class="sidebar-item">
-            <a class="sidebar-link has-arrow" href="#nb-admin" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="nb-admin">
-              <span class="sidebar-icon">
-                <i class="ti ti-settings"></i>
-              </span>
-              <span class="hide-menu">Administration</span>
-            </a>
-            <ul id="nb-admin" class="collapse first-level" data-bs-parent="#sidebarnav">
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=log&amp;action=swtablesort&amp;swtablename=log&amp;swtableform=log&amp;swtablesortcol=date&amp;swtablesortdir=DESC"><span class="hide-menu">Log Info</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=settings"><span class="hide-menu">Settings</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=modules"><span class="hide-menu">Modules</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=config_users"><span class="hide-menu">Users</span></a></li>
-            </ul>
-          </li>
-
-          <li class="sidebar-item">
-            <a class="sidebar-link has-arrow" href="#nb-about" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="nb-about">
-              <span class="sidebar-icon">
-                <i class="ti ti-info-circle"></i>
-              </span>
-              <span class="hide-menu">About NeoBill</span>
-            </a>
-            <ul id="nb-about" class="collapse first-level" data-bs-parent="#sidebarnav">
-              <li class="sidebar-item"><a class="sidebar-link" href="http://www.neobill.net"><span class="hide-menu">NeoBill Website</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="http://www.neobill.net/wiki/"><span class="hide-menu">Help</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="http://www.neobill.net/wiki/doku.php/about:team"><span class="hide-menu">NeoBill Credit</span></a></li>
-              <li class="sidebar-item"><a class="sidebar-link" href="manager_content.php?page=home&amp;action=logout"><span class="hide-menu">Logout</span></a></li>
-            </ul>
-          </li>
-
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="manager_content.php?page=home&amp;action=logout">Logout</a></li>
         </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+      <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+          <div class="nav">
+            <div class="sb-sidenav-menu-heading">Core</div>
+            <a class="nav-link" href="manager_content.php?page=home">
+              <div class="sb-nav-link-icon"><i class="ti ti-home"></i></div>
+              Home
+            </a>
+
+            <div class="sb-sidenav-menu-heading">NeoBill</div>
+
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAccounts" aria-expanded="false" aria-controls="collapseAccounts">
+              <div class="sb-nav-link-icon"><i class="ti ti-users"></i></div>
+              Accounts
+              <div class="sb-sidenav-collapse-arrow"><i class="ti ti-chevron-down"></i></div>
+            </a>
+            <div class="collapse" id="collapseAccounts" data-bs-parent="#sidenavAccordion">
+              <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" href="manager_content.php?page=accounts_browse">Active Accounts</a>
+                <a class="nav-link" href="manager_content.php?page=accounts_browse_pending">Pending Accounts</a>
+                <a class="nav-link" href="manager_content.php?page=accounts_browse_inactive">Inactive Accounts</a>
+                <a class="nav-link" href="manager_content.php?page=pending_orders">Pending Orders</a>
+                <a class="nav-link" href="manager_content.php?page=fulfilled_orders">Fulfilled Orders</a>
+              </nav>
+            </div>
+
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseBilling" aria-expanded="false" aria-controls="collapseBilling">
+              <div class="sb-nav-link-icon"><i class="ti ti-receipt"></i></div>
+              Billing &amp; Invoices
+              <div class="sb-sidenav-collapse-arrow"><i class="ti ti-chevron-down"></i></div>
+            </a>
+            <div class="collapse" id="collapseBilling" data-bs-parent="#sidenavAccordion">
+              <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" href="manager_content.php?page=billing_invoices_outstanding">Outstanding Invoices</a>
+                <a class="nav-link" href="manager_content.php?page=billing_invoices">All Invoices</a>
+                <a class="nav-link" href="manager_content.php?page=billing_generate">Generate Invoices</a>
+                <a class="nav-link" href="manager_content.php?page=billing_add_payment">Enter Payment</a>
+                <a class="nav-link" href="manager_content.php?page=taxes">Taxes</a>
+              </nav>
+            </div>
+
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseServices" aria-expanded="false" aria-controls="collapseServices">
+              <div class="sb-nav-link-icon"><i class="ti ti-package"></i></div>
+              Products &amp; Services
+              <div class="sb-sidenav-collapse-arrow"><i class="ti ti-chevron-down"></i></div>
+            </a>
+            <div class="collapse" id="collapseServices" data-bs-parent="#sidenavAccordion">
+              <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" href="manager_content.php?page=services_web_hosting">Web Hosting</a>
+                <a class="nav-link" href="manager_content.php?page=services_domain_services">Domain Services</a>
+                <a class="nav-link" href="manager_content.php?page=services_products">Other Products</a>
+                <a class="nav-link" href="manager_content.php?page=services_servers">Servers</a>
+                <a class="nav-link" href="manager_content.php?page=services_ip_manager">IP Addresses</a>
+              </nav>
+            </div>
+
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseDomains" aria-expanded="false" aria-controls="collapseDomains">
+              <div class="sb-nav-link-icon"><i class="ti ti-world"></i></div>
+              Domains
+              <div class="sb-sidenav-collapse-arrow"><i class="ti ti-chevron-down"></i></div>
+            </a>
+            <div class="collapse" id="collapseDomains" data-bs-parent="#sidenavAccordion">
+              <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" href="manager_content.php?page=domains_browse">Registered Domains</a>
+                <a class="nav-link" href="manager_content.php?page=domains_expired">Expired Domains</a>
+                <a class="nav-link" href="manager_content.php?page=domains_register">Register New Domain</a>
+                <a class="nav-link" href="manager_content.php?page=transfer_domain">Transfer Domain</a>
+              </nav>
+            </div>
+
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAdmin" aria-expanded="false" aria-controls="collapseAdmin">
+              <div class="sb-nav-link-icon"><i class="ti ti-settings"></i></div>
+              Administration
+              <div class="sb-sidenav-collapse-arrow"><i class="ti ti-chevron-down"></i></div>
+            </a>
+            <div class="collapse" id="collapseAdmin" data-bs-parent="#sidenavAccordion">
+              <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" href="manager_content.php?page=log&amp;action=swtablesort&amp;swtablename=log&amp;swtableform=log&amp;swtablesortcol=date&amp;swtablesortdir=DESC">Log Info</a>
+                <a class="nav-link" href="manager_content.php?page=settings">Settings</a>
+                <a class="nav-link" href="manager_content.php?page=modules">Modules</a>
+                <a class="nav-link" href="manager_content.php?page=config_users">Users</a>
+              </nav>
+            </div>
+
+            <div class="sb-sidenav-menu-heading">About</div>
+            <a class="nav-link" href="http://www.neobill.net">
+              <div class="sb-nav-link-icon"><i class="ti ti-world-www"></i></div>
+              NeoBill Website
+            </a>
+            <a class="nav-link" href="http://www.neobill.net/wiki/">
+              <div class="sb-nav-link-icon"><i class="ti ti-help"></i></div>
+              Help
+            </a>
+            <a class="nav-link" href="http://www.neobill.net/wiki/doku.php/about:team">
+              <div class="sb-nav-link-icon"><i class="ti ti-info-circle"></i></div>
+              NeoBill Credit
+            </a>
+          </div>
+        </div>
+        <div class="sb-sidenav-footer">
+          <div class="small">Logged in as:</div>
+          {$username}
+        </div>
       </nav>
     </div>
-  </aside>
-  <!-- Sidebar End -->
 {else}
   <div class="container-fluid py-3">
     <a href="index.php" class="d-inline-flex align-items-center gap-2 text-decoration-none">
@@ -132,3 +135,4 @@
     </a>
   </div>
 {/if}
+
