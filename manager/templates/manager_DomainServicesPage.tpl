@@ -1,114 +1,99 @@
 <div class="manager_content">
-<div class="action">
-
-  <p class="header">{echo phrase="ACTIONS"}</p>
-
-  {form name="domain_services_action"}
-
-    {form_element field="add"}
-
-  {/form}
-
-</div>
-
-
-
-<h2> {echo phrase="DOMAIN_SERVICES"} </h2>
-
-<div class="search">
-
-  {form name="search_domain_services"}
-
-    <div class="table-responsive">
-    <table class="table table-sm table-striped align-middle">
-
-      <tr>
-
-        <th> {echo phrase="SEARCH"} </th>
-
-        <td>
-
-          {form_description field="tld"} <br/>
-
-          {form_element field="tld" size="6"}
-
-        </td>
-
-        <td class="submit"> 
-
-          {form_element field="search"}
-
-        </td>
-
-      </tr>
-
-    </table>
+  
+  <!-- Action Section -->
+  <div class="action mb-4">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <p class="header h5 mb-0">{echo phrase="ACTIONS"}</p>
+      </div>
+      <div class="card-body">
+        {form name="domain_services_action"}
+          {form_element field="add" class="btn btn-success"}
+        {/form}
+      </div>
     </div>
+  </div>
 
-  {/form}
+  <!-- Domain Services Header -->
+  <h2 class="mb-3">{echo phrase="DOMAIN_SERVICES"}</h2>
 
-</div>
+  <!-- Search Section -->
+  <div class="search mb-4">
+    <div class="card">
+      <div class="card-body">
+        {form name="search_domain_services"}
+          <div class="row align-items-end g-3">
+            <div class="col-md-8">
+              <label class="form-label fw-bold">{echo phrase="SEARCH"}</label>
+              {form_description field="tld"}
+              {form_element field="tld" class="form-control"}
+            </div>
+            <div class="col-md-4">
+              {form_element field="search" class="btn btn-primary w-100"}
+            </div>
+          </div>
+        {/form}
+      </div>
+    </div>
+  </div>
 
-
-
-<div class="table">
-
-  {form name="domain_services"}
-
-    {form_table field="services" size="10" style="width: 67%"}
-
-
-
-      {form_table_column columnid="tld" header=""}
-
-        <center> {form_table_checkbox option=$services.tld} </center>
-
-      {/form_table_column}
-
-
-
-      {form_table_column columnid="tld" header="[TLD]"}
-
-        <a href="manager_content.php?page=services_edit_domain_service&dservice={$services.tld}"> .{$services.tld} </a>
-
-      {/form_table_column}
-
-
-
-      {form_table_column columnid="module" header="[MODULE]"}
-
-        {$services.module}
-
-      {/form_table_column}
-
-
-
-      {form_table_column columnid="pricing" header="[PRICING]"}
-
-        {$services.pricing}
-
-      {/form_table_column}
-
-
-
-      {form_table_column columnid="public" header="[PUBLIC]"}
-
-        {$services.public}
-
-      {/form_table_column}
-
-
-
-      {form_table_footer}
-
-        {form_element field="remove"}
-
-      {/form_table_footer}
-
-
-
-    {/form_table}
-
-  {/form}
-
+  <!-- Domain Services Table (Responsive) -->
+  <div class="table-container">
+    <div class="card">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          {form name="domain_services"}
+            <table class="table table-hover table-striped align-middle mb-0">
+              <thead class="table-dark">
+                <tr>
+                  <th style="width: 40px; text-align: center">
+                    {echo phrase="SELECT"}
+                  </th>
+                  <th>{echo phrase="TLD"}</th>
+                  <th>{echo phrase="MODULE"}</th>
+                  <th>{echo phrase="PRICING"}</th>
+                  <th>{echo phrase="PUBLIC"}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {form_table field="services"}
+                  <tr>
+                    <td class="text-center">
+                      {form_table_checkbox option=$services.tld}
+                    </td>
+                    <td>
+                      <a href="manager_content.php?page=services_edit_domain_service&dservice={$services.tld}" class="text-decoration-none fw-bold">
+                        .{$services.tld}
+                      </a>
+                    </td>
+                    <td>{$services.module}</td>
+                    <td>
+                      <span class="badge bg-info">{$services.pricing}</span>
+                    </td>
+                    <td>
+                      {if $services.public == "Yes"}
+                        <span class="badge bg-success">{$services.public}</span>
+                      {else}
+                        <span class="badge bg-secondary">{$services.public}</span>
+                      {/if}
+                    </td>
+                  </tr>
+                {/form_table}
+              </tbody>
+              {form_table_footer}
+                <tfoot>
+                  <tr class="table-light">
+                    <td colspan="5" class="p-3">
+                      {form_element field="remove" class="btn btn-danger"}
+                    </td>
+                  </tr>
+                </tfoot>
+              {/form_table_footer}
+            </table>
+          {/form}
+        </div>
+      </div>
+    </div>
+  </div>
+  
 </div>

@@ -1,76 +1,147 @@
-<h2> {echo phrase="REGISTER_NEW_DOMAIN"} </h2>
+<h2 class="mb-4">{echo phrase="REGISTER_NEW_DOMAIN"}</h2>
 
 {form name="register_domain_confirm"}
-  <div class="properties">
-    <p> {echo phrase="REGISTER_DOMAIN_CONFIRM"} </p>
-    <div class="table-responsive">
-    <table class="table table-sm table-striped align-middle">
-      <tr>
-        <th> {echo phrase="ACCOUNT_NAME"}: </th>
-        <td> {dbo_echo dbo="dspdbo" field="accountname"} </td>
-      </tr>
-      <tr>
-        <th> {echo phrase="DOMAIN_NAME"}: </th>
-        <td> {dbo_echo dbo="dspdbo" field="fulldomainname"} </td>
-      </tr>
-      <tr>
-        <th> {echo phrase="REGISTRATION_TERMS"}: </th>
-        <td> {dbo_echo dbo="dspdbo" field="term"} [MONTHS] </td>
-      </tr>
-      <tr>
-        <th> {echo phrase="NAME_SERVERS"}: </th>
-        <td>
-          {foreach from=$nameservers item=ns}
-            {$ns}<br/>
-          {/foreach}
-        </td>
-      </tr>
-      <tr>
-        <th> {echo phrase="NAME"}: </th>
-        <td> {dbo_echo dbo="accountdbo" field="contactname"} </td>
-      </tr>
-      <tr>
-        <th> {echo phrase="COMPANY"}: </th>
-        <td> {dbo_echo dbo="accountdbo" field="businessname"} </td>
-      </tr>
-      <tr>
-        <th> {echo phrase="EMAIL"}: </th>
-        <td> {dbo_echo dbo="accountdbo" field="contactemail"} </td>
-      </tr>
-      <tr>
-        <th> {echo phrase="ADDRESS"}: </th>
-        <td> 
-          {dbo_echo dbo="accountdbo" field="address1"}<br>
-          {dbo_echo dbo="accountdbo" field="address2"}
-        </td>
-      </tr>
-      <tr>
-        <th> {echo phrase="CITY"}: </th>
-        <td> {dbo_echo dbo="accountdbo" field="city"} </td>
-      </tr>
-      <tr>
-        <th> {echo phrase="STATE"}: </th>
-        <td> {dbo_echo dbo="accountdbo" field="state"} </td>
-      </tr>
-      <tr>
-        <th> {echo phrase="COUNTRY"}: </th>
-        <td> {dbo_echo dbo="accountdbo" field="country"} </td>
-      </tr>
-      <tr>
-        <th> {echo phrase="PHONE"}: </th>
-        <td> {dbo_echo dbo="accountdbo" field="phone"} </td>
-      </tr>
-      <tr>
-        <th> {echo phrase="FAX"}: </th>
-        <td> {dbo_echo dbo="accountdbo" field="fax"} </td>
-      </tr>
-      <tr class="footer">
-        <td colspan="2">
-          {form_element field="continue"}
-          {form_element field="cancel"}
-        </td>
-      </tr>
-    </table>
+  
+  <div class="card">
+    <div class="card-header bg-success text-white">
+      <h3 class="h6 mb-0">{echo phrase="CONFIRM_DOMAIN_REGISTRATION"}</h3>
+    </div>
+    <div class="card-body">
+      
+      <div class="properties">
+        
+        <div class="alert alert-info mb-4">
+          {echo phrase="REGISTER_DOMAIN_CONFIRM"}
+        </div>
+        
+        <!-- Account Name -->
+        <div class="row mb-3">
+          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="ACCOUNT_NAME"}:</div>
+          <div class="col-md-8 p-2">
+            <span class="fw-bold text-primary">{dbo_echo dbo="dspdbo" field="accountname"}</span>
+          </div>
+        </div>
+        
+        <!-- Domain Name -->
+        <div class="row mb-3">
+          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="DOMAIN_NAME"}:</div>
+          <div class="col-md-8 p-2">
+            <span class="badge bg-info fs-6">{dbo_echo dbo="dspdbo" field="fulldomainname"}</span>
+          </div>
+        </div>
+        
+        <!-- Registration Terms -->
+        <div class="row mb-3">
+          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="REGISTRATION_TERMS"}:</div>
+          <div class="col-md-8 p-2">
+            <span class="badge bg-secondary">{dbo_echo dbo="dspdbo" field="term"} {echo phrase="MONTHS"}</span>
+          </div>
+        </div>
+        
+        <!-- Name Servers -->
+        <div class="row mb-3">
+          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="NAME_SERVERS"}:</div>
+          <div class="col-md-8 p-2">
+            {foreach from=$nameservers item=ns}
+              <code class="d-block mb-1">{$ns}</code>
+            {/foreach}
+          </div>
+        </div>
+        
+        <!-- Name -->
+        <div class="row mb-3">
+          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="NAME"}:</div>
+          <div class="col-md-8 p-2">
+            <span class="fw-bold">{dbo_echo dbo="accountdbo" field="contactname"}</span>
+          </div>
+        </div>
+        
+        <!-- Company -->
+        <div class="row mb-3">
+          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="COMPANY"}:</div>
+          <div class="col-md-8 p-2">
+            {assign var="businessname" value={dbo_echo dbo="accountdbo" field="businessname"}}
+            {if $businessname}
+              <span class="badge bg-secondary">{$businessname}</span>
+            {else}
+              <span class="text-muted">-</span>
+            {/if}
+          </div>
+        </div>
+        
+        <!-- Email -->
+        <div class="row mb-3">
+          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="EMAIL"}:</div>
+          <div class="col-md-8 p-2">
+            <a href="mailto:{dbo_echo dbo='accountdbo' field='contactemail'}" class="text-decoration-none">
+              {dbo_echo dbo="accountdbo" field="contactemail"}
+            </a>
+          </div>
+        </div>
+        
+        <!-- Address -->
+        <div class="row mb-3">
+          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="ADDRESS"}:</div>
+          <div class="col-md-8 p-2">
+            {dbo_echo dbo="accountdbo" field="address1"}<br>
+            {if {dbo_echo dbo="accountdbo" field="address2"}}
+              {dbo_echo dbo="accountdbo" field="address2"}<br>
+            {/if}
+          </div>
+        </div>
+        
+        <!-- City -->
+        <div class="row mb-3">
+          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="CITY"}:</div>
+          <div class="col-md-8 p-2">
+            <span class="badge bg-light text-dark">{dbo_echo dbo="accountdbo" field="city"}</span>
+          </div>
+        </div>
+        
+        <!-- State -->
+        <div class="row mb-3">
+          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="STATE"}:</div>
+          <div class="col-md-8 p-2">
+            <span class="badge bg-light text-dark">{dbo_echo dbo="accountdbo" field="state"}</span>
+          </div>
+        </div>
+        
+        <!-- Country -->
+        <div class="row mb-3">
+          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="COUNTRY"}:</div>
+          <div class="col-md-8 p-2">
+            <span class="badge bg-info">{dbo_echo dbo="accountdbo" field="country"}</span>
+          </div>
+        </div>
+        
+        <!-- Phone -->
+        <div class="row mb-3">
+          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="PHONE"}:</div>
+          <div class="col-md-8 p-2">
+            <span class="fw-bold">{dbo_echo dbo="accountdbo" field="phone"}</span>
+          </div>
+        </div>
+        
+        <!-- Fax -->
+        <div class="row mb-3">
+          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="FAX"}:</div>
+          <div class="col-md-8 p-2">
+            {assign var="fax" value={dbo_echo dbo="accountdbo" field="fax"}}
+            {if $fax}
+              {$fax}
+            {else}
+              <span class="text-muted">-</span>
+            {/if}
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    <div class="card-footer d-flex gap-2 justify-content-end">
+      {form_element field="continue" class="btn btn-success"}
+      {form_element field="cancel" class="btn btn-secondary"}
     </div>
   </div>
+
 {/form}
