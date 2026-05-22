@@ -1,122 +1,102 @@
 <div class="manager_content">
-<div class="action">
 
-  <p class="header">{echo phrase="ACTIONS"}</p>
-
-  {form name="web_hosting_action"}
-
-    {form_element field="add"}
-
-  {/form}
-
-</div>
-
-
-
-<h2> {echo phrase="WEB_HOSTING_SERVICES"} </h2>
-
-<div class="search">
-
-  {form name="search_hosting_services"}
-
-    <div class="table-responsive">
-    <table class="table table-sm table-striped align-middle">
-
-      <tr>
-
-        <th> {echo phrase="SEARCH"} </th>
-
-        <td>
-
-          {form_description field="title"} <br/>
-
-          {form_element field="title" size="30"}
-
-        </td>
-
-        <td>
-
-          {form_description field="description"} <br/>
-
-          {form_element field="description" size="30"}
-
-        </td>
-
-        <td class="submit"> 
-
-          {form_element field="search"}
-
-        </td>
-
-      </tr>
-
-    </table>
+  <!-- Actions Section -->
+  <div class="action mb-4">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <p class="header h6 mb-0">{echo phrase="ACTIONS"}</p>
+      </div>
+      <div class="card-body">
+        {form name="web_hosting_action"}
+          {form_element field="add" class="btn btn-success"}
+        {/form}
+      </div>
     </div>
+  </div>
 
-  {/form}
+  <!-- Header -->
+  <h2 class="mb-3">{echo phrase="WEB_HOSTING_SERVICES"}</h2>
 
-</div>
+  <!-- Search Section -->
+  <div class="search mb-4">
+    <div class="card">
+      <div class="card-body">
+        {form name="search_hosting_services"}
+          <div class="row align-items-end g-3">
+            <div class="col-md-5">
+              <label class="form-label fw-bold">{echo phrase="TITLE"}</label>
+              {form_description field="title"}
+              {form_element field="title" size="30" class="form-control"}
+            </div>
+            <div class="col-md-5">
+              <label class="form-label fw-bold">{echo phrase="DESCRIPTION"}</label>
+              {form_description field="description"}
+              {form_element field="description" size="30" class="form-control"}
+            </div>
+            <div class="col-md-2">
+              {form_element field="search" class="btn btn-primary w-100"}
+            </div>
+          </div>
+        {/form}
+      </div>
+    </div>
+  </div>
 
-
-
-<div class="table">
-
-  {form name="hosting_services"}
-
-    {form_table field="hosting_services"}
-
-
-
-      {form_table_column columnid="id" header=""}
-
-        <center> {form_table_checkbox option=$hosting_services.id} </center>
-
-      {/form_table_column}
-
-
-
-      {form_table_column columnid="title" header="[TITLE]"}
-
-        <a target="content" href="manager_content.php?page=services_edit_hosting&hservice={$hosting_services.id}">{$hosting_services.title}</a>
-
-      {/form_table_column}
-
-
-
-      {form_table_column columnid="description" header="[DESCRIPTION]"}
-
-        {$hosting_services.description|truncate:40:"..."}
-
-      {/form_table_column}
-
-
-
-      {form_table_column columnid="pricing" header="[PRICING]"}
-
-        {$hosting_services.pricing}
-
-      {/form_table_column}
-
-
-
-      {form_table_column columnid="public" header="[PUBLIC]"}
-
-        {$hosting_services.public}
-
-      {/form_table_column}
-
-
-
-      {form_table_footer}
-
-        {form_element field="remove"}
-
-      {/form_table_footer}
-
-
-
-    {/form_table}
-
-  {/form}
+  <!-- Web Hosting Services Table -->
+  <div class="table-container">
+    <div class="card">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          {form name="hosting_services"}
+            <table class="table table-hover table-striped align-middle mb-0">
+              <thead class="table-dark">
+                <tr>
+                  <th style="width: 40px; text-align: center">{echo phrase="SELECT"}</th>
+                  <th>{echo phrase="TITLE"}</th>
+                  <th>{echo phrase="DESCRIPTION"}</th>
+                  <th>{echo phrase="PRICING"}</th>
+                  <th>{echo phrase="PUBLIC"}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {form_table field="hosting_services"}
+                  <tr>
+                    <td class="text-center">
+                      {form_table_checkbox option=$hosting_services.id}
+                    </td>
+                    <td>
+                      <a href="manager_content.php?page=services_edit_hosting&hservice={$hosting_services.id}" class="text-decoration-none fw-bold">
+                        {$hosting_services.title}
+                      </a>
+                    </td>
+                    <td>{$hosting_services.description|truncate:40:"..."}</td>
+                    <td>
+                      <span class="badge bg-info">{$hosting_services.pricing}</span>
+                    </td>
+                    <td>
+                      {if $hosting_services.public == "Yes"}
+                        <span class="badge bg-success">{$hosting_services.public}</span>
+                      {else}
+                        <span class="badge bg-secondary">{$hosting_services.public}</span>
+                      {/if}
+                    </td>
+                  </tr>
+                {/form_table}
+              </tbody>
+              {form_table_footer}
+                <tfoot>
+                  <tr class="table-light">
+                    <td colspan="5" class="p-3">
+                      {form_element field="remove" class="btn btn-danger"}
+                    </td>
+                  </tr>
+                </tfoot>
+              {/form_table_footer}
+            </table>
+          {/form}
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>

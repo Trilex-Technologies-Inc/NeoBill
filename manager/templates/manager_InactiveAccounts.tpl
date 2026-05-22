@@ -1,114 +1,110 @@
 <div class="manager_content">
-<div class="action">
 
-  <p class="header">{echo phrase="ACTIONS"}</p>
-
-  {form name="inactive_accounts_action"}
-
-    {form_element field="add"}
-
-  {/form}
-
-</div>
-
-
-
-<h2> {echo phrase="INACTIVE_ACCOUNTS"} </h2>
-
-<div class="search">
-
-  {form name="search_inactive_accounts"}
-
-    <div class="table-responsive">
-    <table class="table table-sm table-striped align-middle">
-
-      <tr>
-
-        <th> {echo phrase="SEARCH"} </th>
-
-        <td>
-
-          {form_description field="accountname"} <br/>
-
-          {form_element field="accountname" size="30"}
-
-        </td>
-
-        <td>
-
-          {form_description field="balance"} <br/>
-
-          {form_element field="balance" size="6"}
-
-        </td>
-
-        <td class="submit"> 
-
-          {form_element field="search"}
-
-        </td>
-
-      </tr>
-
-    </table>
+  <!-- Actions Section -->
+  <div class="action mb-4">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <p class="header h6 mb-0">{echo phrase="ACTIONS"}</p>
+      </div>
+      <div class="card-body">
+        {form name="inactive_accounts_action"}
+          {form_element field="add" class="btn btn-success"}
+        {/form}
+      </div>
     </div>
+  </div>
 
-  {/form}
+  <!-- Header -->
+  <h2 class="mb-3">{echo phrase="INACTIVE_ACCOUNTS"}</h2>
 
-</div>
+  <!-- Search Section -->
+  <div class="search mb-4">
+    <div class="card">
+      <div class="card-body">
+        {form name="search_inactive_accounts"}
+          <div class="row align-items-end g-3">
+            <div class="col-md-5">
+              <label class="form-label fw-bold">{echo phrase="ACCOUNT_NAME"}</label>
+              {form_description field="accountname"}
+              {form_element field="accountname" size="30" class="form-control"}
+            </div>
+            <div class="col-md-5">
+              <label class="form-label fw-bold">{echo phrase="BALANCE"}</label>
+              {form_description field="balance"}
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                {form_element field="balance" size="6" class="form-control"}
+              </div>
+            </div>
+            <div class="col-md-2">
+              {form_element field="search" class="btn btn-primary w-100"}
+            </div>
+          </div>
+        {/form}
+      </div>
+    </div>
+  </div>
 
-
-
-<div class="table">
-
-  {form name="inactive_accounts"}
-
-    {form_table field="accounts" size="10"}
-
-
-
-      {form_table_column columnid="id" header="[ID]"}
-
-        <a target="content" href="manager_content.php?page=accounts_view_account&account={$accounts.id}">{$accounts.id}</a>
-
-      {/form_table_column}
-
-
-
-      {form_table_column columnid="accountname" header="[ACCOUNT_NAME]"}
-
-        <a target="content" href="manager_content.php?page=accounts_view_account&account={$accounts.id}">{$accounts.accountname}</a>
-
-      {/form_table_column}
-
-
-
-      {form_table_column columnid="type" header="[TYPE]"}
-
-        {$accounts.type}
-
-      {/form_table_column}
-
-
-
-      {form_table_column columnid="billingstatus" header="[BILL]"}
-
-        {$accounts.billingstatus}
-
-      {/form_table_column}
-
-
-
-      {form_table_column columnid="balance" header="[BALANCE]"}
-
-        {$accounts.balance|currency}
-
-      {/form_table_column}
-
-
-
-    {/form_table}
-
-  {/form}
+  <!-- Inactive Accounts Table -->
+  <div class="table-container">
+    <div class="card">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          {form name="inactive_accounts"}
+            <table class="table table-hover table-striped align-middle mb-0">
+              <thead class="table-dark">
+                <tr>
+                  <th>{echo phrase="ID"}</th>
+                  <th>{echo phrase="ACCOUNT_NAME"}</th>
+                  <th>{echo phrase="TYPE"}</th>
+                  <th>{echo phrase="BILL"}</th>
+                  <th>{echo phrase="BALANCE"}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {form_table field="accounts" size="10"}
+                  <tr>
+                    <td class="fw-bold">
+                      <a href="manager_content.php?page=accounts_view_account&account={$accounts.id}" class="text-decoration-none">
+                        {$accounts.id}
+                      </a>
+                    </td>
+                    <td>
+                      <a href="manager_content.php?page=accounts_view_account&account={$accounts.id}" class="text-decoration-none">
+                        {$accounts.accountname}
+                      </a>
+                    </td>
+                    <td>
+                      {assign var="type" value=$accounts.type}
+                      {if $type == "Business"}
+                        <span class="badge bg-primary">{$type}</span>
+                      {elseif $type == "Individual"}
+                        <span class="badge bg-info">{$type}</span>
+                      {else}
+                        <span class="badge bg-secondary">{$type}</span>
+                      {/if}
+                    </td>
+                    <td>
+                      {assign var="billingstatus" value=$accounts.billingstatus}
+                      {if $billingstatus == "Active"}
+                        <span class="badge bg-success">{$billingstatus}</span>
+                      {elseif $billingstatus == "Suspended"}
+                        <span class="badge bg-warning text-dark">{$billingstatus}</span>
+                      {else}
+                        <span class="badge bg-secondary">{$billingstatus}</span>
+                      {/if}
+                    </td>
+                    <td class="fw-bold">
+                      <span class="badge bg-danger">{$accounts.balance|currency}</span>
+                    </td>
+                  </tr>
+                {/form_table}
+              </tbody>
+            </table>
+          {/form}
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>
