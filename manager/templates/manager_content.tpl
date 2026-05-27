@@ -6,12 +6,10 @@
 
     {* Base styles *}
     <link rel="stylesheet" type="text/css" href="./style.css" />
+    <link rel="shortcut icon" type="image/png" href="./vendor/flexy/assets/images/logos/favicon.png" />
     <link rel="stylesheet" href="./vendor/flexy/assets/libs/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="./vendor/flexy/assets/css/icons/tabler-icons/tabler-icons.css" />
-
-    {* SB Admin (StartBootstrap) *}
-    <link rel="stylesheet" href="./themes/sb-admin/vendor/sb-admin/css/styles.css" />
-    <link rel="stylesheet" type="text/css" href="./themes/sb-admin/style.css" />
+    <link rel="stylesheet" href="./vendor/flexy/assets/css/styles.min.css" />
 
     {* Legacy UI (some pages rely on jQuery UI widgets) *}
     <link rel="stylesheet" href="./css/jquery.ui.all.css" />
@@ -73,6 +71,6 @@
     {/if}
 
     <script src="./vendor/flexy/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./themes/sb-admin/vendor/sb-admin/js/scripts.js"></script>
+    <script src="./js/manager_layout.js"></script>
   </body>
 </html>

@@ -73,6 +73,173 @@ body.sb-nav-fixed .manager_content .list-group {
 }
 
 /******************************************************
+ * App layout (SB Admin compatible, local)
+ ******************************************************/
+
+:root {
+	--nb-bg: #f5f7fb;
+	--nb-surface: #ffffff;
+	--nb-border: rgba(15, 23, 42, 0.12);
+	--nb-text: #0f172a;
+	--nb-muted: #64748b;
+	--nb-primary: #2563eb;
+	--nb-primary-600: #1d4ed8;
+	--nb-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+	--nb-radius: 14px;
+	--nb-topnav-height: 56px;
+	--nb-sidenav-width: 260px;
+}
+
+body.sb-nav-fixed {
+	background: var(--nb-bg);
+	color: var(--nb-text);
+	padding-top: var(--nb-topnav-height);
+}
+
+/* Top navigation */
+.sb-topnav.navbar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1040;
+	height: var(--nb-topnav-height);
+	background: linear-gradient(90deg, #0b1220 0%, #0f172a 55%, #111827 100%) !important;
+	box-shadow: 0 8px 24px rgba(2, 6, 23, 0.25);
+}
+
+.sb-topnav .navbar-brand {
+	font-weight: 700;
+	letter-spacing: 0.2px;
+}
+
+/* Sidenav + content layout */
+#layoutSidenav {
+	display: flex;
+}
+
+#layoutSidenav_nav {
+	position: fixed;
+	top: var(--nb-topnav-height);
+	left: 0;
+	height: calc(100vh - var(--nb-topnav-height));
+	width: var(--nb-sidenav-width);
+	z-index: 1039;
+	overflow-y: auto;
+	transition: transform 180ms ease;
+}
+
+#layoutSidenav_content {
+	flex: 1 1 auto;
+	min-width: 0;
+	margin-left: var(--nb-sidenav-width);
+	min-height: calc(100vh - var(--nb-topnav-height));
+	transition: margin-left 180ms ease;
+}
+
+body.sb-sidenav-toggled #layoutSidenav_nav {
+	transform: translateX(calc(-1 * var(--nb-sidenav-width)));
+}
+
+body.sb-sidenav-toggled #layoutSidenav_content {
+	margin-left: 0;
+}
+
+/* Sidenav styling */
+.sb-sidenav {
+	height: 100%;
+	background: #0f172a;
+	color: rgba(255, 255, 255, 0.8);
+	border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sb-sidenav .sb-sidenav-menu-heading {
+	padding: 0.9rem 1rem 0.25rem;
+	font-size: 0.72rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.55);
+}
+
+.sb-sidenav .nav .nav-link {
+	display: flex;
+	align-items: center;
+	gap: 0.65rem;
+	padding: 0.55rem 1rem;
+	border-radius: 10px;
+	margin: 0.15rem 0.75rem;
+	color: rgba(255, 255, 255, 0.78);
+}
+
+.sb-sidenav .nav .nav-link:hover,
+.sb-sidenav .nav .nav-link:focus {
+	background: rgba(37, 99, 235, 0.18);
+	color: #ffffff;
+}
+
+.sb-sidenav .sb-nav-link-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.sb-sidenav .sb-sidenav-menu-nested.nav .nav-link {
+	margin-left: 1.6rem;
+}
+
+/* Content container polish */
+#layoutSidenav_content .container-fluid.px-4.pt-4 {
+	padding-top: 1.5rem !important;
+}
+
+/* Cards (page templates often use .manager_content wrappers) */
+body.sb-nav-fixed .manager_content,
+body.sb-nav-fixed .manager_contentform,
+body.sb-nav-fixed .manager_error {
+	background: var(--nb-surface);
+	border: 1px solid var(--nb-border);
+	border-radius: var(--nb-radius);
+	box-shadow: var(--nb-shadow);
+}
+
+/* Page headings */
+body.sb-nav-fixed .manager_content > h1,
+body.sb-nav-fixed .manager_content > h2,
+body.sb-nav-fixed .manager_content > h3 {
+	color: var(--nb-text);
+}
+
+/* Bootstrap buttons tweak for a more "app" feel */
+.btn.btn-primary {
+	background: var(--nb-primary);
+	border-color: var(--nb-primary);
+	box-shadow: 0 10px 20px rgba(37, 99, 235, 0.22);
+}
+
+.btn.btn-primary:hover,
+.btn.btn-primary:focus {
+	background: var(--nb-primary-600);
+	border-color: var(--nb-primary-600);
+}
+
+@media (max-width: 991.98px) {
+	#layoutSidenav_nav {
+		transform: translateX(calc(-1 * var(--nb-sidenav-width)));
+	}
+	#layoutSidenav_content {
+		margin-left: 0;
+	}
+	body.sb-sidenav-toggled #layoutSidenav_nav {
+		transform: translateX(0);
+		box-shadow: 0 20px 60px rgba(2, 6, 23, 0.45);
+	}
+}
+
+/******************************************************
  * Mast head
  ******************************************************/
 
