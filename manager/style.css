@@ -199,7 +199,7 @@ body.sb-sidenav-toggled #layoutSidenav_content {
 /* Cards (page templates often use .manager_content wrappers) */
 body.sb-nav-fixed .manager_content,
 body.sb-nav-fixed .manager_contentform,
-body.sb-nav-fixed .manager_error {
+body.sb-nav-fixed  {
 	background: var(--nb-surface);
 	border: 1px solid var(--nb-border);
 	border-radius: var(--nb-radius);
@@ -613,13 +613,7 @@ p.error {
 	font-weight: bold;
 }
 
-p.message {
-	font-size: 70%;
-	margin-left: 1em; margin-right: 1em;
-	padding: 0.5em 0.5em 0.5em 0.5em;
-	border-style: solid; border-width: 1px; border-color: #669999;
-	background-color: #66cc99;
-}
+
 
 /*************************************************
  * Login
