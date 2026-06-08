@@ -342,7 +342,10 @@ $.widget( "ui.tabs", {
 		}
 
 		if ( !toHide.length && !toShow.length ) {
-			throw "jQuery UI Tabs: Mismatching fragment identifier.";
+			if ( window.console && window.console.warn ) {
+				console.warn( "jQuery UI Tabs: Mismatching fragment identifier.", clicked.attr( "href" ) );
+			}
+			return;
 		}
 
 		if ( toShow.length ) {
