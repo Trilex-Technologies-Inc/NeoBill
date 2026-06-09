@@ -1,93 +1,98 @@
 <div class="manager_content">
 
-  <!-- Actions Section -->
   <div class="action mb-4">
-    <div class="card">
-      <div class="card-header bg-primary text-white">
-        <p class="header h6 mb-0">{echo phrase="ACTIONS"}</p>
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-primary text-white py-3 px-4">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-lightning-fill"></i>
+          <span class="fw-bold mb-0">{echo phrase="ACTIONS"}</span>
+        </div>
       </div>
-      <div class="card-body">
+      <div class="card-body bg-white py-3 px-4">
         {form name="inactive_accounts_action"}
-          {form_element field="add" class="btn btn-success"}
+          {form_element field="add" class="btn btn-success btn-sm"}
         {/form}
       </div>
     </div>
   </div>
 
-  <!-- Header -->
-  <h2 class="mb-3">{echo phrase="INACTIVE_ACCOUNTS"}</h2>
+  <div class="card mb-4 shadow-sm border-0">
+    <div class="card-body">
+      <div class="d-flex align-items-center gap-3 mb-3">
+        <i class="bi bi-inbox-fill fs-3 text-primary"></i>
+        <div>
+          <h2 class="h5 mb-1">{echo phrase="INACTIVE_ACCOUNTS"}</h2>
+          <p class="text-muted mb-0">Search and view inactive accounts</p>
+        </div>
+      </div>
 
-  <!-- Search Section -->
-  <div class="search mb-4">
-    <div class="card">
-      <div class="card-body">
-        {form name="search_inactive_accounts"}
-          <div class="row align-items-end g-3">
-            <div class="col-md-5">
-              <label class="form-label fw-bold">{echo phrase="ACCOUNT_NAME"}</label>
-              {form_description field="accountname"}
-              {form_element field="accountname" size="30" class="form-control"}
-            </div>
-            <div class="col-md-5">
-              <label class="form-label fw-bold">{echo phrase="BALANCE"}</label>
-              {form_description field="balance"}
-              <div class="input-group">
-                <span class="input-group-text">$</span>
-                {form_element field="balance" size="6" class="form-control"}
-              </div>
-            </div>
-            <div class="col-md-2">
-              {form_element field="search" class="btn btn-primary w-100"}
+      {form name="search_inactive_accounts"}
+        <div class="row g-3 align-items-end">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">{echo phrase="ACCOUNT_NAME"}</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
+              {form_element field="accountname" size="30" class="form-control" placeholder="Search account name"}
             </div>
           </div>
-        {/form}
-      </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">{echo phrase="BALANCE"}</label>
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              {form_element field="balance" size="6" class="form-control" placeholder="Enter balance"}
+            </div>
+          </div>
+          <div class="col-md-2 d-grid">
+            {form_element field="search" class="btn btn-primary"}
+          </div>
+        </div>
+      {/form}
     </div>
   </div>
 
-  <!-- Inactive Accounts Table -->
-  <div class="table-container">
-    <div class="card">
-      <div class="card-body p-0">
-        <div class="table-responsive">
-          {form name="inactive_accounts"}
-            {form_table field="accounts" size="10" class="table table-hover table-striped align-middle mb-0"}
-              {form_table_column columnid="id" header="[ID]"}
-                <a href="manager_content.php?page=accounts_view_account&account={$accounts.id}" class="btn btn-link btn-sm p-0 text-decoration-none fw-bold">#{$accounts.id}</a>
-              {/form_table_column}
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-white border-bottom-0">
+      <h3 class="h6 mb-0">Inactive Accounts List</h3>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        {form name="inactive_accounts"}
+          {form_table field="accounts" size="10" class="table table-hover table-striped align-middle mb-0"}
+            {form_table_column columnid="id" header="[ID]"}
+              <a href="manager_content.php?page=accounts_view_account&account={$accounts.id}" class="btn btn-link btn-sm p-0 text-decoration-none fw-bold">#{$accounts.id}</a>
+            {/form_table_column}
 
-              {form_table_column columnid="accountname" header="[ACCOUNT_NAME]"}
-                <a href="manager_content.php?page=accounts_view_account&account={$accounts.id}" class="text-decoration-none">{$accounts.accountname}</a>
-              {/form_table_column}
+            {form_table_column columnid="accountname" header="[ACCOUNT_NAME]"}
+              <a href="manager_content.php?page=accounts_view_account&account={$accounts.id}" class="text-decoration-none">{$accounts.accountname}</a>
+            {/form_table_column}
 
-              {form_table_column columnid="type" header="[TYPE]"}
-                {assign var="type" value=$accounts.type}
-                {if $type == "Business"}
-                  <span class="badge bg-primary">{$type}</span>
-                {elseif $type == "Individual"}
-                  <span class="badge bg-info">{$type}</span>
-                {else}
-                  <span class="badge bg-secondary">{$type}</span>
-                {/if}
-              {/form_table_column}
+            {form_table_column columnid="type" header="[TYPE]"}
+              {assign var="type" value=$accounts.type}
+              {if $type == "Business"}
+                <span class="badge bg-primary">{$type}</span>
+              {elseif $type == "Individual"}
+                <span class="badge bg-info">{$type}</span>
+              {else}
+                <span class="badge bg-secondary">{$type}</span>
+              {/if}
+            {/form_table_column}
 
-              {form_table_column columnid="billingstatus" header="[BILL]"}
-                {assign var="billingstatus" value=$accounts.billingstatus}
-                {if $billingstatus == "Active"}
-                  <span class="badge bg-success">{$billingstatus}</span>
-                {elseif $billingstatus == "Suspended"}
-                  <span class="badge bg-warning text-dark">{$billingstatus}</span>
-                {else}
-                  <span class="badge bg-secondary">{$billingstatus}</span>
-                {/if}
-              {/form_table_column}
+            {form_table_column columnid="billingstatus" header="[BILL]"}
+              {assign var="billingstatus" value=$accounts.billingstatus}
+              {if $billingstatus == "Active"}
+                <span class="badge bg-success">{$billingstatus}</span>
+              {elseif $billingstatus == "Suspended"}
+                <span class="badge bg-warning text-dark">{$billingstatus}</span>
+              {else}
+                <span class="badge bg-secondary">{$billingstatus}</span>
+              {/if}
+            {/form_table_column}
 
-              {form_table_column columnid="balance" header="[BALANCE]"}
-                <span class="text-primary">{$accounts.balance|currency}</span>
-              {/form_table_column}
-            {/form_table}
-          {/form}
-        </div>
+            {form_table_column columnid="balance" header="[BALANCE]"}
+              <span class="text-primary">{$accounts.balance|currency}</span>
+            {/form_table_column}
+          {/form_table}
+        {/form}
       </div>
     </div>
   </div>
