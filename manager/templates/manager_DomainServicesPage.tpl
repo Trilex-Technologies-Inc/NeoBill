@@ -2,13 +2,13 @@
   
   <!-- Action Section -->
   <div class="action mb-4">
-    <div class="card">
-      <div class="card-header bg-primary text-white">
-        <p class="header h5 mb-0">{echo phrase="ACTIONS"}</p>
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-primary text-white py-3 px-4">
+        <span class="fw-bold mb-0">{echo phrase="ACTIONS"}</span>
       </div>
-      <div class="card-body">
+      <div class="card-body bg-white py-3 px-4">
         {form name="domain_services_action"}
-          {form_element field="add" class="btn btn-success"}
+          {form_element field="add" class="btn btn-success btn-sm"}
         {/form}
       </div>
     </div>
