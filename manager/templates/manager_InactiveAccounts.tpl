@@ -51,56 +51,41 @@
       <div class="card-body p-0">
         <div class="table-responsive">
           {form name="inactive_accounts"}
-            <table class="table table-hover table-striped align-middle mb-0">
-              <thead class="table-dark">
-                <tr>
-                  <th>{echo phrase="ID"}</th>
-                  <th>{echo phrase="ACCOUNT_NAME"}</th>
-                  <th>{echo phrase="TYPE"}</th>
-                  <th>{echo phrase="BILL"}</th>
-                  <th>{echo phrase="BALANCE"}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {form_table field="accounts" size="10"}
-                  <tr>
-                    <td class="fw-bold">
-                      <a href="manager_content.php?page=accounts_view_account&account={$accounts.id}" class="text-decoration-none">
-                        {$accounts.id}
-                      </a>
-                    </td>
-                    <td>
-                      <a href="manager_content.php?page=accounts_view_account&account={$accounts.id}" class="text-decoration-none">
-                        {$accounts.accountname}
-                      </a>
-                    </td>
-                    <td>
-                      {assign var="type" value=$accounts.type}
-                      {if $type == "Business"}
-                        <span class="badge bg-primary">{$type}</span>
-                      {elseif $type == "Individual"}
-                        <span class="badge bg-info">{$type}</span>
-                      {else}
-                        <span class="badge bg-secondary">{$type}</span>
-                      {/if}
-                    </td>
-                    <td>
-                      {assign var="billingstatus" value=$accounts.billingstatus}
-                      {if $billingstatus == "Active"}
-                        <span class="badge bg-success">{$billingstatus}</span>
-                      {elseif $billingstatus == "Suspended"}
-                        <span class="badge bg-warning text-dark">{$billingstatus}</span>
-                      {else}
-                        <span class="badge bg-secondary">{$billingstatus}</span>
-                      {/if}
-                    </td>
-                    <td class="fw-bold">
-                      <span class="badge bg-danger">{$accounts.balance|currency}</span>
-                    </td>
-                  </tr>
-                {/form_table}
-              </tbody>
-            </table>
+            {form_table field="accounts" size="10" class="table table-hover table-striped align-middle mb-0"}
+              {form_table_column columnid="id" header="[ID]"}
+                <a href="manager_content.php?page=accounts_view_account&account={$accounts.id}" class="btn btn-link btn-sm p-0 text-decoration-none fw-bold">#{$accounts.id}</a>
+              {/form_table_column}
+
+              {form_table_column columnid="accountname" header="[ACCOUNT_NAME]"}
+                <a href="manager_content.php?page=accounts_view_account&account={$accounts.id}" class="text-decoration-none">{$accounts.accountname}</a>
+              {/form_table_column}
+
+              {form_table_column columnid="type" header="[TYPE]"}
+                {assign var="type" value=$accounts.type}
+                {if $type == "Business"}
+                  <span class="badge bg-primary">{$type}</span>
+                {elseif $type == "Individual"}
+                  <span class="badge bg-info">{$type}</span>
+                {else}
+                  <span class="badge bg-secondary">{$type}</span>
+                {/if}
+              {/form_table_column}
+
+              {form_table_column columnid="billingstatus" header="[BILL]"}
+                {assign var="billingstatus" value=$accounts.billingstatus}
+                {if $billingstatus == "Active"}
+                  <span class="badge bg-success">{$billingstatus}</span>
+                {elseif $billingstatus == "Suspended"}
+                  <span class="badge bg-warning text-dark">{$billingstatus}</span>
+                {else}
+                  <span class="badge bg-secondary">{$billingstatus}</span>
+                {/if}
+              {/form_table_column}
+
+              {form_table_column columnid="balance" header="[BALANCE]"}
+                <span class="text-primary">{$accounts.balance|currency}</span>
+              {/form_table_column}
+            {/form_table}
           {/form}
         </div>
       </div>
