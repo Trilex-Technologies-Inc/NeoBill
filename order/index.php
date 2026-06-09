@@ -50,7 +50,7 @@ require_once BASE_PATH . "solidworks/solidworks.php";
 
 require_once BASE_PATH . "util/settings.php";
 
-load_settings( $conf );
+load_settings($conf);
 
 
 
@@ -62,13 +62,10 @@ $conf['themes']['current'] = $conf['themes']['order'];
 
 // Provide the Order Interface page title to the templates
 
-$smarty->assign( "order_title", $conf['order']['title'] );
+$smarty->assign("order_title", $conf['order']['title']);
 
 
 
 // Hand off to SolidWorks
 
-solidworks( $conf, $smarty );
-
-?>
-
+solidworks($conf, $smarty);
