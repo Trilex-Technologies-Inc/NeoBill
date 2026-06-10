@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DateWidget.class.php
  *
@@ -16,7 +17,8 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DateWidget extends TextWidget {
+class DateWidget extends TextWidget
+{
 	/**
 	 * @var boolean This flag indicates wether the javascript for the calendar link has been included or not
 	 */
@@ -33,9 +35,10 @@ class DateWidget extends TextWidget {
 	 * @param Page $page Page object
 	 * @param string $format Date input format: MDY or DMY
 	 */
-	public function __construct( $formName, $fieldName, $fieldConfig, $format = "MDY" ) {
-		parent::__construct( $formName, $fieldName, $fieldConfig );
-		$this->setFormat( $format );
+	public function __construct($formName, $fieldName, $fieldConfig, $format = "MDY")
+	{
+		parent::__construct($formName, $fieldName, $fieldConfig);
+		$this->setFormat($format);
 	}
 
 	/**
@@ -54,22 +57,22 @@ class DateWidget extends TextWidget {
 	 * @throws SWException
 	 * @return string The value to use
 	 */
-	protected function determineValue( $params ) {
-		$value = parent::determineValue( $params );
-		if ( is_string( $value ) ) {
-			$tsValue = strlen( $value ) > 10 ?
-					DBConnection::datetime_to_unix( $value ) :
-					DBConnection::date_to_unix( $value );
-		}
-		else {
+	protected function determineValue($params)
+	{
+		$value = parent::determineValue($params);
+		if (is_string($value)) {
+			$tsValue = strlen($value) > 10 ?
+				DBConnection::datetime_to_unix($value) :
+				DBConnection::date_to_unix($value);
+		} else {
 			$tsValue = $value;
 		}
 
-		if ( isset( $params['type'] ) && $params['type'] == 'date' ) {
-			return $this->TS2HTMLDate( $tsValue == null ? time() : $tsValue );
+		if (isset($params['type']) && $params['type'] == 'date') {
+			return $this->TS2HTMLDate($tsValue == null ? time() : $tsValue);
 		}
 
-		return $this->TS2Date( $tsValue == null ? time() : $tsValue );
+		return $this->TS2Date($tsValue == null ? time() : $tsValue);
 	}
 
 	/**
@@ -80,11 +83,12 @@ class DateWidget extends TextWidget {
 	 * @param integer $ts Time stamp
 	 * @return string Date string
 	 */
-	function TS2Date( $ts ) {
-		$date = getdate( $ts );
+	function TS2Date($ts)
+	{
+		$date = getdate($ts);
 		return $this->getFormat() == "MDY" ?
-				sprintf( "%d/%d/%d", $date['mon'], $date['mday'], $date['year'] ) :
-				sprintf( "%d/%d/%d", $date['mday'], $date['mon'], $date['year'] );
+			sprintf("%d/%d/%d", $date['mon'], $date['mday'], $date['year']) :
+			sprintf("%d/%d/%d", $date['mday'], $date['mon'], $date['year']);
 	}
 
 	/**
@@ -93,9 +97,10 @@ class DateWidget extends TextWidget {
 	 * @param integer $ts Time stamp
 	 * @return string Date string in YYYY-MM-DD
 	 */
-	function TS2HTMLDate( $ts ) {
-		$date = getdate( $ts );
-		return sprintf( "%04d-%02d-%02d", $date['year'], $date['mon'], $date['mday'] );
+	function TS2HTMLDate($ts)
+	{
+		$date = getdate($ts);
+		return sprintf("%04d-%02d-%02d", $date['year'], $date['mon'], $date['mday']);
 	}
 
 	/**
@@ -103,7 +108,8 @@ class DateWidget extends TextWidget {
 	 *
 	 * @return string Date input format: MDY or DMY
 	 */
-	public function getFormat() {
+	public function getFormat()
+	{
 		return $this->format;
 	}
 
@@ -115,38 +121,40 @@ class DateWidget extends TextWidget {
 	 * @param array $params Parameters passed from the template
 	 * @return string HTML code for this widget
 	 */
-	public function getHTML( $params ) {
+	public function getHTML($params)
+	{
 		// Get widget value if available
-		$myParams['value'] = $this->determineValue( $params );
+		$myParams['value'] = $this->determineValue($params);
 
 		// If the page requests an HTML5 date input, render a native date field
-		if ( isset( $params['type'] ) && $params['type'] == 'date' ) {
+		if (isset($params['type']) && $params['type'] == 'date') {
 			$myParams['type'] = 'date';
-			return "<input " . $this->buildParams( $params, $myParams ) . "/>";
+			return "<input " . $this->buildParams($params, $myParams) . "/>";
 		}
 
 		// If this is the first calendar widget, add code to include the javascript
 		// for the calendar window
-		if ( !self::$jsFlag ) {
+		if (!self::$jsFlag) {
 			$js = "\n<script language=\"Javascript\" src=\"../solidworks/widgets/popupcalendar/calendar.js\"></script>\n";
 			self::$jsFlag = true;
-		}
-		else {
+		} else {
 			$js = null;
 		}
 
 		// Create HTML for the calendar pop-up link
 		$calHTML =
-				sprintf( "<a href=\"#\" onclick=\"return getCalendar(document.%s.%s);\">",
+			sprintf(
+				"<a href=\"#\" onclick=\"return getCalendar(document.%s.%s);\">",
 				$this->formName,
-				$this->fieldName ) .
-				"<img src=\"../solidworks/widgets/popupcalendar/calendar.png\" border=\"0\" />" .
-				"</a>";
+				$this->fieldName
+			) .
+			"<img src=\"../solidworks/widgets/popupcalendar/calendar.png\" border=\"0\" />" .
+			"</a>";
 
 		// Generate HTML for a text box control
 		$myParams['type'] = "text";
 		$myParams['size'] = 10;
-		return $js . "<input " . $this->buildParams( $params, $myParams ) . "/> " . $calHTML;
+		return $js . "<input " . $this->buildParams($params, $myParams) . "/> " . $calHTML;
 	}
 
 	/**
@@ -155,12 +163,12 @@ class DateWidget extends TextWidget {
 	 * @param string $format Date input format: MDY or DMY
 	 * @throws InvalidDateInputFormat
 	 */
-	public function setFormat( $format ) {
-		if ( !($format == "MDY" || $format == "DMY") ) {
-			throw new InvalidDateInputFormatException( $format );
+	public function setFormat($format)
+	{
+		if (!($format == "MDY" || $format == "DMY")) {
+			throw new InvalidDateInputFormatException($format);
 		}
 
 		$this->format = $format;
 	}
 }
-?>
