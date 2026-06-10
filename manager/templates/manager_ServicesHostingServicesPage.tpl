@@ -48,51 +48,36 @@
       <div class="card-body p-0">
         <div class="table-responsive">
           {form name="hosting_services"}
-            <table class="table table-hover table-striped align-middle mb-0">
-              <thead class="table-dark">
-                <tr>
-                  <th style="width: 40px; text-align: center">{echo phrase="SELECT"}</th>
-                  <th>{echo phrase="TITLE"}</th>
-                  <th>{echo phrase="DESCRIPTION"}</th>
-                  <th>{echo phrase="PRICING"}</th>
-                  <th>{echo phrase="PUBLIC"}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {form_table field="hosting_services"}
-                  <tr>
-                    <td class="text-center">
-                      {form_table_checkbox option=$hosting_services.id}
-                    </td>
-                    <td>
-                      <a href="manager_content.php?page=services_edit_hosting&hservice={$hosting_services.id}" class="text-decoration-none fw-bold">
-                        {$hosting_services.title}
-                      </a>
-                    </td>
-                    <td>{$hosting_services.description|truncate:40:"..."}</td>
-                    <td>
-                      <span class="badge bg-info">{$hosting_services.pricing}</span>
-                    </td>
-                    <td>
-                      {if $hosting_services.public == "Yes"}
-                        <span class="badge bg-success">{$hosting_services.public}</span>
-                      {else}
-                        <span class="badge bg-secondary">{$hosting_services.public}</span>
-                      {/if}
-                    </td>
-                  </tr>
-                {/form_table}
-              </tbody>
+            {form_table field="hosting_services" class="table table-hover table-striped align-middle mb-0" size="10"}
+              {form_table_column columnid="" header="[SELECT]"}
+                {form_table_checkbox option=$hosting_services.id}
+              {/form_table_column}
+              {form_table_column columnid="title" header="[TITLE]"}
+                <a href="manager_content.php?page=services_edit_hosting&hservice={$hosting_services.id}" class="text-decoration-none fw-bold">
+                  {$hosting_services.title}
+                </a>
+              {/form_table_column}
+              {form_table_column columnid="description" header="[DESCRIPTION]"}
+                {$hosting_services.description|truncate:40:"..."}
+              {/form_table_column}
+              {form_table_column columnid="pricing" header="[PRICING]"}
+                <span class="badge bg-info">{$hosting_services.pricing}</span>
+              {/form_table_column}
+              {form_table_column columnid="public" header="[PUBLIC]"}
+                {if $hosting_services.public == "Yes"}
+                  <span class="badge bg-success">{$hosting_services.public}</span>
+                {else}
+                  <span class="badge bg-secondary">{$hosting_services.public}</span>
+                {/if}
+              {/form_table_column}
               {form_table_footer}
-                <tfoot>
-                  <tr class="table-light">
-                    <td colspan="5" class="p-3">
-                      {form_element field="remove" class="btn btn-danger"}
-                    </td>
-                  </tr>
-                </tfoot>
+                <tr class="table-light">
+                  <td colspan="5" class="p-3">
+                    {form_element field="remove" class="btn btn-danger"}
+                  </td>
+                </tr>
               {/form_table_footer}
-            </table>
+            {/form_table}
           {/form}
         </div>
       </div>

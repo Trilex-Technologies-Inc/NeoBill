@@ -43,49 +43,33 @@
       <div class="card-body p-0">
         <div class="table-responsive">
           {form name="products"}
-            <table class="table table-hover table-striped align-middle mb-0">
-              <thead class="table-dark">
-                <tr>
-                  <th style="width: 40px; text-align: center">{echo phrase="SELECT"}</th>
-                  <th>{echo phrase="PRODUCT_NAME"}</th>
-                  <th>{echo phrase="PRICING"}</th>
-                  <th>{echo phrase="PUBLIC"}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {form_table field="products" size="10"}
-                  <tr>
-                    <td class="text-center">
-                      {form_table_checkbox option=$products.id}
-                    </td>
-                    <td>
-                      <a href="manager_content.php?page=services_edit_product&product={$products.id}" class="text-decoration-none fw-bold">
-                        {$products.name}
-                      </a>
-                    </td>
-                    <td>
-                      <span class="badge bg-info">{$products.pricing}</span>
-                    </td>
-                    <td>
-                      {if $products.public == "Yes"}
-                        <span class="badge bg-success">{$products.public}</span>
-                      {else}
-                        <span class="badge bg-secondary">{$products.public}</span>
-                      {/if}
-                    </td>
-                  </tr>
-                {/form_table}
-              </tbody>
+            {form_table field="products" class="table table-hover table-striped align-middle mb-0" size="10"}
+              {form_table_column columnid="" header="[SELECT]"}
+                {form_table_checkbox option=$products.id}
+              {/form_table_column}
+              {form_table_column columnid="name" header="[PRODUCT_NAME]"}
+                <a href="manager_content.php?page=services_edit_product&product={$products.id}" class="text-decoration-none fw-bold">
+                  {$products.name}
+                </a>
+              {/form_table_column}
+              {form_table_column columnid="pricing" header="[PRICING]"}
+                <span class="badge bg-info">{$products.pricing}</span>
+              {/form_table_column}
+              {form_table_column columnid="public" header="[PUBLIC]"}
+                {if $products.public == "Yes"}
+                  <span class="badge bg-success">{$products.public}</span>
+                {else}
+                  <span class="badge bg-secondary">{$products.public}</span>
+                {/if}
+              {/form_table_column}
               {form_table_footer}
-                <tfoot>
-                  <tr class="table-light">
-                    <td colspan="4" class="p-3">
-                      {form_element field="remove" class="btn btn-danger"}
-                    </td>
-                  </tr>
-                </tfoot>
+                <tr class="table-light">
+                  <td colspan="4" class="p-3">
+                    {form_element field="remove" class="btn btn-danger"}
+                  </td>
+                </tr>
               {/form_table_footer}
-            </table>
+            {/form_table}
           {/form}
         </div>
       </div>

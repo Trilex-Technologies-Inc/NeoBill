@@ -87,8 +87,26 @@ class DateValidator extends TextValidator {
 	 * @throws InvalidDateException
 	 */
 	protected function validateDate( $data ) {
-		// Strip out white space and valid characters: '/' and '-'
-		$data = preg_replace( "|([ 	]+)|", "", $data );
+		// Strip out white space
+		$data = preg_replace( "|([ \t]+)|", "", $data );
+
+		// Support HTML5 date format YYYY-MM-DD or YYYY/MM/DD
+		if ( preg_match( "|^(\d{4})[\/-](\d{2})[\/-](\d{2})$|", $data, $matches ) ) {
+			$year = intval( $matches[1] );
+			$month = intval( $matches[2] );
+			$day = intval( $matches[3] );
+
+			if ( !checkdate( $month, $day, $year ) ) {
+				throw new InvalidDateException();
+			}
+
+			if ( ($data = mktime( 0, 0, 0, $month, $day, $year )) < 1 ) {
+				throw new InvalidDateException();
+			}
+
+			return $data;
+		}
+
 		$data = preg_replace("|[-/]|", " ", $data );
 
 		// Explode the date into an array

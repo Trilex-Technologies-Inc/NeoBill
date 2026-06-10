@@ -65,6 +65,10 @@ class DateWidget extends TextWidget {
 			$tsValue = $value;
 		}
 
+		if ( isset( $params['type'] ) && $params['type'] == 'date' ) {
+			return $this->TS2HTMLDate( $tsValue == null ? time() : $tsValue );
+		}
+
 		return $this->TS2Date( $tsValue == null ? time() : $tsValue );
 	}
 
@@ -81,6 +85,17 @@ class DateWidget extends TextWidget {
 		return $this->getFormat() == "MDY" ?
 				sprintf( "%d/%d/%d", $date['mon'], $date['mday'], $date['year'] ) :
 				sprintf( "%d/%d/%d", $date['mday'], $date['mon'], $date['year'] );
+	}
+
+	/**
+	 * Format a Date String for HTML5 input
+	 *
+	 * @param integer $ts Time stamp
+	 * @return string Date string in YYYY-MM-DD
+	 */
+	function TS2HTMLDate( $ts ) {
+		$date = getdate( $ts );
+		return sprintf( "%04d-%02d-%02d", $date['year'], $date['mon'], $date['mday'] );
 	}
 
 	/**
@@ -103,6 +118,12 @@ class DateWidget extends TextWidget {
 	public function getHTML( $params ) {
 		// Get widget value if available
 		$myParams['value'] = $this->determineValue( $params );
+
+		// If the page requests an HTML5 date input, render a native date field
+		if ( isset( $params['type'] ) && $params['type'] == 'date' ) {
+			$myParams['type'] = 'date';
+			return "<input " . $this->buildParams( $params, $myParams ) . "/>";
+		}
 
 		// If this is the first calendar widget, add code to include the javascript
 		// for the calendar window

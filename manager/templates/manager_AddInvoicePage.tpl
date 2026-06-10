@@ -23,14 +23,14 @@
       <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">{form_description field="date"}</label>
         <div class="col-sm-9">
-          {form_element field="date"}
+          {form_element field="date" type="date" class="form-control"}
         </div>
       </div>
 
       <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">[INVOICE_PERIOD]</label>
         <div class="col-sm-9 d-flex gap-2">
-          {form_element field="periodbegin"} to {form_element field="periodend" value=$nextMonth}
+          {form_element field="periodbegin" type="date" class="form-control"} to {form_element field="periodend" type="date" value=$nextMonth class="form-control"}
         </div>
       </div>
 
