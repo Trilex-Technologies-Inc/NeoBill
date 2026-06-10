@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DBConnection.class.php
  *
@@ -10,22 +11,26 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once dirname(__FILE__).'/../config/config.inc.php';
+require_once dirname(__FILE__) . '/../config/config.inc.php';
 require_once BASE_PATH . "solidworks/DBO.class.php";
 require_once BASE_PATH . "solidworks/SWException.class.php";
 
 // Database Exceptions
-class DBException extends SWUserException {
-	public function __construct( $message = null ) {
-		$this->message = isset( $message ) ?
-				$message :
-				sprintf( "A database error has occured:\n\t " . mysql_error() );
+class DBException extends SWUserException
+{
+	public function __construct($message = null)
+	{
+		$this->message = isset($message) ?
+			$message :
+			sprintf("A database error has occured:\n\t " . mysql_error());
 	}
 }
 
-class DBNoRowsFoundException extends DBException {
-	public function __construct( $message = null ) {
-		$this->message = 'No rows found' . (!is_null( $message ) ? ' - ' . $message : '');
+class DBNoRowsFoundException extends DBException
+{
+	public function __construct($message = null)
+	{
+		$this->message = 'No rows found' . (!is_null($message) ? ' - ' . $message : '');
 	}
 }
 
@@ -37,7 +42,8 @@ class DBNoRowsFoundException extends DBException {
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DBConnection {
+class DBConnection
+{
 	/**
 	 * @var static DBConnection Singleton instance
 	 */
@@ -51,17 +57,18 @@ class DBConnection {
 	 * @param string $datetime MySQL DATETIME
 	 * @return integer UNIX timestamp
 	 */
-	public static function datetime_to_unix( $datetime ) {
+	public static function datetime_to_unix($datetime)
+	{
 		// Parse the datetime
-		$year   = intval( substr( $datetime, 0, 4 ) );
-		$month  = intval( substr( $datetime, 5, 2 ) );
-		$day    = intval( substr( $datetime, 8, 2 ) );
-		$hour   = intval( substr( $datetime, 11, 2 ) );
-		$minute = intval( substr( $datetime, 14, 2 ) );
-		$second = intval( substr( $datetime, 17, 2 ) );
+		$year   = intval(substr($datetime, 0, 4));
+		$month  = intval(substr($datetime, 5, 2));
+		$day    = intval(substr($datetime, 8, 2));
+		$hour   = intval(substr($datetime, 11, 2));
+		$minute = intval(substr($datetime, 14, 2));
+		$second = intval(substr($datetime, 17, 2));
 
 		// Convert to a timestamp a la Unix
-		return mktime( $hour, $minute, $second, $month, $day, $year );
+		return mktime($hour, $minute, $second, $month, $day, $year);
 	}
 
 	/**
@@ -72,14 +79,15 @@ class DBConnection {
 	 * @param string $datetime MySQL DATE
 	 * @return integer UNIX timestamp
 	 */
-	public static function date_to_unix( $datetime ) {
+	public static function date_to_unix($datetime)
+	{
 		// Parse the datetime
-		$year   = intval( substr( $datetime, 0, 4 ) );
-		$month  = intval( substr( $datetime, 5, 2 ) );
-		$day    = intval( substr( $datetime, 8, 2 ) );
+		$year   = intval(substr($datetime, 0, 4));
+		$month  = intval(substr($datetime, 5, 2));
+		$day    = intval(substr($datetime, 8, 2));
 
 		// Convert to a timestamp a la Unix
-		return mktime( 0, 0, 1, $month, $day, $year );
+		return mktime(0, 0, 1, $month, $day, $year);
 	}
 
 	/**
@@ -90,8 +98,9 @@ class DBConnection {
 	 * @param integer $timestamp UNIX timestamp
 	 * @return string MySQL DATETIME
 	 */
-	public static function format_datetime( $timestamp ) {
-		return date( "Y-m-d H:i:s", $timestamp );
+	public static function format_datetime($timestamp)
+	{
+		return date("Y-m-d H:i:s", $timestamp);
 	}
 
 	/**
@@ -102,8 +111,9 @@ class DBConnection {
 	 * @param integer $timestamp UNIX timestamp
 	 * @return string MySQL DATE
 	 */
-	public static function format_date( $timestamp ) {
-		return date( "Y-m-d", $timestamp );
+	public static function format_date($timestamp)
+	{
+		return date("Y-m-d", $timestamp);
 	}
 
 	/**
@@ -114,9 +124,10 @@ class DBConnection {
 	 *
 	 * @return DBConnection DBConnection instance
 	 */
-	public static function getDBConnection() {
+	public static function getDBConnection()
+	{
 
-		if ( self::$instance == null ) {
+		if (self::$instance == null) {
 			self::$instance = new DBConnection();
 		}
 
@@ -133,7 +144,8 @@ class DBConnection {
 	 *
 	 * Initializes the database handle
 	 */
-	protected function __construct() {
+	protected function __construct()
+	{
 		$this->dbh = null;
 	}
 
@@ -145,8 +157,9 @@ class DBConnection {
 	 *
 	 * @return object Database handle
 	 */
-	public function handle() {
-		if ( $this->dbh == null ) {
+	public function handle()
+	{
+		if ($this->dbh == null) {
 			// Not connected.  Yet.
 			$this->connect();
 		}
@@ -157,25 +170,28 @@ class DBConnection {
 	/**
 	 * Connect to the database server
 	 */
-	public function connect() {
+	public function connect()
+	{
 		global $db;
 
 		// Open a connection to the database server
-		$this->dbh = @mysql_connect( $db['hostname'],
-				$db['username'],
-				base64_decode( $db['password'] ) );
-		if ( $this->dbh == null ) {
+		$this->dbh = @mysql_connect(
+			$db['hostname'],
+			$db['username'],
+			base64_decode($db['password'])
+		);
+		if ($this->dbh == null) {
 			// Connection failed
-			throw new DBException( "DB Connection failure: " . mysql_error() );
+			throw new DBException("DB Connection failure: " . mysql_error());
 		}
 
 		// Open the Solid-State database
-		if ( !@mysql_select_db( $db['database'], $this->dbh ) ) {
+		if (!@mysql_select_db($db['database'], $this->dbh)) {
 			// Failed to open Solid-State database
-			throw new DBException( "DB Select Database failure: " . mysql_error() );
+			throw new DBException("DB Select Database failure: " . mysql_error());
 		}
 	}
-	
+
 	/**
 	 * Build INSERT SQL
 	 *
@@ -185,67 +201,69 @@ class DBConnection {
 	 * @param array $cols_vals An array with column names as keys and data as values
 	 * @return string SQL
 	 */
-	public function build_insert_sql( $table_name, $cols_vals ) {
+	public function build_insert_sql($table_name, $cols_vals)
+	{
 		// Extract the column names
-		$cols = array_keys( $cols_vals );
+		$cols = array_keys($cols_vals);
 
 		// Validate table name
-		if ( !isset( $table_name ) || !$this->validate_table( $table_name ) ) {
+		if (!isset($table_name) || !$this->validate_table($table_name)) {
 			// Table name not provided or invalid
-			throw new DBException( "Invalid table: " . $table_name );
+			throw new DBException("Invalid table: " . $table_name);
 		}
-		
+
 		//$stmt = mysqli_prepare($link, "SELECT District FROM City WHERE Name=?"
 		// Begin building SQL
 		$sql = "INSERT INTO `" . $table_name . "` (";
 
 		// Build column list
-		foreach( $cols as $column_name ) {
+		foreach ($cols as $column_name) {
 			// Put this column name in the list
 			$sql .= $column_name;
-			$sql .= $column_name == end( $cols ) ? ") " : ", ";
+			$sql .= $column_name == end($cols) ? ") " : ", ";
 		}
 
 		$sql .= "VALUES (";
 
 		// Build values list
-		foreach( $cols_vals as $column_name => $value ) {
+		foreach ($cols_vals as $column_name => $value) {
 			// Put this value in the list
-			$sql .= is_numeric( $value ) ? $value : $this->quote_smart( $value );
-			$sql .= $column_name == end( $cols ) ? ")" : ", ";
+			$sql .= is_numeric($value) ? $value : $this->quote_smart($value);
+			$sql .= $column_name == end($cols) ? ")" : ", ";
 		}
 
 		return $sql;
 	}
-	
-	public function build_insert_sql_secure( $table_name, $cols_vals ) {
+
+	public function build_insert_sql_secure($table_name, $cols_vals)
+	{
 		// Extract the column names
-		$cols = array_keys( $cols_vals );
+		$cols = array_keys($cols_vals);
 
 		// Validate table name
-		if ( !isset( $table_name ) || !$this->validate_table( $table_name ) ) {
+		if (!isset($table_name) || !$this->validate_table($table_name)) {
 			// Table name not provided or invalid
-			throw new DBException( "Invalid table: " . $table_name );
+			throw new DBException("Invalid table: " . $table_name);
 		}
-		
-		
+
+
 		// Begin building SQL
 		$sql = "INSERT INTO `" . $table_name . "` (";
 
 		// Build column list
-		foreach( $cols as $column_name ) {
+		foreach ($cols as $column_name) {
 			// Put this column name in the list
 			$sql .= $column_name;
-			$sql .= $column_name == end( $cols ) ? ") " : ", ";
+			$sql .= $column_name == end($cols) ? ") " : ", ";
 		}
 
 		$sql .= "VALUES (";
 
 		// Build values list
-		foreach( $cols_vals as $column_name => $value ) {
+		foreach ($cols_vals as $column_name => $value) {
 			// Put this value in the list
 			$sql .= "?"; //is_numeric( $value ) ? $value : $this->quote_smart( $value );
-			$sql .= $column_name == end( $cols ) ? ")" : ", ";
+			$sql .= $column_name == end($cols) ? ")" : ", ";
 		}
 
 		return $sql;
@@ -260,17 +278,18 @@ class DBConnection {
 	 * @param string $where WHERE clause (must be valid SQL)
 	 * @return string SQL
 	 */
-	public function build_delete_sql( $table_name, $where ) {
+	public function build_delete_sql($table_name, $where)
+	{
 		// Validate table name
-		if ( !isset( $table_name ) || !$this->validate_table( $table_name ) ) {
+		if (!isset($table_name) || !$this->validate_table($table_name)) {
 			// Table name not provided or invalid - return nothing
-			throw new DBException( "Invalid table: " . $table_name );
+			throw new DBException("Invalid table: " . $table_name);
 		}
 
 		// Begin building SQL
-		$sql = sprintf( "DELETE FROM `%s`", $table_name );
+		$sql = sprintf("DELETE FROM `%s`", $table_name);
 
-		if ( isset( $where ) ) {
+		if (isset($where)) {
 			$sql .= " WHERE " . $where;
 		}
 
@@ -287,43 +306,43 @@ class DBConnection {
 	 * @param array $cols_vals An array that maps columns (key) and values
 	 * @return string SQL
 	 */
-	public function build_update_sql( $table_name, $where, $cols_vals ) {
+	public function build_update_sql($table_name, $where, $cols_vals)
+	{
 		// Validate table name
-		if ( !isset( $table_name ) || !$this->validate_table( $table_name ) ) {
+		if (!isset($table_name) || !$this->validate_table($table_name)) {
 			// Table name not provided or invalid - return nothing
-			throw new DBException( "Invalid table: " . $table_name );
+			throw new DBException("Invalid table: " . $table_name);
 		}
 
 		// Begin building SQL
-		$sql = sprintf( "UPDATE `%s` SET ", $table_name );
+		$sql = sprintf("UPDATE `%s` SET ", $table_name);
 
 		// Build & validate column & value pairs
-		$cols_keys = array_keys( $cols_vals );
-		foreach( $cols_vals as $column => $value ) {
+		$cols_keys = array_keys($cols_vals);
+		foreach ($cols_vals as $column => $value) {
 			// Validate this column
-			if ( !$this->validate_column( $column, $table_name ) ) {
-				throw new DBException( "Invalid table column: " . $column );
+			if (!$this->validate_column($column, $table_name)) {
+				throw new DBException("Invalid table column: " . $column);
 			}
 
 			$sql .= $column . " = ";
 
-			if ( is_numeric( $value ) ) {
+			if (is_numeric($value)) {
 				// Numeric - don't use quotes
 				$sql .= $value;
-			}
-			else {
+			} else {
 				// Not numeric - use quotes
-				$sql .= $this->quote_smart( $value );
+				$sql .= $this->quote_smart($value);
 			}
 
-			if ( !($column == end( $cols_keys ) ) ) {
+			if (!($column == end($cols_keys))) {
 				// Add a comma after every value except the last
 				$sql .= ", ";
 			}
 		}
 
 		// Validate & build WHERE clause
-		if ( !isset( $where ) ) {
+		if (!isset($where)) {
 			// No where class provided, return nothing
 			return null;
 		}
@@ -346,50 +365,52 @@ class DBConnection {
 	 * @param integer $start Starting position for the result set to be returned
 	 * @return string SQL
 	 */
-	public function build_select_sql( $table_name,
-			$columns,
-			$filter = null,
-			$sortby = null,
-			$sortdir = null,
-			$limit = null,
-			$start = null ) {
+	public function build_select_sql(
+		$table_name,
+		$columns,
+		$filter = null,
+		$sortby = null,
+		$sortdir = null,
+		$limit = null,
+		$start = null
+	) {
 		// Validate table name
-		if ( !isset( $table_name ) || !$this->validate_table( $table_name ) ) {
+		if (!isset($table_name) || !$this->validate_table($table_name)) {
 			// Table name not provided or invalid - return nothing
-			throw new DBException( "Invalid table: " . $table_name );
+			throw new DBException("Invalid table: " . $table_name);
 		}
 
 		// Validate columns
-		if ( !isset( $columns ) ) {
+		if (!isset($columns)) {
 			// No columns provided - default to all
 			$columns = "*";
 		}
 
 		// Begin building SELECT statement
-		$sql = sprintf( "SELECT %s FROM `%s`", $columns, $table_name );
+		$sql = sprintf("SELECT %s FROM `%s`", $columns, $table_name);
 
-		if ( strlen( $filter ) > 0 ) {
+		if (strlen($filter) > 0) {
 			// A filter is provided - add a WHERE clause to the SQL
 			$sql .= " WHERE " . $filter;
 		}
 
 		// Validate sortby
-		if ( strlen( $sortby ) > 0 && $this->validate_column( $sortby, $table_name ) ) {
+		if (strlen($sortby) > 0 && $this->validate_column($sortby, $table_name)) {
 			// A field to sort on is provided - add an ORDER BY clause
 			$sql .= " ORDER BY " . $sortby;
-			if ( strlen( $sortdir ) > 0 && ($sortdir == "ASC" || $sortdir == "DESC") ) {
+			if (strlen($sortdir) > 0 && ($sortdir == "ASC" || $sortdir == "DESC")) {
 				// While we're at it, add a direction to the ORDER BY clause
 				$sql .= " " . $sortdir;
 			}
 		}
 
-		if ( strlen( $limit ) > 0 ) {
+		if (strlen($limit) > 0) {
 			// Limit the amount of records returned
-			if ( !(strlen( $start ) > 0) ) {
+			if (!(strlen($start) > 0)) {
 				// No starting position is supplied - default to 0
 				$start = 0;
 			}
-			$sql .= " LIMIT " . intval( $start ) . "," . intval( $limit );
+			$sql .= " LIMIT " . intval($start) . "," . intval($limit);
 		}
 
 		return $sql;
@@ -404,28 +425,31 @@ class DBConnection {
 	 * @param string $table_name Table
 	 * @return boolean True if column exists
 	 */
-	public function validate_column( $column_name, $table_name ) {
-		if ( !$db['schema_validation'] ) {
+	public function validate_column($column_name, $table_name)
+	{
+		if (!$db['schema_validation']) {
 			return true;
 		}
 
 		// Validate table name
-		if ( !$this->validate_table( $table_name ) ) {
+		if (!$this->validate_table($table_name)) {
 			return false;
 		}
 
 		// Query DB for a list of columns in this table
-		$sql = sprintf( "SHOW COLUMNS FROM `%s`", $table_name );
-		if ( !($result = @mysql_query( $sql, $this->handle() ) ) ) {
+		$sql = sprintf("SHOW COLUMNS FROM `%s`", $table_name);
+		if (!($result = @mysql_query($sql, $this->handle()))) {
 			// Query error
-			throw new DBException( sprintf( "Attempt to query table columns failed.  Table = %s, column = %s",
-			$table_name,
-			$column_name ) );
+			throw new DBException(sprintf(
+				"Attempt to query table columns failed.  Table = %s, column = %s",
+				$table_name,
+				$column_name
+			));
 		}
 
 		// Search result set for the column name provided
-		while( $data = mysql_fetch_array( $result ) ) {
-			if ( $data[0] == $column_name ) {
+		while ($data = mysql_fetch_array($result)) {
+			if ($data[0] == $column_name) {
 				// Match!
 				return true;
 			}
@@ -443,21 +467,22 @@ class DBConnection {
 	 * @param string $table_name Table name
 	 * @return boolean True if table exists
 	 */
-	public function validate_table( $table_name ) {
-		if ( !$db['schema_validation'] ) {
+	public function validate_table($table_name)
+	{
+		if (!$db['schema_validation']) {
 			return true;
 		}
 
 		// Query DB for a list of tables
 		$sql = "SHOW TABLES";
-		if ( !($result = @mysql_query( $sql, $this->handle() ) ) ) {
+		if (!($result = @mysql_query($sql, $this->handle()))) {
 			// Query error
-			throw new DBException( "Attempt to validate table failed" );
+			throw new DBException("Attempt to validate table failed");
 		}
 
 		// Search result set for the table name provided
-		while( $data = mysql_fetch_array( $result ) ) {
-			if ( $data[0] == $table_name ) {
+		while ($data = mysql_fetch_array($result)) {
+			if ($data[0] == $table_name) {
 				// Match!
 				return true;
 			}
@@ -476,34 +501,36 @@ class DBConnection {
 	 * @param string $value Value to quote
 	 * @return string Safe value with quotes
 	 */
-	public function quote_smart( $value ) {
+	public function quote_smart($value)
+	{
 		// Stripslashes
-		if ( get_magic_quotes_gpc() ) {
-			$value = stripslashes( $value );
+		if (get_magic_quotes_gpc()) {
+			$value = stripslashes($value);
 		}
 
 		// Quote if not integer
-		if ( !is_numeric( $value ) ) {
-			$value = "'" . mysql_real_escape_string( $value, $this->handle() ) . "'";
+		if (!is_numeric($value)) {
+			$value = "'" . mysql_real_escape_string($value, $this->handle()) . "'";
 		}
 
 		return $value;
 	}
-	
-	public function mysqli_connect(){
-	
+
+	public function mysqli_connect()
+	{
+
 		global $db;
-		$mysqli = mysqli_connect($db['hostname'],
-				$db['username'],
-				base64_decode( $db['password']),
-				$db['database']
-				);		
+		$mysqli = mysqli_connect(
+			$db['hostname'],
+			$db['username'],
+			base64_decode($db['password']),
+			$db['database']
+		);
 		/* check connection */
 		if (mysqli_connect_errno()) {
-		    printf("Connect failed: %s\n", mysqli_connect_error());
-		    exit();
+			printf("Connect failed: %s\n", mysqli_connect_error());
+			exit();
 		}
 		return $mysqli;
 	}
 }
-?>
