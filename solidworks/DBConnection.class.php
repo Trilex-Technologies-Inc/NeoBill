@@ -298,6 +298,7 @@ class DBConnection {
 		$sql = sprintf( "UPDATE `%s` SET ", $table_name );
 
 		// Build & validate column & value pairs
+		$cols_keys = array_keys( $cols_vals );
 		foreach( $cols_vals as $column => $value ) {
 			// Validate this column
 			if ( !$this->validate_column( $column, $table_name ) ) {
@@ -315,7 +316,7 @@ class DBConnection {
 				$sql .= $this->quote_smart( $value );
 			}
 
-			if ( !($column == end( array_keys( $cols_vals ) ) ) ) {
+			if ( !($column == end( $cols_keys ) ) ) {
 				// Add a comma after every value except the last
 				$sql .= ", ";
 			}
