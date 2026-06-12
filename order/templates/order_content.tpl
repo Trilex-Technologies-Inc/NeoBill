@@ -1,69 +1,91 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{$order_title}</title>
+    <meta charset="utf-8">
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-	<head>
-		<title>{$order_title}</title>
-		<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
-		<link rel="stylesheet" type="text/css" href="coffee.css" media="screen"/>
-	</head>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
-	<body>
+    <!-- Existing stylesheet -->
+    <link rel="stylesheet" type="text/css" href="coffee.css" media="screen"/>
+</head>
 
-		<div class="container">
+<body class="bg-light">
 
-			{* Include page header *}
-			{include file="order_header.tpl"}
+<div class="container py-4">
 
-			<div class="navigation">
-				<a href="#"></a>
-				<a href="#"></a>
-				<a href="#"></a>
-				<a href="#"></a>
-				<a href="#"></a>
-				<div class="clearer"><span></span></div>
-			</div>
+    {* Include page header *}
+    {include file="order_header.tpl"}
 
-			<div class="main">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">{$order_title}</a>
 
-				<div class="content">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-					<div class="ordercontent">
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Domains</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Support</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-						<div>
-						  {if $username == null && !$supressWelcome }
-							<a href="index.php?page=customerlogin">{echo phrase="SIGN IN"}</a>
-						  {elseif $username == " "}
+    <div class="card shadow-sm">
+        <div class="card-body">
 
-						  {elseif isset( $username ) && !$supressWelcome}
-							{echo phrase="WELCOME_BACK"}, {$username}! | <a href="index.php?page=customerlogin&op=logout">logout</a>
-						  {/if}
-						</div><br/>
+            <div class="mb-3">
+                {if $username == null && !$supressWelcome}
+                    <a href="index.php?page=customerlogin" class="btn btn-primary">
+                        {echo phrase="SIGN IN"}
+                    </a>
 
-						{* Display any error messages *}
-						{page_errors}
+                {elseif $username == " "}
 
-						{* Display any page messages *}
-						{page_messages}
+                {elseif isset($username) && !$supressWelcome}
+                    <div class="alert alert-success mb-0">
+                        {echo phrase="WELCOME_BACK"}, {$username}!
+                        |
+                        <a href="index.php?page=customerlogin&op=logout">
+                            Logout
+                        </a>
+                    </div>
+                {/if}
+            </div>
 
-						{* Include the page content *}
-						{include file="$content_template"}
+            {* Display any error messages *}
+            {page_errors}
 
-					</div>
+            {* Display any page messages *}
+            {page_messages}
 
-				</div>
+            {* Include the page content *}
+            {include file="$content_template"}
 
-				<div class="clearer"><span></span></div>
+        </div>
+    </div>
 
-			</div>
+    {* Include page footer *}
+    {include file="order_footer.tpl"}
 
-			{* Include page footer *}
-			{include file="order_footer.tpl"}
+    <footer class="text-center text-muted mt-4 small">
+        &copy; 2011
+        <a href="http://www.neobill.net">NeoBill</a>.
+        Template design by
+        <a href="http://templates.arcsin.se">Arcsin</a>
+    </footer>
 
-			<div class="footer">&copy; 2011 <a href="http://www.neobill.net">NeoBill</a>. Valid <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> &amp; <a href="http://validator.w3.org/check?uri=referer">XHTML</a>. Template design by <a href="http://templates.arcsin.se">Arcsin</a>
-			</div>
+</div>
 
-		</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
-	</body>
-
+</body>
 </html>

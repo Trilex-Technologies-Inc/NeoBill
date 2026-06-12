@@ -81,7 +81,7 @@ class CartPage extends SolidStatePage {
 		}
 
 		if ( !$stuffToSell ) {
-			throw new SWUserException( "No hosting or domain services have been configured.  The HSP must configure hosting and/or domain services before using the Order wizard" );
+			//throw new SWUserException( "No hosting or domain services have been configured.  The HSP must configure hosting and/or domain services before using the Order wizard" );
 		}
 
 		// Make sure we have a way to collect payment

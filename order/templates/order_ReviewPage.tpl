@@ -1,105 +1,70 @@
 <h2>Please Review Your Order</h2>
 
-<div class="domainoption">
-  <table>
-    <tr class="reverse"> <th> {echo phrase="CONTACT_EMAIL"} </th> </tr>
-    <tr>
-      <td>
-        <div class="form">
-          <table>
-            <tr>
-              <td> {echo phrase="EMAIL"}: </td>
-              <td> {dbo_echo dbo="order" field="contactemail"} </td>
-            </tr>
-          </table>
-        </div>
-      </td>
-    </tr>
-  </table>
-
-  <table>
-    <tr class="reverse"> <th> Account Information </th> </tr> <!-- hardcoded english -->
-    <tr>
-      <td>
-        <div class="form">
-          <table>
-            <tr>
-              <td> {echo phrase="BUSINESS_NAME"}: </td>
-              <td> {dbo_echo dbo="order" field="businessname"} </td>
-            </tr>
-            <tr>
-              <td> {echo phrase="CONTACT_NAME"}: </td>
-              <td> {dbo_echo dbo="order" field="contactname"} </td>
-            </tr>
-            <tr>
-              <td> {echo phrase="ADDRESS"}: </td>
-              <td> {dbo_echo dbo="order" field="address1"} </td>
-            </tr>
-            <tr>
-              <td> </td>
-              <td> {dbo_echo dbo="order" field="address2"} </td>
-            </tr>
-            <tr>
-              <td> {echo phrase="CITY"}: </td>
-              <td> {dbo_echo dbo="order" field="city"} </td>
-            </tr>
-            <tr>
-              <td> {echo phrase="STATE"}: </td>
-              <td> {dbo_echo dbo="order" field="state"} </td>
-            </tr>
-            <tr>
-              <td> {echo phrase="ZIP_POSTAL_CODE"}: </td>
-              <td> {dbo_echo dbo="order" field="postalcode"} </td>
-            </tr>
-            <tr>
-              <td> {echo phrase="COUNTRY"}: </td>
-              <td> {dbo_echo|country dbo="order" field="country"} </td>
-            </tr>
-            <tr>
-              <td> {echo phrase="PHONE"}: </td>
-              <td> {dbo_echo dbo="order" field="phone"} </td>
-            </tr>
-            <tr>
-              <td> {echo phrase="MOBILE_PHONE"}: </td>
-              <td> {dbo_echo dbo="order" field="mobilephone"} </td>
-            </tr>
-            <tr>
-              <td> {echo phrase="FAX"}: </td>
-              <td> {dbo_echo dbo="order" field="fax"} </td>
-            </tr>
-          </table>
-        </div>
-      </td>
-    </tr>
-
-  </table>
+<div class="card mb-4">
+  <div class="card-header"><h5 class="mb-0">{echo phrase="CONTACT_EMAIL"}</h5></div>
+  <div class="card-body">
+    <dl class="row mb-0">
+      <dt class="col-sm-4">{echo phrase="EMAIL"}:</dt>
+      <dd class="col-sm-8">{dbo_echo dbo="order" field="contactemail"}</dd>
+    </dl>
+  </div>
 </div>
 
-<div class="domainoption">
-  <table>
-    <tr class="reverse"> <th> {echo phrase="LOGIN_INFORMATION"} </th> </tr>
-    <tr>
-      <td>
-        <div class="form">
-          <table>
-            <tr>
-              <td> {echo phrase="USERNAME"}: </td>
-              <td> {dbo_echo dbo="order" field="username"} </td>
-            </tr>
-            <tr>
-              <td> {echo phrase="PASSWORD"}: </td>
-              <td> <i>{echo phrase="NOT_SHOWN"}</i> </td>
-            </tr>
-          </table>
-        </div>
-      </td>
-    </tr>
-  </table>
+<div class="card mb-4">
+  <div class="card-header"><h5 class="mb-0">Account Information</h5></div>
+  <div class="card-body">
+    <dl class="row mb-0">
+      <dt class="col-sm-4">{echo phrase="BUSINESS_NAME"}:</dt>
+      <dd class="col-sm-8">{dbo_echo dbo="order" field="businessname"}</dd>
 
+      <dt class="col-sm-4">{echo phrase="CONTACT_NAME"}:</dt>
+      <dd class="col-sm-8">{dbo_echo dbo="order" field="contactname"}</dd>
+
+      <dt class="col-sm-4">{echo phrase="ADDRESS"}:</dt>
+      <dd class="col-sm-8">{dbo_echo dbo="order" field="address1"}</dd>
+
+      <dt class="col-sm-4"></dt>
+      <dd class="col-sm-8">{dbo_echo dbo="order" field="address2"}</dd>
+
+      <dt class="col-sm-4">{echo phrase="CITY"}:</dt>
+      <dd class="col-sm-8">{dbo_echo dbo="order" field="city"}</dd>
+
+      <dt class="col-sm-4">{echo phrase="STATE"}:</dt>
+      <dd class="col-sm-8">{dbo_echo dbo="order" field="state"}</dd>
+
+      <dt class="col-sm-4">{echo phrase="ZIP_POSTAL_CODE"}:</dt>
+      <dd class="col-sm-8">{dbo_echo dbo="order" field="postalcode"}</dd>
+
+      <dt class="col-sm-4">{echo phrase="COUNTRY"}:</dt>
+      <dd class="col-sm-8">{dbo_echo|country dbo="order" field="country"}</dd>
+
+      <dt class="col-sm-4">{echo phrase="PHONE"}:</dt>
+      <dd class="col-sm-8">{dbo_echo dbo="order" field="phone"}</dd>
+
+      <dt class="col-sm-4">{echo phrase="MOBILE_PHONE"}:</dt>
+      <dd class="col-sm-8">{dbo_echo dbo="order" field="mobilephone"}</dd>
+
+      <dt class="col-sm-4">{echo phrase="FAX"}:</dt>
+      <dd class="col-sm-8">{dbo_echo dbo="order" field="fax"}</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header"><h5 class="mb-0">{echo phrase="LOGIN_INFORMATION"}</h5></div>
+  <div class="card-body">
+    <dl class="row mb-0">
+      <dt class="col-sm-4">{echo phrase="USERNAME"}:</dt>
+      <dd class="col-sm-8">{dbo_echo dbo="order" field="username"}</dd>
+
+      <dt class="col-sm-4">{echo phrase="PASSWORD"}:</dt>
+      <dd class="col-sm-8"><i>{echo phrase="NOT_SHOWN"}</i></dd>
+    </dl>
+  </div>
 </div>
 
 {form name="review"}
-  <div class="cart">
+  <div class="table-responsive mb-4">
     {form_table field="cart"}
 
       {form_table_column columnid="description" header="[ITEM]"}
@@ -123,43 +88,35 @@
 
   {dbo_assign dbo="order" field="accounttype" var="accounttype"}
   {* {if $accounttype == "New Account"} *}
-    <div class="cart_total">
-      <table>
-        <tr>
-          <th>{echo phrase="RECURRING_TOTAL"}:</th>
-          <td>{dbo_echo|currency dbo="order" field="recurringtotal"}</td>
-        </tr>
-        <tr>
-          <th>{echo phrase="NONRECURRING_TOTAL"}:</th>
-          <td>{dbo_echo|currency dbo="order" field="nonrecurringtotal"}</td>
-        </tr>
-        <tr>
-          <th>{echo phrase="SUB_TOTAL"}:</th>
-          <td>{dbo_echo|currency dbo="order" field="subtotal"}</td>
-        </tr>
-        <tr>
-          <th>{echo phrase="TAXES"}:</th>
-          <td>{dbo_echo|currency dbo="order" field="taxtotal"}</td>
-        </tr>
-        <tr>
-          <th>{echo phrase="TOTAL"}:</th>
-          <td>{dbo_echo|currency dbo="order" field="total"}</td>
-        </tr>
-        <tr>
-          <th>{form_description field="module"}&nbsp;&nbsp;</th>
-          <td>{form_element field="module"}</td>
-        </tr>
+    <div class="card mb-4">
+      <div class="card-body">
+        <dl class="row mb-2">
+          <dt class="col-sm-6">{echo phrase="RECURRING_TOTAL"}:</dt>
+          <dd class="col-sm-6">{dbo_echo|currency dbo="order" field="recurringtotal"}</dd>
+
+          <dt class="col-sm-6">{echo phrase="NONRECURRING_TOTAL"}:</dt>
+          <dd class="col-sm-6">{dbo_echo|currency dbo="order" field="nonrecurringtotal"}</dd>
+
+          <dt class="col-sm-6">{echo phrase="SUB_TOTAL"}:</dt>
+          <dd class="col-sm-6">{dbo_echo|currency dbo="order" field="subtotal"}</dd>
+
+          <dt class="col-sm-6">{echo phrase="TAXES"}:</dt>
+          <dd class="col-sm-6">{dbo_echo|currency dbo="order" field="taxtotal"}</dd>
+
+          <dt class="col-sm-6">{echo phrase="TOTAL"}:</dt>
+          <dd class="col-sm-6">{dbo_echo|currency dbo="order" field="total"}</dd>
+
+          <dt class="col-sm-6">{form_description field="module"}&nbsp;&nbsp;</dt>
+          <dd class="col-sm-6">{form_element field="module"}</dd>
+        </dl>
         {if $tos_required}
-          <tr>
-            <td/>
-            <td>
-              {form_element field="accept_tos" option="true"}
-              [I_HAVE_READ_AND_AGREE_TO_THE] 
-              <a href="{$tos_url}" target="_blank">[TERMS_OF_SERVICE]</a>
-            </td>
-          </tr>
+          <div class="form-check">
+            {form_element field="accept_tos" option="true"}
+            [I_HAVE_READ_AND_AGREE_TO_THE]
+            <a href="{$tos_url}" target="_blank">[TERMS_OF_SERVICE]</a>
+          </div>
         {/if}
-      </table>
+      </div>
     </div>
   {* {else}
       <p> <b>{echo phrase="YOUR_ACCOUNT_WILL_BE_BILLED"}</b> </p>
@@ -167,16 +124,12 @@
 
   <p/>
 
-  <div class="buttoncontainer">
-    <table>
-      <tr>
-        <td class="left"> {form_element field="startover"} </td>
-        <td class="right">
-          {form_element field="back"}
-          {form_element field="checkout"}
-        </td>
-      </tr>
-    </table>
+  <div class="d-flex justify-content-between">
+    <div>{form_element field="startover"}</div>
+    <div class="btn-group">
+      {form_element field="back"}
+      {form_element field="checkout"}
+    </div>
   </div>
 {/form}
 
