@@ -183,10 +183,12 @@ class TableWidget extends HTMLWidget {
 		global $page;
 		$session = $page->getPageSession();
 
-		if (!preg_match('/^(asc|desc)$/i', $sortColumn)) {
-			$sortColumn = '';
+		$sortDirection = isset( $_GET[ 'swtablesortdir' ] ) ?
+				$_GET[ 'swtablesortdir' ] : '';
+		if (!preg_match('/^(asc|desc)$/i', $sortDirection)) {
+			$sortDirection = '';
 		}
-		return $sortColumn;
+		return strtoupper( $sortDirection );
 	}
 
 	/**

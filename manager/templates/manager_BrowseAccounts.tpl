@@ -1,99 +1,116 @@
-<div class="manager_content">
+<div class="manager_content accounts-browser">
 
-  <div class="action mb-4">
-    <div class="card shadow-sm border-0">
-      <div class="card-header bg-primary text-white py-3 px-4">
-        <div class="d-flex align-items-center gap-2">
-          <i class="bi bi-lightning-fill"></i>
-          <span class="fw-bold mb-0">{echo phrase="ACTIONS"}</span>
-        </div>
-      </div>
-      <div class="card-body bg-white py-3 px-4">
-        {form name="browse_accounts_action"}
-          {form_element field="add" class="btn btn-success btn-sm"}
-        {/form}
+  <div class="accounts-page-header">
+    <div class="accounts-page-title">
+      <span class="accounts-page-icon"><i class="ti ti-users"></i></span>
+      <div>
+        <h2>{echo phrase="ACTIVE_ACCOUNTS"}</h2>
+        <p>Search, review, and manage active customer accounts.</p>
       </div>
     </div>
+
+    {form name="browse_accounts_action"}
+      {form_element field="add" class="btn btn-primary btn-sm"}
+    {/form}
   </div>
 
-  <div class="card mb-4 shadow-sm border-0">
-    <div class="card-body">
-      <div class="d-flex align-items-center gap-3 mb-3">
-        <i class="bi bi-people-fill fs-3 text-primary"></i>
-        <div>
-          <h2 class="h5 mb-1">{echo phrase="ACTIVE_ACCOUNTS"}</h2>
-          <p class="text-muted mb-0">Search and view active accounts</p>
-        </div>
+  <div class="accounts-filter">
+    <div class="accounts-section-heading">
+      <div>
+        <h3><i class="ti ti-filter"></i> Filter accounts</h3>
+        <p>Search by account name or current balance.</p>
       </div>
+    </div>
 
+    {form name="search_accounts"}
       <div class="row g-3 align-items-end">
-        <div class="col-md-6">
-          <label class="form-label fw-semibold">{echo phrase="ACCOUNT_NAME"}</label>
-          {form name="search_accounts"}
-            <div class="input-group">
-              <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
-              {form_element field="accountname" size="30" class="form-control" placeholder="Search account name"}
-            </div>
-        </div>
-        <div class="col-md-4">
-          <label class="form-label fw-semibold">{echo phrase="BALANCE"}</label>
+        <div class="col-lg-6">
+          <label class="form-label" for="accountname">{echo phrase="ACCOUNT_NAME"}</label>
           <div class="input-group">
-            <span class="input-group-text">$</span>
+            <span class="input-group-text"><i class="ti ti-search"></i></span>
+            {form_element field="accountname" size="30" class="form-control" placeholder="Enter account name"}
+          </div>
+        </div>
+
+        <div class="col-sm-7 col-lg-4">
+          <label class="form-label" for="balance">{echo phrase="BALANCE"}</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="ti ti-currency-dollar"></i></span>
             {form_element field="balance" size="6" class="form-control" placeholder="Enter balance"}
           </div>
         </div>
-        <div class="col-md-2 d-grid">
-          {form_element field="search" class="btn btn-primary"}
+
+        <div class="col-sm-5 col-lg-2 d-grid">
+          {form_element field="search" class="btn btn-secondary"}
         </div>
-        {/form}
       </div>
-    </div>
+    {/form}
   </div>
 
-  <div class="card shadow-sm border-0">
-    <div class="card-header bg-white border-bottom-0">
-      <h3 class="h6 mb-0">Active Accounts List</h3>
-    </div>
-    <div class="card-body p-0">
-      <div class="table-responsive">
-        {form name="active_accounts"}
-          {form_table field="accounts" size="10" class="table table-hover table-striped align-middle mb-0"}
-            {form_table_column columnid="id" header="[ID]"}
-              <a href="manager_content.php?page=accounts_view_account&account={$accounts.id}" class="btn btn-link btn-sm p-0 text-decoration-none fw-bold">#{$accounts.id}</a>
-            {/form_table_column}
-
-            {form_table_column columnid="accountname" header="[ACCOUNT_NAME]"}
-              <a href="manager_content.php?page=accounts_view_account&account={$accounts.id}" class="text-decoration-none">{$accounts.accountname}</a>
-            {/form_table_column}
-
-            {form_table_column columnid="type" header="[TYPE]"}
-              {assign var="type" value=$accounts.type}
-              {if $type == "Business"}
-                <span class="badge bg-primary">{$type}</span>
-              {elseif $type == "Individual"}
-                <span class="badge bg-info">{$type}</span>
-              {else}
-                <span class="badge bg-secondary">{$type}</span>
-              {/if}
-            {/form_table_column}
-
-            {form_table_column columnid="billingstatus" header="[BILL]"}
-              {assign var="billingstatus" value=$accounts.billingstatus}
-              {if $billingstatus == "Active"}
-                <span class="badge bg-success">{$billingstatus}</span>
-              {elseif $billingstatus == "Suspended"}
-                <span class="badge bg-warning text-dark">{$billingstatus}</span>
-              {else}
-                <span class="badge bg-secondary">{$billingstatus}</span>
-              {/if}
-            {/form_table_column}
-
-            {form_table_column columnid="balance" header="[BALANCE]"}
-              <span class="text-primary">{$accounts.balance|currency}</span>
-            {/form_table_column}
-          {/form_table}
-        {/form}
+  <div class="accounts-list">
+    <div class="accounts-list-header">
+      <div>
+        <h3>Account list</h3>
+        <p>Active customer records matching the current filter.</p>
       </div>
+    </div>
+
+    <div class="table-responsive accounts-table-wrap">
+      {form name="active_accounts"}
+        {form_table field="accounts" size="10" class="table table-hover align-middle mb-0" empty="No active accounts found."}
+          {form_table_column columnid="id" header="[ID]"}
+            <a href="manager_content.php?page=accounts_view_account&account={$accounts.id}" class="account-id">
+              #{$accounts.id}
+            </a>
+          {/form_table_column}
+
+          {form_table_column columnid="accountname" header="[ACCOUNT_NAME]"}
+            <a href="manager_content.php?page=accounts_view_account&account={$accounts.id}" class="account-name">
+              <span class="account-avatar"><i class="ti ti-user"></i></span>
+              <span>{$accounts.accountname}</span>
+            </a>
+          {/form_table_column}
+
+          {form_table_column columnid="type" header="[TYPE]"}
+            {assign var="type" value=$accounts.type}
+            {if $type == "Business"}
+              <span class="account-badge account-badge-business">{$type}</span>
+            {elseif $type == "Individual"}
+              <span class="account-badge account-badge-individual">{$type}</span>
+            {else}
+              <span class="account-badge account-badge-default">{$type}</span>
+            {/if}
+          {/form_table_column}
+
+          {form_table_column columnid="billingstatus" header="[BILL]"}
+            {assign var="billingstatus" value=$accounts.billingstatus}
+            {if $billingstatus == "Active"}
+              <span class="account-status account-status-active">
+                <i></i>{$billingstatus}
+              </span>
+            {elseif $billingstatus == "Suspended"}
+              <span class="account-status account-status-warning">
+                <i></i>{$billingstatus}
+              </span>
+            {else}
+              <span class="account-status account-status-default">
+                <i></i>{$billingstatus}
+              </span>
+            {/if}
+          {/form_table_column}
+
+          {form_table_column columnid="balance" header="[BALANCE]"}
+            <span class="account-balance">{$accounts.balance|currency}</span>
+          {/form_table_column}
+
+          {form_table_column columnid="" header="Actions"}
+            <a href="manager_content.php?page=accounts_view_account&account={$accounts.id}" class="account-view-link" title="View account" aria-label="View account #{$accounts.id}">
+              View
+              <i class="ti ti-chevron-right"></i>
+            </a>
+          {/form_table_column}
+        {/form_table}
+      {/form}
     </div>
   </div>
 
