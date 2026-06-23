@@ -1,15 +1,12 @@
 {if isset($username) && $username != ""}
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-    <a class="navbar-brand ps-3" href="manager_content.php?page=home">NeoBill</a>
-    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+    <a class="navbar-brand ps-3" href="manager_content.php?page=home">NeoBill Manager</a>
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 sidebar-toggle" id="sidebarToggle" type="button" aria-label="Toggle navigation" aria-controls="layoutSidenav_nav" aria-expanded="true">
       <i class="ti ti-menu-2"></i>
     </button>
 
-    <div class="d-none d-md-inline-block ms-auto me-3">
-      <span class="text-white-50 small">{$username}</span>
-    </div>
-
-    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+    <span class="d-none d-sm-inline ms-auto me-3 text-white-50 small">{$username}</span>
+    <ul class="navbar-nav me-3">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="ti ti-user-circle"></i>
@@ -26,13 +23,13 @@
       <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
           <div class="nav">
-            <div class="sb-sidenav-menu-heading">Core</div>
+            <div class="sb-sidenav-menu-heading">Main</div>
             <a class="nav-link" href="manager_content.php?page=home">
               <div class="sb-nav-link-icon"><i class="ti ti-home"></i></div>
-              Home
+              Dashboard
             </a>
 
-            <div class="sb-sidenav-menu-heading">NeoBill</div>
+            <div class="sb-sidenav-menu-heading">Management</div>
 
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAccounts" aria-expanded="false" aria-controls="collapseAccounts">
               <div class="sb-nav-link-icon"><i class="ti ti-users"></i></div>
@@ -107,7 +104,7 @@
               </nav>
             </div>
 
-            <div class="sb-sidenav-menu-heading">About</div>
+            <div class="sb-sidenav-menu-heading">Support</div>
             <a class="nav-link" href="http://www.neobill.net">
               <div class="sb-nav-link-icon"><i class="ti ti-world-www"></i></div>
               NeoBill Website
@@ -118,11 +115,10 @@
             </a>
             <a class="nav-link" href="http://www.neobill.net/wiki/doku.php/about:team">
               <div class="sb-nav-link-icon"><i class="ti ti-info-circle"></i></div>
-              NeoBill Credit
+              Credits
             </a>
           </div>
         </div>
-       
       </nav>
     </div>
 {else}
@@ -132,4 +128,3 @@
     </a>
   </div>
 {/if}
-

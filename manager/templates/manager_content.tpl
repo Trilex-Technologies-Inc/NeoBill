@@ -13,6 +13,7 @@
 
     {* Legacy UI (some pages rely on jQuery UI widgets) *}
     <link rel="stylesheet" href="./css/jquery.ui.all.css" />
+    <link rel="stylesheet" type="text/css" href="./navigation.css" />
     <script src="./js/jquery-1.7.js"></script>
     <script src="./js/jquery.ui.core.js"></script>
     <script src="./js/jquery.ui.widget.js"></script>
