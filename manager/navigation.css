@@ -242,6 +242,24 @@ body.sb-nav-fixed .accounts-page-icon {
 	background: #eff6ff;
 }
 
+body.sb-nav-fixed .accounts-page-icon-warning {
+	color: #92400e;
+	border-color: #fde68a;
+	background: #fffbeb;
+}
+
+body.sb-nav-fixed .accounts-page-icon-muted {
+	color: #4b5563;
+	border-color: #d1d5db;
+	background: #f3f4f6;
+}
+
+body.sb-nav-fixed .accounts-page-icon-success {
+	color: #166534;
+	border-color: #bbf7d0;
+	background: #f0fdf4;
+}
+
 body.sb-nav-fixed .accounts-page-title h2,
 body.sb-nav-fixed .accounts-section-heading h3,
 body.sb-nav-fixed .accounts-list-header h3 {
@@ -596,6 +614,54 @@ body.sb-nav-fixed .accounts-table-wrap .table > tbody > tr:not(:first-child):not
 	color: #6b7280;
 	text-align: center;
 	background: #fff;
+}
+
+body.sb-nav-fixed .orders-table-wrap .table {
+	min-width: 980px;
+}
+
+body.sb-nav-fixed .orders-table-wrap .table > tbody > tr > th,
+body.sb-nav-fixed .orders-table-wrap .table > tbody > tr > td {
+	width: auto;
+	text-align: left;
+}
+
+body.sb-nav-fixed .orders-table-wrap .table > tbody > tr > th:first-child,
+body.sb-nav-fixed .orders-table-wrap .table > tbody > tr > td:first-child {
+	width: 82px;
+}
+
+body.sb-nav-fixed .orders-table-wrap .table > tbody > tr > th:last-child,
+body.sb-nav-fixed .orders-table-wrap .table > tbody > tr > td:last-child,
+body.sb-nav-fixed .orders-table-wrap .table > tbody > tr > th:nth-last-child(2),
+body.sb-nav-fixed .orders-table-wrap .table > tbody > tr > td:nth-last-child(2) {
+	width: 105px;
+	text-align: right;
+}
+
+body.sb-nav-fixed .order-date {
+	color: #4b5563;
+	font-size: 0.75rem;
+	white-space: nowrap;
+}
+
+body.sb-nav-fixed .order-ip {
+	padding: 0.15rem 0.35rem;
+	color: #374151;
+	font-size: 0.7rem;
+	border: 1px solid #e5e7eb;
+	border-radius: 3px;
+	background: #f9fafb;
+}
+
+body.sb-nav-fixed .order-account {
+	color: #1d4ed8;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+body.sb-nav-fixed .order-account:hover {
+	text-decoration: underline;
 }
 
 @media (max-width: 575.98px) {
