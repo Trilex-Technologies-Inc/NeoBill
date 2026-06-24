@@ -1,36 +1,63 @@
-<div class="manager_content">
+<div class="manager_content view-account-page">
 
-<div id="tabs">
+<div class="view-account-header">
+  <div class="view-account-title">
+    <span class="view-account-avatar"><i class="ti ti-user-circle"></i></span>
+    <div>
+      <span class="view-account-kicker">Account profile</span>
+      <h2>{dbo_echo dbo="account_dbo" field="accountname"}</h2>
+      <p>
+        <a href="manager_content.php?page=config_edit_user&user={dbo_echo dbo="account_dbo" field="username"}">{dbo_echo dbo="account_dbo" field="username"}</a>
+        <span># {dbo_echo dbo="account_dbo" field="id"}</span>
+      </p>
+    </div>
+  </div>
+  <div class="view-account-header-actions">
+    {form name="view_account_action"}
+      {form_element field="edit" class="btn btn-primary btn-sm"}
+      {form_element field="delete" class="btn btn-outline-danger btn-sm"}
+    {/form}
+  </div>
+</div>
+
+<div class="view-account-summary">
+  <div class="view-account-stat">
+    <span>{echo phrase="ACCOUNT_STATUS"}</span>
+    <strong>{dbo_echo dbo="account_dbo" field="status"}</strong>
+  </div>
+  <div class="view-account-stat">
+    <span>{echo phrase="BILLING_STATUS"}</span>
+    <strong>{dbo_echo dbo="account_dbo" field="billingstatus"}</strong>
+  </div>
+  <div class="view-account-stat">
+    <span>{echo phrase="ACCOUNT_BALANCE"}</span>
+    <strong>{dbo_echo|currency dbo="account_dbo" field="balance"}</strong>
+  </div>
+  <div class="view-account-stat">
+    <span>Services</span>
+    <strong>{$hosting_count} / {$domain_count} / {$product_count}</strong>
+  </div>
+</div>
+
+<div id="tabs" class="view-account-tabs">
 	<ul>		
-<li><a href="#tabs-1">Account Information</a></li>
-<li><a href="#tabs-2">Notes</a></li>
-<li><a href="#tabs-3">Hostings</a></li>
-<li><a href="#tabs-4">Domains</a></li>
-<li><a href="#tabs-5">Products</a></li>
-<li><a href="#tabs-6">Billing</a></li>
+<li><a href="#tabs-1"><i class="ti ti-id"></i> Account</a></li>
+<li><a href="#tabs-2"><i class="ti ti-notes"></i> Notes</a></li>
+<li><a href="#tabs-3"><i class="ti ti-server"></i> Hostings</a></li>
+<li><a href="#tabs-4"><i class="ti ti-world"></i> Domains</a></li>
+<li><a href="#tabs-5"><i class="ti ti-package"></i> Products</a></li>
+<li><a href="#tabs-6"><i class="ti ti-receipt"></i> Billing</a></li>
 	</ul>
 
 <div id="tabs-1">
 <div id="info" name="[ACCOUNT_INFO]">
 
-    {form name="view_account_action"}
-
-      <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
-        <div>
-          <h2 class="mb-1">{echo phrase="ACCOUNT_INFORMATION"}</h2>
-        </div>
-        <div class="btn-toolbar gap-2">
-          {form_element field="edit" class="btn btn-primary btn-sm"}
-          {form_element field="delete" class="btn btn-outline-danger btn-sm"}
-        </div>
-      </div>
-
       <div class="row g-4">
         <div class="col-lg-6">
-          <div class="card shadow-sm h-100">
+          <div class="card view-account-card h-100">
             <div class="card-body">
-              <h5 class="card-title mb-3">{echo phrase="ACCOUNT_DETAILS"}</h5>
-              <dl class="row mb-0">
+              <h3 class="view-account-section-title"><i class="ti ti-id"></i> {echo phrase="ACCOUNT_DETAILS"}</h3>
+              <dl class="row view-account-definition-list mb-0">
                 <dt class="col-sm-5 text-muted">{echo phrase="ACCOUNT_ID"}:</dt>
                 <dd class="col-sm-7">{dbo_echo dbo="account_dbo" field="id"}</dd>
 
@@ -57,10 +84,10 @@
         </div>
 
         <div class="col-lg-6">
-          <div class="card shadow-sm h-100">
+          <div class="card view-account-card h-100">
             <div class="card-body">
-              <h5 class="card-title mb-3">{echo phrase="CONTACT_INFORMATION"}</h5>
-              <dl class="row mb-0">
+              <h3 class="view-account-section-title"><i class="ti ti-address-book"></i> {echo phrase="CONTACT_INFORMATION"}</h3>
+              <dl class="row view-account-definition-list mb-0">
                 <dt class="col-sm-5 text-muted">{echo phrase="CONTACT_NAME"}:</dt>
                 <dd class="col-sm-7">{dbo_echo dbo="account_dbo" field="contactname"}</dd>
 
@@ -99,16 +126,17 @@
         </div>
       </div>
 
-    {/form}
-
 </div>
 </div>
 
 <div id="tabs-2">
-    <div class="card shadow-sm mb-4">
+    <div class="card view-account-card mb-4">
       <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2 class="mb-0">{echo phrase="NOTES"}</h2>
+        <div class="view-account-panel-header">
+          <div>
+            <h2><i class="ti ti-notes"></i> {echo phrase="NOTES"}</h2>
+            <p>Internal account notes and history.</p>
+          </div>
         </div>
         {form name="view_account_note"}
           <div class="table-responsive">
@@ -137,9 +165,9 @@
       </div>
     </div>
 
-    <div class="card shadow-sm">
+    <div class="card view-account-card">
       <div class="card-body">
-        <h5 class="card-title mb-3">[ADD_NOTE]</h5>
+        <h3 class="view-account-section-title"><i class="ti ti-message-plus"></i> [ADD_NOTE]</h3>
         {form name="view_account_add_note"}
           <div class="mb-3">
             <label class="form-label">{form_description field="text"}</label>
@@ -154,10 +182,13 @@
 </div>
 
 <div id="tabs-3">
-  <div class="card shadow-sm mb-4">
+  <div class="card view-account-card mb-4">
     <div class="card-body">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0">{echo phrase="WEB_HOSTING_SERVICES"}</h2>
+      <div class="view-account-panel-header">
+        <div>
+          <h2><i class="ti ti-server"></i> {echo phrase="WEB_HOSTING_SERVICES"}</h2>
+          <p>{$hosting_count} hosting purchase(s) attached to this account.</p>
+        </div>
         {form name="view_account_hosting"}
           {form_element field="add" class="btn btn-primary btn-sm"}
         {/form}
@@ -210,10 +241,13 @@
 </div>
 
 <div id="tabs-4">
-  <div class="card shadow-sm mb-4">
+  <div class="card view-account-card mb-4">
     <div class="card-body">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0">{echo phrase="DOMAINS"}</h2>
+      <div class="view-account-panel-header">
+        <div>
+          <h2><i class="ti ti-world"></i> {echo phrase="DOMAINS"}</h2>
+          <p>{$domain_count} domain service(s) attached to this account.</p>
+        </div>
         {form name="view_account_domains"}
           {form_element field="add" class="btn btn-primary btn-sm"}
         {/form}
@@ -258,10 +292,13 @@
 </div>
 
 <div id="tabs-5">
-  <div class="card shadow-sm mb-4">
+  <div class="card view-account-card mb-4">
     <div class="card-body">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0">{echo phrase="OTHER_PRODUCTS"}</h2>
+      <div class="view-account-panel-header">
+        <div>
+          <h2><i class="ti ti-package"></i> {echo phrase="OTHER_PRODUCTS"}</h2>
+          <p>{$product_count} product purchase(s) attached to this account.</p>
+        </div>
         {form name="view_account_products"}
           {form_element field="add" class="btn btn-primary btn-sm"}
         {/form}
@@ -307,10 +344,13 @@
 
 <div id="tabs-6">
 
-  <div class="card shadow-sm mb-4">
+  <div class="card view-account-card mb-4">
     <div class="card-body">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0">{echo phrase="BILLING"}</h2>
+      <div class="view-account-panel-header">
+        <div>
+          <h2><i class="ti ti-receipt"></i> {echo phrase="BILLING"}</h2>
+          <p>Invoices, payments, and account balance.</p>
+        </div>
         {form name="view_account_billing_action"}
           {form_element field="add_invoice" class="btn btn-primary btn-sm"}
           {form_element field="add_payment" class="btn btn-success btn-sm"}
@@ -319,7 +359,7 @@
 
       <div class="row g-3 mb-4">
         <div class="col-md-4">
-          <div class="card bg-light border-0 h-100">
+          <div class="view-account-mini-stat h-100">
             <div class="card-body p-3">
               <h6 class="text-muted">{echo phrase="BILLING_STATUS"}</h6>
               <p class="mb-0">{dbo_echo dbo="account_dbo" field="billingstatus"}</p>
@@ -327,7 +367,7 @@
           </div>
         </div>
         <div class="col-md-4">
-          <div class="card bg-light border-0 h-100">
+          <div class="view-account-mini-stat h-100">
             <div class="card-body p-3">
               <h6 class="text-muted">{echo phrase="BILLING_DAY"}</h6>
               <p class="mb-0">{dbo_echo dbo="account_dbo" field="billingday"}</p>
@@ -335,7 +375,7 @@
           </div>
         </div>
         <div class="col-md-4">
-          <div class="card bg-light border-0 h-100">
+          <div class="view-account-mini-stat h-100">
             <div class="card-body p-3">
               <h6 class="text-muted">{echo phrase="ACCOUNT_BALANCE"}</h6>
               <p class="mb-0">{dbo_echo|currency dbo="account_dbo" field="balance"}</p>
