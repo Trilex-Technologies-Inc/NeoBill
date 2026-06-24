@@ -3,6 +3,7 @@
 <head>
     <title>{$order_title}</title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -11,55 +12,60 @@
     <link rel="stylesheet" type="text/css" href="coffee.css" media="screen"/>
 </head>
 
-<body class="bg-light">
+<body class="bg-light order-index-page">
 
-<div class="container py-4">
+<div class="container py-4 order-app">
 
     {* Include page header *}
     {include file="order_header.tpl"}
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded mb-4">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded mb-4 order-navbar">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">{$order_title}</a>
+            <a class="navbar-brand" href="index.php">{$order_title}</a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Domains</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Support</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php?page=cart">Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php?page=purchasehosting">Hosting</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php?page=purchasedomain">Domains</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php?page=customer">Account</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php?page=review">Review</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
-
-            <div class="mb-3">
-                {if $username == null && !$supressWelcome}
-                    <a href="index.php?page=customerlogin" class="btn btn-primary">
-                        {echo phrase="SIGN IN"}
-                    </a>
-
-                {elseif $username == " "}
-
-                {elseif isset($username) && !$supressWelcome}
-                    <div class="alert alert-success mb-0">
-                        {echo phrase="WELCOME_BACK"}, {$username}!
-                        |
-                        <a href="index.php?page=customerlogin&op=logout">
-                            Logout
-                        </a>
-                    </div>
-                {/if}
+    <div class="order-content-card">
+        <div class="order-session-bar">
+            <div>
+                <span class="order-kicker">Checkout</span>
+                <strong>Complete your order securely</strong>
             </div>
+
+            {if $username == null && !$supressWelcome}
+                <a href="index.php?page=customerlogin" class="btn btn-primary order-login-button">
+                    <span class="order-login-button-icon" aria-hidden="true"></span>
+                    <span>{echo phrase="CUSTOMER_LOGIN"}</span>
+                </a>
+
+            {elseif $username == " "}
+
+            {elseif isset($username) && !$supressWelcome}
+                <div class="order-user-pill">
+                    <span>
+                        {echo phrase="WELCOME_BACK"}, {$username}!
+                    </span>
+                    <a href="index.php?page=customerlogin&op=logout">Logout</a>
+                </div>
+            {/if}
+        </div>
+
+        <div class="order-content-body">
 
             {* Display any error messages *}
             {page_errors}
@@ -76,7 +82,7 @@
     {* Include page footer *}
     {include file="order_footer.tpl"}
 
-    <footer class="text-center text-muted mt-4 small">
+    <footer class="text-center text-muted mt-4 small order-credit">
         &copy; 2011
         <a href="http://www.neobill.net">NeoBill</a>.
         Template design by
