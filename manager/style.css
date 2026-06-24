@@ -1200,6 +1200,305 @@ body.login {
 }
 
 /*************************************************
+ * Manager login refresh
+ *************************************************/
+
+.manager-login-page {
+	min-height: 100vh;
+	background:
+		linear-gradient(135deg, rgba(17, 24, 39, 0.95), rgba(31, 41, 55, 0.9)),
+		#111827;
+	color: #111827;
+}
+
+.manager-login-page * {
+	box-sizing: border-box;
+}
+
+.manager-login-shell {
+	display: flex;
+	width: 100%;
+	min-height: 100vh;
+	flex-direction: column;
+	padding: 2rem;
+}
+
+.manager-login-brandbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	max-width: 1120px;
+	margin: 0 auto 2rem;
+}
+
+.manager-login-logo {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.65rem 0.75rem;
+	border: 1px solid rgba(255, 255, 255, 0.16);
+	border-radius: 6px;
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.manager-login-logo img {
+	display: block;
+	width: auto;
+	height: 48px;
+}
+
+.manager-login-panel {
+	display: grid;
+	width: 100%;
+	max-width: 1120px;
+	min-height: 560px;
+	margin: auto;
+	grid-template-columns: minmax(0, 1fr) minmax(360px, 430px);
+	overflow: hidden;
+	border: 1px solid rgba(255, 255, 255, 0.16);
+	border-radius: 8px;
+	background: #ffffff;
+	box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
+}
+
+.manager-login-intro {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	min-height: 100%;
+	padding: 3rem;
+	background:
+		linear-gradient(160deg, rgba(15, 23, 42, 0.92), rgba(29, 78, 216, 0.82));
+	color: #ffffff;
+}
+
+.manager-login-kicker {
+	margin-bottom: 0.85rem;
+	color: #bfdbfe;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.manager-login-intro h1 {
+	max-width: 540px;
+	margin: 0;
+	color: #ffffff;
+	font-size: 2.45rem;
+	font-weight: 700;
+	line-height: 1.12;
+}
+
+.manager-login-intro p {
+	max-width: 520px;
+	margin: 1rem 0 0;
+	color: #dbeafe;
+	font-size: 0.98rem;
+	line-height: 1.7;
+}
+
+.manager-login-highlights {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.7rem;
+	margin-top: 2rem;
+}
+
+.manager-login-highlights span {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	min-height: 34px;
+	padding: 0.35rem 0.7rem;
+	color: #e0f2fe;
+	font-size: 0.78rem;
+	font-weight: 600;
+	border: 1px solid rgba(191, 219, 254, 0.3);
+	border-radius: 4px;
+	background: rgba(15, 23, 42, 0.34);
+}
+
+.manager-login-card {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 3rem;
+	background: #ffffff;
+}
+
+.manager-login-alert {
+	margin-bottom: 1.25rem;
+	font-size: 0.82rem;
+	border-radius: 4px;
+}
+
+.manager-login-form-header {
+	display: flex;
+	align-items: center;
+	gap: 0.85rem;
+	margin-bottom: 1.75rem;
+}
+
+.manager-login-lock {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	flex: 0 0 auto;
+	color: #1d4ed8;
+	font-size: 1.25rem;
+	border: 1px solid #bfdbfe;
+	border-radius: 6px;
+	background: #eff6ff;
+}
+
+.manager-login-form-header h2 {
+	margin: 0;
+	color: #111827;
+	font-size: 1.35rem;
+	font-weight: 700;
+}
+
+.manager-login-form-header p {
+	margin: 0.25rem 0 0;
+	color: #6b7280;
+	font-size: 0.82rem;
+}
+
+.manager-login-field {
+	margin-bottom: 1rem;
+}
+
+.manager-login-field .form-label {
+	margin-bottom: 0.4rem;
+	color: #374151;
+	font-size: 0.75rem;
+	font-weight: 700;
+}
+
+.manager-login-input {
+	position: relative;
+}
+
+.manager-login-input > i {
+	position: absolute;
+	top: 50%;
+	left: 0.9rem;
+	z-index: 2;
+	color: #6b7280;
+	font-size: 1rem;
+	transform: translateY(-50%);
+	pointer-events: none;
+}
+
+.manager-login-input .form-control,
+.manager-login-input .form-select {
+	width: 100%;
+	min-height: 46px;
+	padding-left: 2.65rem;
+	color: #111827;
+	font-size: 0.9rem;
+	border: 1px solid #d1d5db;
+	border-radius: 5px;
+	background-color: #ffffff;
+	box-shadow: none;
+}
+
+.manager-login-input .form-select {
+	padding-right: 2.25rem;
+}
+
+.manager-login-input .form-control:focus,
+.manager-login-input .form-select:focus {
+	border-color: #2563eb;
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+}
+
+.manager-login-actions {
+	display: grid;
+	margin-top: 1.5rem;
+}
+
+.manager-login-actions .btn,
+.manager-login-actions input[type="submit"] {
+	min-height: 46px;
+	font-weight: 700;
+	border-radius: 5px;
+}
+
+@media (max-width: 900px) {
+	.manager-login-shell {
+		padding: 1.25rem;
+	}
+
+	.manager-login-brandbar {
+		margin-bottom: 1.25rem;
+	}
+
+	.manager-login-panel {
+		max-width: 620px;
+		grid-template-columns: 1fr;
+	}
+
+	.manager-login-intro {
+		min-height: auto;
+		padding: 2rem;
+	}
+
+	.manager-login-intro h1 {
+		font-size: 2rem;
+	}
+
+	.manager-login-card {
+		padding: 2rem;
+	}
+}
+
+@media (max-width: 575.98px) {
+	.manager-login-shell {
+		padding: 0.85rem;
+	}
+
+	.manager-login-logo img {
+		height: 40px;
+	}
+
+	.manager-login-panel {
+		min-height: auto;
+		border-radius: 6px;
+	}
+
+	.manager-login-intro,
+	.manager-login-card {
+		padding: 1.25rem;
+	}
+
+	.manager-login-intro h1 {
+		font-size: 1.55rem;
+	}
+
+	.manager-login-intro p {
+		font-size: 0.88rem;
+	}
+
+	.manager-login-highlights {
+		gap: 0.5rem;
+		margin-top: 1.25rem;
+	}
+
+	.manager-login-highlights span {
+		min-height: 32px;
+		font-size: 0.72rem;
+	}
+
+	.manager-login-form-header {
+		align-items: flex-start;
+	}
+}
+
+/*************************************************
  * Action box
  *************************************************/
 

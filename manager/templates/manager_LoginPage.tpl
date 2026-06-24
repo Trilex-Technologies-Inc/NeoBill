@@ -29,46 +29,71 @@
   </head>
 
 
-  <body class="bootstrap-layout">
-{include file="$header_template"}
-    <div class="clearfix"></div>
+  <body class="bootstrap-layout manager-login-page">
     {capture assign="_page_errors_html"}{page_errors}{/capture}
-    {if trim($_page_errors_html) != ""}
-      <div class="container mt-3">
-        <div class="alert alert-danger py-2 mb-0" role="alert">{$_page_errors_html}</div>
+    <main class="manager-login-shell">
+      <div class="manager-login-brandbar">
+        <a href="index.php" class="manager-login-logo" aria-label="NeoBill home">
+          <img src="images/logo.gif" alt="NeoBill" />
+        </a>
       </div>
-    {/if}
-    <main class="container my-5">
-      <div class="row justify-content-center">
-        <div class="col-12 col-sm-10 col-md-6 col-lg-5">
-          <div class="card shadow-sm">
-            <div class="card-body p-4">
 
-      {form name="login"}  
-        <h1 class="h4 mb-4 text-center">NeoBill {echo phrase="LOGIN"}</h1>
+      <section class="manager-login-panel" aria-labelledby="manager-login-title">
+        <div class="manager-login-intro">
+          <div class="manager-login-kicker">Manager Console</div>
+          <h1 id="manager-login-title">NeoBill {echo phrase="LOGIN"}</h1>
+          <p>Access accounts, billing, domains, services, and administrative tools from one secure workspace.</p>
 
-        <div class="mb-3">
-          <label class="form-label">{echo phrase="USERNAME"}</label>
-          {form_element field="username" size="30" class="form-control" autocomplete="username"}
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">{echo phrase="PASSWORD"}</label>
-          {form_element field="password" size="30" class="form-control" autocomplete="current-password"}
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">[THEME]</label>
-          {form_element field="theme" class="form-select"}
-        </div>
-
-        <div class="d-grid mt-4">{form_element field="continue" class="btn btn-primary"}</div>
-
-      {/form}
-            </div>
+          <div class="manager-login-highlights" aria-label="Manager features">
+            <span><i class="ti ti-users"></i> Accounts</span>
+            <span><i class="ti ti-receipt"></i> Billing</span>
+            <span><i class="ti ti-world"></i> Domains</span>
           </div>
         </div>
-      </div>
+
+        <div class="manager-login-card">
+          {if trim($_page_errors_html) != ""}
+            <div class="alert alert-danger manager-login-alert" role="alert">{$_page_errors_html}</div>
+          {/if}
+
+      {form name="login"}  
+        <div class="manager-login-form-header">
+          <div class="manager-login-lock"><i class="ti ti-lock"></i></div>
+          <div>
+            <h2>Welcome back</h2>
+            <p>Sign in to continue to NeoBill Manager.</p>
+          </div>
+        </div>
+
+        <div class="manager-login-field">
+          <label class="form-label">{echo phrase="USERNAME"}</label>
+          <div class="manager-login-input">
+            <i class="ti ti-user"></i>
+            {form_element field="username" size="30" class="form-control" autocomplete="username"}
+          </div>
+        </div>
+
+        <div class="manager-login-field">
+          <label class="form-label">{echo phrase="PASSWORD"}</label>
+          <div class="manager-login-input">
+            <i class="ti ti-key"></i>
+            {form_element field="password" size="30" class="form-control" autocomplete="current-password"}
+          </div>
+        </div>
+
+        <div class="manager-login-field">
+          <label class="form-label">[THEME]</label>
+          <div class="manager-login-input manager-login-select">
+            <i class="ti ti-palette"></i>
+            {form_element field="theme" class="form-select"}
+          </div>
+        </div>
+
+        <div class="manager-login-actions">{form_element field="continue" class="btn btn-primary"}</div>
+
+      {/form}
+        </div>
+      </section>
     </main>
     <script src="./vendor/flexy/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   </body>
