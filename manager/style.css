@@ -948,8 +948,15 @@ body.sb-nav-fixed .manager_content.new-account-page {
 }
 
 .new-account-choice label i {
+	flex: 0 0 auto;
 	color: #64748b;
 	font-size: 1rem;
+}
+
+.new-account-choice label span {
+	min-width: 0;
+	overflow-wrap: anywhere;
+	line-height: 1.25;
 }
 
 .new-account-choice input:checked + label {
@@ -1006,6 +1013,10 @@ body.sb-nav-fixed .manager_content.new-account-page {
 .new-account-actions button:first-child:hover {
 	border-color: var(--nb-primary-600);
 	background: var(--nb-primary-600);
+}
+
+.edit-account-page .new-account-actions {
+	justify-content: flex-end;
 }
 
 @media (max-width: 991.98px) {
