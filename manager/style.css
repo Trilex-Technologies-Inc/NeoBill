@@ -1446,6 +1446,342 @@ body.sb-nav-fixed .manager_content.view-account-page {
 	}
 }
 
+/******************************************************
+ * Edit user page
+ ******************************************************/
+
+body.sb-nav-fixed .manager_content.user-edit-page {
+	padding: 0;
+	overflow: hidden;
+	border-radius: 8px;
+}
+
+.user-edit-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1.4rem 1.5rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.user-edit-title {
+	display: flex;
+	align-items: center;
+	gap: 0.95rem;
+	min-width: 0;
+}
+
+.user-edit-avatar,
+.user-edit-card-header > span,
+.user-edit-danger-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	border-radius: 6px;
+}
+
+.user-edit-avatar {
+	width: 48px;
+	height: 48px;
+	color: #1d4ed8;
+	font-size: 1.5rem;
+	border: 1px solid #bfdbfe;
+	background: #eff6ff;
+}
+
+.user-edit-kicker {
+	display: block;
+	margin-bottom: 0.2rem;
+	color: #64748b;
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.user-edit-title h2 {
+	margin: 0;
+	color: #111827;
+	font-size: 1.3rem;
+	font-weight: 700;
+}
+
+.user-edit-title p {
+	margin: 0.2rem 0 0;
+	overflow: hidden;
+	color: #6b7280;
+	font-size: 0.8rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.user-edit-header .btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	flex: 0 0 auto;
+	border-radius: 4px;
+	font-weight: 700;
+}
+
+.user-edit-summary {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	border-bottom: 1px solid #e5e7eb;
+	background: #f8fafc;
+}
+
+.user-edit-stat {
+	padding: 1rem 1.5rem;
+	border-right: 1px solid #e5e7eb;
+}
+
+.user-edit-stat:last-child {
+	border-right: 0;
+}
+
+.user-edit-stat span {
+	display: block;
+	margin-bottom: 0.25rem;
+	color: #64748b;
+	font-size: 0.7rem;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.user-edit-stat strong {
+	display: block;
+	overflow: hidden;
+	color: #111827;
+	font-size: 1rem;
+	font-weight: 750;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.user-edit-tabs {
+	gap: 0.4rem;
+	margin: 0;
+	padding: 0.85rem 1rem 0;
+	border-bottom: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.user-edit-tabs .nav-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.65rem 0.85rem;
+	color: #4b5563;
+	font-size: 0.8rem;
+	font-weight: 700;
+	border: 1px solid transparent;
+	border-bottom: 0;
+	border-radius: 4px 4px 0 0;
+}
+
+.user-edit-tabs .nav-link.active {
+	color: #1d4ed8;
+	border-color: #e5e7eb;
+	background: #f8fafc;
+}
+
+.user-edit-tabs .user-edit-danger-tab {
+	color: #991b1b;
+}
+
+.user-edit-tab-content {
+	padding: 1.5rem;
+	background: #f8fafc;
+}
+
+.user-edit-card,
+.user-edit-danger-card {
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	background: #ffffff;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.user-edit-card-header {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+	padding: 1.1rem 1.2rem;
+	border-bottom: 1px solid #e5e7eb;
+}
+
+.user-edit-card-header > span {
+	width: 38px;
+	height: 38px;
+	color: #1d4ed8;
+	font-size: 1.1rem;
+	border: 1px solid #bfdbfe;
+	background: #eff6ff;
+}
+
+.user-edit-card-header h3,
+.user-edit-danger-card h3 {
+	margin: 0;
+	color: #111827;
+	font-size: 0.98rem;
+	font-weight: 700;
+}
+
+.user-edit-card-header p,
+.user-edit-danger-card p {
+	margin: 0.18rem 0 0;
+	color: #6b7280;
+	font-size: 0.8rem;
+}
+
+.user-edit-card-body {
+	padding: 1.2rem;
+}
+
+.user-edit-field {
+	margin-bottom: 1rem;
+}
+
+.user-edit-field .form-label {
+	margin-bottom: 0.35rem;
+	color: #374151;
+	font-size: 0.75rem;
+	font-weight: 700;
+}
+
+.user-edit-page input[type="text"],
+.user-edit-page input[type="password"],
+.user-edit-page input[type="email"],
+.user-edit-page input:not([type]),
+.user-edit-page select,
+.user-edit-page textarea {
+	display: block;
+	width: 100%;
+	min-height: 40px;
+	padding: 0.5rem 0.65rem;
+	color: #111827;
+	font-size: 0.86rem;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	background: #ffffff;
+	box-shadow: none;
+}
+
+.user-edit-input-icon {
+	position: relative;
+}
+
+.user-edit-input-icon > i {
+	position: absolute;
+	top: 50%;
+	left: 0.75rem;
+	z-index: 2;
+	width: 1rem;
+	color: #64748b;
+	text-align: center;
+	transform: translateY(-50%);
+	pointer-events: none;
+}
+
+.user-edit-page .user-edit-input-icon input {
+	padding-left: 2.35rem;
+}
+
+.user-edit-page input[type="text"]:focus,
+.user-edit-page input[type="password"]:focus,
+.user-edit-page input[type="email"]:focus,
+.user-edit-page input:not([type]):focus,
+.user-edit-page select:focus,
+.user-edit-page textarea:focus {
+	border-color: #2563eb;
+	outline: 0;
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.user-edit-actions {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 1.5rem;
+	padding-top: 1.2rem;
+	border-top: 1px solid #e5e7eb;
+}
+
+.user-edit-actions .btn,
+.user-edit-actions input[type="submit"] {
+	min-height: 40px;
+	padding: 0.5rem 0.95rem;
+	font-size: 0.82rem;
+	font-weight: 700;
+	border-radius: 4px;
+}
+
+.user-edit-danger-card {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	padding: 1.2rem;
+	border-color: #fecaca;
+	background: #fffafa;
+}
+
+.user-edit-danger-icon {
+	width: 44px;
+	height: 44px;
+	color: #b91c1c;
+	font-size: 1.35rem;
+	border: 1px solid #fecaca;
+	background: #fef2f2;
+}
+
+.user-edit-danger-card form {
+	margin: 0 0 0 auto;
+}
+
+@media (max-width: 767.98px) {
+	.user-edit-summary {
+		grid-template-columns: 1fr;
+	}
+
+	.user-edit-stat {
+		border-right: 0;
+		border-bottom: 1px solid #e5e7eb;
+	}
+
+	.user-edit-stat:last-child {
+		border-bottom: 0;
+	}
+}
+
+@media (max-width: 575.98px) {
+	.user-edit-header,
+	.user-edit-danger-card {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.user-edit-header,
+	.user-edit-tab-content,
+	.user-edit-card-body,
+	.user-edit-card-header {
+		padding: 1rem;
+	}
+
+	.user-edit-header .btn,
+	.user-edit-actions input,
+	.user-edit-danger-card form,
+	.user-edit-danger-card input {
+		width: 100%;
+	}
+
+	.user-edit-danger-card form {
+		margin-left: 0;
+	}
+}
+
 /* Bootstrap buttons tweak for a more "app" feel */
 .btn.btn-primary {
 	background: var(--nb-primary);
