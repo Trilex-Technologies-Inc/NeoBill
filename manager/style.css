@@ -2368,6 +2368,36 @@ body.login {
 	border-radius: 4px;
 }
 
+.manager-login-alert p.error {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin: 0;
+	padding: 0;
+	color: #991b1b;
+	font-size: 0.86rem;
+	font-weight: 700;
+	border: 0;
+	background: transparent;
+}
+
+.manager-login-alert p.error::before {
+	content: "\ea06";
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	flex: 0 0 auto;
+	color: #b91c1c;
+	font-family: "tabler-icons";
+	font-size: 1rem;
+	font-weight: normal;
+	border: 1px solid #fecaca;
+	border-radius: 50%;
+	background: #fee2e2;
+}
+
 .manager-login-form-header {
 	display: flex;
 	align-items: center;
