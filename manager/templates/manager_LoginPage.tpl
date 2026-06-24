@@ -32,22 +32,22 @@
   <body class="bootstrap-layout manager-login-page">
     {capture assign="_page_errors_html"}{page_errors}{/capture}
     <main class="manager-login-shell">
-      <div class="manager-login-brandbar">
-        <a href="index.php" class="manager-login-logo" aria-label="NeoBill home">
-          <img src="images/logo.gif" alt="NeoBill" />
-        </a>
-      </div>
-
       <section class="manager-login-panel" aria-labelledby="manager-login-title">
         <div class="manager-login-intro">
-          <div class="manager-login-kicker">Manager Console</div>
-          <h1 id="manager-login-title">NeoBill {echo phrase="LOGIN"}</h1>
-          <p>Access accounts, billing, domains, services, and administrative tools from one secure workspace.</p>
+          <a href="index.php" class="manager-login-logo" aria-label="NeoBill home">
+            <img src="images/logo.gif" alt="NeoBill" />
+          </a>
 
-          <div class="manager-login-highlights" aria-label="Manager features">
-            <span><i class="ti ti-users"></i> Accounts</span>
-            <span><i class="ti ti-receipt"></i> Billing</span>
-            <span><i class="ti ti-world"></i> Domains</span>
+          <div class="manager-login-intro-copy">
+            <div class="manager-login-kicker">Manager Console</div>
+            <h1 id="manager-login-title">NeoBill {echo phrase="LOGIN"}</h1>
+            <p>Access accounts, billing, domains, services, and administrative tools from one secure workspace.</p>
+
+            <div class="manager-login-highlights" aria-label="Manager features">
+              <span><i class="ti ti-users"></i> Accounts</span>
+              <span><i class="ti ti-receipt"></i> Billing</span>
+              <span><i class="ti ti-world"></i> Domains</span>
+            </div>
           </div>
         </div>
 
