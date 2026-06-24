@@ -1,4 +1,7 @@
-<h2>Please Review Your Order</h2>
+<div class="order-page-heading">
+  <span class="order-kicker">Final step</span>
+  <h2>Please Review Your Order</h2>
+</div>
 
 <div class="card mb-4">
   <div class="card-header"><h5 class="mb-0">{echo phrase="CONTACT_EMAIL"}</h5></div>

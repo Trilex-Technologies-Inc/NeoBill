@@ -1,10 +1,13 @@
-<b> {echo phrase="YOUR_ORDER"}: </b>
+<div class="order-page-heading">
+  <span class="order-kicker">Cart</span>
+  <h2>{echo phrase="YOUR_ORDER"}</h2>
+</div>
 {form name="cart_mod"}
-  <div class="cart">
+  <div class="cart table-responsive">
     {form_table field="cart"}
 
       {form_table_column columnid=""}
-        <center> {form_table_checkbox option=$cart.orderitemid} </center>
+        <div class="order-table-check">{form_table_checkbox option=$cart.orderitemid}</div>
       {/form_table_column}
 
       {form_table_column columnid="description" header="[ITEM]"}
@@ -32,7 +35,7 @@
     {/form_table}
   </div>
 
-  <div class="cart_total">
+  <div class="cart_total order-total-card">
       <table>
         <tr>
           <th>{echo phrase="RECURRING_TOTAL"}:</th>
@@ -52,14 +55,8 @@
 {/form}
 
 {form name="cart_nav"}
-  <div class="buttoncontainer">
-    <table>
-      <tr>
-        <td class="left">{form_element field="startover"}</td>
-        <td class="right">
-          {form_element field="checkout"}
-        </td>
-      </tr>
-    </table>
+  <div class="buttoncontainer order-actions">
+    <div>{form_element field="startover"}</div>
+    <div>{form_element field="checkout"}</div>
   </div>
 {/form}

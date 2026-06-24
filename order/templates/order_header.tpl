@@ -1,5 +1,9 @@
-<div class="header">
-  <h1 style="color: #E4DBCF; font: normal 3.4em 'Lucida Sans Unicode','Trebuchet MS',sans-serif; padding: 32px">NeoBill Order Interface</h1>
+<div class="order-hero">
+  <div>
+    <span class="order-kicker">Secure checkout</span>
+    <h1>NeoBill Order Interface</h1>
+    <p>Choose services, confirm account details, and complete your order.</p>
+  </div>
 </div>
-  <!-- Colors & styles can be customized in order/style.css-->
-  <!-- Customize this header in order/templates/order_header.tpl -->
+<!-- Colors & styles can be customized in order/coffee.css -->
+<!-- Customize this header in order/templates/order_header.tpl -->

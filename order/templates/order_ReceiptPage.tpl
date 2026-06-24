@@ -1,8 +1,14 @@
-<h1> {echo phrase="THANK_YOU_FOR_YOUR_ORDER"} </h2>
+<div class="order-success">
+  <span class="order-success-icon">✓</span>
+  <div>
+    <span class="order-kicker">Order complete</span>
+    <h2>{echo phrase="THANK_YOU_FOR_YOUR_ORDER"}</h2>
+  </div>
+</div>
 
-<p>
+<p class="order-lead">
   {echo phrase="YOUR_ORDER_REFERENCE_NUMBER_IS"}:
-  {$orderid}
+  <strong>{$orderid}</strong>
 </p>
 
 <p>
