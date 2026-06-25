@@ -1,151 +1,74 @@
-<div class="manager_content">
-
-<h2 class="mb-4">{echo phrase="TRANSFER_DOMAIN"}</h2>
-
-{form name="transfer_domain_confirm"}
-  
-  <div class="card">
-    <div class="card-header bg-info text-white">
-      <h3 class="h6 mb-0">{echo phrase="CONFIRM_DOMAIN_TRANSFER"}</h3>
-    </div>
-    <div class="card-body">
-      
-      <div class="properties">
-        
-        <div class="alert alert-info mb-4">
-          {echo phrase="TRANSFER_DOMAIN_CONFIRM"}
+<div class="manager_content transfer-domain-page">
+  <div class="transfer-domain-shell">
+    <div class="transfer-domain-header">
+      <div class="transfer-domain-title">
+        <span class="transfer-domain-icon"><i class="ti ti-transfer-in"></i></span>
+        <div>
+          <span class="transfer-domain-kicker">Domains</span>
+          <h2>{echo phrase="CONFIRM_DOMAIN_TRANSFER"}</h2>
+          <p>Review the transfer details before it is submitted.</p>
         </div>
-        
-        <!-- Account Name -->
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="ACCOUNT_NAME"}:</div>
-          <div class="col-md-8 p-2">
-            <span class="fw-bold text-primary">{dbo_echo dbo="dspdbo" field="accountname"}</span>
-          </div>
-        </div>
-        
-        <!-- Domain Name -->
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="DOMAIN_NAME"}:</div>
-          <div class="col-md-8 p-2">
-            <span class="badge bg-info fs-6">{dbo_echo dbo="dspdbo" field="fulldomainname"}</span>
-          </div>
-        </div>
-        
-        <!-- Registration Terms -->
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="REGISTRATION_TERMS"}:</div>
-          <div class="col-md-8 p-2">
-            <span class="badge bg-secondary">{dbo_echo dbo="dspdbo" field="term"} {echo phrase="YEAR"}(s)</span>
-          </div>
-        </div>
-        
-        <!-- Name Servers -->
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="NAME_SERVERS"}:</div>
-          <div class="col-md-8 p-2">
-            {foreach from=$nameservers item=ns}
-              <code class="d-block mb-1">{$ns}</code>
-            {/foreach}
-          </div>
-        </div>
-        
-        <!-- Name -->
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="NAME"}:</div>
-          <div class="col-md-8 p-2">
-            <span class="fw-bold">{dbo_echo dbo="accountdbo" field="contactname"}</span>
-          </div>
-        </div>
-        
-        <!-- Company -->
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="COMPANY"}:</div>
-          <div class="col-md-8 p-2">
-            {assign var="businessname" value={dbo_echo dbo="accountdbo" field="businessname"}}
-            {if $businessname}
-              <span class="badge bg-secondary">{$businessname}</span>
-            {else}
-              <span class="text-muted">-</span>
-            {/if}
-          </div>
-        </div>
-        
-        <!-- Email -->
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="EMAIL"}:</div>
-          <div class="col-md-8 p-2">
-            <a href="mailto:{dbo_echo dbo='accountdbo' field='contactemail'}" class="text-decoration-none">
-              {dbo_echo dbo="accountdbo" field="contactemail"}
-            </a>
-          </div>
-        </div>
-        
-        <!-- Address -->
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="ADDRESS"}:</div>
-          <div class="col-md-8 p-2">
-            {dbo_echo dbo="accountdbo" field="address1"}<br>
-            {if {dbo_echo dbo="accountdbo" field="address2"}}
-              {dbo_echo dbo="accountdbo" field="address2"}<br>
-            {/if}
-          </div>
-        </div>
-        
-        <!-- City -->
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="CITY"}:</div>
-          <div class="col-md-8 p-2">
-            <span class="badge bg-light text-dark">{dbo_echo dbo="accountdbo" field="city"}</span>
-          </div>
-        </div>
-        
-        <!-- State -->
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="STATE"}:</div>
-          <div class="col-md-8 p-2">
-            <span class="badge bg-light text-dark">{dbo_echo dbo="accountdbo" field="state"}</span>
-          </div>
-        </div>
-        
-        <!-- Country -->
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="COUNTRY"}:</div>
-          <div class="col-md-8 p-2">
-            <span class="badge bg-info">{dbo_echo dbo="accountdbo" field="country"}</span>
-          </div>
-        </div>
-        
-        <!-- Phone -->
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="PHONE"}:</div>
-          <div class="col-md-8 p-2">
-            <span class="fw-bold">{dbo_echo dbo="accountdbo" field="phone"}</span>
-          </div>
-        </div>
-        
-        <!-- Fax -->
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="FAX"}:</div>
-          <div class="col-md-8 p-2">
-            {assign var="fax" value={dbo_echo dbo="accountdbo" field="fax"}}
-            {if $fax}
-              {$fax}
-            {else}
-              <span class="text-muted">-</span>
-            {/if}
-          </div>
-        </div>
-        
       </div>
-      
     </div>
-    <div class="card-footer d-flex gap-2 justify-content-end">
-      {form_element field="continue" class="btn btn-success"}
-      {form_element field="cancel" class="btn btn-secondary"}
-    </div>
+
+    {form name="transfer_domain_confirm"}
+      <div class="transfer-domain-card card">
+        <div class="card-header transfer-domain-card-header">
+          <div>
+            <span>Confirmation</span>
+            <h3>{echo phrase="TRANSFER_DOMAIN_CONFIRM"}</h3>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="transfer-domain-confirm-note">
+            {echo phrase="TRANSFER_DOMAIN_CONFIRM"}
+          </div>
+
+          <div class="transfer-domain-confirm-grid">
+            <div class="transfer-domain-confirm-item">
+              <span class="transfer-domain-confirm-label">{echo phrase="DOMAIN_NAME"}</span>
+              <strong>{dbo_echo dbo="dspdbo" field="fulldomainname"}</strong>
+            </div>
+            <div class="transfer-domain-confirm-item">
+              <span class="transfer-domain-confirm-label">{echo phrase="ACCOUNT_NAME"}</span>
+              <strong>{dbo_echo dbo="dspdbo" field="accountname"}</strong>
+            </div>
+            <div class="transfer-domain-confirm-item">
+              <span class="transfer-domain-confirm-label">{echo phrase="REGISTRATION_TERMS"}</span>
+              <strong>{dbo_echo dbo="dspdbo" field="term"} {echo phrase="YEAR"}(s)</strong>
+            </div>
+          </div>
+
+          <div class="transfer-domain-contact-card">
+            <h4>Contact Profile</h4>
+            <dl class="transfer-domain-contact-list">
+              <div><dt>{echo phrase="NAME"}</dt><dd>{dbo_echo dbo="accountdbo" field="contactname"}</dd></div>
+              {assign var="businessname" value={dbo_echo dbo="accountdbo" field="businessname"}}
+              <div><dt>{echo phrase="COMPANY"}</dt><dd>{if $businessname}{$businessname}{else}<span class="text-muted">-</span>{/if}</dd></div>
+              <div><dt>{echo phrase="EMAIL"}</dt><dd><a href="mailto:{dbo_echo dbo='accountdbo' field='contactemail'}">{dbo_echo dbo="accountdbo" field="contactemail"}</a></dd></div>
+              <div><dt>{echo phrase="ADDRESS"}</dt><dd>{dbo_echo dbo="accountdbo" field="address1"}{if {dbo_echo dbo="accountdbo" field="address2"}}<br>{dbo_echo dbo="accountdbo" field="address2"}{/if}</dd></div>
+              <div><dt>{echo phrase="CITY"}</dt><dd>{dbo_echo dbo="accountdbo" field="city"}</dd></div>
+              <div><dt>{echo phrase="STATE"}</dt><dd>{dbo_echo dbo="accountdbo" field="state"}</dd></div>
+              <div><dt>{echo phrase="COUNTRY"}</dt><dd>{dbo_echo dbo="accountdbo" field="country"}</dd></div>
+              <div><dt>{echo phrase="PHONE"}</dt><dd>{dbo_echo dbo="accountdbo" field="phone"}</dd></div>
+              <div><dt>{echo phrase="FAX"}</dt><dd>{assign var="fax" value={dbo_echo dbo="accountdbo" field="fax"}}{if $fax}{$fax}{else}<span class="text-muted">-</span>{/if}</dd></div>
+            </dl>
+          </div>
+
+          <div class="transfer-domain-nameservers">
+            <h4>{echo phrase="NAME_SERVERS"}</h4>
+            <div class="transfer-domain-nameserver-list">
+              {foreach from=$nameservers item=ns}
+                <code>{$ns}</code>
+              {/foreach}
+            </div>
+          </div>
+        </div>
+        <div class="card-footer transfer-domain-footer transfer-domain-footer-split">
+          <div>{form_element field="cancel" class="btn btn-outline-secondary transfer-domain-cancel"}</div>
+          <div>{form_element field="continue" class="btn btn-success transfer-domain-submit"}</div>
+        </div>
+      </div>
+    {/form}
   </div>
-
-{/form}
-
 </div>

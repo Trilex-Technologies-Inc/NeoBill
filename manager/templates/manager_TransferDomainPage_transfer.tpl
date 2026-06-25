@@ -1,48 +1,41 @@
-<div class="manager_content">
-
-{form name="transfer_domain_service"}
-
-  <div class="card">
-    <div class="card-header bg-info text-white">
-      <h3 class="h6 mb-0">{echo phrase="TRANSFER"} {dbo_echo dbo="dspdbo" field="fulldomainname"}</h3>
+<div class="manager_content transfer-domain-page">
+  <div class="transfer-domain-shell">
+    <div class="transfer-domain-header">
+      <div class="transfer-domain-title">
+        <span class="transfer-domain-icon"><i class="ti ti-transfer-in"></i></span>
+        <div>
+          <span class="transfer-domain-kicker">Domains</span>
+          <h2>{echo phrase="TRANSFER"} {dbo_echo dbo="dspdbo" field="fulldomainname"}</h2>
+          <p>Choose the account and term for this transfer.</p>
+        </div>
+      </div>
     </div>
-    <div class="card-body">
-      
-      <div class="form">
-        
-        <!-- Account -->
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">
-            {form_description field="account"}
-          </div>
-          <div class="col-md-8 p-2">
-            {form_element field="account" class="form-select"}
+
+    {form name="transfer_domain_service"}
+      <div class="transfer-domain-card card">
+        <div class="card-header transfer-domain-card-header">
+          <div>
+            <span>Transfer Setup</span>
+            <h3>Assign the domain to an account</h3>
           </div>
         </div>
-        
-        <!-- Term -->
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">
-            {form_description field="term"}
-          </div>
-          <div class="col-md-8 p-2">
-            {form_element field="term" class="form-select"}
+        <div class="card-body">
+          <div class="transfer-domain-grid">
+            <div class="transfer-domain-field">
+              <label class="form-label">{form_description field="account"}</label>
+              {form_element field="account" class="form-select"}
+            </div>
+            <div class="transfer-domain-field">
+              <label class="form-label">{form_description field="term"}</label>
+              {form_element field="term" class="form-select"}
+            </div>
           </div>
         </div>
-        
+        <div class="card-footer transfer-domain-footer transfer-domain-footer-split">
+          <div>{form_element field="cancel" class="btn btn-outline-secondary transfer-domain-cancel"}</div>
+          <div>{form_element field="continue" class="btn btn-primary transfer-domain-submit"}</div>
+        </div>
       </div>
-      
-    </div>
-    <div class="card-footer d-flex justify-content-between">
-      <div class="left">
-        {form_element field="cancel" class="btn btn-secondary"}
-      </div>
-      <div class="right">
-        {form_element field="continue" class="btn btn-primary"}
-      </div>
-    </div>
+    {/form}
   </div>
-
-{/form}
-
 </div>

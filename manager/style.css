@@ -2990,6 +2990,12 @@ body.sb-nav-fixed .manager_content.registered-domains-page {
 	border-radius: 8px;
 }
 
+body.sb-nav-fixed .manager_content.register-domain-page {
+	padding: 0;
+	overflow: hidden;
+	border-radius: 8px;
+}
+
 .registered-domains-shell {
 	background: #f8fafc;
 }
@@ -3417,6 +3423,459 @@ body.sb-nav-fixed .manager_content.registered-domains-page {
 
 	.registered-domains-table-card {
 		margin: 1rem;
+	}
+}
+
+/******************************************************
+ * Register domain page
+ ******************************************************/
+
+.register-domain-shell {
+	background: linear-gradient(180deg, #f8fbff 0%, #f5f7fb 100%);
+}
+
+.register-domain-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1.4rem 1.5rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.register-domain-title {
+	display: flex;
+	align-items: center;
+	gap: 0.95rem;
+	min-width: 0;
+}
+
+.register-domain-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	width: 48px;
+	height: 48px;
+	color: #15803d;
+	border: 1px solid #bbf7d0;
+	border-radius: 6px;
+	background: #f0fdf4;
+	font-size: 1.4rem;
+}
+
+.register-domain-kicker {
+	display: block;
+	margin-bottom: 0.2rem;
+	color: #64748b;
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.register-domain-title h2 {
+	margin: 0;
+	color: #111827;
+	font-size: 1.3rem;
+	font-weight: 700;
+}
+
+.register-domain-title p {
+	margin: 0.18rem 0 0;
+	color: #6b7280;
+	font-size: 0.8rem;
+}
+
+.register-domain-actions .btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	min-height: 38px;
+	border-radius: 4px;
+	font-size: 0.82rem;
+	font-weight: 700;
+}
+
+.register-domain-card {
+	margin: 1.5rem;
+	border: 1px solid #e5e7eb;
+	border-radius: 12px;
+	box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+	overflow: hidden;
+}
+
+.register-domain-card-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1rem 1.25rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.register-domain-card-header span {
+	display: block;
+	color: #16a34a;
+	font-size: 0.68rem;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.register-domain-card-header h3 {
+	margin: 0.2rem 0 0;
+	color: #111827;
+	font-size: 0.98rem;
+	font-weight: 700;
+}
+
+.register-domain-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 1rem;
+}
+
+.register-domain-field .form-label {
+	margin-bottom: 0.35rem;
+	color: #374151;
+	font-size: 0.75rem;
+	font-weight: 700;
+}
+
+.register-domain-field .form-control,
+.register-domain-field .form-select {
+	min-height: 42px;
+	border-color: #d1d5db;
+	border-radius: 4px;
+}
+
+.register-domain-input-group {
+	box-shadow: none;
+}
+
+.register-domain-input {
+	min-width: 0;
+}
+
+.register-domain-tld {
+	flex: 0 0 140px;
+	max-width: 140px;
+}
+
+.register-domain-separator {
+	padding-left: 0.8rem;
+	padding-right: 0.8rem;
+	color: #64748b;
+	background: #f8fafc;
+}
+
+.register-domain-help {
+	margin-top: 0.45rem;
+	color: #6b7280;
+	font-size: 0.78rem;
+}
+
+.register-domain-footer {
+	padding: 1rem 1.25rem 1.25rem;
+	background: #ffffff;
+	text-align: right;
+}
+
+.register-domain-submit {
+	min-width: 160px;
+}
+
+@media (max-width: 575.98px) {
+	.register-domain-header {
+		align-items: flex-start;
+		padding: 1.15rem 1rem;
+		flex-direction: column;
+	}
+
+	.register-domain-card {
+		margin: 1rem;
+	}
+
+	.register-domain-card-header,
+	.register-domain-footer {
+		padding: 1rem;
+	}
+
+	.register-domain-input-group {
+		flex-direction: column;
+	}
+
+	.register-domain-separator {
+		display: none;
+	}
+
+	.register-domain-tld {
+		flex: 1 1 auto;
+		max-width: none;
+		width: 100%;
+	}
+
+	.register-domain-footer {
+		text-align: left;
+	}
+
+	.register-domain-submit {
+		width: 100%;
+	}
+}
+
+/******************************************************
+ * Edit hosting service page
+ ******************************************************/
+
+body.sb-nav-fixed .manager_content.edit-hosting-page {
+	padding: 0;
+	overflow: hidden;
+	border-radius: 8px;
+}
+
+.edit-hosting-shell {
+	background: linear-gradient(180deg, #f8fbff 0%, #f5f7fb 100%);
+}
+
+.edit-hosting-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1.4rem 1.5rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.edit-hosting-title {
+	display: flex;
+	align-items: center;
+	gap: 0.95rem;
+	min-width: 0;
+}
+
+.edit-hosting-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	width: 48px;
+	height: 48px;
+	color: #0f766e;
+	border: 1px solid #99f6e4;
+	border-radius: 6px;
+	background: #f0fdfa;
+	font-size: 1.4rem;
+}
+
+.edit-hosting-kicker {
+	display: block;
+	margin-bottom: 0.2rem;
+	color: #64748b;
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.edit-hosting-title h2 {
+	margin: 0;
+	color: #111827;
+	font-size: 1.3rem;
+	font-weight: 700;
+}
+
+.edit-hosting-title p {
+	margin: 0.18rem 0 0;
+	color: #6b7280;
+	font-size: 0.8rem;
+}
+
+.edit-hosting-actions .btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	min-height: 38px;
+	border-radius: 4px;
+	font-size: 0.82rem;
+	font-weight: 700;
+}
+
+.edit-hosting-card {
+	margin: 1.5rem;
+	border: 1px solid #e5e7eb;
+	border-radius: 12px;
+	box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+	overflow: hidden;
+}
+
+.edit-hosting-card-header {
+	padding: 1rem 1.25rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.edit-hosting-card-header span {
+	display: block;
+	color: #0f766e;
+	font-size: 0.68rem;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.edit-hosting-card-header h3 {
+	margin: 0.2rem 0 0;
+	color: #111827;
+	font-size: 0.98rem;
+	font-weight: 700;
+}
+
+.edit-hosting-grid,
+.edit-hosting-price-grid {
+	display: grid;
+	gap: 1rem;
+}
+
+.edit-hosting-grid {
+	grid-template-columns: 1fr;
+}
+
+.edit-hosting-price-grid {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.edit-hosting-field .form-label,
+.edit-hosting-option .form-label {
+	margin-bottom: 0.35rem;
+	color: #374151;
+	font-size: 0.75rem;
+	font-weight: 700;
+}
+
+.edit-hosting-field .form-control,
+.edit-hosting-field .form-select {
+	min-height: 42px;
+	border-color: #d1d5db;
+	border-radius: 4px;
+}
+
+.edit-hosting-options {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1rem;
+	padding: 1rem;
+	border: 1px solid #e5e7eb;
+	border-radius: 10px;
+	background: #f8fafc;
+}
+
+.edit-hosting-linkbox {
+	display: flex;
+	flex-direction: column;
+	gap: 0.45rem;
+	padding: 1rem;
+	border: 1px dashed #cbd5e1;
+	border-radius: 10px;
+	background: #ffffff;
+}
+
+.edit-hosting-link-label {
+	color: #64748b;
+	font-size: 0.68rem;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.edit-hosting-linkbox code {
+	display: block;
+	padding: 0.8rem;
+	color: #0f172a;
+	font-size: 0.82rem;
+	border-radius: 8px;
+	background: #f8fafc;
+	overflow-x: auto;
+}
+
+.edit-hosting-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1rem 1.25rem 1.25rem;
+	background: #ffffff;
+}
+
+.edit-hosting-footer-split {
+	align-items: center;
+}
+
+.edit-hosting-submit,
+.edit-hosting-footer .btn {
+	min-width: 120px;
+}
+
+.edit-hosting-table-wrap {
+	border: 1px solid #e5e7eb;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+.edit-hosting-table-wrap .table {
+	margin-bottom: 0;
+}
+
+.edit-hosting-table-footer {
+	padding: 0.85rem 1rem;
+	background: #f8fafc;
+	text-align: right;
+}
+
+.edit-hosting-contact-list,
+.edit-hosting-nameserver-list {
+	display: grid;
+	gap: 0.7rem;
+}
+
+@media (max-width: 991.98px) {
+	.edit-hosting-options,
+	.edit-hosting-price-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (max-width: 575.98px) {
+	.edit-hosting-header {
+		align-items: flex-start;
+		padding: 1.15rem 1rem;
+		flex-direction: column;
+	}
+
+	.edit-hosting-card {
+		margin: 1rem;
+	}
+
+	.edit-hosting-card-header,
+	.edit-hosting-footer {
+		padding: 1rem;
+	}
+
+	.edit-hosting-options,
+	.edit-hosting-price-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.edit-hosting-footer {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.edit-hosting-footer .btn {
+		width: 100%;
 	}
 }
 
