@@ -3527,6 +3527,271 @@ body.sb-nav-fixed .manager_content.generate-invoices-page {
 }
 
 /******************************************************
+ * Taxes page
+ ******************************************************/
+
+body.sb-nav-fixed .manager_content.taxes-page {
+	padding: 0;
+	overflow: hidden;
+	border-radius: 8px;
+}
+
+.taxes-shell {
+	background: #f8fafc;
+}
+
+.taxes-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1.4rem 1.5rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.taxes-title {
+	display: flex;
+	align-items: center;
+	gap: 0.95rem;
+	min-width: 0;
+}
+
+.taxes-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	flex: 0 0 auto;
+	color: #1d4ed8;
+	font-size: 1.45rem;
+	border: 1px solid #bfdbfe;
+	border-radius: 6px;
+	background: #eff6ff;
+}
+
+.taxes-kicker {
+	display: block;
+	margin-bottom: 0.2rem;
+	color: #64748b;
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.taxes-title h2 {
+	margin: 0;
+	color: #111827;
+	font-size: 1.3rem;
+	font-weight: 700;
+}
+
+.taxes-title p {
+	margin: 0.18rem 0 0;
+	color: #6b7280;
+	font-size: 0.8rem;
+}
+
+.taxes-actions form {
+	margin: 0;
+}
+
+.taxes-actions .btn {
+	display: inline-flex;
+	align-items: center;
+	min-height: 38px;
+	border-radius: 4px;
+	font-size: 0.82rem;
+	font-weight: 700;
+}
+
+.taxes-table-card {
+	margin: 1.5rem;
+	overflow: hidden;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	background: #ffffff;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.taxes-table-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1.1rem 1.2rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.taxes-table-header span {
+	display: block;
+	margin-bottom: 0.25rem;
+	color: #64748b;
+	font-size: 0.7rem;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.taxes-table-header h3 {
+	margin: 0;
+	color: #111827;
+	font-size: 0.98rem;
+	font-weight: 700;
+}
+
+.taxes-link-button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	flex: 0 0 auto;
+	min-height: 34px;
+	padding: 0.4rem 0.7rem;
+	color: #1d4ed8;
+	font-size: 0.78rem;
+	font-weight: 800;
+	text-decoration: none;
+	border: 1px solid #bfdbfe;
+	border-radius: 4px;
+	background: #eff6ff;
+}
+
+.taxes-link-button:hover {
+	color: #1d4ed8;
+	background: #dbeafe;
+}
+
+.taxes-table-wrap {
+	background: #ffffff;
+}
+
+.taxes-page .table,
+.taxes-page table {
+	width: 100%;
+	margin: 0;
+	border-collapse: separate;
+	border-spacing: 0;
+}
+
+.taxes-page .table th,
+.taxes-page table th {
+	padding: 0.7rem 0.75rem;
+	color: #4b5563;
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	border-color: #e5e7eb;
+	background: #f3f4f6;
+}
+
+.taxes-page .table td,
+.taxes-page table td {
+	padding: 0.75rem;
+	color: #374151;
+	font-size: 0.8rem;
+	vertical-align: middle;
+	border-color: #e5e7eb;
+	background: #ffffff;
+}
+
+.taxes-page .table tr:hover td,
+.taxes-page table tr:hover td {
+	background: #f8fbff;
+}
+
+.taxes-check {
+	display: inline-flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.taxes-check input {
+	width: 16px;
+	height: 16px;
+}
+
+.taxes-id,
+.taxes-country,
+.taxes-description,
+.taxes-state,
+.taxes-rate {
+	font-weight: 700;
+}
+
+.taxes-id {
+	color: #1d4ed8;
+}
+
+.taxes-state-all {
+	display: inline-flex;
+	align-items: center;
+	min-height: 24px;
+	padding: 0.15rem 0.45rem;
+	color: #475569;
+	font-size: 0.72rem;
+	border: 1px solid #cbd5e1;
+	border-radius: 999px;
+	background: #f8fafc;
+}
+
+.taxes-rate {
+	color: #047857;
+	white-space: nowrap;
+}
+
+.taxes-remove-actions {
+	display: flex;
+	justify-content: flex-end;
+	padding: 0.8rem;
+	background: #f9fafb;
+}
+
+.taxes-remove-actions .btn,
+.taxes-remove-actions input[type="submit"] {
+	min-height: 38px;
+	padding: 0.45rem 0.85rem;
+	font-size: 0.8rem;
+	font-weight: 700;
+	border-radius: 4px;
+}
+
+@media (max-width: 575.98px) {
+	.taxes-header,
+	.taxes-table-header {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.taxes-header,
+	.taxes-table-header {
+		padding: 1rem;
+	}
+
+	.taxes-title {
+		align-items: flex-start;
+	}
+
+	.taxes-actions .btn,
+	.taxes-actions form,
+	.taxes-link-button,
+	.taxes-remove-actions input {
+		width: 100%;
+	}
+
+	.taxes-link-button,
+	.taxes-remove-actions {
+		justify-content: center;
+	}
+
+	.taxes-table-card {
+		margin: 1rem;
+	}
+}
+
+/******************************************************
  * Billing payment page
  ******************************************************/
 
