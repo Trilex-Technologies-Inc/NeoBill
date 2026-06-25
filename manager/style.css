@@ -3246,6 +3246,287 @@ body.sb-nav-fixed .manager_content.browse-invoices-page {
 }
 
 /******************************************************
+ * Generate invoices page
+ ******************************************************/
+
+body.sb-nav-fixed .manager_content.generate-invoices-page {
+	padding: 0;
+	overflow: hidden;
+	border-radius: 8px;
+}
+
+.generate-invoices-shell {
+	background: #f8fafc;
+}
+
+.generate-invoices-shell form {
+	margin: 0;
+}
+
+.generate-invoices-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1.4rem 1.5rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.generate-invoices-title {
+	display: flex;
+	align-items: center;
+	gap: 0.95rem;
+	min-width: 0;
+}
+
+.generate-invoices-icon,
+.generate-invoices-card-header > span {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	color: #1d4ed8;
+	border: 1px solid #bfdbfe;
+	border-radius: 6px;
+	background: #eff6ff;
+}
+
+.generate-invoices-icon {
+	width: 48px;
+	height: 48px;
+	font-size: 1.45rem;
+}
+
+.generate-invoices-kicker {
+	display: block;
+	margin-bottom: 0.2rem;
+	color: #64748b;
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.generate-invoices-title h2,
+.generate-invoices-card-header h3 {
+	margin: 0;
+	color: #111827;
+	font-weight: 700;
+}
+
+.generate-invoices-title h2 {
+	font-size: 1.3rem;
+}
+
+.generate-invoices-title p,
+.generate-invoices-card-header p {
+	margin: 0.18rem 0 0;
+	color: #6b7280;
+	font-size: 0.8rem;
+}
+
+.generate-invoices-grid {
+	display: grid;
+	grid-template-columns: minmax(280px, 0.86fr) minmax(0, 1.14fr);
+	gap: 1rem;
+	padding: 1.5rem;
+}
+
+.generate-invoices-card {
+	overflow: hidden;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	background: #ffffff;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.generate-invoices-card-header {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+	padding: 1.1rem 1.2rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.generate-invoices-card-header > span {
+	width: 38px;
+	height: 38px;
+	font-size: 1.1rem;
+}
+
+.generate-invoices-card-header h3 {
+	font-size: 0.98rem;
+}
+
+.generate-invoices-card-body {
+	padding: 1.2rem;
+}
+
+.generate-invoices-field {
+	margin-bottom: 1rem;
+}
+
+.generate-invoices-field:last-child {
+	margin-bottom: 0;
+}
+
+.generate-invoices-field .form-label {
+	margin-bottom: 0.35rem;
+	color: #374151;
+	font-size: 0.75rem;
+	font-weight: 700;
+}
+
+.generate-invoices-page input[type="text"],
+.generate-invoices-page input[type="date"],
+.generate-invoices-page input:not([type]),
+.generate-invoices-page select,
+.generate-invoices-page textarea {
+	display: block;
+	width: 100%;
+	min-height: 40px;
+	padding: 0.5rem 0.65rem;
+	color: #111827;
+	font-size: 0.86rem;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	background-color: #ffffff;
+	box-shadow: none;
+}
+
+.generate-invoices-page input[type="text"]:focus,
+.generate-invoices-page input[type="date"]:focus,
+.generate-invoices-page input:not([type]):focus,
+.generate-invoices-page select:focus,
+.generate-invoices-page textarea:focus {
+	border-color: #2563eb;
+	outline: 0;
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.generate-invoices-input-icon {
+	position: relative;
+}
+
+.generate-invoices-input-icon > i {
+	position: absolute;
+	top: 50%;
+	left: 0.75rem;
+	z-index: 2;
+	width: 1rem;
+	color: #64748b;
+	text-align: center;
+	transform: translateY(-50%);
+	pointer-events: none;
+}
+
+.generate-invoices-page .generate-invoices-input-icon input {
+	padding-left: 2.35rem;
+}
+
+.generate-invoices-period-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.8rem;
+}
+
+.generate-invoices-terms {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+}
+
+.generate-invoices-terms input {
+	max-width: 110px;
+}
+
+.generate-invoices-terms span {
+	color: #64748b;
+	font-size: 0.78rem;
+	font-weight: 700;
+}
+
+.generate-invoices-note-card {
+	display: flex;
+	flex-direction: column;
+}
+
+.generate-invoices-note-card .generate-invoices-card-body {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+}
+
+.generate-invoices-note-card .generate-invoices-field {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+}
+
+.generate-invoices-page textarea {
+	min-height: 260px;
+	resize: vertical;
+}
+
+.generate-invoices-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.65rem;
+	padding: 1.2rem 1.5rem;
+	border-top: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.generate-invoices-actions .btn,
+.generate-invoices-actions input[type="submit"] {
+	min-height: 40px;
+	padding: 0.5rem 0.95rem;
+	font-size: 0.82rem;
+	font-weight: 700;
+	border-radius: 4px;
+}
+
+@media (max-width: 991.98px) {
+	.generate-invoices-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 575.98px) {
+	.generate-invoices-header {
+		align-items: stretch;
+		flex-direction: column;
+		padding: 1rem;
+	}
+
+	.generate-invoices-title {
+		align-items: flex-start;
+	}
+
+	.generate-invoices-actions {
+		flex-direction: column-reverse;
+	}
+
+	.generate-invoices-actions .btn,
+	.generate-invoices-actions input {
+		width: 100%;
+	}
+
+	.generate-invoices-grid,
+	.generate-invoices-card-header,
+	.generate-invoices-card-body,
+	.generate-invoices-actions {
+		padding: 1rem;
+	}
+
+	.generate-invoices-period-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/******************************************************
  * Billing payment page
  ******************************************************/
 

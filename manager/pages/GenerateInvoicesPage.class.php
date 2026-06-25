@@ -33,7 +33,10 @@ class GenerateInvoicesPage extends SolidStatePage {
 	function action( $action_name ) {
 		switch ( $action_name ) {
 			case "generate_invoices":
-				if ( isset( $this->post['continue'] ) ) {
+				if ( isset( $this->post['cancel'] ) ) {
+					$this->goback();
+				}
+				elseif ( isset( $this->post['continue'] ) ) {
 					// Generate Invoice Batch
 					$this->generate_invoices();
 				}
