@@ -1,694 +1,331 @@
-<div class="manager_content">
-
-
-
-
-<div id="tabs">
-	<ul>		
-<li><a href="#tabs-1">Email</a></li>
-<li><a href="#tabs-2">Themes</a></li>
-<li><a href="#tabs-3">Invoice</a></li>
-<li><a href="#tabs-4">Name Servers</a></li>
-<li><a href="#tabs-5">Locale</a></li>
-<li><a href="#tabs-6">Payment Gateway</a></li>
-<li><a href="#tabs-7">Order Interface</a></li>
-	</ul>
-
-	
-<div id="tabs-1">
-      
-  <div id="general" name="[GENERAL]" width="80">
-
-    {form name="settings_general"}
-
-	<div class="form">
-
-        <div class="table-responsive">
-        <table class="table table-sm table-striped align-middle">
-
-          <thead>
-
-            <tr>
-
-              <th colspan="2"> [COMPANY] </th>
-
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            <tr>
-
-              <th> {form_description field="name"} </th>
-
-              <td> {form_element field="name" value="$company_name" size="40"} </td>
-
-            </tr>
-
-            <tr>
-
-              <th> {form_description field="email"} </th>
-
-              <td> {form_element field="email" value="$company_email" size="30"} </td>
-
-            </tr>
-
-            <tr>
-
-              <th> {form_description field="notification_email"} </th>
-
-              <td> {form_element field="notification_email" value="$company_notification_email" size="30"} </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
+<div class="manager_content settings-page">
+  <div class="settings-shell">
+    <div class="settings-header">
+      <div class="settings-title">
+        <span class="settings-icon"><i class="ti ti-settings"></i></span>
+        <div>
+          <span class="settings-kicker">[SETTINGS]</span>
+          <h2>[SETTINGS]</h2>
+          <p>[GENERAL]</p>
         </div>
-
       </div>
-
-
-
-      <div class="form">
-
-        <div class="table-responsive">
-        <table class="table table-sm table-striped align-middle">
-
-          <thead>
-
-            <tr>
-
-              <th colspan="2"> [WELCOME_EMAIL] </th>
-
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            <tr>
-
-              <th> {form_description field="welcome_subject"} </th>
-
-              <td> {form_element field="welcome_subject" value="$welcome_subject" size="40"} </td>
-
-            </tr>
-
-            <tr>
-
-             <th colspan="2"> {form_description field="welcome_email"} </th>
-
-            </tr>
-
-            <tr>
-
-              <td colspan="2"> {form_element field="welcome_email" value="$welcome_email" cols="70" rows="10"} </td>
-
-            </tr>
-
-         </tbody>
-
-       </table>
-       </div>
-
-      </div>
-
-
-
-      <div class="form">
-
-        <div class="table-responsive">
-        <table class="table table-sm table-striped align-middle">
-
-          <thead>
-
-            <tr>
-
-              <th colspan="2"> [ORDER_CONFIRMATION_EMAIL] </th>
-
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            <tr>
-
-             <th> {form_description field="confirm_subject"} </th>
-
-             <td> {form_element field="confirm_subject" value="$confirmation_subject" size="40"} </td>
-
-            </tr>
-
-            <tr>
-
-              <th colspan="2"> {form_description field="confirm_email"} </th>
-
-            </tr>
-
-            <tr>
-
-              <td colspan="2"> {form_element field="confirm_email" value="$confirmation_email" cols="70" rows="10"} </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
-        </div>
-
-      </div>
-
-
-
-      <div class="form">
-
-        <div class="table-responsive">
-        <table class="table table-sm table-striped align-middle">
-
-          <thead>
-
-            <tr>
-
-              <th colspan="2"> [ORDER_NOTIFICATION_EMAIL] </th>
-
-            </tr>
-
-          </thead>
-
-          <tfoot>
-
-            <tr> 
-
-              <td class="left"/>
-
-              <td class="right"> {form_element field="save"} </th> 
-
-            </tr>
-
-          </tfoot>
-
-          <tbody>
-
-            <tr>
-
-              <th> {form_description field="notify_subject"} </th>
-
-              <td> {form_element field="notify_subject" value="$notification_subject" size="40"} </td>
-
-            </tr>
-
-            <tr>
-
-              <th colspan="2"> {form_description field="notify_email"} </th>
-
-            </tr>
-
-            <tr>
-
-              <td colspan="2"> {form_element field="notify_email" value="$notification_email" cols="70" rows="10"} </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
-        </div>
-
-      </div>
-
-    {/form}
-
-  </div>  
-
-
-
-</div>
-
-
-<div id="tabs-2">
-  <div id="themes" name="[THEMES]" width="80">
-
-    <div class="form">
-
-      {form name="settings_themes"}
-
-        <div class="table-responsive">
-        <table class="table table-sm table-striped align-middle">
-
-          <thead>
-
-            <tr>
-
-              <th colspan="2"> [THEMES] </th>
-
-            </tr>
-
-          </thead>
-
-          <tfoot>
-
-            <tr>
-
-              <td/>
-
-              <td class="right">
-
-                {form_element field="save"}
-
-              </td>
-
-          </tr>
-
-          </tfoot>
-
-          <tbody>
-
-            <tr>
-
-              <th> {form_description field="managertheme"} </th>
-
-              <td> {form_element field="managertheme" value="$managerTheme"} </td>
-
-            </tr>
-
-            <tr>
-
-              <th> {form_description field="ordertheme"} </th>
-
-              <td> {form_element field="ordertheme" value="$orderTheme"} </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
-        </div>
-
-      {/form}
-
     </div>
 
-  </div>
+    <div id="tabs" class="settings-tabs">
+      <ul>
+        <li><a href="#tabs-1"><i class="ti ti-mail"></i> Email</a></li>
+        <li><a href="#tabs-2"><i class="ti ti-palette"></i> Themes</a></li>
+        <li><a href="#tabs-3"><i class="ti ti-file-invoice"></i> Invoice</a></li>
+        <li><a href="#tabs-4"><i class="ti ti-server"></i> Name Servers</a></li>
+        <li><a href="#tabs-5"><i class="ti ti-language"></i> Locale</a></li>
+        <li><a href="#tabs-6"><i class="ti ti-credit-card"></i> Payment Gateway</a></li>
+        <li><a href="#tabs-7"><i class="ti ti-shopping-cart"></i> Order Interface</a></li>
+      </ul>
 
+      <div id="tabs-1">
+        <div id="general" class="settings-panel">
+          {form name="settings_general"}
+            <div class="settings-grid settings-grid-two">
+              <div class="settings-card">
+                <div class="settings-card-header">
+                  <span><i class="ti ti-building"></i></span>
+                  <div>
+                    <h3>[COMPANY]</h3>
+                    <p>[GENERAL]</p>
+                  </div>
+                </div>
+                <div class="settings-card-body">
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="name"}</label>
+                    {form_element field="name" value="$company_name" size="40"}
+                  </div>
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="email"}</label>
+                    {form_element field="email" value="$company_email" size="30"}
+                  </div>
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="notification_email"}</label>
+                    {form_element field="notification_email" value="$company_notification_email" size="30"}
+                  </div>
+                </div>
+              </div>
 
+              <div class="settings-card">
+                <div class="settings-card-header">
+                  <span><i class="ti ti-mail-forward"></i></span>
+                  <div>
+                    <h3>[WELCOME_EMAIL]</h3>
+                    <p>{form_description field="welcome_subject"}</p>
+                  </div>
+                </div>
+                <div class="settings-card-body">
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="welcome_subject"}</label>
+                    {form_element field="welcome_subject" value="$welcome_subject" size="40"}
+                  </div>
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="welcome_email"}</label>
+                    {form_element field="welcome_email" value="$welcome_email" cols="70" rows="10"}
+                  </div>
+                </div>
+              </div>
 
-</div>
-<div id="tabs-3">
-  <div id="billing" name="[BILLING]" width="80">
+              <div class="settings-card">
+                <div class="settings-card-header">
+                  <span><i class="ti ti-mail-check"></i></span>
+                  <div>
+                    <h3>[ORDER_CONFIRMATION_EMAIL]</h3>
+                    <p>{form_description field="confirm_subject"}</p>
+                  </div>
+                </div>
+                <div class="settings-card-body">
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="confirm_subject"}</label>
+                    {form_element field="confirm_subject" value="$confirmation_subject" size="40"}
+                  </div>
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="confirm_email"}</label>
+                    {form_element field="confirm_email" value="$confirmation_email" cols="70" rows="10"}
+                  </div>
+                </div>
+              </div>
 
-    <div class="form">
+              <div class="settings-card">
+                <div class="settings-card-header">
+                  <span><i class="ti ti-bell"></i></span>
+                  <div>
+                    <h3>[ORDER_NOTIFICATION_EMAIL]</h3>
+                    <p>{form_description field="notify_subject"}</p>
+                  </div>
+                </div>
+                <div class="settings-card-body">
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="notify_subject"}</label>
+                    {form_element field="notify_subject" value="$notification_subject" size="40"}
+                  </div>
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="notify_email"}</label>
+                    {form_element field="notify_email" value="$notification_email" cols="70" rows="10"}
+                  </div>
+                </div>
+              </div>
+            </div>
 
-      {form name="settings_invoice"}
-
-        <div class="table-responsive">
-        <table class="table table-sm table-striped align-middle">
-
-          <thead>
-
-            <tr>
-
-              <th colspan="2"> [INVOICE] </th>
-
-            </tr>
-
-          </thead>
-
-          <tfoot>
-
-            <tr>
-
-              <td class="right">
-
-                {form_element field="save"}
-
-              </td>
-
-            </tr>
-
-          </tfoot>
-
-          <tbody>
-
-            <tr>
-
-              <th colspan="2"> {form_description field="subject"} </th>
-
-            </tr>
-
-            <tr>
-
-              <td colspan="2"> {form_element field="subject" value="$invoice_subject" size="80"} </td>
-
-            </tr>
-
-            <tr>
-
-              <th colspan="2"> {form_description field="text"} </th>
-
-            </tr>
-
-            <tr>
-
-              <td colspan="2"> {form_element field="text" value="$invoice_text" cols="70" rows="20"} </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
+            <div class="settings-actions">
+              {form_element field="save" class="btn btn-primary"}
+            </div>
+          {/form}
         </div>
+      </div>
 
-      {/form}
-
-    </div>
-
-  </div> 
-
-
-
-</div>
-<div id="tabs-4">
-  <div id="dns" name="[DNS]" width="80">
-
-    <div class="form">
-
-      {form name="settings_nameservers"}
-
-        <div class="table-responsive">
-        <table class="table table-sm table-striped align-middle">
-
-          <thead>
-
-            <tr>
-
-              <th colspan="2"> [NAME_SERVERS] </th>
-
-            </tr>
-
-          </thead>
-
-          <tfoot>
-
-            <tr>
-
-              <td/>
-
-              <td class="right">
-
-                {form_element field="save"}
-
-              </td>
-
-            </tr>
-
-          </tfoot>
-
-          <tbody>
-
-            <tr>
-
-              <th> {form_description field="nameservers_ns1"} </th>
-
-              <td> {form_element field="nameservers_ns1" value="$nameservers_ns1" size="40"} </td>
-
-            </tr>
-
-            <tr>
-
-              <th> {form_description field="nameservers_ns2"} </th>
-
-              <td> {form_element field="nameservers_ns2" value="$nameservers_ns2" size="40"} </td>
-
-            </tr>
-
-            <tr>
-
-              <th> {form_description field="nameservers_ns3"} </th>
-
-              <td> {form_element field="nameservers_ns3" value="$nameservers_ns3" size="40"} </td>
-
-            </tr>
-
-            <tr>
-
-              <th> {form_description field="nameservers_ns4"} </th>
-
-              <td> {form_element field="nameservers_ns4" value="$nameservers_ns4" size="40"} </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
+      <div id="tabs-2">
+        <div id="themes" class="settings-panel">
+          {form name="settings_themes"}
+            <div class="settings-grid">
+              <div class="settings-card">
+                <div class="settings-card-header">
+                  <span><i class="ti ti-palette"></i></span>
+                  <div>
+                    <h3>[THEMES]</h3>
+                    <p>[MANAGER_THEME]</p>
+                  </div>
+                </div>
+                <div class="settings-card-body settings-compact-fields">
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="managertheme"}</label>
+                    {form_element field="managertheme" value="$managerTheme"}
+                  </div>
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="ordertheme"}</label>
+                    {form_element field="ordertheme" value="$orderTheme"}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="settings-actions">
+              {form_element field="save" class="btn btn-primary"}
+            </div>
+          {/form}
         </div>
+      </div>
 
-      {/form}
-
-    </div>
-
-  </div> 
-
-
-
-</div>
-<div id="tabs-5">
-  <div id="locale" name="[LOCALE]" width="80">
-
-    <div class="form">
-
-      {form name="settings_locale"}
-
-        <div class="table-responsive">
-        <table class="table table-sm table-striped align-middle">
-
-          <thead>
-
-            <tr>
-
-              <th colspan="2"> [LOCALE] </th>
-
-            </tr>
-
-          </thead>
-
-          <tfoot>
-
-            <tr>
-
-              <td/>
-
-              <td class="right">
-
-                {form_element field="save"}
-
-              </td>
-
-            </tr>
-
-          </tfoot>
-
-          <tbody>
-
-            <tr>
-
-              <th> {form_description field="language"} </th>
-
-              <td> {form_element field="language"} </td>
-
-            </tr>
-
-            <tr>
-
-              <th> {form_description field="currency"} </th>
-
-              <td> {form_element field="currency" value="$currency" size="5"} </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
+      <div id="tabs-3">
+        <div id="billing" class="settings-panel">
+          {form name="settings_invoice"}
+            <div class="settings-grid">
+              <div class="settings-card">
+                <div class="settings-card-header">
+                  <span><i class="ti ti-file-invoice"></i></span>
+                  <div>
+                    <h3>[INVOICE]</h3>
+                    <p>{form_description field="subject"}</p>
+                  </div>
+                </div>
+                <div class="settings-card-body">
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="subject"}</label>
+                    {form_element field="subject" value="$invoice_subject" size="80"}
+                  </div>
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="text"}</label>
+                    {form_element field="text" value="$invoice_text" cols="70" rows="20"}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="settings-actions">
+              {form_element field="save" class="btn btn-primary"}
+            </div>
+          {/form}
         </div>
+      </div>
 
-      {/form}
+      <div id="tabs-4">
+        <div id="dns" class="settings-panel">
+          {form name="settings_nameservers"}
+            <div class="settings-grid">
+              <div class="settings-card">
+                <div class="settings-card-header">
+                  <span><i class="ti ti-server"></i></span>
+                  <div>
+                    <h3>[NAME_SERVERS]</h3>
+                    <p>[DNS]</p>
+                  </div>
+                </div>
+                <div class="settings-card-body settings-compact-fields">
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="nameservers_ns1"}</label>
+                    {form_element field="nameservers_ns1" value="$nameservers_ns1" size="40"}
+                  </div>
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="nameservers_ns2"}</label>
+                    {form_element field="nameservers_ns2" value="$nameservers_ns2" size="40"}
+                  </div>
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="nameservers_ns3"}</label>
+                    {form_element field="nameservers_ns3" value="$nameservers_ns3" size="40"}
+                  </div>
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="nameservers_ns4"}</label>
+                    {form_element field="nameservers_ns4" value="$nameservers_ns4" size="40"}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="settings-actions">
+              {form_element field="save" class="btn btn-primary"}
+            </div>
+          {/form}
+        </div>
+      </div>
 
-    </div>
+      <div id="tabs-5">
+        <div id="locale" class="settings-panel">
+          {form name="settings_locale"}
+            <div class="settings-grid">
+              <div class="settings-card">
+                <div class="settings-card-header">
+                  <span><i class="ti ti-language"></i></span>
+                  <div>
+                    <h3>[LOCALE]</h3>
+                    <p>[LANGUAGE]</p>
+                  </div>
+                </div>
+                <div class="settings-card-body settings-compact-fields">
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="language"}</label>
+                    {form_element field="language"}
+                  </div>
+                  <div class="settings-field settings-currency-field">
+                    <label class="form-label">{form_description field="currency"}</label>
+                    {form_element field="currency" value="$currency" size="5"}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="settings-actions">
+              {form_element field="save" class="btn btn-primary"}
+            </div>
+          {/form}
+        </div>
+      </div>
 
-  </div> 
-
-
-
-</div>
-<div id="tabs-6">
-  <div id="payment_gateway" name="[PAYMENT_GATEWAY]" width="120">
-
-    <div class="form">
-
-      {form name="settings_payment_gateway"}
-
-        <div class="table-responsive">
-        <table class="table table-sm table-striped align-middle">
-
-          <thead>
-
-            <tr>
-
-              <th colspan="2"> [PAYMENT_GATEWAY] </th>
-
-            </tr>
-
-          </thead>
-
-          <tfoot>
-
+      <div id="tabs-6">
+        <div id="payment_gateway" class="settings-panel">
+          {form name="settings_payment_gateway"}
+            <div class="settings-grid">
+              <div class="settings-card">
+                <div class="settings-card-header">
+                  <span><i class="ti ti-credit-card"></i></span>
+                  <div>
+                    <h3>[PAYMENT_GATEWAY]</h3>
+                    <p>[PAYMENT_METHOD_FOR_ORDERS]</p>
+                  </div>
+                </div>
+                <div class="settings-card-body settings-compact-fields">
+                  {if $gatewaysAreEnabled}
+                    <div class="settings-field">
+                      <label class="form-label">{form_description field="default_module"}</label>
+                      {form_element field="default_module"}
+                    </div>
+                    <div class="settings-field">
+                      <label class="form-label">{form_description field="order_method"}</label>
+                      {form_element field="order_method"}
+                    </div>
+                  {else}
+                    <div class="settings-empty">
+                      <i class="ti ti-alert-circle"></i>
+                      <span>[THERE_ARE_NO_GATEWAY_MODULES]</span>
+                    </div>
+                  {/if}
+                </div>
+              </div>
+            </div>
             {if $gatewaysAreEnabled}
-
-              <tr>
-
-                <td/>
-
-                <td class="right">
-
-                 {form_element field="save"}
-
-                </td>
-
-              </tr>
-
+              <div class="settings-actions">
+                {form_element field="save" class="btn btn-primary"}
+              </div>
             {/if}
-
-          </tfoot>
-
-          <tbody>
-
-            {if $gatewaysAreEnabled}
-
-              <tr>
-
-                <th> {form_description field="default_module"} </th>
-
-                <td> {form_element field="default_module"} </td>
-
-              </tr>
-
-              <tr>
-
-                <th> {form_description field="order_method"} </th>
-
-                <td> {form_element field="order_method"} </td>
-
-              </tr>
-
-            {else}
-
-              <tr>
-
-                <th colspan="2"> [THERE_ARE_NO_GATEWAY_MODULES] </th>
-
-              </tr>
-
-            {/if}
-
-          </tbody>
-
-        </table>
+          {/form}
         </div>
+      </div>
 
-      {/form}
-
-    </div>
-
-  </div>
-
-
-
-</div>
-<div id="tabs-7">
-  <div id="order_interface" name="[ORDER_INTERFACE]" width="120">
-
-    <div class="form">
-
-      {form name="settings_order_interface"}
-
-        <div class="table-responsive">
-        <table class="table table-sm table-striped align-middle">
-
-          <thead>
-
-            <tr>
-
-              <th colspan="2"> [ORDER_INTERFACE] </th>
-
-            </tr>
-
-          </thead>
-
-          <tfoot>
-
-            <tr>
-
-              <td/>
-
-              <td class="right">
-
-                {form_element field="save"}
-
-              </td>
-
-            </tr>
-
-          </tfoot>
-
-          <tbody>
-
-            <tr>
-
-              <th> {form_description field="title"} </th>
-
-              <td> {form_element field="title" size="40" value=$order_title} </td>
-
-            </tr>
-
-            <tr>
-
-              <th> {form_description field="accept_checks"} </th>
-
-              <td> {form_element field="accept_checks" option="true" value=$order_accept_checks} </td>
-
-            </tr>
-
-            <tr>
-
-              <th> {form_description field="tos_url"} </th>
-
-              <td> {form_element field="tos_url" value=$order_tos_url size="50"} </td>
-
-            </tr>
-
-            <tr>
-
-              <th> {form_description field="tos_required"} </th>
-
-              <td> {form_element field="tos_required" option="true" value=$order_tos_required} </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
+      <div id="tabs-7">
+        <div id="order_interface" class="settings-panel">
+          {form name="settings_order_interface"}
+            <div class="settings-grid">
+              <div class="settings-card">
+                <div class="settings-card-header">
+                  <span><i class="ti ti-shopping-cart"></i></span>
+                  <div>
+                    <h3>[ORDER_INTERFACE]</h3>
+                    <p>[ORDER_INTERFACE_PAGE_TITLE]</p>
+                  </div>
+                </div>
+                <div class="settings-card-body settings-compact-fields">
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="title"}</label>
+                    {form_element field="title" size="40" value=$order_title}
+                  </div>
+                  <div class="settings-field settings-check-field">
+                    <label>{form_element field="accept_checks" option="true" value=$order_accept_checks} <span>{form_description field="accept_checks"}</span></label>
+                  </div>
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="tos_url"}</label>
+                    {form_element field="tos_url" value=$order_tos_url size="50"}
+                  </div>
+                  <div class="settings-field settings-check-field">
+                    <label>{form_element field="tos_required" option="true" value=$order_tos_required} <span>{form_description field="tos_required"}</span></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="settings-actions">
+              {form_element field="save" class="btn btn-primary"}
+            </div>
+          {/form}
         </div>
-
-      {/form}
-
+      </div>
     </div>
-
   </div>
-
-</div>
-
-</div>
-</div>
 </div>
