@@ -1,74 +1,76 @@
-<div class="manager_content">
-
-  <div class="action mb-4">
-    <div class="card shadow-sm border-0">
-      <div class="card-header bg-primary text-white py-3 px-4">
-        <div class="d-flex align-items-center gap-2">
-          <i class="bi bi-hdd-stack-fill"></i>
-          <span class="fw-bold mb-0">{echo phrase="ACTIONS"}</span>
+<div class="manager_content services-list-page services-servers-page">
+  <div class="services-list-shell">
+    <div class="services-list-header">
+      <div class="services-list-title">
+        <span class="services-list-icon"><i class="ti ti-server-2"></i></span>
+        <div>
+          <span class="services-list-kicker">Products &amp; Services</span>
+          <h2>{echo phrase="SERVERS"}</h2>
+          <p>Track hosting infrastructure, locations, and server records.</p>
         </div>
       </div>
-      <div class="card-body bg-white py-3 px-4">
+      <div class="services-list-actions">
         {form name="servers_action"}
-          {form_element field="add" class="btn btn-success btn-sm"}
+          {form_element field="add" class="btn btn-primary"}
         {/form}
       </div>
     </div>
-  </div>
 
-  <div class="card mb-4 shadow-sm border-0">
-    <div class="card-body">
-      <div class="d-flex align-items-center gap-3 mb-3">
-        <i class="bi bi-server fs-3 text-primary"></i>
-        <div>
-          <h2 class="h5 mb-1">{echo phrase="SERVERS"}</h2>
-          <p class="text-muted mb-0">Search and view servers</p>
-        </div>
-      </div>
-
-      <div class="row g-3 align-items-end">
-        <div class="col-md-5">
-          <label class="form-label fw-semibold">{echo phrase="HOSTNAME"}</label>
-          {form name="search_servers"}
-            <div class="input-group">
-              <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
-              {form_element field="hostname" class="form-control" placeholder="Search hostname"}
-            </div>
-        </div>
-        <div class="col-md-5">
-          <label class="form-label fw-semibold">{echo phrase="LOCATION"}</label>
-          <div class="input-group">
-            <span class="input-group-text bg-light"><i class="bi bi-geo-alt"></i></span>
-            {form_element field="location" class="form-control" placeholder="Search location"}
+    <div class="services-list-toolbar">
+      <div class="services-list-search">
+        <div class="services-list-search-header">
+          <span><i class="ti ti-search"></i></span>
+          <div>
+            <h3>Find Servers</h3>
+            <p>Filter infrastructure by hostname or location.</p>
           </div>
         </div>
-        <div class="col-md-2 d-grid">
-          {form_element field="search" class="btn btn-primary"}
-        </div>
+        {form name="search_servers"}
+          <div class="services-list-search-grid services-list-search-grid-two">
+            <div class="services-list-field">
+              <label class="form-label">{echo phrase="HOSTNAME"}</label>
+              <div class="services-list-input-icon">
+                <i class="ti ti-server"></i>
+                {form_element field="hostname" class="form-control"}
+              </div>
+            </div>
+            <div class="services-list-field">
+              <label class="form-label">{echo phrase="LOCATION"}</label>
+              <div class="services-list-input-icon">
+                <i class="ti ti-map-pin"></i>
+                {form_element field="location" class="form-control"}
+              </div>
+            </div>
+            <div class="services-list-submit">
+              {form_element field="search" class="btn btn-primary"}
+            </div>
+          </div>
         {/form}
       </div>
     </div>
-  </div>
 
-  <div class="card shadow-sm border-0">
-    <div class="card-header bg-white border-bottom-0">
-      <h3 class="h6 mb-0">Servers List</h3>
-    </div>
-    <div class="card-body p-0">
-      <div class="table-responsive">
+    <div class="services-list-table-card">
+      <div class="services-list-table-header">
+        <div>
+          <span>Infrastructure</span>
+          <h3>Servers List</h3>
+        </div>
+      </div>
+      <div class="services-list-table-wrap table-responsive">
         {form name="servers"}
-          {form_table field="servers" class="table table-hover table-striped align-middle mb-0"}
+          {form_table field="servers" class="table table-hover align-middle mb-0"}
             {form_table_column columnid="id" header="[ID]"}
-              <a href="manager_content.php?page=services_view_server&server={$servers.id}" class="btn btn-link btn-sm p-0 text-decoration-none fw-bold">#{$servers.id}</a>
+              <a href="manager_content.php?page=services_view_server&server={$servers.id}" class="services-list-id">#{$servers.id}</a>
             {/form_table_column}
-
             {form_table_column columnid="hostname" header="[HOSTNAME]"}
-              <a href="manager_content.php?page=services_view_server&server={$servers.id}" class="text-decoration-none fw-bold">{$servers.hostname}</a>
+              <a href="manager_content.php?page=services_view_server&server={$servers.id}" class="services-list-name">
+                <i class="ti ti-server-2"></i>
+                {$servers.hostname}
+              </a>
             {/form_table_column}
-
             {form_table_column columnid="location" header="[LOCATION]"}
-              <span class="badge bg-info text-dark">
-                <i class="bi bi-geo-alt-fill me-1"></i>
+              <span class="services-list-location">
+                <i class="ti ti-map-pin"></i>
                 {$servers.location}
               </span>
             {/form_table_column}
@@ -77,5 +79,4 @@
       </div>
     </div>
   </div>
-
 </div>

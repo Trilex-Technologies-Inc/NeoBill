@@ -67,12 +67,27 @@
               <div class="sb-sidenav-collapse-arrow"><i class="ti ti-chevron-down"></i></div>
             </a>
             <div class="collapse" id="collapseServices" data-bs-parent="#sidenavAccordion">
-              <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="manager_content.php?page=services_web_hosting">Web Hosting</a>
-                <a class="nav-link" href="manager_content.php?page=services_domain_services">Domain Services</a>
-                <a class="nav-link" href="manager_content.php?page=services_products">Other Products</a>
-                <a class="nav-link" href="manager_content.php?page=services_servers">Servers</a>
-                <a class="nav-link" href="manager_content.php?page=services_ip_manager">IP Addresses</a>
+              <nav class="sb-sidenav-menu-nested nav service-links">
+                <a class="nav-link service-link service-link-hosting" href="manager_content.php?page=services_web_hosting">
+                  <span class="service-link-icon"><i class="ti ti-cloud"></i></span>
+                  <span class="service-link-label">Web Hosting</span>
+                </a>
+                <a class="nav-link service-link service-link-domains" href="manager_content.php?page=services_domain_services">
+                  <span class="service-link-icon"><i class="ti ti-world-www"></i></span>
+                  <span class="service-link-label">Domain Services</span>
+                </a>
+                <a class="nav-link service-link service-link-products" href="manager_content.php?page=services_products">
+                  <span class="service-link-icon"><i class="ti ti-package"></i></span>
+                  <span class="service-link-label">Other Products</span>
+                </a>
+                <a class="nav-link service-link service-link-servers" href="manager_content.php?page=services_servers">
+                  <span class="service-link-icon"><i class="ti ti-server-2"></i></span>
+                  <span class="service-link-label">Servers</span>
+                </a>
+                <a class="nav-link service-link service-link-ip" href="manager_content.php?page=services_ip_manager">
+                  <span class="service-link-icon"><i class="ti ti-network"></i></span>
+                  <span class="service-link-label">IP Addresses</span>
+                </a>
               </nav>
             </div>
 

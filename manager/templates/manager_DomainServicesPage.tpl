@@ -1,89 +1,92 @@
-<div class="manager_content">
-
-  <div class="action mb-4">
-    <div class="card border-0 bg-light">
-      <div class="card-body py-2">
-        <div class="d-flex justify-content-between align-items-center">
-          <p class="header fw-bold mb-0">{echo phrase="ACTIONS"}</p>
-          {form name="domain_services_action"}
-            {form_element field="add" class="btn btn-primary btn-sm"}
-          {/form}
+<div class="manager_content services-list-page services-domain-page">
+  <div class="services-list-shell">
+    <div class="services-list-header">
+      <div class="services-list-title">
+        <span class="services-list-icon"><i class="ti ti-world-www"></i></span>
+        <div>
+          <span class="services-list-kicker">Products &amp; Services</span>
+          <h2>{echo phrase="DOMAIN_SERVICES"}</h2>
+          <p>Manage TLD offerings, registrar modules, pricing, and public availability.</p>
         </div>
+      </div>
+      <div class="services-list-actions">
+        {form name="domain_services_action"}
+          {form_element field="add" class="btn btn-primary"}
+        {/form}
       </div>
     </div>
-  </div>
 
-  <h2 class="mb-3">{echo phrase="DOMAIN_SERVICES"}</h2>
-
-  <div class="search mb-4">
-    {form name="search_domain_services"}
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <div class="row g-3 align-items-end">
-            <div class="col-md-8 col-lg-9">
-              <label class="form-label fw-bold">
-                {echo phrase="SEARCH"} - {form_description field="tld"}
-              </label>
-              <div class="input-group">
-                <span class="input-group-text bg-light">
-                  <i class="ti ti-search"></i>
-                </span>
-                {form_element field="tld" size="30" class="form-control" placeholder="Enter TLD..."}
-              </div>
-            </div>
-            <div class="col-md-4 col-lg-3">
-              {form_element field="search" class="btn btn-primary w-100"}
-            </div>
+    <div class="services-list-toolbar">
+      <div class="services-list-search">
+        <div class="services-list-search-header">
+          <span><i class="ti ti-search"></i></span>
+          <div>
+            <h3>Find Domain Services</h3>
+            <p>Filter available domain services by TLD.</p>
           </div>
         </div>
-      </div>
-    {/form}
-  </div>
-
-  <div class="table-responsive">
-    <div class="card">
-      <div class="card-body p-0">
-        {form name="domain_services"}
-          {form_table field="services" size="10" class="table table-sm table-striped align-middle table-hover mb-0" empty="No domain services found."}
-
-            {form_table_column columnid="" header="[SELECT]"}
-              <div class="text-center">
-                {form_table_checkbox option=$services.tld}
+        {form name="search_domain_services"}
+          <div class="services-list-search-grid services-list-search-grid-one">
+            <div class="services-list-field">
+              <label class="form-label">{echo phrase="TLD"}</label>
+              {form_description field="tld"}
+              <div class="services-list-input-icon">
+                <i class="ti ti-point"></i>
+                {form_element field="tld" size="30" class="form-control"}
               </div>
-            {/form_table_column}
+            </div>
+            <div class="services-list-submit">
+              {form_element field="search" class="btn btn-primary"}
+            </div>
+          </div>
+        {/form}
+      </div>
+    </div>
 
+    <div class="services-list-table-card">
+      <div class="services-list-table-header">
+        <div>
+          <span>Catalog</span>
+          <h3>Domain Services</h3>
+        </div>
+      </div>
+      <div class="services-list-table-wrap table-responsive">
+        {form name="domain_services"}
+          {form_table field="services" size="10" class="table table-hover align-middle mb-0" empty="No domain services found."}
+            {form_table_column columnid="" header="[SELECT]"}
+              <span class="services-list-check">{form_table_checkbox option=$services.tld}</span>
+            {/form_table_column}
             {form_table_column columnid="tld" header="[TLD]"}
-              <a href="manager_content.php?page=services_edit_domain_service&dservice={$services.tld}" class="btn btn-link btn-sm p-0 text-decoration-none fw-bold">
+              <a href="manager_content.php?page=services_edit_domain_service&dservice={$services.tld}" class="services-list-name">
+                <i class="ti ti-world-www"></i>
                 .{$services.tld}
               </a>
             {/form_table_column}
-
             {form_table_column columnid="module" header="[MODULE]"}
-              <span class="text-nowrap">{$services.module}</span>
+              <span class="services-list-module">{$services.module}</span>
             {/form_table_column}
-
             {form_table_column columnid="pricing" header="[PRICING]"}
-              <span class="small">{$services.pricing}</span>
+              <span class="services-list-pricing">{$services.pricing}</span>
             {/form_table_column}
-
             {form_table_column columnid="public" header="[PUBLIC]"}
               {if $services.public == "Yes"}
-                <span class="badge bg-success">{$services.public}</span>
+                <span class="services-list-status services-list-status-public">{$services.public}</span>
               {else}
-                <span class="badge bg-secondary">{$services.public}</span>
+                <span class="services-list-status services-list-status-private">{$services.public}</span>
               {/if}
             {/form_table_column}
-
             {form_table_footer}
-              <div class="d-flex justify-content-end p-3">
-                {form_element field="remove" class="btn btn-outline-danger btn-sm"}
-              </div>
+              <tr>
+                <td colspan="5">
+                  <div class="services-list-remove-actions">
+                    {form_element field="remove" class="btn btn-danger"}
+                  </div>
+                </td>
+              </tr>
             {/form_table_footer}
-
           {/form_table}
         {/form}
       </div>
     </div>
   </div>
-
 </div>

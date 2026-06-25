@@ -197,6 +197,65 @@ body.sb-nav-fixed .sb-sidenav .sb-sidenav-menu-nested.nav .nav-link.active {
 	border-left-color: #3b82f6;
 }
 
+body.sb-nav-fixed .sb-sidenav-menu-nested.nav.service-links {
+	padding: 0.35rem 0;
+}
+
+body.sb-nav-fixed .sb-sidenav .sb-sidenav-menu-nested.nav .service-link {
+	position: relative;
+	gap: 0.55rem;
+	min-height: 38px;
+	padding: 0.45rem 0.75rem 0.45rem 2.4rem;
+	color: #a7b4c7;
+	font-weight: 600;
+}
+
+body.sb-nav-fixed .service-link-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 22px;
+	height: 22px;
+	flex: 0 0 22px;
+	color: #93a4bc;
+	font-size: 0.95rem;
+	border: 1px solid rgba(148, 163, 184, 0.16);
+	border-radius: 5px;
+	background: rgba(15, 23, 42, 0.22);
+}
+
+body.sb-nav-fixed .service-link-label {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+body.sb-nav-fixed .sb-sidenav .sb-sidenav-menu-nested.nav .service-link:hover,
+body.sb-nav-fixed .sb-sidenav .sb-sidenav-menu-nested.nav .service-link:focus {
+	color: #ffffff;
+	background: #182131;
+}
+
+body.sb-nav-fixed .sb-sidenav .sb-sidenav-menu-nested.nav .service-link:hover .service-link-icon,
+body.sb-nav-fixed .sb-sidenav .sb-sidenav-menu-nested.nav .service-link:focus .service-link-icon {
+	color: #bfdbfe;
+	border-color: rgba(96, 165, 250, 0.32);
+	background: rgba(37, 99, 235, 0.18);
+}
+
+body.sb-nav-fixed .sb-sidenav .sb-sidenav-menu-nested.nav .service-link.active {
+	color: #ffffff;
+	background: #182131;
+	border-left-color: #3b82f6;
+}
+
+body.sb-nav-fixed .sb-sidenav .sb-sidenav-menu-nested.nav .service-link.active .service-link-icon {
+	color: #ffffff;
+	border-color: rgba(96, 165, 250, 0.45);
+	background: #2563eb;
+}
+
 body.sb-nav-fixed .sidebar-toggle {
 	color: #d1d5db !important;
 	border-radius: 3px;

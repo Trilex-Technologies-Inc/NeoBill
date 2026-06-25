@@ -1,75 +1,109 @@
-<div class="manager_content">
-<h2>{echo phrase="IP_ADDRESS_POOL"}</h2>
+<div class="manager_content services-list-page services-ip-page">
+  <div class="services-list-shell">
+    <div class="services-list-header">
+      <div class="services-list-title">
+        <span class="services-list-icon"><i class="ti ti-network"></i></span>
+        <div>
+          <span class="services-list-kicker">Products &amp; Services</span>
+          <h2>{echo phrase="IP_ADDRESS_POOL"}</h2>
+          <p>Search IP inventory, server assignment, account usage, and service allocation.</p>
+        </div>
+      </div>
+    </div>
 
-<div class="search mb-4">
-  <div class="card">
-    <div class="card-body">
-      {form name="search_ips"}
-        <div class="row g-3 align-items-end">
-          <div class="col-md-3">
-            <label class="form-label fw-bold">{echo phrase="SEARCH"}</label>
-            {form_description field="ipaddressstring"}
-            {form_element field="ipaddressstring" size="15" class="form-control"}
-          </div>
-          <div class="col-md-3">
-            <label class="form-label fw-bold">{echo phrase="HOSTNAME"}</label>
-            {form_description field="hostname"}
-            {form_element field="hostname" size="20" class="form-control"}
-          </div>
-          <div class="col-md-3">
-            <label class="form-label fw-bold">{echo phrase="ACCOUNT_NAME"}</label>
-            {form_description field="accountname"}
-            {form_element field="accountname" size="20" class="form-control"}
-          </div>
-          <div class="col-md-2">
-            <label class="form-label fw-bold">{echo phrase="SERVICE"}</label>
-            {form_description field="service"}
-            {form_element field="service" size="20" class="form-control"}
-          </div>
-          <div class="col-md-1">
-            {form_element field="search" class="btn btn-primary w-100"}
+    <div class="services-list-toolbar">
+      <div class="services-list-search">
+        <div class="services-list-search-header">
+          <span><i class="ti ti-search"></i></span>
+          <div>
+            <h3>Find IP Addresses</h3>
+            <p>Filter by address, hostname, assigned account, or service.</p>
           </div>
         </div>
-      {/form}
+        {form name="search_ips"}
+          <div class="services-list-search-grid services-list-search-grid-ip">
+            <div class="services-list-field">
+              <label class="form-label">{echo phrase="IP_ADDRESS"}</label>
+              {form_description field="ipaddressstring"}
+              <div class="services-list-input-icon">
+                <i class="ti ti-network"></i>
+                {form_element field="ipaddressstring" size="15" class="form-control"}
+              </div>
+            </div>
+            <div class="services-list-field">
+              <label class="form-label">{echo phrase="HOSTNAME"}</label>
+              {form_description field="hostname"}
+              <div class="services-list-input-icon">
+                <i class="ti ti-server"></i>
+                {form_element field="hostname" size="20" class="form-control"}
+              </div>
+            </div>
+            <div class="services-list-field">
+              <label class="form-label">{echo phrase="ACCOUNT_NAME"}</label>
+              {form_description field="accountname"}
+              <div class="services-list-input-icon">
+                <i class="ti ti-user"></i>
+                {form_element field="accountname" size="20" class="form-control"}
+              </div>
+            </div>
+            <div class="services-list-field">
+              <label class="form-label">{echo phrase="SERVICE"}</label>
+              {form_description field="service"}
+              <div class="services-list-input-icon">
+                <i class="ti ti-cloud"></i>
+                {form_element field="service" size="20" class="form-control"}
+              </div>
+            </div>
+            <div class="services-list-submit">
+              {form_element field="search" class="btn btn-primary"}
+            </div>
+          </div>
+        {/form}
+      </div>
     </div>
-  </div>
-</div>
 
-
-
-<div class="table-container">
-  <div class="card">
-    <div class="card-body p-0">
-      <div class="table-responsive">
+    <div class="services-list-table-card">
+      <div class="services-list-table-header">
+        <div>
+          <span>Inventory</span>
+          <h3>IP Address Pool</h3>
+        </div>
+      </div>
+      <div class="services-list-table-wrap table-responsive">
         {form name="ippool"}
-          {form_table field="ipaddresses" class="table table-sm table-striped align-middle mb-0" size="20"}
+          {form_table field="ipaddresses" class="table table-hover align-middle mb-0" size="20"}
             {form_table_column columnid="" header="[SELECT]"}
-              {form_table_checkbox option=$ipaddresses.ipaddress}
+              <span class="services-list-check">{form_table_checkbox option=$ipaddresses.ipaddress}</span>
             {/form_table_column}
             {form_table_column columnid="ipaddress" header="[IP_ADDRESS]"}
-              {$ipaddresses.ipaddressstring}
+              <span class="services-list-ip">{$ipaddresses.ipaddressstring}</span>
             {/form_table_column}
             {form_table_column columnid="server" header="[SERVER]"}
-              <a href="manager_content.php?page=services_view_server&server={$ipaddresses.server}">{$ipaddresses.hostname}</a>
+              <a href="manager_content.php?page=services_view_server&server={$ipaddresses.server}" class="services-list-name">
+                <i class="ti ti-server-2"></i>
+                {$ipaddresses.hostname}
+              </a>
             {/form_table_column}
             {form_table_column columnid="accountname" header="[ASSIGNED_TO]"}
               {if $ipaddresses.isAvailable}
-                [AVAILABLE]
+                <span class="services-list-status services-list-status-public">[AVAILABLE]</span>
               {else}
-                <a href="manager_content.php?page=accounts_view_account&account={$ipaddresses.accountid}">{$ipaddresses.accountname}</a>
+                <a href="manager_content.php?page=accounts_view_account&account={$ipaddresses.accountid}" class="services-list-account">{$ipaddresses.accountname}</a>
               {/if}
             {/form_table_column}
             {form_table_column columnid="service" header="[SERVICE]"}
               {if $ipaddresses.isAvailable}
-                [N/A]
+                <span class="services-list-muted">[N/A]</span>
               {else}
-                {$ipaddresses.service}
+                <span class="services-list-module">{$ipaddresses.service}</span>
               {/if}
             {/form_table_column}
             {form_table_footer}
-              <tr class="table-light">
-                <td colspan="5" class="p-3">
-                  {form_element field="remove" class="btn btn-danger"}
+              <tr>
+                <td colspan="5">
+                  <div class="services-list-remove-actions">
+                    {form_element field="remove" class="btn btn-danger"}
+                  </div>
                 </td>
               </tr>
             {/form_table_footer}
@@ -79,4 +113,3 @@
     </div>
   </div>
 </div>
-
