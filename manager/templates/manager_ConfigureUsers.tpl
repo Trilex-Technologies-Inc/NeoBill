@@ -1,103 +1,104 @@
-<div class="manager_content">
+<div class="manager_content configure-users-page">
+  <div class="configure-users-shell">
+    <div class="configure-users-header">
+      <div class="configure-users-title">
+        <span class="configure-users-icon"><i class="ti ti-users"></i></span>
+        <div>
+          <span class="configure-users-kicker">{echo phrase="SETTINGS"}</span>
+          <h2>{echo phrase="USERS"}</h2>
+          <p>{echo phrase="USER_TYPE"}</p>
+        </div>
+      </div>
 
-<!-- Actions Section -->
-<div class="action mb-4">
-  <div class="card border-0 bg-light">
-    <div class="card-body py-2">
-      <div class="d-flex justify-content-between align-items-center">
-        <p class="header fw-bold mb-0">
-          <i class="bi bi-gear me-2"></i>
-          Actions
-        </p>
+      <div class="configure-users-actions">
         {form name="users_action"}
-          {form_element field="add" class="btn btn-primary btn-sm"}
+          {form_element field="add" class="btn btn-primary"}
+        {/form}
+      </div>
+    </div>
+
+    <div class="configure-users-toolbar">
+      {form name="search_users"}
+        <div class="configure-users-search">
+          <div class="configure-users-search-header">
+            <span><i class="ti ti-search"></i></span>
+            <div>
+              <h3>{echo phrase="SEARCH"}</h3>
+              <p>{echo phrase="USERS"}</p>
+            </div>
+          </div>
+
+          <div class="configure-users-search-grid">
+            <div class="configure-users-field">
+              <label class="form-label">{form_description field="username"}</label>
+              <div class="configure-users-input-icon">
+                <i class="ti ti-user"></i>
+                {form_element field="username" size="10" class="form-control"}
+              </div>
+            </div>
+
+            <div class="configure-users-field">
+              <label class="form-label">{form_description field="contactname"}</label>
+              <div class="configure-users-input-icon">
+                <i class="ti ti-id"></i>
+                {form_element field="contactname" size="20" class="form-control"}
+              </div>
+            </div>
+
+            <div class="configure-users-field">
+              <label class="form-label">{form_description field="email"}</label>
+              <div class="configure-users-input-icon">
+                <i class="ti ti-mail"></i>
+                {form_element field="email" class="form-control"}
+              </div>
+            </div>
+
+            <div class="configure-users-submit">
+              {form_element field="search" class="btn btn-primary"}
+            </div>
+          </div>
+        </div>
+      {/form}
+    </div>
+
+    <div class="configure-users-table-card">
+      <div class="configure-users-table-header">
+        <div>
+          <span>{echo phrase="USERS"}</span>
+          <h3>{echo phrase="USERS"}</h3>
+        </div>
+        <a class="configure-users-link-button" href="manager_content.php?page=config_new_user">
+          <i class="ti ti-user-plus"></i>
+          {echo phrase="CREATE_USER"}
+        </a>
+      </div>
+
+      <div class="table-responsive configure-users-table-wrap">
+        {form name="users"}
+          {form_table field="users" class="table table-sm table-hover align-middle mb-0"}
+
+            {form_table_column columnid="username" header="[USERNAME]"}
+              <a href="manager_content.php?page=config_edit_user&user={$users.username}" class="configure-users-username">
+                <i class="ti ti-user-circle"></i>
+                <span>{$users.username}</span>
+              </a>
+            {/form_table_column}
+
+            {form_table_column columnid="type" header="[TYPE]"}
+              <span class="configure-users-type">{$users.type}</span>
+            {/form_table_column}
+
+            {form_table_column columnid="contactname" header="[NAME]"}
+              <span class="configure-users-name">{$users.contactname}</span>
+            {/form_table_column}
+
+            {form_table_column columnid="email" header="[EMAIL]"}
+              <span class="configure-users-email">{$users.email|mailto}</span>
+            {/form_table_column}
+
+          {/form_table}
         {/form}
       </div>
     </div>
   </div>
-</div>
-
-<h2 class="mb-3">
-  <i class="bi bi-people me-2 text-primary"></i>
-  [USERS]
-</h2>
-
-<!-- Search Section -->
-<div class="search mb-4">
-  {form name="search_users"}
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <div class="row g-3 align-items-end">
-          <!-- Username -->
-          <div class="col-md-3">
-            <label class="form-label fw-bold">
-              {form_description field="username"}
-            </label>
-            {form_element field="username" size="10" class="form-control" placeholder="Username"}
-          </div>
-          
-          <!-- Contact Name -->
-          <div class="col-md-4">
-            <label class="form-label fw-bold">
-              {form_description field="contactname"}
-            </label>
-            {form_element field="contactname" size="20" class="form-control" placeholder="Full name"}
-          </div>
-          
-          <!-- Email -->
-          <div class="col-md-3">
-            <label class="form-label fw-bold">
-              {form_description field="email"}
-            </label>
-            {form_element field="email" class="form-control" placeholder="Email address"}
-          </div>
-          
-          <!-- Search Button -->
-          <div class="col-md-2">
-            {form_element field="search" class="btn btn-primary w-100"}
-          </div>
-        </div>
-      </div>
-    </div>
-  {/form}
-</div>
-
-<!-- Users Table -->
-<div class="table-responsive">
-  <div class="card shadow-sm">
-    <div class="card-body p-0">
-      {form name="users"}
-        {form_table field="users" class="table table-sm table-striped align-middle table-hover mb-0"}
-          
-          {form_table_column columnid="username" header="[USERNAME]"}
-            <a href="manager_content.php?page=config_edit_user&user={$users.username}" class="text-decoration-none fw-bold">
-              <i class="bi bi-person-circle me-1"></i>
-              {$users.username}
-            </a>
-          {/form_table_column}
-          
-          {form_table_column columnid="type" header="[TYPE]"}
-            {if $users.type == 'admin'}
-              <span class="badge bg-danger">{$users.type}</span>
-            {elseif $users.type == 'reseller'}
-              <span class="badge bg-warning text-dark">{$users.type}</span>
-            {else}
-              <span class="badge bg-secondary">{$users.type}</span>
-            {/if}
-          {/form_table_column}
-          
-          {form_table_column columnid="contactname" header="[NAME]"}
-            {$users.contactname}
-          {/form_table_column}
-          
-          {form_table_column columnid="email" header="[EMAIL]"}
-            {$users.email|mailto}
-          {/form_table_column}
-          
-        {/form_table}
-      {/form}
-    </div>
-  </div>
-</div>
-
 </div>
