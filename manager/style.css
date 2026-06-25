@@ -3792,6 +3792,310 @@ body.sb-nav-fixed .manager_content.taxes-page {
 }
 
 /******************************************************
+ * Add tax rule page
+ ******************************************************/
+
+body.sb-nav-fixed .manager_content.add-tax-rule-page {
+	padding: 0;
+	overflow: hidden;
+	border-radius: 8px;
+}
+
+.add-tax-rule-shell {
+	background: #f8fafc;
+}
+
+.add-tax-rule-shell form {
+	margin: 0;
+}
+
+.add-tax-rule-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1.4rem 1.5rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.add-tax-rule-title {
+	display: flex;
+	align-items: center;
+	gap: 0.95rem;
+	min-width: 0;
+}
+
+.add-tax-rule-icon,
+.add-tax-rule-card-header > span {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	color: #1d4ed8;
+	border: 1px solid #bfdbfe;
+	border-radius: 6px;
+	background: #eff6ff;
+}
+
+.add-tax-rule-icon {
+	width: 48px;
+	height: 48px;
+	font-size: 1.45rem;
+}
+
+.add-tax-rule-kicker {
+	display: block;
+	margin-bottom: 0.2rem;
+	color: #64748b;
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.add-tax-rule-title h2,
+.add-tax-rule-card-header h3 {
+	margin: 0;
+	color: #111827;
+	font-weight: 700;
+}
+
+.add-tax-rule-title h2 {
+	font-size: 1.3rem;
+}
+
+.add-tax-rule-title p,
+.add-tax-rule-card-header p {
+	margin: 0.18rem 0 0;
+	color: #6b7280;
+	font-size: 0.8rem;
+}
+
+.add-tax-rule-back {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	flex: 0 0 auto;
+	min-height: 34px;
+	padding: 0.4rem 0.7rem;
+	color: #475569;
+	font-size: 0.78rem;
+	font-weight: 800;
+	text-decoration: none;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	background: #ffffff;
+}
+
+.add-tax-rule-back:hover {
+	color: #1d4ed8;
+	border-color: #bfdbfe;
+	background: #eff6ff;
+}
+
+.add-tax-rule-grid {
+	display: grid;
+	grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
+	gap: 1rem;
+	padding: 1.5rem;
+}
+
+.add-tax-rule-card {
+	overflow: hidden;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	background: #ffffff;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.add-tax-rule-card-header {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+	padding: 1.1rem 1.2rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.add-tax-rule-card-header > span {
+	width: 38px;
+	height: 38px;
+	font-size: 1.1rem;
+}
+
+.add-tax-rule-card-header h3 {
+	font-size: 0.98rem;
+}
+
+.add-tax-rule-card-body {
+	padding: 1.2rem;
+}
+
+.add-tax-rule-field {
+	margin-bottom: 1rem;
+}
+
+.add-tax-rule-field:last-child {
+	margin-bottom: 0;
+}
+
+.add-tax-rule-field .form-label {
+	margin-bottom: 0.35rem;
+	color: #374151;
+	font-size: 0.75rem;
+	font-weight: 700;
+}
+
+.add-tax-rule-page input[type="text"],
+.add-tax-rule-page input:not([type]),
+.add-tax-rule-page select,
+.add-tax-rule-page textarea {
+	display: block;
+	width: 100%;
+	min-height: 40px;
+	padding: 0.5rem 0.65rem;
+	color: #111827;
+	font-size: 0.86rem;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	background-color: #ffffff;
+	box-shadow: none;
+}
+
+.add-tax-rule-page input[type="text"]:focus,
+.add-tax-rule-page input:not([type]):focus,
+.add-tax-rule-page select:focus,
+.add-tax-rule-page textarea:focus {
+	border-color: #2563eb;
+	outline: 0;
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.add-tax-rule-input-icon {
+	position: relative;
+}
+
+.add-tax-rule-input-icon > i {
+	position: absolute;
+	top: 50%;
+	left: 0.75rem;
+	z-index: 2;
+	width: 1rem;
+	color: #64748b;
+	text-align: center;
+	transform: translateY(-50%);
+	pointer-events: none;
+}
+
+.add-tax-rule-page .add-tax-rule-input-icon input,
+.add-tax-rule-page .add-tax-rule-input-icon select {
+	padding-left: 2.35rem;
+}
+
+.add-tax-rule-rate {
+	display: flex;
+	align-items: center;
+	max-width: 180px;
+}
+
+.add-tax-rule-rate input {
+	border-radius: 4px 0 0 4px;
+}
+
+.add-tax-rule-rate span {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 40px;
+	padding: 0 0.8rem;
+	color: #475569;
+	font-size: 0.84rem;
+	font-weight: 800;
+	border: 1px solid #d1d5db;
+	border-left: 0;
+	border-radius: 0 4px 4px 0;
+	background: #f8fafc;
+}
+
+.add-tax-rule-check-field label {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+	min-height: 42px;
+	margin: 0;
+	padding: 0.65rem 0.75rem;
+	color: #374151;
+	font-size: 0.84rem;
+	font-weight: 700;
+	border: 1px solid #dbeafe;
+	border-radius: 5px;
+	background: #f8fbff;
+}
+
+.add-tax-rule-check-field input {
+	width: 16px;
+	height: 16px;
+	flex: 0 0 auto;
+}
+
+.add-tax-rule-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.65rem;
+	padding: 1.2rem 1.5rem;
+	border-top: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.add-tax-rule-actions .btn,
+.add-tax-rule-actions input[type="submit"] {
+	min-height: 40px;
+	padding: 0.5rem 0.95rem;
+	font-size: 0.82rem;
+	font-weight: 700;
+	border-radius: 4px;
+}
+
+@media (max-width: 991.98px) {
+	.add-tax-rule-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 575.98px) {
+	.add-tax-rule-header {
+		align-items: stretch;
+		flex-direction: column;
+		padding: 1rem;
+	}
+
+	.add-tax-rule-title {
+		align-items: flex-start;
+	}
+
+	.add-tax-rule-back,
+	.add-tax-rule-actions input {
+		width: 100%;
+	}
+
+	.add-tax-rule-back {
+		justify-content: center;
+	}
+
+	.add-tax-rule-actions {
+		flex-direction: column-reverse;
+	}
+
+	.add-tax-rule-grid,
+	.add-tax-rule-card-header,
+	.add-tax-rule-card-body,
+	.add-tax-rule-actions {
+		padding: 1rem;
+	}
+}
+
+/******************************************************
  * Billing payment page
  ******************************************************/
 
