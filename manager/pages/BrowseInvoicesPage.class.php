@@ -13,6 +13,8 @@
 // Include the parent class
 require_once BASE_PATH . "include/SolidStatePage.class.php";
 
+require_once BASE_PATH . "util/billing.php";
+
 /**
  * BrowseInvoicesPage
  *
@@ -22,6 +24,28 @@ require_once BASE_PATH . "include/SolidStatePage.class.php";
  * @author John Diamond <jdiamond@solid-state.org>
  */
 class BrowseInvoicesPage extends SolidStatePage {
+	/**
+	 * Initialize Browse Invoices Page
+	 */
+	function init() {
+		parent::init();
+
+		$invoice_count = 0;
+		try {
+			$invoice_count = count( load_array_InvoiceDBO() );
+		}
+		catch( DBNoRowsFoundException $e ) {
+
+		}
+
+		$stats = outstanding_invoices_stats();
+		$this->smarty->assign( "invoice_count",                 $invoice_count );
+		$this->smarty->assign( "os_invoices_count",             $stats['count'] );
+		$this->smarty->assign( "os_invoices_total",             $stats['total'] );
+		$this->smarty->assign( "os_invoices_count_past_due",    $stats['count_past_due'] );
+		$this->smarty->assign( "os_invoices_total_past_due",    $stats['total_past_due'] );
+	}
+
 	/**
 	 * Action
 	 *

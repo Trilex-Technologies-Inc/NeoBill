@@ -2836,6 +2836,416 @@ body.sb-nav-fixed .manager_content.outstanding-invoices-page {
 }
 
 /******************************************************
+ * Browse invoices page
+ ******************************************************/
+
+body.sb-nav-fixed .manager_content.browse-invoices-page {
+	padding: 0;
+	overflow: hidden;
+	border-radius: 8px;
+}
+
+.browse-invoices-shell {
+	background: #f8fafc;
+}
+
+.browse-invoices-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1.4rem 1.5rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.browse-invoices-title {
+	display: flex;
+	align-items: center;
+	gap: 0.95rem;
+	min-width: 0;
+}
+
+.browse-invoices-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	flex: 0 0 auto;
+	color: #1d4ed8;
+	font-size: 1.45rem;
+	border: 1px solid #bfdbfe;
+	border-radius: 6px;
+	background: #eff6ff;
+}
+
+.browse-invoices-kicker {
+	display: block;
+	margin-bottom: 0.2rem;
+	color: #64748b;
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.browse-invoices-title h2 {
+	margin: 0;
+	color: #111827;
+	font-size: 1.3rem;
+	font-weight: 700;
+}
+
+.browse-invoices-title p {
+	margin: 0.18rem 0 0;
+	color: #6b7280;
+	font-size: 0.8rem;
+}
+
+.browse-invoices-actions form {
+	margin: 0;
+}
+
+.browse-invoices-actions .btn {
+	display: inline-flex;
+	align-items: center;
+	min-height: 38px;
+	border-radius: 4px;
+	font-size: 0.82rem;
+	font-weight: 700;
+}
+
+.browse-invoices-summary {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	border-bottom: 1px solid #e5e7eb;
+	background: #f8fafc;
+}
+
+.browse-invoices-stat {
+	position: relative;
+	padding: 1rem 1.5rem;
+	border-right: 1px solid #e5e7eb;
+}
+
+.browse-invoices-stat:last-child {
+	border-right: 0;
+}
+
+.browse-invoices-stat::before {
+	content: "";
+	position: absolute;
+	top: 1rem;
+	right: 1.2rem;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: #94a3b8;
+	box-shadow: 0 0 0 4px rgba(148, 163, 184, 0.12);
+}
+
+.browse-invoices-stat-primary::before {
+	background: #2563eb;
+	box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.browse-invoices-stat-danger::before {
+	background: #dc2626;
+	box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.12);
+}
+
+.browse-invoices-stat-warning::before {
+	background: #d97706;
+	box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.12);
+}
+
+.browse-invoices-stat span,
+.browse-invoices-table-header span {
+	display: block;
+	margin-bottom: 0.25rem;
+	color: #64748b;
+	font-size: 0.7rem;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.browse-invoices-stat strong {
+	display: block;
+	overflow: hidden;
+	color: #111827;
+	font-size: 1.05rem;
+	font-weight: 750;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.browse-invoices-toolbar {
+	padding: 1.5rem 1.5rem 0;
+}
+
+.browse-invoices-toolbar form {
+	margin: 0;
+}
+
+.browse-invoices-search {
+	padding: 1rem;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	background: #ffffff;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.browse-invoices-search .form-label {
+	margin-bottom: 0.4rem;
+	color: #374151;
+	font-size: 0.75rem;
+	font-weight: 700;
+}
+
+.browse-invoices-search-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 0.65rem;
+}
+
+.browse-invoices-search-input {
+	position: relative;
+}
+
+.browse-invoices-search-input > i {
+	position: absolute;
+	top: 50%;
+	left: 0.75rem;
+	z-index: 2;
+	width: 1rem;
+	color: #64748b;
+	text-align: center;
+	transform: translateY(-50%);
+	pointer-events: none;
+}
+
+.browse-invoices-search-input input {
+	width: 100%;
+	min-height: 40px;
+	padding-left: 2.35rem;
+	color: #111827;
+	font-size: 0.86rem;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	background: #ffffff;
+	box-shadow: none;
+}
+
+.browse-invoices-search-input input:focus {
+	border-color: #2563eb;
+	outline: 0;
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.browse-invoices-search-row .btn {
+	min-height: 40px;
+	padding: 0.5rem 0.95rem;
+	border-radius: 4px;
+	font-size: 0.82rem;
+	font-weight: 700;
+}
+
+.browse-invoices-table-card {
+	margin: 1rem 1.5rem 1.5rem;
+	overflow: hidden;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	background: #ffffff;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.browse-invoices-table-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1.1rem 1.2rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.browse-invoices-table-header h3 {
+	margin: 0;
+	color: #111827;
+	font-size: 0.98rem;
+	font-weight: 700;
+}
+
+.browse-invoices-link-button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	flex: 0 0 auto;
+	min-height: 34px;
+	padding: 0.4rem 0.7rem;
+	color: #1d4ed8;
+	font-size: 0.78rem;
+	font-weight: 800;
+	text-decoration: none;
+	border: 1px solid #bfdbfe;
+	border-radius: 4px;
+	background: #eff6ff;
+}
+
+.browse-invoices-link-button:hover {
+	color: #1d4ed8;
+	background: #dbeafe;
+}
+
+.browse-invoices-table-wrap {
+	background: #ffffff;
+}
+
+.browse-invoices-page .table,
+.browse-invoices-page table {
+	width: 100%;
+	margin: 0;
+	border-collapse: separate;
+	border-spacing: 0;
+}
+
+.browse-invoices-page .table th,
+.browse-invoices-page table th {
+	padding: 0.7rem 0.75rem;
+	color: #4b5563;
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	border-color: #e5e7eb;
+	background: #f3f4f6;
+}
+
+.browse-invoices-page .table td,
+.browse-invoices-page table td {
+	padding: 0.75rem;
+	color: #374151;
+	font-size: 0.8rem;
+	vertical-align: middle;
+	border-color: #e5e7eb;
+	background: #ffffff;
+}
+
+.browse-invoices-page .table tr:hover td,
+.browse-invoices-page table tr:hover td {
+	background: #f8fbff;
+}
+
+.browse-invoices-link,
+.browse-invoices-account {
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.browse-invoices-link {
+	color: #1d4ed8;
+}
+
+.browse-invoices-account {
+	color: #111827;
+}
+
+.browse-invoices-link:hover,
+.browse-invoices-account:hover {
+	color: #1d4ed8;
+	text-decoration: underline;
+}
+
+.browse-invoices-date,
+.browse-invoices-period,
+.browse-invoices-money,
+.browse-invoices-paid,
+.browse-invoices-due,
+.browse-invoices-clear {
+	white-space: nowrap;
+}
+
+.browse-invoices-money,
+.browse-invoices-paid,
+.browse-invoices-due,
+.browse-invoices-clear {
+	font-weight: 750;
+}
+
+.browse-invoices-paid,
+.browse-invoices-clear {
+	color: #047857;
+}
+
+.browse-invoices-due {
+	color: #dc2626;
+}
+
+@media (max-width: 900px) {
+	.browse-invoices-summary {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.browse-invoices-stat:nth-child(2) {
+		border-right: 0;
+	}
+
+	.browse-invoices-stat:nth-child(-n+2) {
+		border-bottom: 1px solid #e5e7eb;
+	}
+}
+
+@media (max-width: 575.98px) {
+	.browse-invoices-header,
+	.browse-invoices-table-header {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.browse-invoices-header,
+	.browse-invoices-toolbar,
+	.browse-invoices-table-header {
+		padding: 1rem;
+	}
+
+	.browse-invoices-title {
+		align-items: flex-start;
+	}
+
+	.browse-invoices-actions .btn,
+	.browse-invoices-actions form,
+	.browse-invoices-search-row .btn {
+		width: 100%;
+	}
+
+	.browse-invoices-summary {
+		grid-template-columns: 1fr;
+	}
+
+	.browse-invoices-stat {
+		border-right: 0;
+		border-bottom: 1px solid #e5e7eb;
+	}
+
+	.browse-invoices-stat:last-child {
+		border-bottom: 0;
+	}
+
+	.browse-invoices-search-row {
+		grid-template-columns: 1fr;
+	}
+
+	.browse-invoices-table-card {
+		margin: 1rem;
+	}
+
+	.browse-invoices-link-button {
+		justify-content: center;
+	}
+}
+
+/******************************************************
  * Billing payment page
  ******************************************************/
 
