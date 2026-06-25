@@ -3636,55 +3636,6 @@ body.sb-nav-fixed .manager_content.edit-hosting-page {
 	border-radius: 8px;
 }
 
-.edit-hosting-tabs.ui-tabs {
-	padding: 0 1.5rem 1.5rem;
-	background: #f8fafc;
-}
-
-.edit-hosting-tabs > .ui-tabs-nav,
-.edit-hosting-tabs > ul {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5rem;
-	margin: 0;
-	padding: 0 1.5rem;
-	list-style: none;
-	background: #ffffff;
-	border-bottom: 1px solid #e5e7eb;
-}
-
-.edit-hosting-tabs > .ui-tabs-nav li,
-.edit-hosting-tabs > ul li {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	background: transparent;
-}
-
-.edit-hosting-tabs > .ui-tabs-nav li a,
-.edit-hosting-tabs > ul li a {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.4rem;
-	padding: 0.9rem 1rem;
-	color: #475569;
-	font-size: 0.84rem;
-	font-weight: 700;
-	text-decoration: none;
-	border-bottom: 2px solid transparent;
-}
-
-.edit-hosting-tabs > .ui-tabs-nav li.ui-tabs-active a,
-.edit-hosting-tabs > .ui-tabs-nav li.ui-state-active a {
-	color: #1d4ed8;
-	border-bottom-color: #1d4ed8;
-}
-
-.edit-hosting-tabs > .ui-tabs-panel {
-	padding: 1.5rem 0 0;
-	background: transparent;
-}
-
 .edit-hosting-shell {
 	background: linear-gradient(180deg, #f8fbff 0%, #f5f7fb 100%);
 }
@@ -3754,7 +3705,6 @@ body.sb-nav-fixed .manager_content.edit-hosting-page {
 }
 
 .edit-hosting-card {
-	margin: 1.5rem;
 	border: 1px solid #e5e7eb;
 	border-radius: 12px;
 	box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
@@ -3891,15 +3841,6 @@ body.sb-nav-fixed .manager_content.edit-hosting-page {
 }
 
 @media (max-width: 991.98px) {
-	.edit-hosting-tabs {
-		padding: 0 1rem 1rem;
-	}
-
-	.edit-hosting-tabs > .ui-tabs-nav,
-	.edit-hosting-tabs > ul {
-		padding: 0 1rem;
-	}
-
 	.edit-hosting-options,
 	.edit-hosting-price-grid {
 		grid-template-columns: 1fr 1fr;
@@ -3907,18 +3848,6 @@ body.sb-nav-fixed .manager_content.edit-hosting-page {
 }
 
 @media (max-width: 575.98px) {
-	.edit-hosting-tabs > .ui-tabs-nav,
-	.edit-hosting-tabs > ul {
-		flex-direction: column;
-		gap: 0;
-	}
-
-	.edit-hosting-tabs > .ui-tabs-nav li a,
-	.edit-hosting-tabs > ul li a {
-		width: 100%;
-		padding: 0.8rem 0.75rem;
-	}
-
 	.edit-hosting-header {
 		align-items: flex-start;
 		padding: 1.15rem 1rem;
@@ -3926,7 +3855,6 @@ body.sb-nav-fixed .manager_content.edit-hosting-page {
 	}
 
 	.edit-hosting-card {
-		margin: 1rem;
 	}
 
 	.edit-hosting-card-header,

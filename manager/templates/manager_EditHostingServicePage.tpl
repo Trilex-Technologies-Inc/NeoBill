@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <div id="tabs" class="edit-hosting-tabs">
+    <div id="tabs" class="settings-tabs">
       <ul>
         <li><a href="#tabs-1"><i class="ti ti-settings"></i> General</a></li>
         <li><a href="#tabs-2"><i class="ti ti-trash"></i> Pricing</a></li>
@@ -24,7 +24,7 @@
       </ul>
 
       <div id="tabs-1">
-        <div class="edit-hosting-panel">
+        <div class="settings-panel">
           {form name="edit_hosting"}
             <div class="edit-hosting-card card">
               <div class="card-header edit-hosting-card-header">
@@ -73,7 +73,7 @@
       </div>
 
       <div id="tabs-2">
-        <div class="edit-hosting-panel">
+        <div class="settings-panel">
           {form name="edit_hosting_pricing"}
             <div class="edit-hosting-card card">
               <div class="card-header edit-hosting-card-header">
@@ -120,7 +120,7 @@
       </div>
 
       <div id="tabs-3">
-        <div class="edit-hosting-panel">
+        <div class="settings-panel">
           {form name="edit_hosting_add_price"}
             <div class="edit-hosting-card card">
               <div class="card-header edit-hosting-card-header">
