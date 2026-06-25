@@ -13,6 +13,8 @@
 // Include the parent class
 require_once BASE_PATH . "include/SolidStatePage.class.php";
 
+require_once BASE_PATH . "util/billing.php";
+
 /**
  * OutstandingInvoicesPage
  *
@@ -53,7 +55,15 @@ class OutstandingInvoicesPage extends SolidStatePage {
 	public function init() {
 		parent::init();
 
-		// Tell the orders table widget to only show "pending" orders
+		$stats = outstanding_invoices_stats();
+		$this->smarty->assign( "os_invoices_count",             $stats['count'] );
+		$this->smarty->assign( "os_invoices_total",             $stats['total'] );
+		$this->smarty->assign( "os_invoices_count_past_due",    $stats['count_past_due'] );
+		$this->smarty->assign( "os_invoices_total_past_due",    $stats['total_past_due'] );
+		$this->smarty->assign( "os_invoices_count_past_due_30", $stats['count_past_due_30'] );
+		$this->smarty->assign( "os_invoices_total_past_due_30", $stats['total_past_due_30'] );
+
+		// Tell the invoice table widget to only show outstanding invoices
 		$widget = $this->forms['outstanding_invoices']->getField( "invoices" )->getWidget();
 		$widget->setOutstanding( "Yes" );
 	}
