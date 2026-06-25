@@ -200,10 +200,6 @@ function &get_page_object($conf, $smarty)
 
 	// Instantiate an object for the requested page and return as a reference
 
-	if ($page_class == "registereddomainspage") {
-		$page_class = "registerdomainpage";
-	}
-
 	$page_obj = new $page_class;
 
 	// Set the class name - workaround for PHP 5 get_class behavior.
