@@ -2014,6 +2014,870 @@ body.sb-nav-fixed .manager_content.modules-page {
 }
 
 /******************************************************
+ * Expired domains page
+ ******************************************************/
+
+body.sb-nav-fixed .manager_content.expired-domains-page {
+	padding: 0;
+	overflow: hidden;
+	border-radius: 8px;
+}
+
+.expired-domains-shell {
+	background: #f8fafc;
+}
+
+.expired-domains-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1.4rem 1.5rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.expired-domains-title {
+	display: flex;
+	align-items: center;
+	gap: 0.95rem;
+	min-width: 0;
+}
+
+.expired-domains-icon,
+.expired-domains-search-header > span {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	color: #b91c1c;
+	border: 1px solid #fecaca;
+	border-radius: 6px;
+	background: #fef2f2;
+}
+
+.expired-domains-icon {
+	width: 48px;
+	height: 48px;
+	font-size: 1.45rem;
+}
+
+.expired-domains-kicker {
+	display: block;
+	margin-bottom: 0.2rem;
+	color: #64748b;
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.expired-domains-title h2 {
+	margin: 0;
+	color: #111827;
+	font-size: 1.3rem;
+	font-weight: 700;
+}
+
+.expired-domains-title p {
+	margin: 0.18rem 0 0;
+	color: #6b7280;
+	font-size: 0.8rem;
+}
+
+.expired-domains-actions .btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	min-height: 38px;
+	border-radius: 4px;
+	font-size: 0.82rem;
+	font-weight: 700;
+}
+
+.expired-domains-toolbar {
+	padding: 1.5rem 1.5rem 0;
+}
+
+.expired-domains-toolbar form {
+	margin: 0;
+}
+
+.expired-domains-search {
+	padding: 1rem;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	background: #ffffff;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.expired-domains-search-header {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+	margin-bottom: 1rem;
+}
+
+.expired-domains-search-header > span {
+	width: 38px;
+	height: 38px;
+	font-size: 1.1rem;
+}
+
+.expired-domains-search-header h3 {
+	margin: 0;
+	color: #111827;
+	font-size: 0.98rem;
+	font-weight: 700;
+}
+
+.expired-domains-search-header p {
+	margin: 0.18rem 0 0;
+	color: #6b7280;
+	font-size: 0.8rem;
+}
+
+.expired-domains-search-grid {
+	display: grid;
+	align-items: end;
+	grid-template-columns: minmax(210px, 1.1fr) minmax(110px, 0.45fr) minmax(210px, 1fr) auto;
+	gap: 0.85rem;
+}
+
+.expired-domains-field .form-label {
+	margin-bottom: 0.35rem;
+	color: #374151;
+	font-size: 0.75rem;
+	font-weight: 700;
+}
+
+.expired-domains-page input[type="text"],
+.expired-domains-page input:not([type]) {
+	display: block;
+	width: 100%;
+	min-height: 40px;
+	padding: 0.5rem 0.65rem;
+	color: #111827;
+	font-size: 0.86rem;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	background-color: #ffffff;
+	box-shadow: none;
+}
+
+.expired-domains-page input[type="text"]:focus,
+.expired-domains-page input:not([type]):focus {
+	border-color: #dc2626;
+	outline: 0;
+	box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+.expired-domains-input-icon {
+	position: relative;
+}
+
+.expired-domains-input-icon > i {
+	position: absolute;
+	top: 50%;
+	left: 0.75rem;
+	z-index: 2;
+	width: 1rem;
+	color: #64748b;
+	text-align: center;
+	transform: translateY(-50%);
+	pointer-events: none;
+}
+
+.expired-domains-page .expired-domains-input-icon input {
+	padding-left: 2.35rem;
+}
+
+.expired-domains-submit .btn,
+.expired-domains-submit input {
+	min-height: 40px;
+	padding: 0.5rem 0.95rem;
+	border-radius: 4px;
+	font-size: 0.82rem;
+	font-weight: 700;
+}
+
+.expired-domains-table-card {
+	margin: 1rem 1.5rem 1.5rem;
+	overflow: hidden;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	background: #ffffff;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.expired-domains-table-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1.1rem 1.2rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.expired-domains-table-header span:not(.expired-domains-badge) {
+	display: block;
+	margin-bottom: 0.25rem;
+	color: #64748b;
+	font-size: 0.7rem;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.expired-domains-table-header h3 {
+	margin: 0;
+	color: #111827;
+	font-size: 0.98rem;
+	font-weight: 700;
+}
+
+.expired-domains-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	flex: 0 0 auto;
+	min-height: 32px;
+	padding: 0.35rem 0.65rem;
+	color: #991b1b;
+	font-size: 0.78rem;
+	font-weight: 800;
+	border: 1px solid #fecaca;
+	border-radius: 999px;
+	background: #fef2f2;
+}
+
+.expired-domains-table-wrap {
+	background: #ffffff;
+}
+
+.expired-domains-page .table,
+.expired-domains-page table {
+	width: 100%;
+	margin: 0;
+	border-collapse: separate;
+	border-spacing: 0;
+}
+
+.expired-domains-page .table th,
+.expired-domains-page table th {
+	padding: 0.7rem 0.75rem;
+	color: #4b5563;
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	border-color: #e5e7eb;
+	background: #f3f4f6;
+}
+
+.expired-domains-page .table th a,
+.expired-domains-page table th a {
+	color: #4b5563;
+	text-decoration: none;
+}
+
+.expired-domains-page .table th a:hover,
+.expired-domains-page table th a:hover {
+	color: #b91c1c;
+	text-decoration: underline;
+}
+
+.expired-domains-page .table td,
+.expired-domains-page table td {
+	padding: 0.75rem;
+	color: #374151;
+	font-size: 0.8rem;
+	vertical-align: middle;
+	border-color: #e5e7eb;
+	background: #ffffff;
+}
+
+.expired-domains-page .table tr:hover td,
+.expired-domains-page table tr:hover td {
+	background: #fffafa;
+}
+
+.expired-domains-check {
+	display: inline-flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.expired-domains-check input {
+	width: 16px;
+	height: 16px;
+}
+
+.expired-domains-domain,
+.expired-domains-account {
+	font-weight: 800;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.expired-domains-domain {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	color: #b91c1c;
+}
+
+.expired-domains-domain i {
+	font-size: 1rem;
+}
+
+.expired-domains-account {
+	color: #111827;
+}
+
+.expired-domains-domain:hover,
+.expired-domains-account:hover {
+	color: #b91c1c;
+	text-decoration: underline;
+}
+
+.expired-domains-date,
+.expired-domains-term,
+.expired-domains-expire {
+	display: inline-flex;
+	align-items: center;
+	min-height: 24px;
+	white-space: nowrap;
+}
+
+.expired-domains-date,
+.expired-domains-term {
+	color: #475569;
+	font-weight: 700;
+}
+
+.expired-domains-term {
+	padding: 0.15rem 0.45rem;
+	font-size: 0.72rem;
+	border: 1px solid #cbd5e1;
+	border-radius: 999px;
+	background: #f8fafc;
+}
+
+.expired-domains-expire {
+	gap: 0.35rem;
+	padding: 0.15rem 0.5rem;
+	color: #991b1b;
+	font-size: 0.72rem;
+	font-weight: 800;
+	border: 1px solid #fecaca;
+	border-radius: 999px;
+	background: #fef2f2;
+}
+
+.expired-domains-remove-actions {
+	display: flex;
+	justify-content: flex-end;
+	padding: 0.8rem;
+	background: #f9fafb;
+}
+
+.expired-domains-remove-actions .btn,
+.expired-domains-remove-actions input[type="submit"] {
+	min-height: 38px;
+	padding: 0.45rem 0.85rem;
+	font-size: 0.8rem;
+	font-weight: 700;
+	border-radius: 4px;
+}
+
+@media (max-width: 991.98px) {
+	.expired-domains-search-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 575.98px) {
+	.expired-domains-header,
+	.expired-domains-table-header {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.expired-domains-header,
+	.expired-domains-toolbar,
+	.expired-domains-table-header {
+		padding: 1rem;
+	}
+
+	.expired-domains-title,
+	.expired-domains-search-header {
+		align-items: flex-start;
+	}
+
+	.expired-domains-actions .btn,
+	.expired-domains-actions,
+	.expired-domains-submit .btn,
+	.expired-domains-submit input,
+	.expired-domains-remove-actions input {
+		width: 100%;
+	}
+
+	.expired-domains-search-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.expired-domains-badge,
+	.expired-domains-remove-actions {
+		justify-content: center;
+	}
+
+	.expired-domains-table-card {
+		margin: 1rem;
+	}
+}
+
+/******************************************************
+ * Registered domains page
+ ******************************************************/
+
+body.sb-nav-fixed .manager_content.registered-domains-page {
+	padding: 0;
+	overflow: hidden;
+	border-radius: 8px;
+}
+
+.registered-domains-shell {
+	background: #f8fafc;
+}
+
+.registered-domains-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1.4rem 1.5rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.registered-domains-title {
+	display: flex;
+	align-items: center;
+	gap: 0.95rem;
+	min-width: 0;
+}
+
+.registered-domains-icon,
+.registered-domains-search-header > span {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	color: #1d4ed8;
+	border: 1px solid #bfdbfe;
+	border-radius: 6px;
+	background: #eff6ff;
+}
+
+.registered-domains-icon {
+	width: 48px;
+	height: 48px;
+	font-size: 1.45rem;
+}
+
+.registered-domains-kicker {
+	display: block;
+	margin-bottom: 0.2rem;
+	color: #64748b;
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.registered-domains-title h2 {
+	margin: 0;
+	color: #111827;
+	font-size: 1.3rem;
+	font-weight: 700;
+}
+
+.registered-domains-title p {
+	margin: 0.18rem 0 0;
+	color: #6b7280;
+	font-size: 0.8rem;
+}
+
+.registered-domains-actions .btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	min-height: 38px;
+	border-radius: 4px;
+	font-size: 0.82rem;
+	font-weight: 700;
+}
+
+.registered-domains-toolbar {
+	padding: 1.5rem 1.5rem 0;
+}
+
+.registered-domains-toolbar form {
+	margin: 0;
+}
+
+.registered-domains-search {
+	padding: 1rem;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	background: #ffffff;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.registered-domains-search-header {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+	margin-bottom: 1rem;
+}
+
+.registered-domains-search-header > span {
+	width: 38px;
+	height: 38px;
+	font-size: 1.1rem;
+}
+
+.registered-domains-search-header h3 {
+	margin: 0;
+	color: #111827;
+	font-size: 0.98rem;
+	font-weight: 700;
+}
+
+.registered-domains-search-header p {
+	margin: 0.18rem 0 0;
+	color: #6b7280;
+	font-size: 0.8rem;
+}
+
+.registered-domains-search-grid {
+	display: grid;
+	align-items: end;
+	grid-template-columns: minmax(210px, 1.1fr) minmax(110px, 0.45fr) minmax(210px, 1fr) auto;
+	gap: 0.85rem;
+}
+
+.registered-domains-field .form-label {
+	margin-bottom: 0.35rem;
+	color: #374151;
+	font-size: 0.75rem;
+	font-weight: 700;
+}
+
+.registered-domains-page input[type="text"],
+.registered-domains-page input:not([type]) {
+	display: block;
+	width: 100%;
+	min-height: 40px;
+	padding: 0.5rem 0.65rem;
+	color: #111827;
+	font-size: 0.86rem;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	background-color: #ffffff;
+	box-shadow: none;
+}
+
+.registered-domains-page input[type="text"]:focus,
+.registered-domains-page input:not([type]):focus {
+	border-color: #2563eb;
+	outline: 0;
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.registered-domains-input-icon {
+	position: relative;
+}
+
+.registered-domains-input-icon > i {
+	position: absolute;
+	top: 50%;
+	left: 0.75rem;
+	z-index: 2;
+	width: 1rem;
+	color: #64748b;
+	text-align: center;
+	transform: translateY(-50%);
+	pointer-events: none;
+}
+
+.registered-domains-page .registered-domains-input-icon input {
+	padding-left: 2.35rem;
+}
+
+.registered-domains-submit .btn,
+.registered-domains-submit input {
+	min-height: 40px;
+	padding: 0.5rem 0.95rem;
+	border-radius: 4px;
+	font-size: 0.82rem;
+	font-weight: 700;
+}
+
+.registered-domains-table-card {
+	margin: 1rem 1.5rem 1.5rem;
+	overflow: hidden;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	background: #ffffff;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.registered-domains-table-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1.1rem 1.2rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: #ffffff;
+}
+
+.registered-domains-table-header span {
+	display: block;
+	margin-bottom: 0.25rem;
+	color: #64748b;
+	font-size: 0.7rem;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.registered-domains-table-header h3 {
+	margin: 0;
+	color: #111827;
+	font-size: 0.98rem;
+	font-weight: 700;
+}
+
+.registered-domains-link-button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	flex: 0 0 auto;
+	min-height: 34px;
+	padding: 0.4rem 0.7rem;
+	color: #991b1b;
+	font-size: 0.78rem;
+	font-weight: 800;
+	text-decoration: none;
+	border: 1px solid #fecaca;
+	border-radius: 4px;
+	background: #fef2f2;
+}
+
+.registered-domains-link-button:hover {
+	color: #991b1b;
+	background: #fee2e2;
+}
+
+.registered-domains-table-wrap {
+	background: #ffffff;
+}
+
+.registered-domains-page .table,
+.registered-domains-page table {
+	width: 100%;
+	margin: 0;
+	border-collapse: separate;
+	border-spacing: 0;
+}
+
+.registered-domains-page .table th,
+.registered-domains-page table th {
+	padding: 0.7rem 0.75rem;
+	color: #4b5563;
+	font-size: 0.68rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	border-color: #e5e7eb;
+	background: #f3f4f6;
+}
+
+.registered-domains-page .table th a,
+.registered-domains-page table th a {
+	color: #4b5563;
+	text-decoration: none;
+}
+
+.registered-domains-page .table th a:hover,
+.registered-domains-page table th a:hover {
+	color: #1d4ed8;
+	text-decoration: underline;
+}
+
+.registered-domains-page .table td,
+.registered-domains-page table td {
+	padding: 0.75rem;
+	color: #374151;
+	font-size: 0.8rem;
+	vertical-align: middle;
+	border-color: #e5e7eb;
+	background: #ffffff;
+}
+
+.registered-domains-page .table tr:hover td,
+.registered-domains-page table tr:hover td {
+	background: #f8fbff;
+}
+
+.registered-domains-check {
+	display: inline-flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.registered-domains-check input {
+	width: 16px;
+	height: 16px;
+}
+
+.registered-domains-domain,
+.registered-domains-account {
+	font-weight: 800;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.registered-domains-domain {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	color: #1d4ed8;
+}
+
+.registered-domains-domain i {
+	font-size: 1rem;
+}
+
+.registered-domains-account {
+	color: #111827;
+}
+
+.registered-domains-domain:hover,
+.registered-domains-account:hover {
+	color: #1d4ed8;
+	text-decoration: underline;
+}
+
+.registered-domains-date,
+.registered-domains-term,
+.registered-domains-expire {
+	display: inline-flex;
+	align-items: center;
+	min-height: 24px;
+	white-space: nowrap;
+}
+
+.registered-domains-date,
+.registered-domains-term {
+	color: #475569;
+	font-weight: 700;
+}
+
+.registered-domains-term {
+	padding: 0.15rem 0.45rem;
+	font-size: 0.72rem;
+	border: 1px solid #cbd5e1;
+	border-radius: 999px;
+	background: #f8fafc;
+}
+
+.registered-domains-expire {
+	gap: 0.35rem;
+	padding: 0.15rem 0.5rem;
+	font-size: 0.72rem;
+	font-weight: 800;
+	border-radius: 999px;
+}
+
+.registered-domains-expire-success {
+	color: #047857;
+	border: 1px solid #a7f3d0;
+	background: #ecfdf5;
+}
+
+.registered-domains-expire-danger {
+	color: #991b1b;
+	border: 1px solid #fecaca;
+	background: #fef2f2;
+}
+
+.registered-domains-remove-actions {
+	display: flex;
+	justify-content: flex-end;
+	padding: 0.8rem;
+	background: #f9fafb;
+}
+
+.registered-domains-remove-actions .btn,
+.registered-domains-remove-actions input[type="submit"] {
+	min-height: 38px;
+	padding: 0.45rem 0.85rem;
+	font-size: 0.8rem;
+	font-weight: 700;
+	border-radius: 4px;
+}
+
+@media (max-width: 991.98px) {
+	.registered-domains-search-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 575.98px) {
+	.registered-domains-header,
+	.registered-domains-table-header {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.registered-domains-header,
+	.registered-domains-toolbar,
+	.registered-domains-table-header {
+		padding: 1rem;
+	}
+
+	.registered-domains-title,
+	.registered-domains-search-header {
+		align-items: flex-start;
+	}
+
+	.registered-domains-actions .btn,
+	.registered-domains-actions,
+	.registered-domains-submit .btn,
+	.registered-domains-submit input,
+	.registered-domains-link-button,
+	.registered-domains-remove-actions input {
+		width: 100%;
+	}
+
+	.registered-domains-search-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.registered-domains-link-button,
+	.registered-domains-remove-actions {
+		justify-content: center;
+	}
+
+	.registered-domains-table-card {
+		margin: 1rem;
+	}
+}
+
+/******************************************************
  * Configure users page
  ******************************************************/
 
