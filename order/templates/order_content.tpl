@@ -83,10 +83,9 @@
     {include file="order_footer.tpl"}
 
     <footer class="text-center text-muted mt-4 small order-credit">
-        &copy; 2011
+        &copy; 2011-{$smarty.now|date_format:"%Y"}
         <a href="http://www.neobill.net">NeoBill</a>.
-        Template design by
-        <a href="http://templates.arcsin.se">Arcsin</a>
+        
     </footer>
 
 </div>
