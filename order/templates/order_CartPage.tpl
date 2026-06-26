@@ -38,8 +38,6 @@
 
           {form_table_footer}
             <div class="order-cart-table-actions">
-              {form_element field="addhosting"}
-              {form_element field="adddomain"}
               {form_element field="remove"}
             </div>
           {/form_table_footer}

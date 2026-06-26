@@ -89,7 +89,6 @@
         { id: "collapseAccounts", pattern: /^(accounts_|pending_orders|fulfilled_orders|view_order)/ },
         { id: "collapseBilling", pattern: /^(billing_|taxes|edit_payment|add_invoice|delete_invoice)/ },
         { id: "collapseServices", pattern: /^(services_|edit_hosting_purchase|edit_product_purchase)/ },
-        { id: "collapseDomains", pattern: /^(domains_|transfer_domain)/ },
         { id: "collapseAdmin", pattern: /^(log|view_log_message|settings|modules|config_)/ },
       ];
       const activeGroup = routeGroups.find((group) => group.pattern.test(pageName));

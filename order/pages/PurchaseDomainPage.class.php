@@ -50,28 +50,7 @@ class PurchaseDomainPage extends SolidStatePage {
 	 * Initialize the Page
 	 */
 	public function init() {
-		parent::init();
-
-		// Start a new order (if necessary)
-		if ( !isset( $_SESSION['order'] ) ) {
-			$_SESSION['order'] = new OrderDBO();
-		}
-
-		// Give the template access to the order object
-		$this->smarty->assign_by_ref( "orderDBO", $_SESSION['order'] );
-
-		// Show prices for the selected domain package
-		$termWidget = $this->forms['purchasedomain']->getField( "domainterm" )->getWidget();
-		$tldField = $this->forms['purchasedomain']->getField( "domaintld" );
-		$dservice = isset( $_POST['domaintld'] ) ?
-				$tldField->set( $_POST['domaintld'] ) :
-				array_shift( load_array_DomainServiceDBO() );
-		$termWidget->setPurchasable( $dservice );
-
-		if ( isset( $this->get['domain'] ) && isset( $this->get['tld'] ) ) {
-			$this->smarty->assign( "domain", $this->get['domain'] );
-			$this->smarty->assign( "tld", $this->get['tld']->getTLD() );
-		}
+		throw new SWUserException( "Domain purchases have been disabled." );
 	}
 
 	/**

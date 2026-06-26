@@ -31,6 +31,8 @@ class DomainServicesPage extends SolidStatePage {
 	 * @param string $action_name Action
 	 */
 	function action( $action_name ) {
+		throw new SWUserException( "Domain service management has been disabled." );
+
 		switch ( $action_name ) {
 			case "domain_services_action":
 				if ( isset( $this->session['domain_services_action']['add'] ) ) {

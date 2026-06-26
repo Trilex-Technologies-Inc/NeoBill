@@ -31,8 +31,6 @@
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="index.php?page=cart">Cart</a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.php?page=purchasehosting">Hosting</a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.php?page=purchasedomain">Domains</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.php?page=customer">Account</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.php?page=review">Review</a></li>
                 </ul>

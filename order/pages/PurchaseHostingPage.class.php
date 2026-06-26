@@ -52,63 +52,7 @@ class PurchaseHostingPage extends SolidStatePage
 	 */
 	public function init()
 	{
-		parent::init();
-
-		/*	try {
-			$services = load_array_HostingServiceDBO();
-		}
-		catch ( DBNoRowsFoundException $e ) {
-			throw new SWUserException( "No hosting services have been setup" );
-		}
-*/
-		// Start a new order (if necessary)
-		if (!isset($_SESSION['order'])) {
-			$_SESSION['order'] = new OrderDBO();
-		}
-
-		// Give the template access to the DBOs
-		$this->smarty->assign_by_ref("orderDBO", $_SESSION['order']);
-
-		// Show prices for the selected hosting package
-		$HPTermWidget = $this->forms['purchasehosting']->getField("hostingterm")->getWidget();
-		$serviceField = $this->forms['purchasehosting']->getField("hostingservice");
-		$hservice = isset($_POST['hostingservice']) ?
-			$serviceField->set($_POST['hostingservice']) :
-			array_shift(load_array_HostingServiceDBO());
-		$HPTermWidget->setPurchasable($hservice);
-
-		// Give the template access to the hosting service DBO
-		$this->smarty->assign_by_ref("serviceDBO", $hservice);
-
-		// Show prices for the selected domain package
-		$RDTermWidget = $this->forms['purchasehosting']->getField("registerdomainterm")->getWidget();
-		$tldField = $this->forms['purchasehosting']->getField("registerdomaintld");
-		$dservice = isset($_POST['registerdomaintld']) ?
-			$tldField->set($_POST['registerdomaintld']) :
-			array_shift(load_array_DomainServiceDBO());
-		$RDTermWidget->setPurchasable($dservice);
-
-		$TDTermWidget = $this->forms['purchasehosting']->getField("transferdomainterm")->getWidget();
-		$tldField = $this->forms['purchasehosting']->getField("transferdomaintld");
-		$dservice = isset($_POST['transferdomaintld']) ?
-			$tldField->set($_POST['transferdomaintld']) :
-			array_shift(load_array_DomainServiceDBO());
-		$TDTermWidget->setPurchasable($dservice);
-
-		// Setup the in-cart domains drop-down
-		$widget = $this->forms['purchasehosting']->getField("incartdomain")->getWidget();
-		$widget->setOrder($_SESSION['order']);
-
-		if (isset($this->get['service'])) {
-			// Select the hosting service and terms provided in the URL
-			$this->smarty->assign("service", $this->get['service']->getID());
-			$HPTermWidget->setPurchasable($this->get['service']);
-		}
-
-		if (isset($this->get['domain']) && isset($this->get['tld'])) {
-			$this->smarty->assign("domain", $this->get['domain']);
-			$this->smarty->assign("tld", $this->get['tld']->getTLD());
-		}
+		throw new SWUserException( "Hosting purchases have been disabled." );
 	}
 
 	/**

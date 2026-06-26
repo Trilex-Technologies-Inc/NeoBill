@@ -40,9 +40,7 @@
             <a href="manager_content.php?page=domains_browse" class="text-decoration-none">{$domains_count}</a>
           </div>
           <div class="mt-3">
-            <a href="manager_content.php?page=domains_register" class="btn btn-outline-primary">
-              &raquo; {echo phrase="REGISTER_NEW_DOMAIN"}
-            </a>
+            <span class="text-muted">Domain management is disabled.</span>
           </div>
         </div>
       </div>

@@ -126,16 +126,6 @@ class SolidStateMenu {
                     "bricks.png",
                     "manager_content.php?page=addon" ),
                     "services" );
-            $menu->addItem( new SolidStateMenuItem( "servers",
-                    "[SERVERS]",
-                    "server_database.png",
-                    "manager_content.php?page=services_servers" ),
-                    "services" );
-            $menu->addItem( new SolidStateMenuItem( "ipaddresses",
-                    "[IP_ADDRESSES]",
-                    "server_lightning.png",
-                    "manager_content.php?page=services_ip_manager" ),
-                    "services" );
             $menu->addItem( new SolidStateMenuItem( "domains",
                     "[DOMAINS]",
                     "world_link.png",

@@ -21,6 +21,10 @@ require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
  * @author John Diamond <jdiamond@solid-state.org>
  */
 class AddServerPage extends SolidStateAdminPage {
+    function init() {
+        throw new SWUserException( "Server management has been disabled." );
+    }
+
     /**
      * Action
      *
@@ -29,41 +33,7 @@ class AddServerPage extends SolidStateAdminPage {
      * @param string $action_name Action
      */
     function action( $action_name ) {
-        switch ( $action_name ) {
-            case "add_server":
-                if ( isset( $this->post['continue'] ) ) {
-                    $this->add_server();
-                }
-                elseif ( isset( $this->post['cancel'] ) ) {
-                    $this->goback();
-                }
-                break;
-
-            default:
-                // No matching action, refer to base class
-                parent::action( $action_name );
-        }
-    }
-
-    /**
-     * Add Server
-     *
-     * Create a new ServerDBO and store it in the database
-     */
-    function add_server() {
-        // Create a new Server DBO
-        $server_dbo = new ServerDBO();
-        $server_dbo->setHostName( $this->post['hostname'] );
-        $server_dbo->setLocation( $this->post['location'] );
-
-        // Add ServerDBO to database
-        add_ServerDBO( $server_dbo );
-
-        // Success
-        $this->setMessage( array( "type" => "[SERVER_ADDED]" ) );
-        $this->gotoPage( "services_view_server",
-                null,
-                "server=" . $server_dbo->getID() );
+        throw new SWUserException( "Server management has been disabled." );
     }
 }
 ?>

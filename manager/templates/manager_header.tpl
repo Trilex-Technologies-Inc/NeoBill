@@ -68,40 +68,10 @@
             </a>
             <div class="collapse" id="collapseServices" data-bs-parent="#sidenavAccordion">
               <nav class="sb-sidenav-menu-nested nav service-links">
-                <a class="nav-link service-link service-link-hosting" href="manager_content.php?page=services_web_hosting">
-                  <span class="service-link-icon"><i class="ti ti-cloud"></i></span>
-                  <span class="service-link-label">Web Hosting</span>
-                </a>
-                <a class="nav-link service-link service-link-domains" href="manager_content.php?page=services_domain_services">
-                  <span class="service-link-icon"><i class="ti ti-world-www"></i></span>
-                  <span class="service-link-label">Domain Services</span>
-                </a>
                 <a class="nav-link service-link service-link-products" href="manager_content.php?page=services_products">
                   <span class="service-link-icon"><i class="ti ti-package"></i></span>
                   <span class="service-link-label">Other Products</span>
                 </a>
-                <a class="nav-link service-link service-link-servers" href="manager_content.php?page=services_servers">
-                  <span class="service-link-icon"><i class="ti ti-server-2"></i></span>
-                  <span class="service-link-label">Servers</span>
-                </a>
-                <a class="nav-link service-link service-link-ip" href="manager_content.php?page=services_ip_manager">
-                  <span class="service-link-icon"><i class="ti ti-network"></i></span>
-                  <span class="service-link-label">IP Addresses</span>
-                </a>
-              </nav>
-            </div>
-
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseDomains" aria-expanded="false" aria-controls="collapseDomains">
-              <div class="sb-nav-link-icon"><i class="ti ti-world"></i></div>
-              Domains
-              <div class="sb-sidenav-collapse-arrow"><i class="ti ti-chevron-down"></i></div>
-            </a>
-            <div class="collapse" id="collapseDomains" data-bs-parent="#sidenavAccordion">
-              <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="manager_content.php?page=domains_browse">Registered Domains</a>
-                <a class="nav-link" href="manager_content.php?page=domains_expired">Expired Domains</a>
-                <a class="nav-link" href="manager_content.php?page=domains_register">Register New Domain</a>
-                <a class="nav-link" href="manager_content.php?page=transfer_domain">Transfer Domain</a>
               </nav>
             </div>
 

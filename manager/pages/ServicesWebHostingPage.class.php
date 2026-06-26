@@ -31,6 +31,8 @@ class ServicesWebHosting extends SolidStatePage {
 	 * @param string $action_name Action
 	 */
 	function action( $action_name ) {
+		throw new SWUserException( "Web hosting service management has been disabled." );
+
 		switch( $action_name ) {
 			default:
 				// No matching action - refer to base class

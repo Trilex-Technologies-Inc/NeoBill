@@ -31,18 +31,7 @@ class WhoisPage extends SolidStatePage {
 	public function action( $action_name ) {
 		switch ( $action_name ) {
 			case "whoispurchase":
-				if ( $this->post['option'] == "hosting" ) {
-					$page = "purchasehosting";
-				}
-				elseif ( $this->post['option'] == "nohosting" ) {
-					$page = "purchasedomain";
-				}
-
-				$this->gotoPage( $page,
-						null,
-						sprintf( "domain=%s&tld=%s",
-						$this->get['domain'],
-						$this->get['tld']->getTLD() ) );
+				$this->setTemplate( "unavailable" );
 
 				break;
 
