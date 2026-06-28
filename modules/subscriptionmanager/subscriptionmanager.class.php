@@ -30,6 +30,24 @@ class subscriptionmanager extends SolidStateModule {
 		$this->failedPaymentSubject = $this->moduleDBO->loadSetting( "failed_payment_subject" );
 		$this->failedPaymentEmail = $this->moduleDBO->loadSetting( "failed_payment_email" );
 		$this->cardUpdateUrl = $this->moduleDBO->loadSetting( "card_update_url" );
+
+		if ( class_exists( "SolidStateMenu", false ) ) {
+			$menu = SolidStateMenu::getSolidStateMenu();
+			$pages = array(
+					"subscriptionmanager_plans" => "Create Plan",
+					"subscriptionmanager_subscriptions" => "Create Subscription",
+					"subscriptionmanager_usage" => "Record Usage",
+					"subscriptionmanager_billing" => "Run Billing",
+					"subscriptionmanager_dunning" => "Dunning Queue" );
+			foreach ( $pages as $page => $title ) {
+				$menu->addItem( new SolidStateMenuItem(
+						$page,
+						$title,
+						null,
+						"manager_content.php?page=" . $page ),
+						"modules" );
+			}
+		}
 	}
 
 	function install() {

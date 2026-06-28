@@ -34,6 +34,7 @@ create table if not exists `subscriptionmanager_subscription` (
   `current_period_start` datetime not null default '0000-00-00 00:00:00',
   `current_period_end` datetime not null default '0000-00-00 00:00:00',
   `trial_end` datetime default null,
+  `intro_cycles_remaining` int(10) unsigned not null default '0',
   `cancel_at` datetime default null,
   `cancelled_at` datetime default null,
   `nextbillingdate` date default null,

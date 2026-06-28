@@ -1,5 +1,6 @@
 <div class="manager_content">
   <h2>{echo phrase="SUBSCRIPTION_MANAGER"}</h2>
+  {include file="../../modules/subscriptionmanager/templates/subscriptionmanager_nav.tpl"}
 
   {form name="subscriptionmanager_config"}
     <div class="form">
