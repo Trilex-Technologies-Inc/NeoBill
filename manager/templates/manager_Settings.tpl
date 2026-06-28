@@ -16,12 +16,10 @@
         <li><a href="#tabs-1"><i class="ti ti-mail"></i> Email</a></li>
         <li><a href="#tabs-2"><i class="ti ti-palette"></i> Themes</a></li>
         <li><a href="#tabs-3"><i class="ti ti-file-invoice"></i> Invoice</a></li>
-        <li><a href="#tabs-4"><i class="ti ti-server"></i> Name Servers</a></li>
-        <li><a href="#tabs-5"><i class="ti ti-language"></i> Locale</a></li>
-        <li><a href="#tabs-6"><i class="ti ti-credit-card"></i> Payment Gateway</a></li>
-        <li><a href="#tabs-7"><i class="ti ti-shopping-cart"></i> Order Interface</a></li>
+        <li><a href="#tabs-4"><i class="ti ti-language"></i> Locale</a></li>
+        <li><a href="#tabs-5"><i class="ti ti-credit-card"></i> Payment Gateway</a></li>
+        <li><a href="#tabs-6"><i class="ti ti-shopping-cart"></i> Order Interface</a></li>
       </ul>
-
       <div id="tabs-1">
         <div id="general" class="settings-panel">
           {form name="settings_general"}
@@ -181,45 +179,6 @@
       </div>
 
       <div id="tabs-4">
-        <div id="dns" class="settings-panel">
-          {form name="settings_nameservers"}
-            <div class="settings-grid">
-              <div class="settings-card">
-                <div class="settings-card-header">
-                  <span><i class="ti ti-server"></i></span>
-                  <div>
-                    <h3>[NAME_SERVERS]</h3>
-                    <p>[DNS]</p>
-                  </div>
-                </div>
-                <div class="settings-card-body settings-compact-fields">
-                  <div class="settings-field">
-                    <label class="form-label">{form_description field="nameservers_ns1"}</label>
-                    {form_element field="nameservers_ns1" value="$nameservers_ns1" size="40"}
-                  </div>
-                  <div class="settings-field">
-                    <label class="form-label">{form_description field="nameservers_ns2"}</label>
-                    {form_element field="nameservers_ns2" value="$nameservers_ns2" size="40"}
-                  </div>
-                  <div class="settings-field">
-                    <label class="form-label">{form_description field="nameservers_ns3"}</label>
-                    {form_element field="nameservers_ns3" value="$nameservers_ns3" size="40"}
-                  </div>
-                  <div class="settings-field">
-                    <label class="form-label">{form_description field="nameservers_ns4"}</label>
-                    {form_element field="nameservers_ns4" value="$nameservers_ns4" size="40"}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="settings-actions">
-              {form_element field="save" class="btn btn-primary"}
-            </div>
-          {/form}
-        </div>
-      </div>
-
-      <div id="tabs-5">
         <div id="locale" class="settings-panel">
           {form name="settings_locale"}
             <div class="settings-grid">
@@ -250,7 +209,7 @@
         </div>
       </div>
 
-      <div id="tabs-6">
+      <div id="tabs-5">
         <div id="payment_gateway" class="settings-panel">
           {form name="settings_payment_gateway"}
             <div class="settings-grid">
@@ -290,7 +249,7 @@
         </div>
       </div>
 
-      <div id="tabs-7">
+      <div id="tabs-6">
         <div id="order_interface" class="settings-panel">
           {form name="settings_order_interface"}
             <div class="settings-grid">
