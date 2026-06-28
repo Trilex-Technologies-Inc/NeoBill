@@ -82,6 +82,16 @@ class ModuleRegistry {
 	private $modulesPath = null;
 
 	/**
+	 * @var array Module directories that should no longer be loaded
+	 */
+	private $removedModules = array(
+			"asianpay" => true,
+			"nullregistrar" => true,
+			"cpanel" => true,
+			"enom" => true,
+			"resellerclub" => true );
+
+	/**
 	 * Constructor
 	 *
 	 * This class is a singleton - it must be instantiated by calling
@@ -149,6 +159,9 @@ class ModuleRegistry {
 		// Read the contents of the modules directory
 		while ( $file = readdir( $dh ) ) {
 			$moduleName = $file;
+			if ( isset( $this->removedModules[$moduleName] ) ) {
+				continue;
+			}
 			$moduleDir = sprintf( "%s%s", $this->modulesPath, $moduleName );
 			$moduleConfFile = sprintf( "%s/module.conf", $moduleDir );
 			$moduleClassFile = sprintf( "%s/%s.class.php", $moduleDir, $moduleName );
