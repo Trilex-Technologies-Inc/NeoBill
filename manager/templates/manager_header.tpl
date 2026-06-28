@@ -58,6 +58,20 @@
                 <a class="nav-link" href="manager_content.php?page=billing_generate">Generate Invoices</a>
                 <a class="nav-link" href="manager_content.php?page=billing_add_payment">Enter Payment</a>
                 <a class="nav-link" href="manager_content.php?page=taxes">Taxes</a>
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSubscriptions" aria-expanded="false" aria-controls="collapseSubscriptions">
+                  <span>Subscription Manager</span>
+                  <span class="sb-sidenav-collapse-arrow"><i class="ti ti-chevron-down"></i></span>
+                </a>
+                <div class="collapse" id="collapseSubscriptions" data-bs-parent="#collapseBilling">
+                  <nav class="sb-sidenav-menu-nested nav">
+                    <a class="nav-link" href="manager_content.php?page=subscriptionmanager_plans">Plans</a>
+                    <a class="nav-link" href="manager_content.php?page=subscriptionmanager_subscriptions">Subscriptions</a>
+                    <a class="nav-link" href="manager_content.php?page=subscriptionmanager_usage">Usage</a>
+                    <a class="nav-link" href="manager_content.php?page=subscriptionmanager_billing">Run Billing</a>
+                    <a class="nav-link" href="manager_content.php?page=subscriptionmanager_dunning">Dunning Queue</a>
+                    <a class="nav-link" href="manager_content.php?page=subscriptionmanager_config">Settings</a>
+                  </nav>
+                </div>
               </nav>
             </div>
 
