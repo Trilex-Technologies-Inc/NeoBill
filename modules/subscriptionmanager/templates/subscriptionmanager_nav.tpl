@@ -1,4 +1,4 @@
-<div class="subscriptionmanager-nav">
+<div class="subscriptionmanager-nav" aria-label="Subscription Manager navigation">
   {foreach from=$subscriptionManagerLinks item=link}
     <a href="{$link.url}" class="subscriptionmanager-nav-link">
       {if $link.title == "Create Plan"}
