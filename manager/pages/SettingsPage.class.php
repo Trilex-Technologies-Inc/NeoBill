@@ -45,11 +45,6 @@ class SettingsPage extends SolidStateAdminPage {
 		$this->smarty->assign( "welcome_subject", $this->conf['welcome_subject'] );
 		$this->smarty->assign( "welcome_email", $this->conf['welcome_email'] );
 
-		$this->smarty->assign( "nameservers_ns1", $this->conf['dns']['nameservers'][0] );
-		$this->smarty->assign( "nameservers_ns2", $this->conf['dns']['nameservers'][1] );
-		$this->smarty->assign( "nameservers_ns3", $this->conf['dns']['nameservers'][2] );
-		$this->smarty->assign( "nameservers_ns4", $this->conf['dns']['nameservers'][3] );
-
 		$this->smarty->assign( "invoice_text", $this->conf['invoice_text'] );
 		$this->smarty->assign( "invoice_subject", $this->conf['invoice_subject'] );
 
@@ -91,7 +86,6 @@ class SettingsPage extends SolidStateAdminPage {
 	 *   order
 	 *   settings_company (form)
 	 *   settings_welcome (form)
-	 *   settings_nameservers (form)
 	 *
 	 * @param string $action_name Action
 	 */
@@ -103,10 +97,6 @@ class SettingsPage extends SolidStateAdminPage {
 
 			case "settings_themes":
 				$this->updateThemes();
-				break;
-
-			case "settings_nameservers":
-				$this->update_nameservers();
 				break;
 
 			case "settings_invoice":
@@ -174,19 +164,6 @@ class SettingsPage extends SolidStateAdminPage {
 		$this->conf['order']['tos_url'] = $this->post['tos_url'];
 		$this->save();
 		$this->smarty->assign( "tab", "order_interface" );
-	}
-
-	/**
-	 * Update Nameserver Settings
-	 */
-	function update_nameservers() {
-		$this->conf['dns']['nameservers'] =
-				array( $this->post['nameservers_ns1'],
-				$this->post['nameservers_ns2'],
-				$this->post['nameservers_ns3'],
-				$this->post['nameservers_ns4'] );
-		$this->save();
-		$this->smarty->assign( "tab", "dns" );
 	}
 
 	/**
