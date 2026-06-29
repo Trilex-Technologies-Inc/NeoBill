@@ -13,6 +13,11 @@
 // Base class
 require_once BASE_PATH . "modules/PaymentProcessorModule.class.php";
 
+define( "PAYPAL_WPS_MODE_LIVE", "live" );
+define( "PAYPAL_WPS_MODE_SANDBOX", "sandbox" );
+define( "PAYPAL_WPS_LIVE_URL", "https://www.paypal.com/cgi-bin/webscr" );
+define( "PAYPAL_WPS_SANDBOX_URL", "https://www.sandbox.paypal.com/cgi-bin/webscr" );
+
 /**
  * PaypalWPS
  *
@@ -53,6 +58,11 @@ class PaypalWPS extends PaymentProcessorModule {
 	var $idToken = "See Paypal.com > My Account > Profile > Website Payment Preferences > PDT";
 
 	/**
+	 * @var string Paypal environment
+	 */
+	var $mode = PAYPAL_WPS_MODE_SANDBOX;
+
+	/**
 	 * @var string Module name
 	 */
 	var $name = "paypalwps";
@@ -88,6 +98,7 @@ class PaypalWPS extends PaymentProcessorModule {
 		$this->setCartURL( $this->moduleDBO->loadSetting( "carturl" ) );
 		$this->setIdToken( $this->moduleDBO->loadSetting( "idtoken" ) );
 		$this->setCurrencyCode( $this->moduleDBO->loadSetting( "paypalcurrencycode" ) );
+		$this->setMode( $this->moduleDBO->loadSetting( "mode" ) );
 	}
 
 	/**
@@ -135,6 +146,15 @@ class PaypalWPS extends PaymentProcessorModule {
 	 */
 	function getIdToken() {
 		return $this->idToken;
+	}
+
+	/**
+	 * Get Paypal Environment
+	 *
+	 * @return string Paypal environment
+	 */
+	function getMode() {
+		return $this->mode;
 	}
 
 	/**
@@ -297,6 +317,7 @@ class PaypalWPS extends PaymentProcessorModule {
 		$this->moduleDBO->saveSetting( "carturl", $this->getCartURL() );
 		$this->moduleDBO->saveSetting( "idtoken", $this->getIdToken() );
 		$this->moduleDBO->saveSetting( "paypalcurrencycode", $this->getCurrencyCode() );
+		$this->moduleDBO->saveSetting( "mode", $this->getMode() );
 	}
 
 	/**
@@ -333,6 +354,22 @@ class PaypalWPS extends PaymentProcessorModule {
 	 */
 	function setIdToken( $idToken ) {
 		$this->idToken = $idToken;
+	}
+
+	/**
+	 * Set Paypal Environment
+	 *
+	 * @param string $mode Paypal environment
+	 */
+	function setMode( $mode ) {
+		if ( $mode != PAYPAL_WPS_MODE_LIVE && $mode != PAYPAL_WPS_MODE_SANDBOX ) {
+			$mode = PAYPAL_WPS_MODE_SANDBOX;
+		}
+
+		$this->mode = $mode;
+		$this->setCartURL( $mode == PAYPAL_WPS_MODE_SANDBOX ?
+				PAYPAL_WPS_SANDBOX_URL :
+				PAYPAL_WPS_LIVE_URL );
 	}
 }
 ?>

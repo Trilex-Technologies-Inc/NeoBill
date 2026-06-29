@@ -30,6 +30,11 @@ define(AIM_APPROVED, "1");
 define(AIM_DECLINED, "2");
 define(AIM_ERROR,    "3");
 
+define(AUTHORIZE_AIM_MODE_LIVE, "live");
+define(AUTHORIZE_AIM_MODE_SANDBOX, "sandbox");
+define(AUTHORIZE_AIM_LIVE_URL, "https://secure.authorize.net/gateway/transact.dll");
+define(AUTHORIZE_AIM_SANDBOX_URL, "https://test.authorize.net/gateway/transact.dll");
+
 /**
  * AuthorizeAIM
  *
@@ -65,6 +70,11 @@ class AuthorizeAIM extends PaymentGatewayModule
 	 * @var string Authorize.net Login ID
 	 */
 	var $loginID = "login id";
+
+	/**
+	 * @var string Authorize.net environment
+	 */
+	var $mode = AUTHORIZE_AIM_MODE_SANDBOX;
 
 	/**
 	 * @var string Module name
@@ -342,6 +352,17 @@ class AuthorizeAIM extends PaymentGatewayModule
 	}
 
 	/**
+	 * Remove Module's Database Tables
+	 *
+	 * @return boolean True for success
+	 */
+	function uninstallTables()
+	{
+		$DB = DBConnection::getDBConnection();
+		return mysql_query("DROP TABLE IF EXISTS `authorizeaim`", $DB->handle());
+	}
+
+	/**
 	 * Execute Transaction
 	 *
 	 * Post transaction to Authorize.net using the PHP Curl extensions
@@ -403,6 +424,16 @@ class AuthorizeAIM extends PaymentGatewayModule
 	}
 
 	/**
+	 * Get Authorize.net Environment
+	 *
+	 * @return string Authorize.net environment
+	 */
+	function getMode()
+	{
+		return $this->mode;
+	}
+
+	/**
 	 * Get Transaction Key
 	 *
 	 * @return string Transaction key
@@ -439,6 +470,7 @@ class AuthorizeAIM extends PaymentGatewayModule
 		$this->setLoginID($this->moduleDBO->loadSetting("loginid"));
 		$this->setTransactionKey($this->moduleDBO->loadSetting("transactionkey"));
 		$this->setURL($this->moduleDBO->loadSetting("url"));
+		$this->setMode($this->moduleDBO->loadSetting("mode"));
 	}
 
 	/**
@@ -563,6 +595,7 @@ class AuthorizeAIM extends PaymentGatewayModule
 		// Save default settings
 		$this->moduleDBO->saveSetting("delimiter", $this->getDelimiter());
 		$this->moduleDBO->saveSetting("loginid", $this->getLoginID());
+		$this->moduleDBO->saveSetting("mode", $this->getMode());
 		$this->moduleDBO->saveSetting("transactionkey", $this->getTransactionKey());
 		$this->moduleDBO->saveSetting("url", $this->getURL());
 	}
@@ -617,6 +650,23 @@ class AuthorizeAIM extends PaymentGatewayModule
 	function setLoginID($loginID)
 	{
 		$this->loginID = $loginID;
+	}
+
+	/**
+	 * Set Authorize.net Environment
+	 *
+	 * @param string $mode Authorize.net environment
+	 */
+	function setMode($mode)
+	{
+		if ($mode != AUTHORIZE_AIM_MODE_LIVE && $mode != AUTHORIZE_AIM_MODE_SANDBOX) {
+			$mode = AUTHORIZE_AIM_MODE_SANDBOX;
+		}
+
+		$this->mode = $mode;
+		$this->setURL($mode == AUTHORIZE_AIM_MODE_SANDBOX ?
+			AUTHORIZE_AIM_SANDBOX_URL :
+			AUTHORIZE_AIM_LIVE_URL);
 	}
 
 	/**

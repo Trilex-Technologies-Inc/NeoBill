@@ -59,6 +59,7 @@ class AAIMConfigPage extends SolidStateAdminPage {
 		$this->aaimModule = $registry->getModule( "authorizeaim" );
 		$this->smarty->assign( "delimiter", $this->aaimModule->getDelimiter() );
 		$this->smarty->assign( "loginid",  $this->aaimModule->getLoginID() );
+		$this->smarty->assign( "mode", $this->aaimModule->getMode() );
 		$this->smarty->assign( "transactionkey", $this->aaimModule->getTransactionKey() );
 		$this->smarty->assign( "transactionurl", $this->aaimModule->getURL() );
 	}
@@ -72,6 +73,7 @@ class AAIMConfigPage extends SolidStateAdminPage {
 		$this->aaimModule->setLoginID( $this->post['loginid'] );
 		$this->aaimModule->setTransactionKey( $this->post['transactionkey'] );
 		$this->aaimModule->setURL( $this->post['transactionurl'] );
+		$this->aaimModule->setMode( $this->post['mode'] );
 		$this->aaimModule->saveSettings();
 
 		$this->setMessage( array( "type" => "[AAIM_CONFIGURATION_SAVED]" ) );
