@@ -173,7 +173,12 @@ class LogDBO extends DBO {
      * @param string $ip IP address of the remote user who caused this log message (long integer form)
      */
     function setRemoteIP( $ip ) {
-        $this->remoteip = $ip;
+        if( $ip === false || $ip === null || $ip === "" ) {
+            $this->remoteip = 0;
+            return;
+        }
+
+        $this->remoteip = sprintf( "%u", $ip );
     }
 
     /**
@@ -243,7 +248,7 @@ function add_LogDBO( &$dbo ) {
             "module" => $dbo->getModule(),
             "text" => $dbo->getText(),
             "username" => $dbo->getUsername(),
-            "remoteip" => intval( $dbo->getRemoteIP() ),
+            "remoteip" => $dbo->getRemoteIP(),
             "date" => $dbo->getDate() ) );
 
     // Run query
@@ -283,7 +288,7 @@ function update_LogDBO( &$dbo ) {
             "module" => $dbo->getModule(),
             "text" => $dbo->getText(),
             "username" => $dbo->getUsername(),
-            "remoteip" => intval( $dbo->getRemoteIP() ),
+            "remoteip" => $dbo->getRemoteIP(),
             "date" => $dbo->getDate() ) );
 
     // Run query

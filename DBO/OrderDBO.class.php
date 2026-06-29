@@ -307,7 +307,12 @@ class OrderDBO extends DBO {
      * @param integer $ip Remote IP address in long-word form
      */
     public function setRemoteIP( $ip ) {
-        $this->remoteip = $ip;
+        if( $ip === false || $ip === null || $ip === "" ) {
+            $this->remoteip = 0;
+            return;
+        }
+
+        $this->remoteip = sprintf( "%u", $ip );
     }
 
     /**

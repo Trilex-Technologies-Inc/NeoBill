@@ -293,7 +293,7 @@ create table `log` (
   `module` varchar(255) not null default '',
   `text` varchar(255) not null default '',
   `username` varchar(255) not null default '0',
-  `remoteip` int(11) not null default '0',
+  `remoteip` int(10) unsigned not null default '0',
   `date` datetime not null default '0000-00-00 00:00:00',
   primary key  (`id`)
 ) default charset=utf8 auto_increment=1 ;
@@ -354,7 +354,7 @@ create table `order` (
   `datecreated` datetime not null default '0000-00-00 00:00:00',
   `datecompleted` datetime default null,
   `datefulfilled` datetime default null,
-  `remoteip` int(11) not null default '0',
+  `remoteip` int(10) unsigned not null default '0',
   `businessname` varchar(255) not null default '',
   `contactname` varchar(255) not null default '',
   `contactemail` varchar(255) not null default '',
