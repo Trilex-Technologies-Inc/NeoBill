@@ -1,4 +1,4 @@
-<language>
+<translation language="english">
   <phrase id="INVENTORY_MANAGER">Inventory Manager</phrase>
   <phrase id="INVENTORY_MANAGER_ITEMS">Inventory Items</phrase>
   <phrase id="INVENTORY_MANAGER_LOCATIONS">Inventory Locations</phrase>
@@ -19,4 +19,4 @@
   <phrase id="INVENTORY_MANAGER_LOCATION_CREATED">Inventory location created.</phrase>
   <phrase id="INVENTORY_MANAGER_COMPONENT_CREATED">Bundle component created.</phrase>
   <phrase id="INVENTORY_MANAGER_STOCK_ADJUSTED">Stock adjusted.</phrase>
-</language>
+</translation>

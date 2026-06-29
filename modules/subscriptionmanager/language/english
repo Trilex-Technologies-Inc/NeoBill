@@ -1,4 +1,4 @@
-<language>
+<translation language="english">
   <phrase id="SUBSCRIPTION_MANAGER">Subscription Manager</phrase>
   <phrase id="SUBSCRIPTION_MANAGER_CONFIGURATION_SAVED">Subscription Manager configuration saved.</phrase>
   <phrase id="SUBSCRIPTION_MANAGER_INVOICE_TERMS">Invoice terms in days</phrase>
@@ -41,4 +41,4 @@
   <phrase id="SUBSCRIPTION_MANAGER_SCHEDULE_DUNNING">Schedule dunning</phrase>
   <phrase id="SUBSCRIPTION_MANAGER_DUNNING_SCHEDULED">Dunning attempt scheduled.</phrase>
   <phrase id="SUBSCRIPTION_MANAGER_DUNNING_ATTEMPTS">Dunning attempts</phrase>
-</language>
+</translation>
