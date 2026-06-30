@@ -66,8 +66,7 @@ class SubscriptionManagerAdminPage extends SolidStateAdminPage {
 				array( "title" => "Create Subscription", "url" => "manager_content.php?page=subscriptionmanager_subscriptions" ),
 				array( "title" => "Record Usage", "url" => "manager_content.php?page=subscriptionmanager_usage" ),
 				array( "title" => "Run Billing", "url" => "manager_content.php?page=subscriptionmanager_billing" ),
-				array( "title" => "Dunning Queue", "url" => "manager_content.php?page=subscriptionmanager_dunning" ),
-				array( "title" => "Settings", "url" => "manager_content.php?page=subscriptionmanager_config" ) ) );
+				array( "title" => "Dunning Queue", "url" => "manager_content.php?page=subscriptionmanager_dunning" ) ) );
 	}
 
 	function init() {
