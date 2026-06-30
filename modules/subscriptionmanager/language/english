@@ -9,6 +9,9 @@
   <phrase id="SUBSCRIPTION_MANAGER_INSTALL_FILES">Install and uninstall files</phrase>
   <phrase id="SUBSCRIPTION_MANAGER_PLANS">Subscription Plans</phrase>
   <phrase id="SUBSCRIPTION_MANAGER_PLAN_CREATED">Subscription plan created.</phrase>
+  <phrase id="SUBSCRIPTION_MANAGER_PLAN_UPDATED">Subscription plan updated.</phrase>
+  <phrase id="SUBSCRIPTION_MANAGER_PLAN_DELETED">Subscription plan deleted.</phrase>
+  <phrase id="SUBSCRIPTION_MANAGER_PLAN_DELETE_IN_USE">This plan has subscriptions and cannot be deleted.</phrase>
   <phrase id="SUBSCRIPTION_MANAGER_PLAN_NAME">Plan name</phrase>
   <phrase id="SUBSCRIPTION_MANAGER_PLAN_ID">Plan ID</phrase>
   <phrase id="SUBSCRIPTION_MANAGER_PRICE_ID">Price ID</phrase>

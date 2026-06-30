@@ -9010,6 +9010,168 @@ body.sb-nav-fixed .manager_content.subscriptionmanager-page {
 	min-width: 0;
 }
 
+.subscriptionmanager-available-plans-card {
+	align-self: start;
+}
+
+.subscriptionmanager-available-plan-list {
+	display: grid;
+	gap: 0.75rem;
+	padding: 1rem;
+}
+
+.subscriptionmanager-available-plan {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 0.7rem;
+	padding: 0.85rem;
+	border: 1px solid #e2e8f0;
+	border-radius: 6px;
+	background: #f8fafc;
+}
+
+.subscriptionmanager-available-plan-main {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.8rem;
+	min-width: 0;
+}
+
+.subscriptionmanager-available-plan-main strong {
+	display: block;
+	min-width: 0;
+	overflow: hidden;
+	color: #111827;
+	font-size: 0.95rem;
+	font-weight: 850;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.subscriptionmanager-available-plan-main > span {
+	display: inline-flex;
+	align-items: center;
+	flex: 0 0 auto;
+	min-height: 24px;
+	padding: 0.15rem 0.5rem;
+	color: #075985;
+	font-size: 0.72rem;
+	font-weight: 850;
+	border: 1px solid #bae6fd;
+	border-radius: 999px;
+	background: #f0f9ff;
+	text-transform: capitalize;
+}
+
+.subscriptionmanager-available-plan-meta {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.5rem;
+}
+
+.subscriptionmanager-available-plan-meta span {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.45rem;
+	min-height: 34px;
+	padding: 0.4rem 0.5rem;
+	color: #64748b;
+	font-size: 0.72rem;
+	font-weight: 800;
+	border: 1px solid #e2e8f0;
+	border-radius: 5px;
+	background: #ffffff;
+}
+
+.subscriptionmanager-available-plan-meta strong {
+	color: #111827;
+	font-size: 0.8rem;
+	font-weight: 850;
+	white-space: nowrap;
+}
+
+.subscriptionmanager-plan-editor-card {
+	align-self: start;
+}
+
+.subscriptionmanager-plan-list {
+	display: grid;
+	gap: 1rem;
+	padding: 1.1rem;
+}
+
+.subscriptionmanager-plan-item {
+	overflow: hidden;
+	border: 1px solid #e2e8f0;
+	border-radius: 6px;
+	background: #ffffff;
+}
+
+.subscriptionmanager-plan-item-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.9rem 1rem;
+	border-bottom: 1px solid #e5e7eb;
+	background: #f8fafc;
+}
+
+.subscriptionmanager-plan-item-header > div {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+}
+
+.subscriptionmanager-plan-item-header strong {
+	display: block;
+	overflow: hidden;
+	color: #111827;
+	font-size: 0.98rem;
+	font-weight: 800;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.subscriptionmanager-plan-meta {
+	display: block;
+	margin-bottom: 0.2rem;
+	color: #64748b;
+	font-size: 0.7rem;
+	font-weight: 800;
+	text-transform: uppercase;
+}
+
+.subscriptionmanager-plan-edit-grid {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	padding: 1rem;
+}
+
+.subscriptionmanager-plan-actions,
+.subscriptionmanager-plan-delete {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.6rem;
+	padding: 0 1rem 1rem;
+}
+
+.subscriptionmanager-plan-delete {
+	margin-top: -0.4rem;
+}
+
+.subscriptionmanager-plan-actions .btn,
+.subscriptionmanager-plan-actions input[type="submit"],
+.subscriptionmanager-plan-delete .btn,
+.subscriptionmanager-plan-delete input[type="submit"] {
+	min-height: 38px;
+	padding: 0.45rem 0.9rem;
+	font-size: 0.8rem;
+	font-weight: 800;
+	border-radius: 5px;
+}
+
 .subscriptionmanager-table-wrap {
 	width: 100%;
 	overflow-x: auto;
@@ -9105,7 +9267,38 @@ body.sb-nav-fixed .manager_content.subscriptionmanager-page {
 		padding: 0.9rem;
 	}
 
+	.subscriptionmanager-plan-list,
+	.subscriptionmanager-plan-edit-grid,
+	.subscriptionmanager-available-plan-list {
+		padding: 0.9rem;
+	}
+
+	.subscriptionmanager-available-plan-main {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.subscriptionmanager-available-plan-meta {
+		grid-template-columns: 1fr;
+	}
+
+	.subscriptionmanager-plan-item-header {
+		align-items: flex-start;
+		flex-direction: column;
+		padding: 0.85rem;
+	}
+
 	.subscriptionmanager-actions {
 		padding: 0 0.9rem 0.9rem;
+	}
+
+	.subscriptionmanager-plan-actions,
+	.subscriptionmanager-plan-delete {
+		padding: 0 0.9rem 0.9rem;
+	}
+
+	.subscriptionmanager-plan-actions input,
+	.subscriptionmanager-plan-delete input {
+		width: 100%;
 	}
 }

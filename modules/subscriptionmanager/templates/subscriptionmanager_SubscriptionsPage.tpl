@@ -52,7 +52,7 @@
         {/form}
       </section>
 
-      <section class="subscriptionmanager-card subscriptionmanager-card-table">
+      <section class="subscriptionmanager-card subscriptionmanager-card-table subscriptionmanager-available-plans-card">
         <div class="subscriptionmanager-card-header">
           <span><i class="ti ti-list-search"></i></span>
           <div>
@@ -60,15 +60,20 @@
             <p>Copy the IDs from here into the subscription form.</p>
           </div>
         </div>
-        <div class="subscriptionmanager-table-wrap">
-          <table class="table subscriptionmanager-table">
-            <thead><tr><th>Plan ID</th><th>Price ID</th><th>Name</th><th>Cycle</th><th>Amount</th></tr></thead>
-            <tbody>
-              {foreach from=$plans item=plan}
-                <tr><td>{$plan.id}</td><td>{$plan.priceid}</td><td><strong>{$plan.name}</strong></td><td>{$plan.billing_cycle}</td><td>{$plan.amount}</td></tr>
-              {/foreach}
-            </tbody>
-          </table>
+        <div class="subscriptionmanager-available-plan-list">
+          {foreach from=$plans item=plan}
+            <div class="subscriptionmanager-available-plan">
+              <div class="subscriptionmanager-available-plan-main">
+                <strong>{$plan.name}</strong>
+                <span>{$plan.billing_cycle}</span>
+              </div>
+              <div class="subscriptionmanager-available-plan-meta">
+                <span>Plan ID <strong>{$plan.id}</strong></span>
+                <span>Price ID <strong>{$plan.priceid}</strong></span>
+                <span>Amount <strong>{$plan.amount}</strong></span>
+              </div>
+            </div>
+          {/foreach}
         </div>
       </section>
     </div>

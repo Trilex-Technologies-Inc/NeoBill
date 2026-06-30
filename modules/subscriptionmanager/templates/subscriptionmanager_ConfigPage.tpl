@@ -10,8 +10,6 @@
       </div>
     </div>
 
-    {include file="../../modules/subscriptionmanager/templates/subscriptionmanager_nav.tpl"}
-
     <div class="subscriptionmanager-grid subscriptionmanager-grid-narrow">
       <section class="subscriptionmanager-card">
         <div class="subscriptionmanager-card-header">
