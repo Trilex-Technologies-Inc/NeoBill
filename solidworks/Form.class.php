@@ -130,6 +130,7 @@ class Form {
 
 		// Validate every field
 		$vExceptions = array();
+		$invalidFields = array();
 
 		//print_r($this->fields);
 
@@ -156,6 +157,7 @@ class Form {
 				$e->setField( $fieldName );
 				$e->setValue( $fieldValue );
 				$vExceptions[] = $e;
+				$invalidFields[$fieldName] = true;
 			}
 			catch ( FormCanceledException $e ) {
 				// The form was cancelled.  Return just the cancel field as true.
@@ -166,6 +168,9 @@ class Form {
 		// Compile the form results into an array
 		$results = array();
 		foreach ( $this->fields as $fieldName => $field ) {
+			if ( isset( $invalidFields[$fieldName] ) ) {
+				continue;
+			}
 			try {
 				$results[$fieldName] = $field->getValue();
 			}

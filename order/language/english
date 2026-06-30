@@ -5,6 +5,7 @@
     <phrase id="12_MONTHS">12 Months</phrase>
     <phrase id="A_CONFIRMATION_EMAIL">A confirmation e-mail has been sent to</phrase>
     <phrase id="ACCEPT_TOS">Accept Terms of Service</phrase>
+    <phrase id="ACCOUNT_ADDED">New account created successfully</phrase>
     <phrase id="ADD_ANOTHER_DOMAIN">Add Another Domain</phrase>
     <phrase id="ADD_DOMAIN">Add Domain</phrase>
     <phrase id="ADD_HOSTING">Add Web Hosting Package</phrase>
@@ -159,6 +160,7 @@
     <phrase id="LOGIN_FAILED">Login failed.</phrase>
     <phrase id="ONLY_CUSTOMERS_CAN_LOGIN">Only customers may login to the order interface.</phrase>
     <phrase id="PASSWORD_MISMATCH">Your password was not entered correctly.  Please try again.</phrase>
+    <phrase id="PLEASE_ENTER_A_VALUE_FOR">Please enter a value for the following field</phrase>
     <phrase id="YOU_MUST_SELECT_PAYMENT">You must select a payment method.</phrase>
 
 </translation>

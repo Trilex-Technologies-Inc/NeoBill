@@ -22,6 +22,11 @@ require_once BASE_PATH . "include/SolidStatePage.class.php";
  */
 class CustomerPage extends SolidStatePage {
 	/**
+	 * @var boolean Whether the page was opened as direct signup instead of checkout
+	 */
+	protected $directSignup = false;
+
+	/**
 	 * Action
 	 *
 	 * Actions handled by this page:
@@ -64,9 +69,12 @@ class CustomerPage extends SolidStatePage {
 	 * Initialize Customer Page
 	 */
 	function init() {
-		if ( !isset( $_SESSION['order'] ) || $_SESSION['order']->isEmpty() ) {
-			// No order, or order is empty.  Go back the the cart and start a new one
-			$this->gotoPage( "cart" );
+		if ( !isset( $_SESSION['order'] ) ) {
+			$_SESSION['order'] = new OrderDBO();
+			$this->directSignup = true;
+		}
+		elseif ( $_SESSION['order']->isEmpty() ) {
+			$this->directSignup = true;
 		}
 
 		// Give access to the template
@@ -158,9 +166,54 @@ class CustomerPage extends SolidStatePage {
 			$this->session['order']->setFax( $this->post['fax'] );
 			$this->session['order']->setUsername( $this->post['username'] );
 			$this->session['order']->setPassword( $this->post['password'] );
+
+			$user_dbo = new UserDBO();
+			$user_dbo->setUsername( $this->post['username'] );
+			$user_dbo->setPassword( $this->post['password'] );
+			$user_dbo->setEmail( $this->post['contactemail'] );
+			$user_dbo->setContactName( $this->post['contactname'] );
+			$user_dbo->setType( "Client" );
+			$user_dbo->setLanguage( "english" );
+			$user_dbo->setTheme( "default" );
+			add_UserDBO( $user_dbo );
+
+			$account_dbo = new AccountDBO();
+			$account_dbo->setStatus( "Active" );
+			$account_dbo->setType( $this->post['businessname'] != "" ? "Business Account" : "Individual Account" );
+			$account_dbo->setBillingStatus( "Bill" );
+			$account_dbo->setBillingDay( 1 );
+			$account_dbo->setBusinessName( $this->post['businessname'] );
+			$account_dbo->setContactName( $this->post['contactname'] );
+			$account_dbo->setContactEmail( $this->post['contactemail'] );
+			$account_dbo->setAddress1( $this->post['address1'] );
+			$account_dbo->setAddress2( $this->post['address2'] );
+			$account_dbo->setCity( $this->post['city'] );
+			$account_dbo->setState( $this->post['state'] );
+			$account_dbo->setCountry( $this->post['country'] );
+			$account_dbo->setPostalCode( $this->post['postalcode'] );
+			$account_dbo->setPhone( $this->post['phone'] );
+			$account_dbo->setMobilePhone( $this->post['mobilephone'] );
+			$account_dbo->setFax( $this->post['fax'] );
+			$account_dbo->setUsername( $this->post['username'] );
+			try {
+				add_AccountDBO( $account_dbo );
+			}
+			catch ( DBException $e ) {
+				delete_UserDBO( $user_dbo );
+				throw $e;
+			}
+
+			$_SESSION['client']['userdbo'] = $user_dbo;
+			$this->session['order']->setAccountID( $account_dbo->getID() );
+			$this->setMessage( array( "type" => "[ACCOUNT_ADDED]" ) );
 		}
 
 		$domainItems = $this->session['order']->getDomainItems();
+		if ( $this->directSignup && empty( $domainItems ) ) {
+			$this->gotoPage( "cart" );
+			return;
+		}
+
 		if ( !empty( $domainItems ) &&
 				($this->session['customer_information']['domaincontact'] == "same" ||
 						$this->session['repeat_customer']['domaincontact'] == "same") ) {
