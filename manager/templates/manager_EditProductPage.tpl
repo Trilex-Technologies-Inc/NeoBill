@@ -100,7 +100,7 @@
         {/form}
 
         {form name="edit_product_add_price"}
-          <div class="services-edit-card">
+          <div class="services-edit-card services-edit-price-card">
             <div class="services-edit-card-header">
               <span><i class="ti ti-circle-plus"></i></span>
               <div>

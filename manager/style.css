@@ -1451,9 +1451,19 @@ body.sb-nav-fixed .manager_content.services-list-page {
 
 .services-edit-price-grid {
 	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
+	align-items: end;
+	grid-template-columns: repeat(2, minmax(180px, 1fr));
 	gap: 0.9rem;
 	padding: 1.1rem;
+}
+
+.services-edit-price-card .services-edit-field .form-label {
+	min-height: 0;
+	line-height: 1.25;
+}
+
+.services-edit-price-card .services-edit-actions {
+	padding-top: 0.85rem;
 }
 
 @media (max-width: 991.98px) {
