@@ -37,6 +37,10 @@ class ProductValidator extends FieldValidator {
 			throw new RecordNotFoundException( "Product" );
 		}
 
+		if ( $this->fieldConfig['publicitemsonly'] && !$productDBO->isPublic() ) {
+			throw new RecordNotFoundException( "Product" );
+		}
+
 		return $productDBO;
 	}
 }

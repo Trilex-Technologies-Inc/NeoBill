@@ -35,6 +35,7 @@ require BASE_PATH . "DBO/NoteDBO.class.php";
 require BASE_PATH . "DBO/OrderItemDBO.class.php";
 require BASE_PATH . "DBO/OrderDomainDBO.class.php";
 require BASE_PATH . "DBO/OrderHostingDBO.class.php";
+require BASE_PATH . "DBO/OrderProductDBO.class.php";
 require BASE_PATH . "DBO/OrderDBO.class.php";
 require BASE_PATH . "DBO/PaymentDBO.class.php";
 require BASE_PATH . "DBO/ProductDBO.class.php";

@@ -26,7 +26,8 @@ class ProductSelectWidget extends SelectWidget {
 		// Query ProductDBO's
 		$products = array();
 		try {
-			$productDBOs = load_array_ProductDBO();
+			$where = $this->fieldConfig['publicitemsonly'] ? "public='Yes'" : null;
+			$productDBOs = load_array_ProductDBO( $where );
 
 			// Convery to an array: product ID => product name
 			foreach ( $productDBOs as $productDBO ) {

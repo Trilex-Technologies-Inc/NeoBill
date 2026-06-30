@@ -377,6 +377,23 @@ body.bg-light > .container {
 	text-decoration: underline;
 }
 
+.order-session-actions {
+	display: flex;
+	align-items: center;
+	gap: 0.65rem;
+	flex: 0 0 auto;
+}
+
+.order-register-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 38px;
+	font-weight: 750;
+	white-space: nowrap;
+	background: #ffffff;
+}
+
 .order-login-button {
 	display: inline-flex;
 	align-items: center;
@@ -883,6 +900,12 @@ footer.text-center {
 	.order-session-bar .btn,
 	.order-user-pill {
 		justify-content: center;
+		width: 100%;
+	}
+
+	.order-session-actions {
+		align-items: stretch;
+		flex-direction: column;
 		width: 100%;
 	}
 

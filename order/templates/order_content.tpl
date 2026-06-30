@@ -30,6 +30,7 @@
 
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.php?page=purchaseproduct">Register</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.php?page=cart">Cart</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.php?page=customer">Account</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.php?page=review">Review</a></li>
@@ -46,10 +47,15 @@
             </div>
 
             {if $username == null && !$supressWelcome}
-                <a href="index.php?page=customerlogin" class="btn btn-primary order-login-button">
-                    <span class="order-login-button-icon" aria-hidden="true"></span>
-                    <span>{echo phrase="CUSTOMER_LOGIN"}</span>
-                </a>
+                <div class="order-session-actions">
+                    <a href="index.php?page=purchaseproduct" class="btn btn-outline-primary order-register-button">
+                        Register
+                    </a>
+                    <a href="index.php?page=customerlogin" class="btn btn-primary order-login-button">
+                        <span class="order-login-button-icon" aria-hidden="true"></span>
+                        <span>{echo phrase="CUSTOMER_LOGIN"}</span>
+                    </a>
+                </div>
 
             {elseif $username == " "}
 
