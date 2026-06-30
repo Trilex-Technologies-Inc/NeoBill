@@ -35,8 +35,11 @@
                     <li class="nav-item"><a class="nav-link" href="index.php?page=customer">Sign Up</a></li>
                     {/if}
                     <li class="nav-item"><a class="nav-link" href="index.php?page=cart">Cart</a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.php?page=customer">Account</a></li>
+                 
+                    {if isset($username) && $username != null && $username != " "}
                     <li class="nav-item"><a class="nav-link" href="index.php?page=review">Review</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php?page=customerlogin&op=logout">Logout</a></li>
+                    {/if}
                 </ul>
             </div>
         </div>

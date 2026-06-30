@@ -58,11 +58,11 @@ class CustomerLoginPage extends SolidStatePage {
 		// Suppress the login link
 		$this->smarty->assign( "username", " " );
 		
-		if ($_GET["op"] == 'logout'){
-			//print "logout";
-			if ($_SESSION['client']['userdbo']){
+		if ( isset( $_GET["op"] ) && $_GET["op"] == 'logout' ) {
+			if ( $_SESSION['client']['userdbo'] ) {
 				$_SESSION['client']['userdbo'] = null;
 			}
+			$this->gotoPage( "cart" );
 		}
 	}
 
