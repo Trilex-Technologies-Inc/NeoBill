@@ -545,6 +545,88 @@ textarea:focus,
 	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
 }
 
+.subscription-plan-list {
+	display: grid;
+	gap: 0.65rem;
+}
+
+.subscription-plan-option {
+	display: grid;
+	align-items: center;
+	width: 100%;
+	grid-template-columns: 22px minmax(160px, 1.3fr) minmax(90px, 0.7fr) minmax(90px, 0.7fr) minmax(170px, 1fr) minmax(80px, 0.6fr);
+	gap: 0.85rem;
+	padding: 0.85rem 0.95rem;
+	color: var(--order-text);
+	text-align: left;
+	border: 1px solid var(--order-border);
+	border-radius: 7px;
+	background: #ffffff;
+	box-shadow: none;
+	cursor: pointer;
+	transition: border-color 120ms ease, background-color 120ms ease, box-shadow 120ms ease;
+}
+
+.subscription-plan-option:hover,
+.subscription-plan-option:focus {
+	border-color: #93c5fd;
+	background: #f8fbff;
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.subscription-plan-option.is-selected {
+	border-color: #2563eb;
+	background: #eff6ff;
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.subscription-plan-check {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	border: 2px solid #cbd5e1;
+	border-radius: 50%;
+	background: #ffffff;
+}
+
+.subscription-plan-option.is-selected .subscription-plan-check {
+	border-color: #2563eb;
+	background: radial-gradient(circle, #2563eb 0 45%, #ffffff 48%);
+}
+
+.subscription-plan-main,
+.subscription-plan-detail {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+}
+
+.subscription-plan-main strong,
+.subscription-plan-detail strong {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.subscription-plan-main strong {
+	font-size: 0.9rem;
+	font-weight: 800;
+}
+
+.subscription-plan-main small,
+.subscription-plan-detail small {
+	color: var(--order-muted);
+	font-size: 0.72rem;
+	font-weight: 700;
+}
+
+.subscription-plan-detail strong {
+	font-size: 0.82rem;
+	font-weight: 750;
+}
+
 input[type="submit"],
 input[type="button"],
 button,
@@ -934,6 +1016,21 @@ footer.text-center {
 
 	.order-cart-table-actions input {
 		width: 100%;
+	}
+
+	.subscription-plan-option {
+		align-items: flex-start;
+		grid-template-columns: 22px minmax(0, 1fr);
+	}
+
+	.subscription-plan-main,
+	.subscription-plan-detail {
+		grid-column: 2;
+	}
+
+	.subscription-plan-main strong,
+	.subscription-plan-detail strong {
+		white-space: normal;
 	}
 
 	.buttoncontainer.order-actions,

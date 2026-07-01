@@ -9,42 +9,39 @@
       <h5 class="mb-0">Available plans</h5>
     </div>
     <div class="card-body">
-      <div class="row mb-3">
-        <div class="col-sm-4">{form_description field="priceid"}</div>
-        <div class="col-sm-8">
-          <select name="priceid" class="form-select">
-            {foreach from=$subscriptionOptions item=option}
-              <option value="{$option.priceid}"{if $selectedPriceID == $option.priceid} selected="selected"{/if}>
-                {$option.plan_name} - {$option.billing_cycle} - {$option.amount}
-              </option>
-            {/foreach}
-          </select>
-        </div>
-      </div>
+      <input type="hidden" name="priceid" id="subscription-priceid" value="{$selectedPriceID}"/>
 
-      <div class="table-responsive">
-        <table class="table table-sm align-middle">
-          <thead>
-            <tr>
-              <th>Plan</th>
-              <th>Cycle</th>
-              <th>Base</th>
-              <th>Usage</th>
-              <th>Trial</th>
-            </tr>
-          </thead>
-          <tbody>
-            {foreach from=$subscriptionOptions item=option}
-              <tr>
-                <td><strong>{$option.plan_name}</strong><br/><small class="text-muted">#{$option.planid} / price #{$option.priceid}</small></td>
-                <td>{$option.cycle_interval} {$option.billing_cycle}</td>
-                <td>{$option.amount}</td>
-                <td>{$option.included_quantity} included / {$option.unit_amount} unit</td>
-                <td>{$option.trial_days} days</td>
-              </tr>
-            {/foreach}
-          </tbody>
-        </table>
+      <div class="subscription-plan-list" role="listbox" aria-label="Subscription plans">
+        {foreach from=$subscriptionOptions item=option}
+          <button
+            type="button"
+            class="subscription-plan-option{if $selectedPriceID == $option.priceid} is-selected{/if}"
+            data-priceid="{$option.priceid}"
+            role="option"
+            aria-selected="{if $selectedPriceID == $option.priceid}true{else}false{/if}">
+            <span class="subscription-plan-check"></span>
+            <span class="subscription-plan-main">
+              <strong>{$option.plan_name}</strong>
+              <small>#{$option.planid} / price #{$option.priceid}</small>
+            </span>
+            <span class="subscription-plan-detail">
+              <small>Cycle</small>
+              <strong>{$option.cycle_interval} {$option.billing_cycle}</strong>
+            </span>
+            <span class="subscription-plan-detail">
+              <small>Base</small>
+              <strong>{$option.amount}</strong>
+            </span>
+            <span class="subscription-plan-detail">
+              <small>Usage</small>
+              <strong>{$option.included_quantity} included / {$option.unit_amount} unit</strong>
+            </span>
+            <span class="subscription-plan-detail">
+              <small>Trial</small>
+              <strong>{$option.trial_days} days</strong>
+            </span>
+          </button>
+        {/foreach}
       </div>
     </div>
   </div>
@@ -57,4 +54,30 @@
     </div>
     <div>{form_element field="continue"}</div>
   </div>
+
+  {literal}
+  <script type="text/javascript">
+    (function () {
+      var input = document.getElementById("subscription-priceid");
+      var options = document.querySelectorAll(".subscription-plan-option");
+      if (!input || !options.length) return;
+
+      function selectOption(option) {
+        input.value = option.getAttribute("data-priceid");
+        Array.prototype.forEach.call(options, function (item) {
+          item.classList.remove("is-selected");
+          item.setAttribute("aria-selected", "false");
+        });
+        option.classList.add("is-selected");
+        option.setAttribute("aria-selected", "true");
+      }
+
+      Array.prototype.forEach.call(options, function (option) {
+        option.onclick = function () {
+          selectOption(this);
+        };
+      });
+    })();
+  </script>
+  {/literal}
 {/form}

@@ -271,7 +271,7 @@ class OrderDBO extends DBO {
      * @param string $date Date and time when the order was completed (MySQL DATETIME)
      */
     public function setDateCompleted( $date ) {
-        $this->datecompleted = $date;
+        $this->datecompleted = $date === "" ? null : $date;
     }
 
     /**
@@ -289,7 +289,7 @@ class OrderDBO extends DBO {
      * @param string $date Date and time when the order was fulfilled (MySQL DATETIME)
      */
     public function setDateFulfilled( $date ) {
-        $this->datefulfilled = $date;
+        $this->datefulfilled = $date === "" ? null : $date;
     }
 
     /**
@@ -1135,11 +1135,8 @@ function add_OrderDBO( &$dbo ) {
     $DB = DBConnection::getDBConnection();
 
     // Build SQL
-    $sql = $DB->build_insert_sql( "order",
-            array( "businessname" => $dbo->getBusinessName(),
+    $cols = array( "businessname" => $dbo->getBusinessName(),
             "datecreated" => $dbo->getDateCreated(),
-            "datecompleted" => $dbo->getDateCompleted(),
-            "datefulfilled" => $dbo->getDateFulfilled(),
             "remoteip" => $dbo->getRemoteIP(),
             "contactname" => $dbo->getContactName(),
             "contactemail" => $dbo->getContactEmail(),
@@ -1157,7 +1154,16 @@ function add_OrderDBO( &$dbo ) {
             "accountid" => $dbo->getAccountID(),
             "status" => $dbo->getStatus(),
             "note" => $dbo->getNote(),
-            "accepted_tos" => $dbo->getAcceptedTOS() ) );
+            "accepted_tos" => $dbo->getAcceptedTOS() );
+
+    if( $dbo->getDateCompleted() != null ) {
+        $cols["datecompleted"] = $dbo->getDateCompleted();
+    }
+    if( $dbo->getDateFulfilled() != null ) {
+        $cols["datefulfilled"] = $dbo->getDateFulfilled();
+    }
+
+    $sql = $DB->build_insert_sql( "order", $cols );
 
     // Run query
     if( !mysql_query( $sql, $DB->handle() ) ) {
@@ -1217,12 +1223,8 @@ function update_OrderDBO( &$dbo ) {
     }
 
     // Build SQL
-    $sql = $DB->build_update_sql( "order",
-            "id = " . intval( $dbo->getID() ),
-            array( "businessname" => $dbo->getBusinessName(),
+    $cols = array( "businessname" => $dbo->getBusinessName(),
             "datecreated" => $dbo->getDateCreated(),
-            "datecompleted" => $dbo->getDateCompleted(),
-            "datefulfilled" => $dbo->getDateFulfilled(),
             "remoteip" => $dbo->getRemoteIP(),
             "contactname" => $dbo->getContactName(),
             "contactemail" => $dbo->getContactEmail(),
@@ -1240,7 +1242,18 @@ function update_OrderDBO( &$dbo ) {
             "accountid" => $dbo->getAccountID(),
             "status" => $dbo->getStatus(),
             "note" => $dbo->getNote(),
-            "accepted_tos" => $dbo->getAcceptedTOS() ) );
+            "accepted_tos" => $dbo->getAcceptedTOS() );
+
+    if( $dbo->getDateCompleted() != null ) {
+        $cols["datecompleted"] = $dbo->getDateCompleted();
+    }
+    if( $dbo->getDateFulfilled() != null ) {
+        $cols["datefulfilled"] = $dbo->getDateFulfilled();
+    }
+
+    $sql = $DB->build_update_sql( "order",
+            "id = " . intval( $dbo->getID() ),
+            $cols );
 
     // Run query
     if( !mysql_query( $sql, $DB->handle() ) ) {
