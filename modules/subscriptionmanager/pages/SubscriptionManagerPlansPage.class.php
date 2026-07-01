@@ -13,6 +13,9 @@ class SubscriptionManagerPlansPage extends SubscriptionManagerAdminPage {
 			case "subscriptionmanager_plan_delete":
 				$this->deletePlan();
 				break;
+			case "subscriptionmanager_product_map_create":
+				$this->createProductMap();
+				break;
 			default:
 				parent::action( $action_name );
 		}
@@ -20,11 +23,34 @@ class SubscriptionManagerPlansPage extends SubscriptionManagerAdminPage {
 
 	function init() {
 		parent::init();
+		$this->ensureProductMapTable();
 		$this->smarty->assign( "plans", $this->rows(
 				"select p.*, pr.id as priceid, pr.billing_type, pr.billing_cycle, pr.cycle_interval, " .
 				"pr.amount, pr.included_quantity, pr.unit_amount, pr.trial_days, pr.intro_amount, " .
 				"pr.intro_cycles, pr.taxable from subscriptionmanager_plan p " .
 				"left join subscriptionmanager_price pr on pr.planid = p.id order by p.id desc" ) );
+		$this->smarty->assign( "productMaps", $this->rows(
+				"select m.*, p.name as product_name, sp.name as plan_name, pr.billing_cycle, pr.amount " .
+				"from subscriptionmanager_product_map m " .
+				"left join product p on p.id = m.productid " .
+				"left join subscriptionmanager_plan sp on sp.id = m.planid " .
+				"left join subscriptionmanager_price pr on pr.id = m.priceid " .
+				"order by m.id desc" ) );
+	}
+
+	function ensureProductMapTable() {
+		$this->execute(
+				"create table if not exists `subscriptionmanager_product_map` (" .
+				"`id` int(11) not null auto_increment," .
+				"`productid` int(11) not null default '0'," .
+				"`planid` int(11) not null default '0'," .
+				"`priceid` int(11) not null default '0'," .
+				"`quantity` int(11) not null default '1'," .
+				"primary key (`id`)," .
+				"unique key `productid` (`productid`)," .
+				"key `planid` (`planid`)," .
+				"key `priceid` (`priceid`)" .
+				") default charset=utf8" );
 	}
 
 	function createPlan() {
@@ -101,6 +127,45 @@ class SubscriptionManagerPlansPage extends SubscriptionManagerAdminPage {
 		$this->execute( $DB->build_delete_sql( "subscriptionmanager_plan", "id = " . $planID ) );
 
 		$this->setMessage( array( "type" => "[SUBSCRIPTION_MANAGER_PLAN_DELETED]" ) );
+		$this->reload();
+	}
+
+	function createProductMap() {
+		$DB = $this->db();
+		$productID = intval( $this->post['productid'] );
+		$planID = intval( $this->post['planid'] );
+		$priceID = intval( $this->post['priceid'] );
+
+		$product = $this->row( "select id from product where id = " . $productID );
+		if ( !$product ) {
+			throw new SWUserException( "Product was not found." );
+		}
+
+		$price = $this->row(
+				"select id from subscriptionmanager_price where id = " . $priceID .
+				" and planid = " . $planID );
+		if ( !$price ) {
+			throw new SWUserException( "Subscription price was not found for this plan." );
+		}
+
+		$existing = $this->row(
+				"select id from subscriptionmanager_product_map where productid = " . $productID );
+		if ( $existing ) {
+			$sql = $DB->build_update_sql( "subscriptionmanager_product_map",
+					"productid = " . $productID,
+					array( "planid" => $planID,
+					"priceid" => $priceID,
+					"quantity" => intval( $this->post['quantity'] ) ) );
+		}
+		else {
+			$sql = $DB->build_insert_sql( "subscriptionmanager_product_map",
+					array( "productid" => $productID,
+					"planid" => $planID,
+					"priceid" => $priceID,
+					"quantity" => intval( $this->post['quantity'] ) ) );
+		}
+		$this->execute( $sql );
+		$this->setMessage( array( "type" => "Product subscription link saved." ) );
 		$this->reload();
 	}
 }

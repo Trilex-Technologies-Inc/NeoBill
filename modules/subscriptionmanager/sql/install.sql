@@ -129,3 +129,15 @@ create table if not exists `subscriptionmanager_payment_method` (
   primary key (`id`),
   key `accountid` (`accountid`)
 ) default charset=utf8;
+
+create table if not exists `subscriptionmanager_product_map` (
+  `id` int(11) not null auto_increment,
+  `productid` int(11) not null default '0',
+  `planid` int(11) not null default '0',
+  `priceid` int(11) not null default '0',
+  `quantity` int(11) not null default '1',
+  primary key (`id`),
+  unique key `productid` (`productid`),
+  key `planid` (`planid`),
+  key `priceid` (`priceid`)
+) default charset=utf8;

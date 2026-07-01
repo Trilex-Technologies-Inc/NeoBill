@@ -58,6 +58,18 @@ create table if not exists `inventorymanager_movement` (
   key `reference` (`reference_type`,`reference_id`)
 ) default charset=utf8;
 
+create table if not exists `inventorymanager_product_map` (
+  `id` int(11) not null auto_increment,
+  `productid` int(11) not null default '0',
+  `itemid` int(11) not null default '0',
+  `locationid` int(11) default null,
+  `quantity` int(11) not null default '1',
+  primary key (`id`),
+  unique key `product_item_location` (`productid`,`itemid`,`locationid`),
+  key `itemid` (`itemid`),
+  key `locationid` (`locationid`)
+) default charset=utf8;
+
 insert into `inventorymanager_location` (`name`, `location_type`, `status`, `created`)
 select 'Default', 'warehouse', 'active', now()
 from dual

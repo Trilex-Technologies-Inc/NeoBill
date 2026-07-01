@@ -19,6 +19,15 @@ class InventoryManagerAdminPage extends SolidStateAdminPage {
 		return $rows;
 	}
 
+	function row( $sql ) {
+		$rows = $this->rows( $sql );
+		return empty( $rows ) ? null : $rows[0];
+	}
+
+	function quote( $value ) {
+		return $this->db()->quote_smart( $value );
+	}
+
 	function execute( $sql ) {
 		$DB = $this->db();
 		if ( !mysql_query( $sql, $DB->handle() ) ) {

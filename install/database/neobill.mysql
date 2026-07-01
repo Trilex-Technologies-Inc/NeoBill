@@ -418,6 +418,22 @@ create table `orderhosting` (
 -- --------------------------------------------------------
 
 --
+-- Structure for table `orderproduct`
+--
+
+create table `orderproduct` (
+  `id` int(10) unsigned not null auto_increment,
+  `orderid` int(10) unsigned not null default '0',
+  `orderitemid` int(10) unsigned not null default '0',
+  `status` enum('Rejected','Pending','Accepted','Fulfilled') not null default 'Pending',
+  `productid` int(10) unsigned not null default '0',
+  `term` int(11) default null,
+  primary key  (`id`)
+) default charset=utf8 auto_increment=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Structure for table `payment`
 --
 

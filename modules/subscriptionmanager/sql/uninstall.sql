@@ -1,3 +1,4 @@
+drop table if exists `subscriptionmanager_product_map`;
 drop table if exists `subscriptionmanager_payment_method`;
 drop table if exists `subscriptionmanager_dunning_attempt`;
 drop table if exists `subscriptionmanager_discount`;

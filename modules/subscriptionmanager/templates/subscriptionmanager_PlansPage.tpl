@@ -171,5 +171,62 @@
         </div>
       </section>
     </div>
+    <div class="subscriptionmanager-grid subscriptionmanager-grid-narrow">
+      <section class="subscriptionmanager-card">
+        <div class="subscriptionmanager-card-header">
+          <span><i class="ti ti-link"></i></span>
+          <div>
+            <h3>Link Product</h3>
+            <p>When this product is ordered, a subscription is created for the selected plan price.</p>
+          </div>
+        </div>
+        {form name="subscriptionmanager_product_map_create"}
+          <div class="subscriptionmanager-form-grid">
+            <div class="subscriptionmanager-field">
+              <label class="form-label">{form_description field="productid"}</label>
+              {form_element field="productid" size="8"}
+            </div>
+            <div class="subscriptionmanager-field">
+              <label class="form-label">{form_description field="planid"}</label>
+              {form_element field="planid" size="8"}
+            </div>
+            <div class="subscriptionmanager-field">
+              <label class="form-label">{form_description field="priceid"}</label>
+              {form_element field="priceid" size="8"}
+            </div>
+            <div class="subscriptionmanager-field">
+              <label class="form-label">{form_description field="quantity"}</label>
+              {form_element field="quantity" value="1" size="8"}
+            </div>
+          </div>
+          <div class="subscriptionmanager-actions">{form_element field="save"}</div>
+        {/form}
+      </section>
+
+      <section class="subscriptionmanager-card subscriptionmanager-card-table">
+        <div class="subscriptionmanager-card-header">
+          <span><i class="ti ti-table"></i></span>
+          <div>
+            <h3>Product Links</h3>
+            <p>Linked product orders become subscription records during fulfillment.</p>
+          </div>
+        </div>
+        <div class="subscriptionmanager-table-wrap">
+          <table class="table subscriptionmanager-table">
+            <thead><tr><th>Product</th><th>Plan</th><th>Price</th><th>Qty</th></tr></thead>
+            <tbody>
+              {foreach from=$productMaps item=map}
+                <tr>
+                  <td>#{$map.productid} {$map.product_name}</td>
+                  <td>#{$map.planid} {$map.plan_name}</td>
+                  <td>#{$map.priceid} {$map.billing_cycle} {$map.amount}</td>
+                  <td>{$map.quantity}</td>
+                </tr>
+              {/foreach}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
   </div>
 </div>
