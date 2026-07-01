@@ -142,7 +142,7 @@ class SubscriptionManagerPlansPage extends SubscriptionManagerAdminPage {
 		}
 
 		$price = $this->row(
-				"select id from subscriptionmanager_price where id = " . $priceID .
+				"select * from subscriptionmanager_price where id = " . $priceID .
 				" and planid = " . $planID );
 		if ( !$price ) {
 			throw new SWUserException( "Subscription price was not found for this plan." );
@@ -165,8 +165,46 @@ class SubscriptionManagerPlansPage extends SubscriptionManagerAdminPage {
 					"quantity" => intval( $this->post['quantity'] ) ) );
 		}
 		$this->execute( $sql );
+		$this->syncProductPrice( $productID, $price );
 		$this->setMessage( array( "type" => "Product subscription link saved." ) );
 		$this->reload();
+	}
+
+	function syncProductPrice( $productID, $price ) {
+		$DB = $this->db();
+		$type = "Onetime";
+		$termLength = 0;
+
+		if ( $price['billing_cycle'] == "monthly" ) {
+			$type = "Recurring";
+			$termLength = max( 1, intval( $price['cycle_interval'] ) );
+		}
+		elseif ( $price['billing_cycle'] == "annually" ) {
+			$type = "Recurring";
+			$termLength = 12 * max( 1, intval( $price['cycle_interval'] ) );
+		}
+
+		$exists = $this->row(
+				"select productid from productprice where productid = " . intval( $productID ) .
+				" and type = " . $this->quote( $type ) .
+				" and termlength = " . intval( $termLength ) );
+		if ( $exists ) {
+			$sql = $DB->build_update_sql( "productprice",
+					"productid = " . intval( $productID ) .
+					" and type = " . $this->quote( $type ) .
+					" and termlength = " . intval( $termLength ),
+					array( "price" => $price['amount'],
+					"taxable" => $price['taxable'] ) );
+		}
+		else {
+			$sql = $DB->build_insert_sql( "productprice",
+					array( "productid" => intval( $productID ),
+					"type" => $type,
+					"termlength" => $termLength,
+					"price" => $price['amount'],
+					"taxable" => $price['taxable'] ) );
+		}
+		$this->execute( $sql );
 	}
 }
 ?>

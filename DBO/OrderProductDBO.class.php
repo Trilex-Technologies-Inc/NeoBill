@@ -76,10 +76,20 @@ class OrderProductDBO extends OrderItemDBO {
      * @return boolean True for success
      */
     public function execute( $accountDBO ) {
+        $bridge = null;
+        $bridgeFile = BASE_PATH . "modules/productorderbridge/ProductOrderBridge.class.php";
+        if ( file_exists( $bridgeFile ) ) {
+            require_once $bridgeFile;
+            $bridge = new ProductOrderBridge();
+        }
+
         $purchaseDBO = new ProductPurchaseDBO();
         $purchaseDBO->setAccountID( $accountDBO->getID() );
         $purchaseDBO->setProductID( $this->getProductID() );
-        $purchaseDBO->setTerm( $this->getTerm() );
+        $purchaseDBO->setTerm(
+                $bridge && $bridge->hasSubscriptionMapping( $this->getProductID() ) ?
+                null :
+                $this->getTerm() );
         $purchaseDBO->setDate( DBConnection::format_datetime( time() ) );
         $purchaseDBO->setNote( null );
         $purchaseDBO->setPrevInvoiceID( -1 );
@@ -88,10 +98,7 @@ class OrderProductDBO extends OrderItemDBO {
         }
         add_ProductPurchaseDBO( $purchaseDBO );
 
-        $bridgeFile = BASE_PATH . "modules/productorderbridge/ProductOrderBridge.class.php";
-        if ( file_exists( $bridgeFile ) ) {
-            require_once $bridgeFile;
-            $bridge = new ProductOrderBridge();
+        if ( $bridge ) {
             $bridge->fulfillProductOrder( $this, $accountDBO, $purchaseDBO );
         }
 

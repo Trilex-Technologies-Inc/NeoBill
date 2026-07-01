@@ -43,6 +43,17 @@ class ProductOrderBridge {
 		}
 	}
 
+	function hasSubscriptionMapping( $productID ) {
+		if ( !$this->tableExists( "subscriptionmanager_product_map" ) ) {
+			return false;
+		}
+
+		$row = $this->row(
+				"select id from subscriptionmanager_product_map where productid = " . intval( $productID ) .
+				" limit 1" );
+		return $row ? true : false;
+	}
+
 	function fulfillInventoryMappings( $productID, ProductPurchaseDBO $purchaseDBO ) {
 		$serviceFile = BASE_PATH . "modules/inventorymanager/lib/InventoryService.class.php";
 		if ( !file_exists( $serviceFile ) ) {
