@@ -72,6 +72,10 @@
                   <span class="service-link-icon"><i class="ti ti-package"></i></span>
                   <span class="service-link-label">Other Products</span>
                 </a>
+                <a class="nav-link service-link service-link-products" href="manager_content.php?page=inventorymanager_items">
+                  <span class="service-link-icon"><i class="ti ti-packages"></i></span>
+                  <span class="service-link-label">Inventory Items</span>
+                </a>
                 <a class="nav-link service-link service-link-products" href="manager_content.php?page=subscriptionmanager_subscriptions">
                   <span class="service-link-icon"><i class="ti ti-repeat"></i></span>
                   <span class="service-link-label">Subscriptions</span>
