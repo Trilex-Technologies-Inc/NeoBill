@@ -8,6 +8,7 @@ class SubscriptionManagerBillingPage extends SubscriptionManagerAdminPage {
 				$this->runBilling();
 				break;
 			case "subscriptionmanager_subscription_delete":
+			case "subscriptionmanager_subscription_delete_billing":
 				$this->deleteSubscription();
 				break;
 			default:

@@ -14,6 +14,7 @@ class SubscriptionManagerUsagePage extends SubscriptionManagerAdminPage {
 				$this->deleteUsage();
 				break;
 			case "subscriptionmanager_subscription_delete":
+			case "subscriptionmanager_subscription_delete_usage":
 				$this->deleteSubscription();
 				break;
 			default:

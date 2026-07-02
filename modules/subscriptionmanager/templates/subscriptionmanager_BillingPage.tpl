@@ -55,7 +55,7 @@
                   <td>
                     <div class="subscriptionmanager-table-actions">
                       <a class="subscriptionmanager-action-button" href="manager_content.php?page=subscriptionmanager_subscriptions">Edit</a>
-                      {form name="subscriptionmanager_subscription_delete"}
+                      {form name="subscriptionmanager_subscription_delete_billing"}
                         <input type="hidden" name="subscriptionid" value="{$subscription.id}"/>
                         {form_element field="delete" class="btn btn-outline-danger btn-sm" onclick="return confirm('Delete this subscription and related usage/dunning rows?');"}
                       {/form}
