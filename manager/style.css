@@ -9136,6 +9136,7 @@ body.sb-nav-fixed .manager_content.subscriptionmanager-page {
 
 .subscriptionmanager-edit-row td {
 	padding: 0 !important;
+	border: 0 !important;
 	background: #f8fafc !important;
 }
 
@@ -9143,9 +9144,13 @@ body.sb-nav-fixed .manager_content.subscriptionmanager-page {
 	display: grid;
 	align-items: end;
 	grid-template-columns: repeat(4, minmax(160px, 1fr)) auto;
-	gap: 0.75rem;
-	padding: 0.9rem;
-	border-top: 1px solid #e2e8f0;
+	gap: 0.85rem;
+	padding: 1rem;
+	margin: 0.35rem 0.85rem 0;
+	border: 1px solid #dbe3ef;
+	border-radius: 6px;
+	background: #ffffff;
+	box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
 }
 
 .subscriptionmanager-inline-edit-grid-wide {
@@ -9162,8 +9167,8 @@ body.sb-nav-fixed .manager_content.subscriptionmanager-page {
 
 .subscriptionmanager-row-delete {
 	justify-content: flex-end;
-	padding: 0 0.9rem 0.9rem;
-	margin-top: -3.35rem;
+	padding: 0 0.85rem 0.85rem;
+	margin-top: 0.55rem;
 }
 
 .subscriptionmanager-row-actions .btn,
@@ -9183,6 +9188,24 @@ body.sb-nav-fixed .manager_content.subscriptionmanager-page {
 	text-decoration: none;
 	border-radius: 5px;
 	white-space: nowrap;
+}
+
+.subscriptionmanager-row-delete .btn-outline-danger,
+.subscriptionmanager-row-delete input[type="submit"] {
+	color: #b91c1c;
+	border-color: #fecaca;
+	background: #ffffff;
+	box-shadow: none;
+}
+
+.subscriptionmanager-row-delete .btn-outline-danger:hover,
+.subscriptionmanager-row-delete .btn-outline-danger:focus,
+.subscriptionmanager-row-delete input[type="submit"]:hover,
+.subscriptionmanager-row-delete input[type="submit"]:focus {
+	color: #ffffff;
+	border-color: #b91c1c;
+	background: #b91c1c;
+	box-shadow: none;
 }
 
 .subscriptionmanager-action-button {
@@ -9414,6 +9437,9 @@ body.sb-nav-fixed .manager_content.subscriptionmanager-page {
 .subscriptionmanager-table {
 	min-width: 620px;
 	margin: 0;
+	border: 0;
+	border-collapse: separate;
+	border-spacing: 0;
 }
 
 .subscriptionmanager-table th {
@@ -9424,19 +9450,32 @@ body.sb-nav-fixed .manager_content.subscriptionmanager-page {
 	text-transform: uppercase;
 	letter-spacing: 0;
 	background: #f8fafc;
+	border: 0;
 	border-bottom: 1px solid #e5e7eb;
 }
 
 .subscriptionmanager-table td {
-	padding: 0.75rem 0.85rem;
+	padding: 0.85rem;
 	color: #334155;
 	font-size: 0.84rem;
 	vertical-align: middle;
+	border: 0;
 	border-bottom: 1px solid #eef2f7;
+	background: #ffffff;
+	line-height: 1.45;
 }
 
-.subscriptionmanager-table tbody tr:hover td {
+.subscriptionmanager-table tbody tr:not(.subscriptionmanager-edit-row):hover td {
 	background: #f8fafc;
+}
+
+.subscriptionmanager-table tbody tr:not(.subscriptionmanager-edit-row) + .subscriptionmanager-edit-row td {
+	border-bottom: 1px solid #e5e7eb !important;
+}
+
+.subscriptionmanager-table tbody tr:not(.subscriptionmanager-edit-row) td:first-child {
+	font-weight: 750;
+	color: #1e293b;
 }
 
 .subscriptionmanager-badge {
