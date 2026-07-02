@@ -9077,6 +9077,20 @@ body.sb-nav-fixed .manager_content.subscriptionmanager-page {
 	font-weight: 800;
 }
 
+.subscriptionmanager-readonly {
+	display: flex;
+	align-items: center;
+	min-height: 40px;
+	padding: 0.5rem 0.65rem;
+	color: #334155;
+	font-size: 0.84rem;
+	font-weight: 800;
+	border: 1px solid #e2e8f0;
+	border-radius: 5px;
+	background: #f8fafc;
+	overflow-wrap: anywhere;
+}
+
 .subscriptionmanager-page input[type="text"],
 .subscriptionmanager-page input[type="date"],
 .subscriptionmanager-page input:not([type]),

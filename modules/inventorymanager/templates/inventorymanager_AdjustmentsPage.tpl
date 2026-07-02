@@ -15,8 +15,66 @@
       {/form}
     </section>
     <section class="subscriptionmanager-card subscriptionmanager-card-table">
-      <h3>Current Stock</h3><div class="subscriptionmanager-table-wrap"><table class="table subscriptionmanager-table"><thead><tr><th>SKU</th><th>Item</th><th>Location</th><th>Qty</th><th>Alert At</th></tr></thead><tbody>{foreach from=$stock item=row}<tr><td>{$row.sku}</td><td>{$row.item_name}</td><td>{$row.location_name}</td><td>{$row.quantity}</td><td>{$row.reorder_threshold}</td></tr>{/foreach}</tbody></table></div>
-      <h3>Recent Movements</h3><div class="subscriptionmanager-table-wrap"><table class="table subscriptionmanager-table"><thead><tr><th>Date</th><th>SKU</th><th>Location</th><th>Change</th><th>Reference</th><th>Note</th></tr></thead><tbody>{foreach from=$movements item=row}<tr><td>{$row.created}</td><td>{$row.sku}</td><td>{$row.location_name}</td><td>{$row.quantity_change}</td><td>{$row.reference_type} {$row.reference_id}</td><td>{$row.note}</td></tr>{/foreach}</tbody></table></div>
+      <div class="subscriptionmanager-card-header"><span><i class="ti ti-stack"></i></span><div><h3>Current Stock</h3><p>Edit exact stock records or delete unused item/location rows.</p></div></div>
+      <div class="subscriptionmanager-plan-list">
+        {foreach from=$stock item=row}
+          <div class="subscriptionmanager-plan-item">
+            <div class="subscriptionmanager-plan-item-header">
+              <div>
+                <span class="subscriptionmanager-plan-meta">Stock #{$row.id} &middot; Alert {$row.reorder_threshold}</span>
+                <strong>{$row.sku} {$row.item_name}</strong>
+              </div>
+              <span class="subscriptionmanager-badge">{$row.location_name}</span>
+            </div>
+            {form name="inventorymanager_stock_update"}
+              <input type="hidden" name="stockid" value="{$row.id}"/>
+              <div class="subscriptionmanager-form-grid subscriptionmanager-plan-edit-grid">
+                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="itemid"}</label>{form_element field="itemid" value=$row.itemid size="8"}</div>
+                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="locationid"}</label>{form_element field="locationid" value=$row.locationid size="8"}</div>
+                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="quantity"}</label>{form_element field="quantity" value=$row.quantity size="8"}</div>
+              </div>
+              <div class="subscriptionmanager-plan-actions">{form_element field="save" class="btn btn-primary"}</div>
+            {/form}
+            {form name="inventorymanager_stock_delete"}
+              <input type="hidden" name="stockid" value="{$row.id}"/>
+              <div class="subscriptionmanager-plan-delete">{form_element field="delete" class="btn btn-outline-danger" onclick="return confirm('Delete this stock row?');"}</div>
+            {/form}
+          </div>
+        {/foreach}
+      </div>
+    </section>
+    <section class="subscriptionmanager-card subscriptionmanager-card-table">
+      <div class="subscriptionmanager-card-header"><span><i class="ti ti-history"></i></span><div><h3>Recent Movements</h3><p>Edit or remove the latest inventory movement records.</p></div></div>
+      <div class="subscriptionmanager-plan-list">
+        {foreach from=$movements item=row}
+          <div class="subscriptionmanager-plan-item">
+            <div class="subscriptionmanager-plan-item-header">
+              <div>
+                <span class="subscriptionmanager-plan-meta">Movement #{$row.id} &middot; {$row.created}</span>
+                <strong>{$row.sku} {$row.item_name}</strong>
+              </div>
+              <span class="subscriptionmanager-badge">{$row.quantity_change}</span>
+            </div>
+            {form name="inventorymanager_movement_update"}
+              <input type="hidden" name="movementid" value="{$row.id}"/>
+              <div class="subscriptionmanager-form-grid subscriptionmanager-plan-edit-grid">
+                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="itemid"}</label>{form_element field="itemid" value=$row.itemid size="8"}</div>
+                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="locationid"}</label>{form_element field="locationid" value=$row.locationid size="8"}</div>
+                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="quantity_change"}</label>{form_element field="quantity_change" value=$row.quantity_change size="8"}</div>
+                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="reference_type"}</label>{form_element field="reference_type" value=$row.reference_type size="16"}</div>
+                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="reference_id"}</label>{form_element field="reference_id" value=$row.reference_id size="8"}</div>
+                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="note"}</label>{form_element field="note" value=$row.note size="30"}</div>
+                <div class="subscriptionmanager-field subscriptionmanager-field-wide"><label class="form-label">Current location</label><div class="subscriptionmanager-readonly">{$row.location_name}</div></div>
+              </div>
+              <div class="subscriptionmanager-plan-actions">{form_element field="save" class="btn btn-primary"}</div>
+            {/form}
+            {form name="inventorymanager_movement_delete"}
+              <input type="hidden" name="movementid" value="{$row.id}"/>
+              <div class="subscriptionmanager-plan-delete">{form_element field="delete" class="btn btn-outline-danger" onclick="return confirm('Delete this movement record?');"}</div>
+            {/form}
+          </div>
+        {/foreach}
+      </div>
     </section>
   </div>
 </div>

@@ -3,9 +3,16 @@ require_once BASE_PATH . "modules/inventorymanager/pages/InventoryManagerAdminPa
 
 class InventoryManagerBundlesPage extends InventoryManagerAdminPage {
 	function action( $action_name ) {
-		if ( $action_name == "inventorymanager_bundle_component_create" ) {
-			$this->createComponent();
-			return;
+		switch ( $action_name ) {
+			case "inventorymanager_bundle_component_create":
+				$this->createComponent();
+				return;
+			case "inventorymanager_bundle_component_update":
+				$this->updateComponent();
+				return;
+			case "inventorymanager_bundle_component_delete":
+				$this->deleteComponent();
+				return;
 		}
 		parent::action( $action_name );
 	}
@@ -22,13 +29,59 @@ class InventoryManagerBundlesPage extends InventoryManagerAdminPage {
 
 	function createComponent() {
 		$DB = $this->db();
+		$bundleItemID = intval( $this->post['bundle_itemid'] );
+		$componentItemID = intval( $this->post['component_itemid'] );
+		$this->validateComponent( $bundleItemID, $componentItemID );
+
 		$sql = $DB->build_insert_sql( "inventorymanager_bundle_component", array(
-				"bundle_itemid" => intval( $this->post['bundle_itemid'] ),
-				"component_itemid" => intval( $this->post['component_itemid'] ),
+				"bundle_itemid" => $bundleItemID,
+				"component_itemid" => $componentItemID,
 				"quantity" => intval( $this->post['quantity'] ) ) );
 		$this->execute( $sql );
 		$this->setMessage( array( "type" => "[INVENTORY_MANAGER_COMPONENT_CREATED]" ) );
 		$this->reload();
+	}
+
+	function updateComponent() {
+		$DB = $this->db();
+		$componentID = intval( $this->post['componentid'] );
+		$bundleItemID = intval( $this->post['bundle_itemid'] );
+		$componentItemID = intval( $this->post['component_itemid'] );
+		$this->validateComponent( $bundleItemID, $componentItemID );
+
+		$this->execute( $DB->build_update_sql( "inventorymanager_bundle_component",
+				"id = " . $componentID,
+				array( "bundle_itemid" => $bundleItemID,
+				"component_itemid" => $componentItemID,
+				"quantity" => intval( $this->post['quantity'] ) ) ) );
+
+		$this->setMessage( array( "type" => "Bundle component updated." ) );
+		$this->reload();
+	}
+
+	function deleteComponent() {
+		$DB = $this->db();
+		$componentID = intval( $this->post['componentid'] );
+
+		$this->execute( $DB->build_delete_sql( "inventorymanager_bundle_component", "id = " . $componentID ) );
+		$this->setMessage( array( "type" => "Bundle component deleted." ) );
+		$this->reload();
+	}
+
+	function validateComponent( $bundleItemID, $componentItemID ) {
+		if ( $bundleItemID == $componentItemID ) {
+			throw new SWUserException( "A bundle cannot include itself as a component." );
+		}
+
+		$bundle = $this->row( "select id from inventorymanager_item where id = " . intval( $bundleItemID ) );
+		if ( !$bundle ) {
+			throw new SWUserException( "Bundle inventory item was not found." );
+		}
+
+		$component = $this->row( "select id from inventorymanager_item where id = " . intval( $componentItemID ) );
+		if ( !$component ) {
+			throw new SWUserException( "Component inventory item was not found." );
+		}
 	}
 }
 ?>

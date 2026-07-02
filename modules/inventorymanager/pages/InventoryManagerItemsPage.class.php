@@ -3,13 +3,25 @@ require_once BASE_PATH . "modules/inventorymanager/pages/InventoryManagerAdminPa
 
 class InventoryManagerItemsPage extends InventoryManagerAdminPage {
 	function action( $action_name ) {
-		if ( $action_name == "inventorymanager_item_create" ) {
-			$this->createItem();
-			return;
-		}
-		if ( $action_name == "inventorymanager_product_map_create" ) {
-			$this->createProductMap();
-			return;
+		switch ( $action_name ) {
+			case "inventorymanager_item_create":
+				$this->createItem();
+				return;
+			case "inventorymanager_item_update":
+				$this->updateItem();
+				return;
+			case "inventorymanager_item_delete":
+				$this->deleteItem();
+				return;
+			case "inventorymanager_product_map_create":
+				$this->createProductMap();
+				return;
+			case "inventorymanager_product_map_update":
+				$this->updateProductMap();
+				return;
+			case "inventorymanager_product_map_delete":
+				$this->deleteProductMap();
+				return;
 		}
 		parent::action( $action_name );
 	}
@@ -46,53 +58,151 @@ class InventoryManagerItemsPage extends InventoryManagerAdminPage {
 	}
 
 	function createItem() {
-		$DB = $this->db();
 		$parent = strlen( trim( $this->post['parent_itemid'] ) ) ? intval( $this->post['parent_itemid'] ) : null;
-		$sql = $DB->build_insert_sql( "inventorymanager_item", array(
-				"sku" => $this->post['sku'],
-				"name" => $this->post['name'],
-				"description" => $this->post['description'],
-				"item_type" => $this->post['item_type'],
-				"parent_itemid" => $parent,
-				"reorder_threshold" => intval( $this->post['reorder_threshold'] ),
-				"status" => "active",
-				"created" => DBConnection::format_datetime( time() ) ) );
-		$this->execute( $sql );
+		$this->execute(
+				"insert into inventorymanager_item " .
+				"(sku, name, description, item_type, parent_itemid, reorder_threshold, status, created) values (" .
+				$this->quote( $this->post['sku'] ) . ", " .
+				$this->quote( $this->post['name'] ) . ", " .
+				$this->quote( $this->post['description'] ) . ", " .
+				$this->quote( $this->post['item_type'] ) . ", " .
+				$this->nullableIntSQL( $parent ) . ", " .
+				intval( $this->post['reorder_threshold'] ) . ", " .
+				$this->quote( "active" ) . ", " .
+				$this->quote( DBConnection::format_datetime( time() ) ) . ")" );
 		$this->setMessage( array( "type" => "[INVENTORY_MANAGER_ITEM_CREATED]" ) );
 		$this->reload();
 	}
 
-	function createProductMap() {
+	function updateItem() {
+		$itemID = intval( $this->post['itemid'] );
+		$parent = strlen( trim( $this->post['parent_itemid'] ) ) ? intval( $this->post['parent_itemid'] ) : null;
+
+		if ( $parent !== null && $parent == $itemID ) {
+			throw new SWUserException( "An inventory item cannot be its own parent." );
+		}
+
+		if ( $parent !== null ) {
+			$parentItem = $this->row( "select id from inventorymanager_item where id = " . $parent );
+			if ( !$parentItem ) {
+				throw new SWUserException( "Parent inventory item was not found." );
+			}
+		}
+
+		$this->execute(
+				"update inventorymanager_item set " .
+				"sku = " . $this->quote( $this->post['sku'] ) . ", " .
+				"name = " . $this->quote( $this->post['name'] ) . ", " .
+				"description = " . $this->quote( $this->post['description'] ) . ", " .
+				"item_type = " . $this->quote( $this->post['item_type'] ) . ", " .
+				"parent_itemid = " . $this->nullableIntSQL( $parent ) . ", " .
+				"reorder_threshold = " . intval( $this->post['reorder_threshold'] ) . ", " .
+				"status = " . $this->quote( $this->post['status'] ) . " " .
+				"where id = " . $itemID );
+
+		$this->setMessage( array( "type" => "Inventory item updated." ) );
+		$this->reload();
+	}
+
+	function deleteItem() {
 		$DB = $this->db();
+		$itemID = intval( $this->post['itemid'] );
+
+		if ( $this->hasItemReferences( $itemID ) ) {
+			throw new SWUserException( "Inventory item is still used by stock, movements, bundles, product links, or variants." );
+		}
+
+		$this->execute( $DB->build_delete_sql( "inventorymanager_item", "id = " . $itemID ) );
+		$this->setMessage( array( "type" => "Inventory item deleted." ) );
+		$this->reload();
+	}
+
+	function createProductMap() {
 		$productID = intval( $this->post['productid'] );
 		$itemID = intval( $this->post['itemid'] );
 		$locationID = strlen( trim( $this->post['locationid'] ) ) ? intval( $this->post['locationid'] ) : null;
 
-		$product = $this->row( "select id from product where id = " . $productID );
+		$this->validateProductMap( $productID, $itemID, $locationID );
+
+		$this->execute(
+				"insert into inventorymanager_product_map " .
+				"(productid, itemid, locationid, quantity) values (" .
+				$productID . ", " .
+				$itemID . ", " .
+				$this->nullableIntSQL( $locationID ) . ", " .
+				intval( $this->post['quantity'] ) . ")" );
+		$this->setMessage( array( "type" => "Product inventory link saved." ) );
+		$this->reload();
+	}
+
+	function updateProductMap() {
+		$mapID = intval( $this->post['mapid'] );
+		$productID = intval( $this->post['productid'] );
+		$itemID = intval( $this->post['itemid'] );
+		$locationID = strlen( trim( $this->post['locationid'] ) ) ? intval( $this->post['locationid'] ) : null;
+
+		$this->validateProductMap( $productID, $itemID, $locationID );
+
+		$this->execute(
+				"update inventorymanager_product_map set " .
+				"productid = " . $productID . ", " .
+				"itemid = " . $itemID . ", " .
+				"locationid = " . $this->nullableIntSQL( $locationID ) . ", " .
+				"quantity = " . intval( $this->post['quantity'] ) . " " .
+				"where id = " . $mapID );
+
+		$this->setMessage( array( "type" => "Product inventory link updated." ) );
+		$this->reload();
+	}
+
+	function deleteProductMap() {
+		$DB = $this->db();
+		$mapID = intval( $this->post['mapid'] );
+
+		$this->execute( $DB->build_delete_sql( "inventorymanager_product_map", "id = " . $mapID ) );
+		$this->setMessage( array( "type" => "Product inventory link deleted." ) );
+		$this->reload();
+	}
+
+	function validateProductMap( $productID, $itemID, $locationID ) {
+		$product = $this->row( "select id from product where id = " . intval( $productID ) );
 		if ( !$product ) {
 			throw new SWUserException( "Product was not found." );
 		}
 
-		$item = $this->row( "select id from inventorymanager_item where id = " . $itemID );
+		$item = $this->row( "select id from inventorymanager_item where id = " . intval( $itemID ) );
 		if ( !$item ) {
 			throw new SWUserException( "Inventory item was not found." );
 		}
 
 		if ( $locationID !== null ) {
-			$location = $this->row( "select id from inventorymanager_location where id = " . $locationID );
+			$location = $this->row( "select id from inventorymanager_location where id = " . intval( $locationID ) );
 			if ( !$location ) {
 				throw new SWUserException( "Inventory location was not found." );
 			}
 		}
+	}
 
-		$sql = $DB->build_insert_sql( "inventorymanager_product_map", array(
-				"productid" => $productID,
-				"itemid" => $itemID,
-				"locationid" => $locationID,
-				"quantity" => intval( $this->post['quantity'] ) ) );
-		$this->execute( $sql );
-		$this->setMessage( array( "type" => "Product inventory link saved." ) );
-		$this->reload();
+	function hasItemReferences( $itemID ) {
+		$itemID = intval( $itemID );
+		$checks = array(
+				"select count(*) as total from inventorymanager_stock where itemid = " . $itemID,
+				"select count(*) as total from inventorymanager_movement where itemid = " . $itemID,
+				"select count(*) as total from inventorymanager_bundle_component where bundle_itemid = " . $itemID . " or component_itemid = " . $itemID,
+				"select count(*) as total from inventorymanager_product_map where itemid = " . $itemID,
+				"select count(*) as total from inventorymanager_item where parent_itemid = " . $itemID );
+
+		foreach ( $checks as $sql ) {
+			$row = $this->row( $sql );
+			if ( $row && intval( $row['total'] ) > 0 ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	function nullableIntSQL( $value ) {
+		return $value === null ? "null" : intval( $value );
 	}
 }
 ?>
