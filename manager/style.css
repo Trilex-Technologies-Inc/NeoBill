@@ -9134,6 +9134,83 @@ body.sb-nav-fixed .manager_content.subscriptionmanager-page {
 	border-radius: 5px;
 }
 
+.subscriptionmanager-edit-row td {
+	padding: 0 !important;
+	background: #f8fafc !important;
+}
+
+.subscriptionmanager-inline-edit-grid {
+	display: grid;
+	align-items: end;
+	grid-template-columns: repeat(4, minmax(160px, 1fr)) auto;
+	gap: 0.75rem;
+	padding: 0.9rem;
+	border-top: 1px solid #e2e8f0;
+}
+
+.subscriptionmanager-inline-edit-grid-wide {
+	grid-template-columns: repeat(4, minmax(150px, 1fr)) auto;
+}
+
+.subscriptionmanager-row-actions,
+.subscriptionmanager-row-delete,
+.subscriptionmanager-table-actions {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.subscriptionmanager-row-delete {
+	justify-content: flex-end;
+	padding: 0 0.9rem 0.9rem;
+	margin-top: -3.35rem;
+}
+
+.subscriptionmanager-row-actions .btn,
+.subscriptionmanager-row-actions input[type="submit"],
+.subscriptionmanager-row-delete .btn,
+.subscriptionmanager-row-delete input[type="submit"],
+.subscriptionmanager-table-actions .btn,
+.subscriptionmanager-table-actions input[type="submit"],
+.subscriptionmanager-action-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 36px;
+	padding: 0.4rem 0.85rem;
+	font-size: 0.8rem;
+	font-weight: 800;
+	text-decoration: none;
+	border-radius: 5px;
+	white-space: nowrap;
+}
+
+.subscriptionmanager-action-button {
+	color: #075985;
+	border: 1px solid #bae6fd;
+	background: #f0f9ff;
+}
+
+.subscriptionmanager-action-button:hover,
+.subscriptionmanager-action-button:focus {
+	color: #075985;
+	background: #e0f2fe;
+}
+
+.subscriptionmanager-table-action-note {
+	display: inline-flex;
+	align-items: center;
+	min-height: 24px;
+	padding: 0.15rem 0.45rem;
+	color: #64748b;
+	font-size: 0.72rem;
+	font-weight: 800;
+	border: 1px solid #cbd5e1;
+	border-radius: 999px;
+	background: #ffffff;
+	white-space: nowrap;
+}
+
 .subscriptionmanager-card-table {
 	min-width: 0;
 }
@@ -9464,6 +9541,30 @@ body.sb-nav-fixed .manager_content.subscriptionmanager-page {
 
 	.subscriptionmanager-plan-actions input,
 	.subscriptionmanager-plan-delete input {
+		width: 100%;
+	}
+
+	.subscriptionmanager-inline-edit-grid,
+	.subscriptionmanager-inline-edit-grid-wide {
+		grid-template-columns: 1fr;
+		padding: 0.9rem;
+	}
+
+	.subscriptionmanager-row-actions,
+	.subscriptionmanager-row-delete,
+	.subscriptionmanager-table-actions {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.subscriptionmanager-row-delete {
+		margin-top: 0;
+	}
+
+	.subscriptionmanager-row-actions input,
+	.subscriptionmanager-row-delete input,
+	.subscriptionmanager-table-actions input,
+	.subscriptionmanager-action-button {
 		width: 100%;
 	}
 }

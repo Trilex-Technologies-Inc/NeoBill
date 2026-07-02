@@ -16,6 +16,12 @@ class SubscriptionManagerPlansPage extends SubscriptionManagerAdminPage {
 			case "subscriptionmanager_product_map_create":
 				$this->createProductMap();
 				break;
+			case "subscriptionmanager_product_map_update":
+				$this->updateProductMap();
+				break;
+			case "subscriptionmanager_product_map_delete":
+				$this->deleteProductMap();
+				break;
 			default:
 				parent::action( $action_name );
 		}
@@ -176,6 +182,43 @@ class SubscriptionManagerPlansPage extends SubscriptionManagerAdminPage {
 		$this->execute( $sql );
 		$this->syncProductPrice( $productID, $price );
 		$this->setMessage( array( "type" => "Product subscription link saved." ) );
+		$this->reload();
+	}
+
+	function updateProductMap() {
+		$DB = $this->db();
+		$mapID = intval( $this->post['mapid'] );
+		$productID = intval( $this->post['productid'] );
+		$planID = intval( $this->post['planid'] );
+		$priceID = intval( $this->post['priceid'] );
+
+		$product = $this->row( "select id from product where id = " . $productID );
+		if ( !$product ) {
+			throw new SWUserException( "Product was not found." );
+		}
+
+		$price = $this->row(
+				"select * from subscriptionmanager_price where id = " . $priceID .
+				" and planid = " . $planID );
+		if ( !$price ) {
+			throw new SWUserException( "Subscription price was not found for this plan." );
+		}
+
+		$this->execute( $DB->build_update_sql( "subscriptionmanager_product_map",
+				"id = " . $mapID,
+				array( "productid" => $productID,
+				"planid" => $planID,
+				"priceid" => $priceID,
+				"quantity" => intval( $this->post['quantity'] ) ) ) );
+		$this->syncProductPrice( $productID, $price );
+		$this->setMessage( array( "type" => "Product subscription link updated." ) );
+		$this->reload();
+	}
+
+	function deleteProductMap() {
+		$this->execute( $this->db()->build_delete_sql( "subscriptionmanager_product_map",
+				"id = " . intval( $this->post['mapid'] ) ) );
+		$this->setMessage( array( "type" => "Product subscription link deleted." ) );
 		$this->reload();
 	}
 

@@ -7,6 +7,12 @@ class SubscriptionManagerSubscriptionsPage extends SubscriptionManagerAdminPage 
 			case "subscriptionmanager_subscription_create":
 				$this->createSubscription();
 				break;
+			case "subscriptionmanager_subscription_update":
+				$this->updateSubscription();
+				break;
+			case "subscriptionmanager_subscription_delete":
+				$this->deleteSubscription();
+				break;
 			default:
 				parent::action( $action_name );
 		}
@@ -63,6 +69,54 @@ class SubscriptionManagerSubscriptionsPage extends SubscriptionManagerAdminPage 
 		$this->execute( $sql );
 
 		$this->setMessage( array( "type" => "[SUBSCRIPTION_MANAGER_SUBSCRIPTION_CREATED]" ) );
+		$this->reload();
+	}
+
+	function updateSubscription() {
+		$DB = $this->db();
+		$subscriptionID = intval( $this->post['subscriptionid'] );
+		$planID = intval( $this->post['planid'] );
+		$priceID = intval( $this->post['priceid'] );
+
+		$price = $this->row(
+				"select id from subscriptionmanager_price where id = " . $priceID .
+				" and planid = " . $planID );
+		if ( !$price ) {
+			throw new SWUserException( "Subscription price was not found for this plan." );
+		}
+
+		$nextBillingDate = strlen( trim( $this->post['nextbillingdate'] ) ) ?
+				$this->dateValue( $this->post['nextbillingdate'] ) : null;
+
+		$this->execute( $DB->build_update_sql( "subscriptionmanager_subscription",
+				"id = " . $subscriptionID,
+				array( "accountid" => intval( $this->post['accountid'] ),
+				"planid" => $planID,
+				"priceid" => $priceID,
+				"status" => $this->post['status'],
+				"quantity" => intval( $this->post['quantity'] ),
+				"current_period_start" => $this->datetimeValue( $this->post['current_period_start'] ),
+				"current_period_end" => $this->datetimeValue( $this->post['current_period_end'] ),
+				"nextbillingdate" => $nextBillingDate,
+				"updated" => DBConnection::format_datetime( time() ) ) ) );
+		$this->setMessage( array( "type" => "Subscription updated." ) );
+		$this->reload();
+	}
+
+	function deleteSubscription() {
+		$DB = $this->db();
+		$subscriptionID = intval( $this->post['subscriptionid'] );
+		$this->execute( $DB->build_delete_sql( "subscriptionmanager_usage",
+				"subscriptionid = " . $subscriptionID ) );
+		$this->execute( $DB->build_delete_sql( "subscriptionmanager_dunning_attempt",
+				"subscriptionid = " . $subscriptionID ) );
+		$this->execute( $DB->build_delete_sql( "subscriptionmanager_change",
+				"subscriptionid = " . $subscriptionID ) );
+		$this->execute( $DB->build_delete_sql( "subscriptionmanager_discount",
+				"subscriptionid = " . $subscriptionID ) );
+		$this->execute( $DB->build_delete_sql( "subscriptionmanager_subscription",
+				"id = " . $subscriptionID ) );
+		$this->setMessage( array( "type" => "Subscription deleted." ) );
 		$this->reload();
 	}
 }

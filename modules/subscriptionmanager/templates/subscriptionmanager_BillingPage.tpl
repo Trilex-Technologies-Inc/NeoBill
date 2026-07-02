@@ -42,16 +42,25 @@
         </div>
         <div class="subscriptionmanager-table-wrap">
           <table class="table subscriptionmanager-table">
-            <thead><tr><th>ID</th><th>Account</th><th>Plan</th><th>Status</th><th>Next Billing</th><th>Amount</th></tr></thead>
+            <thead><tr><th>ID</th><th>Account</th><th>Plan</th><th>Status</th><th>Next Billing</th><th>Amount</th><th>Actions</th></tr></thead>
             <tbody>
               {foreach from=$dueSubscriptions item=subscription}
                 <tr>
                   <td>{$subscription.id}</td>
-                  <td>{$subscription.accountid}</td>
+                  <td>#{$subscription.accountid} {$subscription.account_name}</td>
                   <td><strong>{$subscription.planname}</strong></td>
                   <td><span class="subscriptionmanager-badge">{$subscription.status}</span></td>
                   <td>{$subscription.nextbillingdate}</td>
                   <td>{$subscription.amount}</td>
+                  <td>
+                    <div class="subscriptionmanager-table-actions">
+                      <a class="subscriptionmanager-action-button" href="manager_content.php?page=subscriptionmanager_subscriptions">Edit</a>
+                      {form name="subscriptionmanager_subscription_delete"}
+                        <input type="hidden" name="subscriptionid" value="{$subscription.id}"/>
+                        {form_element field="delete" class="btn btn-outline-danger btn-sm" onclick="return confirm('Delete this subscription and related usage/dunning rows?');"}
+                      {/form}
+                    </div>
+                  </td>
                 </tr>
               {/foreach}
             </tbody>

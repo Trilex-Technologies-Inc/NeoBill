@@ -7,6 +7,15 @@ class SubscriptionManagerUsagePage extends SubscriptionManagerAdminPage {
 			case "subscriptionmanager_usage_record":
 				$this->recordUsage();
 				break;
+			case "subscriptionmanager_usage_update":
+				$this->updateUsage();
+				break;
+			case "subscriptionmanager_usage_delete":
+				$this->deleteUsage();
+				break;
+			case "subscriptionmanager_subscription_delete":
+				$this->deleteSubscription();
+				break;
 			default:
 				parent::action( $action_name );
 		}
@@ -37,6 +46,42 @@ class SubscriptionManagerUsagePage extends SubscriptionManagerAdminPage {
 		$this->execute( $sql );
 
 		$this->setMessage( array( "type" => "[SUBSCRIPTION_MANAGER_USAGE_RECORDED]" ) );
+		$this->reload();
+	}
+
+	function updateUsage() {
+		$DB = $this->db();
+		$this->execute( $DB->build_update_sql( "subscriptionmanager_usage",
+				"id = " . intval( $this->post['usageid'] ),
+				array( "subscriptionid" => intval( $this->post['subscriptionid'] ),
+				"usage_date" => $this->datetimeValue( $this->post['usage_date'] ),
+				"quantity" => $this->post['quantity'],
+				"description" => $this->post['description'] ) ) );
+		$this->setMessage( array( "type" => "Usage record updated." ) );
+		$this->reload();
+	}
+
+	function deleteUsage() {
+		$this->execute( $this->db()->build_delete_sql( "subscriptionmanager_usage",
+				"id = " . intval( $this->post['usageid'] ) ) );
+		$this->setMessage( array( "type" => "Usage record deleted." ) );
+		$this->reload();
+	}
+
+	function deleteSubscription() {
+		$DB = $this->db();
+		$subscriptionID = intval( $this->post['subscriptionid'] );
+		$this->execute( $DB->build_delete_sql( "subscriptionmanager_usage",
+				"subscriptionid = " . $subscriptionID ) );
+		$this->execute( $DB->build_delete_sql( "subscriptionmanager_dunning_attempt",
+				"subscriptionid = " . $subscriptionID ) );
+		$this->execute( $DB->build_delete_sql( "subscriptionmanager_change",
+				"subscriptionid = " . $subscriptionID ) );
+		$this->execute( $DB->build_delete_sql( "subscriptionmanager_discount",
+				"subscriptionid = " . $subscriptionID ) );
+		$this->execute( $DB->build_delete_sql( "subscriptionmanager_subscription",
+				"id = " . $subscriptionID ) );
+		$this->setMessage( array( "type" => "Subscription deleted." ) );
 		$this->reload();
 	}
 }

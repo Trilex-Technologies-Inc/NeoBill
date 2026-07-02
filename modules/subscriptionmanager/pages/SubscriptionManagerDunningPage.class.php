@@ -7,6 +7,12 @@ class SubscriptionManagerDunningPage extends SubscriptionManagerAdminPage {
 			case "subscriptionmanager_schedule_dunning":
 				$this->scheduleDunning();
 				break;
+			case "subscriptionmanager_dunning_update":
+				$this->updateDunning();
+				break;
+			case "subscriptionmanager_dunning_delete":
+				$this->deleteDunning();
+				break;
 			default:
 				parent::action( $action_name );
 		}
@@ -55,6 +61,27 @@ class SubscriptionManagerDunningPage extends SubscriptionManagerAdminPage {
 		$this->execute( $statusSql );
 
 		$this->setMessage( array( "type" => "[SUBSCRIPTION_MANAGER_DUNNING_SCHEDULED]" ) );
+		$this->reload();
+	}
+
+	function updateDunning() {
+		$DB = $this->db();
+		$this->execute( $DB->build_update_sql( "subscriptionmanager_dunning_attempt",
+				"id = " . intval( $this->post['attemptid'] ),
+				array( "subscriptionid" => intval( $this->post['subscriptionid'] ),
+				"invoiceid" => intval( $this->post['invoiceid'] ),
+				"attempt_number" => intval( $this->post['attempt_number'] ),
+				"status" => $this->post['status'],
+				"scheduled_at" => $this->datetimeValue( $this->post['scheduled_at'] ),
+				"message" => $this->post['message'] ) ) );
+		$this->setMessage( array( "type" => "Dunning attempt updated." ) );
+		$this->reload();
+	}
+
+	function deleteDunning() {
+		$this->execute( $this->db()->build_delete_sql( "subscriptionmanager_dunning_attempt",
+				"id = " . intval( $this->post['attemptid'] ) ) );
+		$this->setMessage( array( "type" => "Dunning attempt deleted." ) );
 		$this->reload();
 	}
 }

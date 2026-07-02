@@ -228,7 +228,7 @@
         </div>
         <div class="subscriptionmanager-table-wrap">
           <table class="table subscriptionmanager-table">
-            <thead><tr><th>Product</th><th>Plan</th><th>Price</th><th>Qty</th></tr></thead>
+            <thead><tr><th>Product</th><th>Plan</th><th>Price</th><th>Qty</th><th>Actions</th></tr></thead>
             <tbody>
               {foreach from=$productMaps item=map}
                 <tr>
@@ -236,6 +236,53 @@
                   <td>#{$map.planid} {$map.plan_name}</td>
                   <td>#{$map.priceid} {$map.billing_cycle} {$map.amount}</td>
                   <td>{$map.quantity}</td>
+                  <td><span class="subscriptionmanager-table-action-note">Edit below</span></td>
+                </tr>
+                <tr class="subscriptionmanager-edit-row">
+                  <td colspan="5">
+                    {form name="subscriptionmanager_product_map_update"}
+                      <input type="hidden" name="mapid" value="{$map.id}"/>
+                      <div class="subscriptionmanager-inline-edit-grid">
+                        <div class="subscriptionmanager-field">
+                          <label class="form-label">{form_description field="productid"}</label>
+                          <select name="productid">
+                            {foreach from=$products item=product}
+                              <option value="{$product.id}"{if $product.id == $map.productid} selected="selected"{/if}>#{$product.id} {$product.name}</option>
+                            {/foreach}
+                          </select>
+                        </div>
+                        <div class="subscriptionmanager-field">
+                          <label class="form-label">{form_description field="planid"}</label>
+                          <select name="planid">
+                            {foreach from=$planChoices item=plan}
+                              <option value="{$plan.id}"{if $plan.id == $map.planid} selected="selected"{/if}>#{$plan.id} {$plan.name}</option>
+                            {/foreach}
+                          </select>
+                        </div>
+                        <div class="subscriptionmanager-field">
+                          <label class="form-label">{form_description field="priceid"}</label>
+                          <select name="priceid">
+                            {foreach from=$priceChoices item=price}
+                              <option value="{$price.priceid}"{if $price.priceid == $map.priceid} selected="selected"{/if}>#{$price.priceid} {$price.plan_name} / {$price.billing_cycle} {$price.amount}</option>
+                            {/foreach}
+                          </select>
+                        </div>
+                        <div class="subscriptionmanager-field">
+                          <label class="form-label">{form_description field="quantity"}</label>
+                          {form_element field="quantity" value=$map.quantity size="8"}
+                        </div>
+                        <div class="subscriptionmanager-row-actions">
+                          {form_element field="save" class="btn btn-primary"}
+                        </div>
+                      </div>
+                    {/form}
+                    {form name="subscriptionmanager_product_map_delete"}
+                      <input type="hidden" name="mapid" value="{$map.id}"/>
+                      <div class="subscriptionmanager-row-delete">
+                        {form_element field="delete" class="btn btn-outline-danger" onclick="return confirm('Delete this product link?');"}
+                      </div>
+                    {/form}
+                  </td>
                 </tr>
               {/foreach}
             </tbody>
