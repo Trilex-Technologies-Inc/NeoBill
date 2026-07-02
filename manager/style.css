@@ -9284,19 +9284,48 @@ body.sb-nav-fixed .manager_content.subscriptionmanager-page {
 	padding: 0 1rem 1rem;
 }
 
+.subscriptionmanager-plan-actions {
+	padding-right: 5.6rem;
+}
+
 .subscriptionmanager-plan-delete {
-	margin-top: -0.4rem;
+	margin-top: -3.25rem;
+	padding-top: 0;
+	padding-bottom: 1rem;
 }
 
 .subscriptionmanager-plan-actions .btn,
 .subscriptionmanager-plan-actions input[type="submit"],
 .subscriptionmanager-plan-delete .btn,
 .subscriptionmanager-plan-delete input[type="submit"] {
-	min-height: 38px;
-	padding: 0.45rem 0.9rem;
+	min-width: 64px;
+	min-height: 36px;
+	padding: 0.4rem 0.85rem;
 	font-size: 0.8rem;
 	font-weight: 800;
 	border-radius: 5px;
+}
+
+.subscriptionmanager-plan-actions .btn-primary,
+.subscriptionmanager-plan-actions input[type="submit"] {
+	box-shadow: none;
+}
+
+.subscriptionmanager-plan-delete .btn-outline-danger,
+.subscriptionmanager-plan-delete input[type="submit"] {
+	color: #e11d48;
+	border-color: #f43f5e;
+	background: #ffffff;
+	box-shadow: none;
+}
+
+.subscriptionmanager-plan-delete .btn-outline-danger:hover,
+.subscriptionmanager-plan-delete .btn-outline-danger:focus,
+.subscriptionmanager-plan-delete input[type="submit"]:hover,
+.subscriptionmanager-plan-delete input[type="submit"]:focus {
+	color: #ffffff;
+	border-color: #e11d48;
+	background: #e11d48;
 }
 
 .subscriptionmanager-table-wrap {
@@ -9422,6 +9451,14 @@ body.sb-nav-fixed .manager_content.subscriptionmanager-page {
 	.subscriptionmanager-plan-actions,
 	.subscriptionmanager-plan-delete {
 		padding: 0 0.9rem 0.9rem;
+	}
+
+	.subscriptionmanager-plan-actions {
+		padding-right: 0.9rem;
+	}
+
+	.subscriptionmanager-plan-delete {
+		margin-top: 0;
 	}
 
 	.subscriptionmanager-plan-actions input,
