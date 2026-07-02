@@ -1300,6 +1300,12 @@ body.sb-nav-fixed .manager_content.services-list-page {
 	padding: 1.5rem;
 }
 
+.services-new-product-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 760px);
+	padding: 1.5rem;
+}
+
 .services-edit-stack {
 	display: grid;
 	gap: 1rem;
@@ -1428,6 +1434,36 @@ body.sb-nav-fixed .manager_content.services-list-page {
 	font-size: 0.75rem;
 }
 
+.services-confirm-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(180px, 1fr));
+	gap: 0.85rem;
+}
+
+.services-confirm-row {
+	display: grid;
+	gap: 0.3rem;
+	padding: 0.85rem;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	background: #f9fafb;
+}
+
+.services-confirm-row > span {
+	color: #6b7280;
+	font-size: 0.72rem;
+	font-weight: 750;
+	text-transform: uppercase;
+}
+
+.services-confirm-row > strong {
+	min-width: 0;
+	color: #111827;
+	font-size: 0.9rem;
+	font-weight: 800;
+	overflow-wrap: anywhere;
+}
+
 .services-edit-actions {
 	display: flex;
 	align-items: center;
@@ -1530,7 +1566,8 @@ body.sb-nav-fixed .manager_content.services-list-page {
 	.services-list-header,
 	.services-list-toolbar,
 	.services-list-table-header,
-	.services-edit-grid {
+	.services-edit-grid,
+	.services-new-product-grid {
 		padding: 1rem;
 	}
 
@@ -1564,10 +1601,15 @@ body.sb-nav-fixed .manager_content.services-list-page {
 		grid-template-columns: 1fr;
 	}
 
+	.services-new-product-grid,
 	.services-list-search-grid,
 	.services-list-search-grid-one,
 	.services-list-search-grid-two,
 	.services-list-search-grid-ip {
+		grid-template-columns: 1fr;
+	}
+
+	.services-confirm-grid {
 		grid-template-columns: 1fr;
 	}
 
