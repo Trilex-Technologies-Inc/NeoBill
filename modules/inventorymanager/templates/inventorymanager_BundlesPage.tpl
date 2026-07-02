@@ -6,8 +6,8 @@
       <div class="subscriptionmanager-card-header"><span><i class="ti ti-link-plus"></i></span><div><h3>Add Bundle Component</h3><p>Bundle SKUs decrement each component when invoiced or provisioned.</p></div></div>
       {form name="inventorymanager_bundle_component_create"}
         <div class="subscriptionmanager-form-grid">
-          <div class="subscriptionmanager-field"><label class="form-label">{form_description field="bundle_itemid"}</label>{form_element field="bundle_itemid" size="8"}</div>
-          <div class="subscriptionmanager-field"><label class="form-label">{form_description field="component_itemid"}</label>{form_element field="component_itemid" size="8"}</div>
+          <div class="subscriptionmanager-field"><label class="form-label">{form_description field="bundle_itemid"}</label><select name="bundle_itemid">{foreach from=$items item=item}<option value="{$item.id}">#{$item.id} {$item.sku} {$item.name}</option>{/foreach}</select></div>
+          <div class="subscriptionmanager-field"><label class="form-label">{form_description field="component_itemid"}</label><select name="component_itemid">{foreach from=$items item=item}<option value="{$item.id}">#{$item.id} {$item.sku} {$item.name}</option>{/foreach}</select></div>
           <div class="subscriptionmanager-field"><label class="form-label">{form_description field="quantity"}</label>{form_element field="quantity" value="1" size="8"}</div>
         </div>
         <div class="subscriptionmanager-actions">{form_element field="save"}</div>
@@ -28,8 +28,8 @@
             {form name="inventorymanager_bundle_component_update"}
               <input type="hidden" name="componentid" value="{$component.id}"/>
               <div class="subscriptionmanager-form-grid subscriptionmanager-plan-edit-grid">
-                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="bundle_itemid"}</label>{form_element field="bundle_itemid" value=$component.bundle_itemid size="8"}</div>
-                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="component_itemid"}</label>{form_element field="component_itemid" value=$component.component_itemid size="8"}</div>
+                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="bundle_itemid"}</label><select name="bundle_itemid">{foreach from=$items item=item}<option value="{$item.id}"{if $component.bundle_itemid == $item.id} selected="selected"{/if}>#{$item.id} {$item.sku} {$item.name}</option>{/foreach}</select></div>
+                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="component_itemid"}</label><select name="component_itemid">{foreach from=$items item=item}<option value="{$item.id}"{if $component.component_itemid == $item.id} selected="selected"{/if}>#{$item.id} {$item.sku} {$item.name}</option>{/foreach}</select></div>
                 <div class="subscriptionmanager-field"><label class="form-label">{form_description field="quantity"}</label>{form_element field="quantity" value=$component.quantity size="8"}</div>
                 <div class="subscriptionmanager-field subscriptionmanager-field-wide"><label class="form-label">Current component</label><div class="subscriptionmanager-readonly">{$component.component_sku} {$component.component_name}</div></div>
               </div>

@@ -6,8 +6,8 @@
       <div class="subscriptionmanager-card-header"><span><i class="ti ti-adjustments"></i></span><div><h3>Adjust Stock</h3><p>Use positive numbers to receive stock and negative numbers to remove stock.</p></div></div>
       {form name="inventorymanager_stock_adjust"}
         <div class="subscriptionmanager-form-grid">
-          <div class="subscriptionmanager-field"><label class="form-label">{form_description field="itemid"}</label>{form_element field="itemid" size="8"}</div>
-          <div class="subscriptionmanager-field"><label class="form-label">{form_description field="locationid"}</label>{form_element field="locationid" size="8"}</div>
+          <div class="subscriptionmanager-field"><label class="form-label">{form_description field="itemid"}</label><select name="itemid">{foreach from=$itemChoices item=choice}<option value="{$choice.id}">#{$choice.id} {$choice.sku} {$choice.name}</option>{/foreach}</select></div>
+          <div class="subscriptionmanager-field"><label class="form-label">{form_description field="locationid"}</label><select name="locationid">{foreach from=$locations item=location}<option value="{$location.id}">#{$location.id} {$location.name}</option>{/foreach}</select></div>
           <div class="subscriptionmanager-field"><label class="form-label">{form_description field="quantity_change"}</label>{form_element field="quantity_change" size="8"}</div>
           <div class="subscriptionmanager-field"><label class="form-label">{form_description field="note"}</label>{form_element field="note" size="30"}</div>
         </div>
@@ -29,8 +29,8 @@
             {form name="inventorymanager_stock_update"}
               <input type="hidden" name="stockid" value="{$row.id}"/>
               <div class="subscriptionmanager-form-grid subscriptionmanager-plan-edit-grid">
-                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="itemid"}</label>{form_element field="itemid" value=$row.itemid size="8"}</div>
-                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="locationid"}</label>{form_element field="locationid" value=$row.locationid size="8"}</div>
+                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="itemid"}</label><select name="itemid">{foreach from=$itemChoices item=choice}<option value="{$choice.id}"{if $row.itemid == $choice.id} selected="selected"{/if}>#{$choice.id} {$choice.sku} {$choice.name}</option>{/foreach}</select></div>
+                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="locationid"}</label><select name="locationid">{foreach from=$locations item=location}<option value="{$location.id}"{if $row.locationid == $location.id} selected="selected"{/if}>#{$location.id} {$location.name}</option>{/foreach}</select></div>
                 <div class="subscriptionmanager-field"><label class="form-label">{form_description field="quantity"}</label>{form_element field="quantity" value=$row.quantity size="8"}</div>
               </div>
               <div class="subscriptionmanager-plan-actions">{form_element field="save" class="btn btn-primary"}</div>
@@ -58,8 +58,8 @@
             {form name="inventorymanager_movement_update"}
               <input type="hidden" name="movementid" value="{$row.id}"/>
               <div class="subscriptionmanager-form-grid subscriptionmanager-plan-edit-grid">
-                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="itemid"}</label>{form_element field="itemid" value=$row.itemid size="8"}</div>
-                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="locationid"}</label>{form_element field="locationid" value=$row.locationid size="8"}</div>
+                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="itemid"}</label><select name="itemid">{foreach from=$itemChoices item=choice}<option value="{$choice.id}"{if $row.itemid == $choice.id} selected="selected"{/if}>#{$choice.id} {$choice.sku} {$choice.name}</option>{/foreach}</select></div>
+                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="locationid"}</label><select name="locationid">{foreach from=$locations item=location}<option value="{$location.id}"{if $row.locationid == $location.id} selected="selected"{/if}>#{$location.id} {$location.name}</option>{/foreach}</select></div>
                 <div class="subscriptionmanager-field"><label class="form-label">{form_description field="quantity_change"}</label>{form_element field="quantity_change" value=$row.quantity_change size="8"}</div>
                 <div class="subscriptionmanager-field"><label class="form-label">{form_description field="reference_type"}</label>{form_element field="reference_type" value=$row.reference_type size="16"}</div>
                 <div class="subscriptionmanager-field"><label class="form-label">{form_description field="reference_id"}</label>{form_element field="reference_id" value=$row.reference_id size="8"}</div>

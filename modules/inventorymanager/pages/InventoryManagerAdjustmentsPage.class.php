@@ -25,6 +25,8 @@ class InventoryManagerAdjustmentsPage extends InventoryManagerAdminPage {
 
 	function init() {
 		parent::init();
+		$this->smarty->assign( "itemChoices", $this->rows( "select id, sku, name from inventorymanager_item order by sku, name" ) );
+		$this->smarty->assign( "locations", $this->rows( "select id, name from inventorymanager_location order by name" ) );
 		$this->smarty->assign( "stock", $this->rows(
 				"select s.*, i.sku, i.name as item_name, i.reorder_threshold, l.name as location_name " .
 				"from inventorymanager_stock s join inventorymanager_item i on i.id = s.itemid " .

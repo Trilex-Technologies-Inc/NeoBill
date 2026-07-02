@@ -29,6 +29,9 @@ class InventoryManagerItemsPage extends InventoryManagerAdminPage {
 	function init() {
 		parent::init();
 		$this->ensureProductMapTable();
+		$this->smarty->assign( "itemChoices", $this->rows( "select id, sku, name from inventorymanager_item order by sku, name" ) );
+		$this->smarty->assign( "products", $this->rows( "select id, name from product order by name" ) );
+		$this->smarty->assign( "locations", $this->rows( "select id, name from inventorymanager_location order by name" ) );
 		$this->smarty->assign( "items", $this->rows(
 				"select i.*, coalesce(sum(s.quantity),0) as total_quantity " .
 				"from inventorymanager_item i left join inventorymanager_stock s on s.itemid = i.id " .
