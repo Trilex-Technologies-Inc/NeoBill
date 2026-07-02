@@ -9098,6 +9098,7 @@ body.sb-nav-fixed .manager_content.subscriptionmanager-page {
 .subscriptionmanager-page textarea {
 	width: 100%;
 	min-height: 40px;
+	padding: 0.5rem 0.65rem;
 	color: #111827;
 	font-size: 0.86rem;
 	border: 1px solid #cbd5e1;

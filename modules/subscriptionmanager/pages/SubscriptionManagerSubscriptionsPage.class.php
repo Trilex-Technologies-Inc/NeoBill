@@ -14,14 +14,21 @@ class SubscriptionManagerSubscriptionsPage extends SubscriptionManagerAdminPage 
 
 	function init() {
 		parent::init();
+		$this->smarty->assign( "accounts", $this->rows(
+				"select id, case when type='Individual Account' then contactname else businessname end as account_name, " .
+				"contactname, businessname from account order by account_name, id" ) );
+		$this->smarty->assign( "planChoices", $this->rows(
+				"select id, name from subscriptionmanager_plan where status = 'active' order by name, id" ) );
 		$this->smarty->assign( "plans", $this->rows(
 				"select p.id, p.name, pr.id as priceid, pr.billing_cycle, pr.amount " .
 				"from subscriptionmanager_plan p join subscriptionmanager_price pr on pr.planid = p.id " .
 				"where p.status='active' order by p.name" ) );
 		$this->smarty->assign( "subscriptions", $this->rows(
-				"select s.*, p.name as planname, pr.billing_cycle, pr.amount " .
+				"select s.*, p.name as planname, pr.billing_cycle, pr.amount, " .
+				"case when a.type='Individual Account' then a.contactname else a.businessname end as account_name " .
 				"from subscriptionmanager_subscription s " .
 				"left join subscriptionmanager_plan p on p.id=s.planid " .
+				"left join account a on a.id=s.accountid " .
 				"left join subscriptionmanager_price pr on pr.id=s.priceid order by s.id desc" ) );
 	}
 

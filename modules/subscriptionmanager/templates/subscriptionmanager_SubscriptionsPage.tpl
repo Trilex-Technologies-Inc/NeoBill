@@ -25,15 +25,30 @@
           <div class="subscriptionmanager-form-grid">
             <div class="subscriptionmanager-field">
               <label class="form-label">{form_description field="accountid"}</label>
-              {form_element field="accountid" size="8"}
+              <select name="accountid">
+                <option value="">Select account</option>
+                {foreach from=$accounts item=account}
+                  <option value="{$account.id}">#{$account.id} {$account.account_name}</option>
+                {/foreach}
+              </select>
             </div>
             <div class="subscriptionmanager-field">
               <label class="form-label">{form_description field="planid"}</label>
-              {form_element field="planid" size="8"}
+              <select name="planid">
+                <option value="">Select plan</option>
+                {foreach from=$planChoices item=plan}
+                  <option value="{$plan.id}">#{$plan.id} {$plan.name}</option>
+                {/foreach}
+              </select>
             </div>
             <div class="subscriptionmanager-field">
               <label class="form-label">{form_description field="priceid"}</label>
-              {form_element field="priceid" size="8"}
+              <select name="priceid">
+                <option value="">Select price</option>
+                {foreach from=$plans item=plan}
+                  <option value="{$plan.priceid}">#{$plan.priceid} {$plan.name} / {$plan.billing_cycle} {$plan.amount}</option>
+                {/foreach}
+              </select>
             </div>
             <div class="subscriptionmanager-field">
               <label class="form-label">{form_description field="quantity"}</label>
@@ -57,7 +72,7 @@
           <span><i class="ti ti-list-search"></i></span>
           <div>
             <h3>{echo phrase="SUBSCRIPTION_MANAGER_AVAILABLE_PLANS"}</h3>
-            <p>Copy the IDs from here into the subscription form.</p>
+            <p>Choose one of these plans and prices in the subscription form.</p>
           </div>
         </div>
         <div class="subscriptionmanager-available-plan-list">
@@ -93,7 +108,7 @@
             {foreach from=$subscriptions item=subscription}
               <tr>
                 <td>{$subscription.id}</td>
-                <td>{$subscription.accountid}</td>
+                <td>#{$subscription.accountid} {$subscription.account_name}</td>
                 <td><strong>{$subscription.planname}</strong></td>
                 <td><span class="subscriptionmanager-badge">{$subscription.status}</span></td>
                 <td>{$subscription.nextbillingdate}</td>

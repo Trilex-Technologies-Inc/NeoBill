@@ -25,11 +25,21 @@
           <div class="subscriptionmanager-form-grid">
             <div class="subscriptionmanager-field">
               <label class="form-label">{form_description field="subscriptionid"}</label>
-              {form_element field="subscriptionid" size="8"}
+              <select name="subscriptionid">
+                <option value="">Select subscription</option>
+                {foreach from=$subscriptions item=subscription}
+                  <option value="{$subscription.id}">#{$subscription.id} {$subscription.planname} / #{$subscription.accountid} {$subscription.account_name}</option>
+                {/foreach}
+              </select>
             </div>
             <div class="subscriptionmanager-field">
               <label class="form-label">{form_description field="invoiceid"}</label>
-              {form_element field="invoiceid" size="8"}
+              <select name="invoiceid">
+                <option value="">Select invoice</option>
+                {foreach from=$invoices item=invoice}
+                  <option value="{$invoice.id}">#{$invoice.id} / #{$invoice.accountid} {$invoice.account_name} / {$invoice.date}</option>
+                {/foreach}
+              </select>
             </div>
           </div>
           <div class="subscriptionmanager-actions">{form_element field="save"}</div>

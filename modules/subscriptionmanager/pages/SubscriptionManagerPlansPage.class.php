@@ -29,6 +29,15 @@ class SubscriptionManagerPlansPage extends SubscriptionManagerAdminPage {
 				"pr.amount, pr.included_quantity, pr.unit_amount, pr.trial_days, pr.intro_amount, " .
 				"pr.intro_cycles, pr.taxable from subscriptionmanager_plan p " .
 				"left join subscriptionmanager_price pr on pr.planid = p.id order by p.id desc" ) );
+		$this->smarty->assign( "products", $this->rows(
+				"select id, name from product order by name" ) );
+		$this->smarty->assign( "planChoices", $this->rows(
+				"select id, name from subscriptionmanager_plan where status = 'active' order by name, id" ) );
+		$this->smarty->assign( "priceChoices", $this->rows(
+				"select p.id as planid, p.name as plan_name, pr.id as priceid, " .
+				"pr.billing_cycle, pr.amount from subscriptionmanager_plan p " .
+				"join subscriptionmanager_price pr on pr.planid = p.id " .
+				"where p.status = 'active' order by p.name, pr.billing_cycle, pr.id" ) );
 		$this->smarty->assign( "productMaps", $this->rows(
 				"select m.*, p.name as product_name, sp.name as plan_name, pr.billing_cycle, pr.amount " .
 				"from subscriptionmanager_product_map m " .

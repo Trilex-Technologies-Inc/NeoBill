@@ -184,15 +184,30 @@
           <div class="subscriptionmanager-form-grid">
             <div class="subscriptionmanager-field">
               <label class="form-label">{form_description field="productid"}</label>
-              {form_element field="productid" size="8"}
+              <select name="productid">
+                <option value="">Select product</option>
+                {foreach from=$products item=product}
+                  <option value="{$product.id}">#{$product.id} {$product.name}</option>
+                {/foreach}
+              </select>
             </div>
             <div class="subscriptionmanager-field">
               <label class="form-label">{form_description field="planid"}</label>
-              {form_element field="planid" size="8"}
+              <select name="planid">
+                <option value="">Select plan</option>
+                {foreach from=$planChoices item=plan}
+                  <option value="{$plan.id}">#{$plan.id} {$plan.name}</option>
+                {/foreach}
+              </select>
             </div>
             <div class="subscriptionmanager-field">
               <label class="form-label">{form_description field="priceid"}</label>
-              {form_element field="priceid" size="8"}
+              <select name="priceid">
+                <option value="">Select price</option>
+                {foreach from=$priceChoices item=price}
+                  <option value="{$price.priceid}">#{$price.priceid} {$price.plan_name} / {$price.billing_cycle} {$price.amount}</option>
+                {/foreach}
+              </select>
             </div>
             <div class="subscriptionmanager-field">
               <label class="form-label">{form_description field="quantity"}</label>

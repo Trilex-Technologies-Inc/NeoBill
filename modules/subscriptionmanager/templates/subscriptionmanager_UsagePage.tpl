@@ -25,7 +25,12 @@
           <div class="subscriptionmanager-form-grid">
             <div class="subscriptionmanager-field">
               <label class="form-label">{form_description field="subscriptionid"}</label>
-              {form_element field="subscriptionid" size="8"}
+              <select name="subscriptionid">
+                <option value="">Select subscription</option>
+                {foreach from=$subscriptions item=subscription}
+                  <option value="{$subscription.id}">#{$subscription.id} {$subscription.planname} / #{$subscription.accountid} {$subscription.account_name}</option>
+                {/foreach}
+              </select>
             </div>
             <div class="subscriptionmanager-field">
               <label class="form-label">{form_description field="quantity"}</label>
@@ -49,7 +54,7 @@
           <span><i class="ti ti-repeat"></i></span>
           <div>
             <h3>{echo phrase="SUBSCRIPTION_MANAGER_ACTIVE_SUBSCRIPTIONS"}</h3>
-            <p>Use the subscription ID when recording usage.</p>
+            <p>Choose the subscription in the usage form.</p>
           </div>
         </div>
         <div class="subscriptionmanager-table-wrap">
@@ -57,7 +62,7 @@
             <thead><tr><th>ID</th><th>Account</th><th>Plan</th></tr></thead>
             <tbody>
               {foreach from=$subscriptions item=subscription}
-                <tr><td>{$subscription.id}</td><td>{$subscription.accountid}</td><td><strong>{$subscription.planname}</strong></td></tr>
+                <tr><td>{$subscription.id}</td><td>#{$subscription.accountid} {$subscription.account_name}</td><td><strong>{$subscription.planname}</strong></td></tr>
               {/foreach}
             </tbody>
           </table>
