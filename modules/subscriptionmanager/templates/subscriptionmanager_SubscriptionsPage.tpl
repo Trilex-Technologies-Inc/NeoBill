@@ -83,8 +83,8 @@
                 <span>{$plan.billing_cycle}</span>
               </div>
               <div class="subscriptionmanager-available-plan-meta">
-                <span>Plan ID <strong>{$plan.id}</strong></span>
-                <span>Price ID <strong>{$plan.priceid}</strong></span>
+                <span>Plan <strong>{$plan.name}</strong></span>
+                <span>Price <strong>{$plan.billing_cycle}</strong></span>
                 <span>Amount <strong>{$plan.amount}</strong></span>
               </div>
             </div>
