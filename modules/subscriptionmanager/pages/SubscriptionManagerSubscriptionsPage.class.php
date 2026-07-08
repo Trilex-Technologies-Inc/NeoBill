@@ -115,19 +115,23 @@ class SubscriptionManagerSubscriptionsPage extends SubscriptionManagerAdminPage 
 		$nextBillingDate = $trialEnd ? $trialEnd : $start;
 		$now = DBConnection::format_datetime( time() );
 
-		$sql = $DB->build_insert_sql( "subscriptionmanager_subscription",
-				array( "accountid" => intval( $this->post['accountid'] ),
+		$subscription = array( "accountid" => intval( $this->post['accountid'] ),
 				"planid" => intval( $this->post['planid'] ),
 				"priceid" => intval( $this->post['priceid'] ),
 				"status" => $trialEnd ? "trialing" : $this->post['status'],
 				"quantity" => intval( $this->post['quantity'] ),
 				"current_period_start" => $this->datetimeValue( $start ),
 				"current_period_end" => $this->datetimeValue( $periodEnd ),
-				"trial_end" => $trialEnd ? $this->datetimeValue( $trialEnd ) : null,
 				"intro_cycles_remaining" => intval( $price['intro_cycles'] ),
 				"nextbillingdate" => $this->dateValue( $nextBillingDate ),
 				"created" => $now,
-				"updated" => $now ) );
+				"updated" => $now );
+
+		if ( $trialEnd ) {
+			$subscription['trial_end'] = $this->datetimeValue( $trialEnd );
+		}
+
+		$sql = $DB->build_insert_sql( "subscriptionmanager_subscription", $subscription );
 		$this->execute( $sql );
 
 		$this->setMessage( array( "type" => "[SUBSCRIPTION_MANAGER_SUBSCRIPTION_CREATED]" ) );
