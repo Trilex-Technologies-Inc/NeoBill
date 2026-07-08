@@ -324,7 +324,8 @@ create table `modulesetting` (
   `name` varchar(255) not null default '',
   `value` mediumtext,
   `modulename` varchar(255) not null default '',
-  primary key  (`id`)
+  primary key  (`id`),
+  unique key `modulesetting_modulename_name` (`modulename`,`name`)
 ) default charset=utf8 auto_increment=1 ;
 
 -- --------------------------------------------------------

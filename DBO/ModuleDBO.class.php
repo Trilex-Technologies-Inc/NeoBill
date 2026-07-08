@@ -196,17 +196,36 @@ class ModuleDBO extends DBO {
     function loadSetting( $name ) {
         $DB = DBConnection::getDBConnection();
 
-        $sql = $DB->build_select_sql( "modulesetting",
-                "*",
-                sprintf( "name=%s AND modulename=%s",
+        $sql = sprintf(
+                "SELECT * FROM `modulesetting` WHERE name=%s AND modulename=%s " .
+                "ORDER BY (value IS NULL), (value = ''), id DESC LIMIT 1",
                 $DB->quote_smart( $name ),
-                $DB->quote_smart( $this->getName() ) ) );
+                $DB->quote_smart( $this->getName() ) );
         if( !( $result = @mysql_query( $sql, $DB->handle() ) ) ) {
             throw new DBException( "Could not load module setting: " . mysql_error() );
         }
 
         $data = mysql_fetch_array( $result );
         return $data ? $data['value'] : null;
+    }
+
+    /**
+     * Check if a Module Setting row exists.
+     *
+     * @param string $name Setting name
+     * @return boolean True when at least one row exists
+     */
+    function settingExists( $name ) {
+        $DB = DBConnection::getDBConnection();
+
+        $sql = sprintf( "SELECT id FROM `modulesetting` WHERE name=%s AND modulename=%s LIMIT 1",
+                $DB->quote_smart( $name ),
+                $DB->quote_smart( $this->getName() ) );
+        if( !( $result = @mysql_query( $sql, $DB->handle() ) ) ) {
+            throw new DBException( "Could not load module setting: " . mysql_error() );
+        }
+
+        return mysql_fetch_array( $result ) ? true : false;
     }
 
     /**
@@ -219,7 +238,7 @@ class ModuleDBO extends DBO {
     function saveSetting( $name, $value ) {
         $DB = DBConnection::getDBConnection();
 
-        if( null == $this->loadSetting( $name ) ) {
+        if( !$this->settingExists( $name ) ) {
             // Initialize setting in DB
             $sql = $DB->build_insert_sql( "modulesetting",
                     array( "name" => $name,
