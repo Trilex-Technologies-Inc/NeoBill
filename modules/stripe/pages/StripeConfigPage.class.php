@@ -37,10 +37,17 @@ class StripeConfigPage extends SolidStateAdminPage {
 	function save() {
 		$this->stripeModule->setMode( $this->post['mode'] );
 		$this->stripeModule->setTestPublishableKey( $this->post['test_publishable_key'] );
-		$this->stripeModule->setTestSecretKey( $this->post['test_secret_key'] );
 		$this->stripeModule->setLivePublishableKey( $this->post['live_publishable_key'] );
-		$this->stripeModule->setLiveSecretKey( $this->post['live_secret_key'] );
 		$this->stripeModule->setCurrencyCode( $this->post['currency'] );
+
+		if ( trim( $this->post['test_secret_key'] ) != "" ) {
+			$this->stripeModule->setTestSecretKey( $this->post['test_secret_key'] );
+		}
+
+		if ( trim( $this->post['live_secret_key'] ) != "" ) {
+			$this->stripeModule->setLiveSecretKey( $this->post['live_secret_key'] );
+		}
+
 		$this->stripeModule->saveSettings();
 
 		$this->setMessage( array( "type" => "[STRIPE_CONFIGURATION_SAVED]" ) );
