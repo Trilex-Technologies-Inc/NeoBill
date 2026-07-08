@@ -138,6 +138,7 @@ class ConfigParser {
 				$template_file = $attrs['FILE'];
 				$this->conf['pages'][$this->page_class_name]['templates'][$template_name] =
 						$template_file;
+				break;
 
 			case "URLFIELDS":
 				$this->conf['pages'][$this->page_class_name]['fields'] = array();

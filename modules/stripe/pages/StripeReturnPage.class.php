@@ -13,13 +13,13 @@ class StripeReturnPage extends SolidStatePage {
 	function init() {
 		parent::init();
 
-		if ( !isset( $_GET['session_id'] ) ) {
+		if ( !isset( $this->get['session_id'] ) ) {
 			throw new SWUserException( "Missing Stripe checkout session." );
 		}
 
 		$registry = ModuleRegistry::getModuleRegistry();
 		$this->stripeModule = $registry->getModule( "stripe" );
-		$session = $this->stripeModule->retrieveCheckoutSession( $_GET['session_id'] );
+		$session = $this->stripeModule->retrieveCheckoutSession( $this->get['session_id'] );
 
 		if ( !isset( $session['payment_status'] ) || $session['payment_status'] != "paid" ) {
 			throw new SWUserException( "Stripe payment has not completed." );
