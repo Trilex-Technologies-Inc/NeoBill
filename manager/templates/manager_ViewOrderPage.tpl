@@ -1,257 +1,195 @@
 {form name="order"}
-
-  <!-- Actions Section -->
-  <div class="action mb-4">
-    <div class="card">
-      <div class="card-header bg-primary text-white">
-        <p class="header h6 mb-0">Actions</p>
-      </div>
-      <div class="card-body">
-        <div class="d-flex gap-2">
-          {form_element field="execute" class="btn btn-success"}
-          {form_element field="delete" class="btn btn-danger"}
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Order Details -->
-  <div class="card mb-4">
-    <div class="card-header bg-secondary text-white">
-      <h2 class="h5 mb-0">{echo phrase="ORDER"} #{dbo_echo dbo="orderdbo" field="id"}</h2>
-    </div>
-    <div class="card-body">
-      
-      <!-- Order ID -->
-      <div class="row mb-3">
-        <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="ORDER_ID"}:</div>
-        <div class="col-md-8 p-2">
-          <span class="fw-bold text-primary">#{dbo_echo dbo="orderdbo" field="id"}</span>
-        </div>
-      </div>
-      
-      <!-- Order Date -->
-      <div class="row mb-3">
-        <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="ORDER_DATE"}:</div>
-        <div class="col-md-8 p-2">
-          <span class="badge bg-info">{dbo_echo|datetime dbo="orderdbo" field="datecreated"}</span>
-        </div>
-      </div>
-      
-      <!-- Remote IP Address -->
-      <div class="row mb-3">
-        <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="REMOTE_IP_ADDRESS"}:</div>
-        <div class="col-md-8 p-2">
-          <code>{dbo_echo dbo="orderdbo" field="remoteipstring"}</code>
-        </div>
-      </div>
-      
-      <!-- Accepted TOS -->
-      <div class="row mb-3">
-        <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="ACCEPTED_TOS"}:</div>
-        <div class="col-md-8 p-2">
-          {assign var="accepted" value={dbo_echo dbo="orderdbo" field="acceptedtos"}}
-          {if $accepted == "Yes"}
-            <span class="badge bg-success">{$accepted}</span>
-          {else}
-            <span class="badge bg-danger">{$accepted}</span>
-          {/if}
-        </div>
-      </div>
-      
-      <!-- Sub Total -->
-      <div class="row mb-3">
-        <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="SUB_TOTAL"}:</div>
-        <div class="col-md-8 p-2">
-          <span class="badge bg-secondary">{dbo_echo|currency dbo="orderdbo" field="subtotal"}</span>
-        </div>
-      </div>
-      
-      <!-- Taxes -->
-      <div class="row mb-3">
-        <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="TAXES"}:</div>
-        <div class="col-md-8 p-2">
-          <span class="badge bg-warning text-dark">{dbo_echo|currency dbo="orderdbo" field="taxtotal"}</span>
-        </div>
-      </div>
-      
-      <!-- Total -->
-      <div class="row mb-3">
-        <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="TOTAL"}:</div>
-        <div class="col-md-8 p-2">
-          <span class="badge bg-success fs-6">{dbo_echo|currency dbo="orderdbo" field="total"}</span>
-        </div>
-      </div>
-      
-      <!-- Customer Note -->
-      <div class="row mb-3">
-        <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="CUSTOMER_NOTE"}:</div>
-        <div class="col-md-8 p-2">
-          <textarea class="form-control" rows="6" readonly="true">{dbo_echo dbo="orderdbo" field="note"}</textarea>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-
   {dbo_assign dbo="orderdbo" field="accounttype" var="accounttype"}
-  {if $accounttype == "New Account"}
+  {dbo_assign dbo="orderdbo" field="acceptedtos" var="accepted"}
 
-    <!-- Contact Information (New Account) -->
-    <div class="card mb-4">
-      <div class="card-header bg-info text-white">
-        <h3 class="h6 mb-0">{echo phrase="CONTACT_INFORMATION"}</h3>
+  <div class="manager_content view-account-page order-detail">
+    <div class="view-account-header">
+      <div class="view-account-title">
+        <span class="view-account-avatar"><i class="ti ti-shopping-cart"></i></span>
+        <div>
+          <span class="view-account-kicker">Order detail</span>
+          <h2>{echo phrase="ORDER"} #{dbo_echo dbo="orderdbo" field="id"}</h2>
+          <p>
+            <span>{dbo_echo|datetime dbo="orderdbo" field="datecreated"}</span>
+            <span><code>{dbo_echo dbo="orderdbo" field="remoteipstring"}</code></span>
+            <span class="account-badge account-badge-default">{$accounttype}</span>
+            {if $accepted == "Yes"}
+              <span class="account-status account-status-active"><i></i>{echo phrase="ACCEPTED_TOS"}</span>
+            {else}
+              <span class="account-status account-status-warning"><i></i>{echo phrase="ACCEPTED_TOS"}</span>
+            {/if}
+          </p>
+        </div>
       </div>
-      <div class="card-body">
-        
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{form_description field="businessname"}</div>
-          <div class="col-md-8 p-2">{form_element dbo="orderdbo" field="businessname" size="40" class="form-control"}</div>
-        </div>
-        
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{form_description field="contactname"}</div>
-          <div class="col-md-8 p-2">{form_element dbo="orderdbo" field="contactname" size="30" class="form-control"}</div>
-        </div>
-        
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{form_description field="contactemail"}</div>
-          <div class="col-md-8 p-2">{form_element dbo="orderdbo" field="contactemail" size="30" class="form-control"}</div>
-        </div>
-        
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{form_description field="address1"}</div>
-          <div class="col-md-8 p-2">{form_element dbo="orderdbo" field="address1" size="40" class="form-control"}</div>
-        </div>
-        
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{form_description field="address2"}</div>
-          <div class="col-md-8 p-2">{form_element dbo="orderdbo" field="address2" size="40" class="form-control"}</div>
-        </div>
-        
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{form_description field="city"}</div>
-          <div class="col-md-8 p-2">{form_element dbo="orderdbo" field="city" size="30" class="form-control"}</div>
-        </div>
-        
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{form_description field="state"}</div>
-          <div class="col-md-8 p-2">{form_element dbo="orderdbo" field="state" size="20" class="form-control"}</div>
-        </div>
-        
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{form_description field="postalcode"}</div>
-          <div class="col-md-8 p-2">{form_element dbo="orderdbo" field="postalcode" size="10" class="form-control"}</div>
-        </div>
-        
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{form_description field="country"}</div>
-          <div class="col-md-8 p-2">{form_element dbo="orderdbo" field="country" class="form-select"}</div>
-        </div>
-        
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{form_description field="phone"}</div>
-          <div class="col-md-8 p-2">{form_element dbo="orderdbo" field="phone" size="15" class="form-control"}</div>
-        </div>
-        
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{form_description field="mobilephone"}</div>
-          <div class="col-md-8 p-2">{form_element dbo="orderdbo" field="mobilephone" size="15" class="form-control"}</div>
-        </div>
-        
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{form_description field="fax"}</div>
-          <div class="col-md-8 p-2">{form_element dbo="orderdbo" field="fax" size="15" class="form-control"}</div>
-        </div>
-        
+
+      <div class="view-account-header-actions">
+        {form_element field="execute" class="btn btn-success"}
+        {form_element field="delete" class="btn btn-outline-danger"}
       </div>
     </div>
 
-    <!-- Account Information (New Account) -->
-    <div class="card mb-4">
-      <div class="card-header bg-warning text-dark">
-        <h3 class="h6 mb-0">{echo phrase="ACCOUNT_INFORMATION"}</h3>
+    <div class="view-account-summary">
+      <div class="view-account-stat">
+        <span>{echo phrase="SUB_TOTAL"}</span>
+        <strong>{dbo_echo|currency dbo="orderdbo" field="subtotal"}</strong>
       </div>
-      <div class="card-body">
-        
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{form_description field="username"}</div>
-          <div class="col-md-8 p-2">{form_element dbo="orderdbo" field="username" size="10" class="form-control"}</div>
-        </div>
-        
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{form_description field="password"}</div>
-          <div class="col-md-8 p-2">
-            {form_element field="password" size="10" class="form-control"}
-            <small class="form-text text-muted">{echo phrase="ONLY_SUPPLY_A_PASSWORD"}</small>
+      <div class="view-account-stat">
+        <span>{echo phrase="TAXES"}</span>
+        <strong>{dbo_echo|currency dbo="orderdbo" field="taxtotal"}</strong>
+      </div>
+      <div class="view-account-stat">
+        <span>{echo phrase="TOTAL"}</span>
+        <strong>{dbo_echo|currency dbo="orderdbo" field="total"}</strong>
+      </div>
+      <div class="view-account-stat">
+        <span>{echo phrase="ORDER_ID"}</span>
+        <strong>#{dbo_echo dbo="orderdbo" field="id"}</strong>
+      </div>
+    </div>
+
+    <div class="p-4">
+    <div class="row g-4">
+      <div class="col-xl-8">
+        <div class="card view-account-card h-100">
+          <div class="card-body">
+            <h3 class="view-account-section-title"><i class="ti ti-address-book"></i> {echo phrase="CONTACT_INFORMATION"}</h3>
+            {if $accounttype == "New Account"}
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">{form_description field="businessname"}</label>
+                  {form_element dbo="orderdbo" field="businessname" size="40" class="form-control"}
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">{form_description field="contactname"}</label>
+                  {form_element dbo="orderdbo" field="contactname" size="30" class="form-control"}
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">{form_description field="contactemail"}</label>
+                  {form_element dbo="orderdbo" field="contactemail" size="30" class="form-control"}
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">{form_description field="phone"}</label>
+                  {form_element dbo="orderdbo" field="phone" size="15" class="form-control"}
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">{form_description field="mobilephone"}</label>
+                  {form_element dbo="orderdbo" field="mobilephone" size="15" class="form-control"}
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">{form_description field="fax"}</label>
+                  {form_element dbo="orderdbo" field="fax" size="15" class="form-control"}
+                </div>
+                <div class="col-12">
+                  <label class="form-label">{form_description field="address1"}</label>
+                  {form_element dbo="orderdbo" field="address1" size="40" class="form-control"}
+                </div>
+                <div class="col-12">
+                  <label class="form-label">{form_description field="address2"}</label>
+                  {form_element dbo="orderdbo" field="address2" size="40" class="form-control"}
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">{form_description field="city"}</label>
+                  {form_element dbo="orderdbo" field="city" size="30" class="form-control"}
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">{form_description field="state"}</label>
+                  {form_element dbo="orderdbo" field="state" size="20" class="form-control"}
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">{form_description field="postalcode"}</label>
+                  {form_element dbo="orderdbo" field="postalcode" size="10" class="form-control"}
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">{form_description field="country"}</label>
+                  {form_element dbo="orderdbo" field="country" class="form-select"}
+                </div>
+              </div>
+            {else}
+              <div class="row g-3">
+                <div class="col-md-7">
+                  <div class="text-muted small mb-1">{echo phrase="ACCOUNT"}</div>
+                  <a href="manager_content.php?page=accounts_view_account&account={dbo_echo dbo="accountdbo" field="id"}" class="fs-5 fw-semibold text-decoration-none">
+                    {dbo_echo dbo="accountdbo" field="accountname"}
+                  </a>
+                </div>
+                <div class="col-md-5">
+                  <div class="text-muted small mb-1">{echo phrase="BALANCE"}</div>
+                  <div class="fs-5 fw-semibold text-danger">{dbo_echo|currency dbo="accountdbo" field="balance"}</div>
+                </div>
+              </div>
+            {/if}
           </div>
         </div>
-        
       </div>
-    </div>
 
-  {else}
+      <div class="col-xl-4">
+        <div class="card view-account-card h-100">
+          <div class="card-body">
+            <h3 class="view-account-section-title"><i class="ti ti-id-badge-2"></i> {echo phrase="ACCOUNT_INFORMATION"}</h3>
+            {if $accounttype == "New Account"}
+              <div class="mb-3">
+                <label class="form-label">{form_description field="username"}</label>
+                {form_element dbo="orderdbo" field="username" size="10" class="form-control"}
+              </div>
+              <div>
+                <label class="form-label">{form_description field="password"}</label>
+                {form_element field="password" size="10" class="form-control"}
+                <div class="form-text">{echo phrase="ONLY_SUPPLY_A_PASSWORD"}</div>
+              </div>
+            {else}
+              <div class="d-flex align-items-center gap-3">
+                <span class="account-avatar"><i class="ti ti-user"></i></span>
+                <div>
+                  <div class="text-muted small">{echo phrase="ACCOUNT"}</div>
+                  <a href="manager_content.php?page=accounts_view_account&account={dbo_echo dbo="accountdbo" field="id"}" class="fw-semibold text-decoration-none">
+                    {dbo_echo dbo="accountdbo" field="accountname"}
+                  </a>
+                </div>
+              </div>
+            {/if}
 
-    <!-- Account Information (Existing Account) -->
-    <div class="card mb-4">
-      <div class="card-header bg-success text-white">
-        <h3 class="h6 mb-0">{echo phrase="ACCOUNT_INFORMATION"}</h3>
-      </div>
-      <div class="card-body">
-        
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="ACCOUNT"}:</div>
-          <div class="col-md-8 p-2">
-            <a href="manager_content.php?page=accounts_view_account&account={dbo_echo dbo="accountdbo" field="id"}" class="fw-bold text-decoration-none">
-              {dbo_echo dbo="accountdbo" field="accountname"}
-            </a>
+            <hr/>
+            <label class="form-label">{echo phrase="CUSTOMER_NOTE"}</label>
+            <textarea class="form-control bg-light" rows="7" readonly="true">{dbo_echo dbo="orderdbo" field="note"}</textarea>
           </div>
         </div>
-        
-        <div class="row mb-3">
-          <div class="col-md-4 fw-bold bg-light p-2 rounded">{echo phrase="BALANCE"}:</div>
-          <div class="col-md-8 p-2">
-            <span class="badge bg-danger fs-6">{dbo_echo|currency dbo="accountdbo" field="balance"}</span>
-          </div>
-        </div>
-        
       </div>
     </div>
-
-  {/if}
-
-  <!-- Order Items Table -->
-  <div class="card mb-4">
-    <div class="card-header bg-dark text-white">
-      <h3 class="h6 mb-0">{echo phrase="ORDER_ITEMS"}</h3>
     </div>
-    <div class="card-body p-0">
-      <div class="table-responsive">
-        <table class="table table-hover table-striped align-middle mb-0">
-          <thead class="table-dark">
+
+    <div class="accounts-list">
+      <div class="accounts-list-header">
+        <div>
+          <h3><i class="ti ti-list-check"></i> {echo phrase="ORDER_ITEMS"}</h3>
+          <p>Products and services included in this order.</p>
+        </div>
+      </div>
+      <div class="table-responsive accounts-table-wrap orders-table-wrap">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
             <tr>
-              <th style="width: 50px; text-align: center">{echo phrase="ACCEPT"}</th>
+              <th class="text-center" style="width: 64px">{echo phrase="ACCEPT"}</th>
               <th>{echo phrase="ITEM"}</th>
               <th>{echo phrase="TERM"}</th>
-              <th>{echo phrase="SETUP_PRICE"}</th>
-              <th>{echo phrase="RECURRING_PRICE"}</th>
+              <th class="text-end">{echo phrase="SETUP_PRICE"}</th>
+              <th class="text-end">{echo phrase="RECURRING_PRICE"}</th>
             </tr>
           </thead>
           <tbody>
             {form_table field="items"}
               <tr>
                 <td class="text-center">{form_table_checkbox option=$items.orderitemid}</td>
-                <td>{$items.description}</td>
-                <td><span class="badge bg-secondary">{$items.term}</span></td>
-                <td>{$items.setupfee|currency}</td>
-                <td class="fw-bold text-primary">{$items.price|currency}</td>
+                <td class="fw-semibold">{$items.description}</td>
+                <td><span class="badge text-bg-light">{$items.term}</span></td>
+                <td class="text-end">{$items.setupfee|currency}</td>
+                <td class="text-end fw-semibold">{$items.price|currency}</td>
               </tr>
             {/form_table}
           </tbody>
           {form_table_footer}
             <tfoot>
-              <tr class="table-light">
-                <td colspan="5" class="p-3">
+              <tr>
+                <td colspan="5" class="bg-light p-3 text-end">
                   {form_element field="save" class="btn btn-primary"}
                 </td>
               </tr>
@@ -260,21 +198,21 @@
         </table>
       </div>
     </div>
-  </div>
 
-  <!-- Payments Table -->
-  <div class="card">
-    <div class="card-header bg-dark text-white">
-      <h3 class="h6 mb-0">{echo phrase="PAYMENTS"}</h3>
-    </div>
-    <div class="card-body p-0">
-      <div class="table-responsive">
-        <table class="table table-hover table-striped align-middle mb-0">
-          <thead class="table-dark">
+    <div class="accounts-list">
+      <div class="accounts-list-header">
+        <div>
+          <h3><i class="ti ti-credit-card"></i> {echo phrase="PAYMENTS"}</h3>
+          <p>Payment records attached to this order.</p>
+        </div>
+      </div>
+      <div class="table-responsive accounts-table-wrap orders-table-wrap">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
             <tr>
               <th>{echo phrase="ID"}</th>
               <th>{echo phrase="DATE_RECEIVED"}</th>
-              <th>{echo phrase="AMOUNT"}</th>
+              <th class="text-end">{echo phrase="AMOUNT"}</th>
               <th>{echo phrase="PAYMENT_TYPE"}</th>
               <th>{echo phrase="MODULE"}</th>
               <th>{echo phrase="PAYMENT_STATUS"}</th>
@@ -283,18 +221,18 @@
           <tbody>
             {form_table field="payments"}
               <tr>
-                <td><a href="manager_content.php?page=edit_payment&payment={$payments.id}" class="fw-bold text-decoration-none">{$payments.id}</a></td>
-                <td><span class="badge bg-info">{$payments.date|datetime:date}</span></td>
-                <td class="fw-bold text-success">{$payments.amount|currency}</td>
+                <td><a href="manager_content.php?page=edit_payment&payment={$payments.id}" class="fw-semibold text-decoration-none">#{$payments.id}</a></td>
+                <td>{$payments.date|datetime:date}</td>
+                <td class="text-end fw-semibold text-success">{$payments.amount|currency}</td>
                 <td>{$payments.type}</td>
                 <td>{$payments.module}</td>
                 <td>
                   {if $payments.status == "Completed"}
-                    <span class="badge bg-success">{$payments.status}</span>
+                    <span class="badge text-bg-success">{$payments.status}</span>
                   {elseif $payments.status == "Pending"}
-                    <span class="badge bg-warning text-dark">{$payments.status}</span>
+                    <span class="badge text-bg-warning">{$payments.status}</span>
                   {else}
-                    <span class="badge bg-secondary">{$payments.status}</span>
+                    <span class="badge text-bg-secondary">{$payments.status}</span>
                   {/if}
                 </td>
               </tr>
@@ -304,5 +242,4 @@
       </div>
     </div>
   </div>
-
 {/form}

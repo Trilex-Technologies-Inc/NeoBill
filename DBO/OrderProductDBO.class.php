@@ -87,7 +87,7 @@ class OrderProductDBO extends OrderItemDBO {
         $purchaseDBO->setAccountID( $accountDBO->getID() );
         $purchaseDBO->setProductID( $this->getProductID() );
         $purchaseDBO->setTerm(
-                $bridge && $bridge->hasSubscriptionMapping( $this->getProductID() ) ?
+                $this->hasSubscriptionMapping( $bridge ) ?
                 null :
                 $this->getTerm() );
         $purchaseDBO->setDate( DBConnection::format_datetime( time() ) );
@@ -98,13 +98,42 @@ class OrderProductDBO extends OrderItemDBO {
         }
         add_ProductPurchaseDBO( $purchaseDBO );
 
-        if ( $bridge ) {
+        if ( $bridge && method_exists( $bridge, "fulfillProductOrder" ) ) {
             $bridge->fulfillProductOrder( $this, $accountDBO, $purchaseDBO );
         }
 
         $this->setStatus( "Fulfilled" );
         update_OrderProductDBO( $this );
         return true;
+    }
+
+    /**
+     * Determine if this product is mapped to a subscription.
+     *
+     * @param ProductOrderBridge $bridge Optional product bridge
+     * @return boolean True when a subscription mapping exists
+     */
+    function hasSubscriptionMapping( $bridge ) {
+        if ( $bridge && method_exists( $bridge, "hasSubscriptionMapping" ) ) {
+            return $bridge->hasSubscriptionMapping( $this->getProductID() );
+        }
+
+        $DB = DBConnection::getDBConnection();
+        $tableSql = "show tables like " . $DB->quote_smart( "subscriptionmanager_product_map" );
+        if ( !( $tableResult = mysql_query( $tableSql, $DB->handle() ) ) ) {
+            throw new DBException( mysql_error( $DB->handle() ) );
+        }
+        if ( mysql_num_rows( $tableResult ) == 0 ) {
+            return false;
+        }
+
+        $sql = "select id from subscriptionmanager_product_map where productid = " .
+                intval( $this->getProductID() ) . " limit 1";
+        if ( !( $result = mysql_query( $sql, $DB->handle() ) ) ) {
+            throw new DBException( mysql_error( $DB->handle() ) );
+        }
+
+        return mysql_fetch_array( $result ) ? true : false;
     }
 
     /**

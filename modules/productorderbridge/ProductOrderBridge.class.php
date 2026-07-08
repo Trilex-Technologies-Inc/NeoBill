@@ -99,20 +99,24 @@ class ProductOrderBridge {
 		$nextBillingDate = $trialEnd ? $trialEnd : $start;
 		$now = DBConnection::format_datetime( time() );
 
-		$sql = $this->db()->build_insert_sql( "subscriptionmanager_subscription",
-				array( "accountid" => intval( $accountDBO->getID() ),
+		$subscription = array( "accountid" => intval( $accountDBO->getID() ),
 				"planid" => intval( $map['planid'] ),
 				"priceid" => intval( $map['priceid'] ),
 				"status" => $trialEnd ? "trialing" : "active",
 				"quantity" => intval( $map['quantity'] ),
 				"current_period_start" => DBConnection::format_datetime( strtotime( $start ) ),
 				"current_period_end" => DBConnection::format_datetime( strtotime( $periodEnd ) ),
-				"trial_end" => $trialEnd ? DBConnection::format_datetime( strtotime( $trialEnd ) ) : null,
 				"intro_cycles_remaining" => intval( $price['intro_cycles'] ),
 				"nextbillingdate" => $nextBillingDate,
 				"previnvoiceid" => $purchaseDBO->getPrevInvoiceID(),
 				"created" => $now,
-				"updated" => $now ) );
+				"updated" => $now );
+
+		if ( $trialEnd ) {
+			$subscription['trial_end'] = DBConnection::format_datetime( strtotime( $trialEnd ) );
+		}
+
+		$sql = $this->db()->build_insert_sql( "subscriptionmanager_subscription", $subscription );
 		$this->query( $sql );
 	}
 
