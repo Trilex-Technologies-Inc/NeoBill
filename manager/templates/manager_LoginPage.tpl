@@ -90,6 +90,7 @@
           </div>
         </div>
 
+        <!-- Cloudflare Turnstile enabled: {if $turnstile_enabled}yes{else}no{/if} -->
         {if $turnstile_enabled}
           <div class="manager-login-field">{$turnstile_widget}</div>
         {/if}

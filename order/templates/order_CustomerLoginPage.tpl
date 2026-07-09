@@ -13,6 +13,7 @@
         <div class="col-sm-4">{form_description field="password"}</div>
         <div class="col-sm-8">{form_element field="password"}</div>
       </div>
+      <!-- Cloudflare Turnstile enabled: {if $turnstile_enabled}yes{else}no{/if} -->
       {if $turnstile_enabled}
         <div class="row mb-3">
           <div class="col-sm-4"></div>

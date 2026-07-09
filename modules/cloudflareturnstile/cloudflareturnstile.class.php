@@ -128,12 +128,24 @@ class cloudflareturnstile extends SolidStateModule {
 	}
 
 	static function getModule() {
-		if ( !class_exists( "ModuleRegistry", false ) ) {
-			return null;
+		if ( class_exists( "ModuleRegistry", false ) ) {
+			try {
+				return ModuleRegistry::getModuleRegistry()->getModule( "cloudflareturnstile" );
+			}
+			catch ( Exception $e ) {
+			}
 		}
 
+		return cloudflareturnstile::loadFromDatabase();
+	}
+
+	static function loadFromDatabase() {
 		try {
-			return ModuleRegistry::getModuleRegistry()->getModule( "cloudflareturnstile" );
+			$module = new cloudflareturnstile();
+			$module->moduleDBO = load_ModuleDBO( "cloudflareturnstile" );
+			$module->setSiteKey( $module->moduleDBO->loadSetting( "site_key" ) );
+			$module->setSecretKey( $module->moduleDBO->loadSetting( "secret_key" ) );
+			return $module;
 		}
 		catch ( Exception $e ) {
 			return null;
