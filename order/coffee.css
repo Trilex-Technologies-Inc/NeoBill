@@ -432,6 +432,46 @@ body.bg-light > .container {
 	padding: 1.5rem;
 }
 
+.order-my-products-page h2 {
+	color: var(--order-text);
+	font-size: 1.45rem;
+	font-weight: 800;
+	padding-top: 0;
+}
+
+.order-products-table td:first-child strong {
+	display: block;
+	color: var(--order-text);
+}
+
+.order-products-table td:first-child span {
+	display: block;
+	margin-top: 0.2rem;
+	color: #64748b;
+	font-size: 0.88rem;
+}
+
+.order-empty-state {
+	padding: 2rem;
+	text-align: center;
+	border: 1px dashed var(--order-border);
+	border-radius: 8px;
+	background: #f8fafc;
+}
+
+.order-empty-state h3 {
+	margin-bottom: 0.35rem;
+	color: var(--order-text);
+	font-size: 1.1rem;
+	font-weight: 800;
+}
+
+.order-empty-state p {
+	margin-bottom: 1rem;
+	color: #64748b;
+	font-size: 0.95rem;
+}
+
 .order-credit {
 	color: #64748b !important;
 }
@@ -1002,6 +1042,11 @@ footer.text-center {
 	.order-user-pill {
 		justify-content: center;
 		width: 100%;
+	}
+
+	.order-user-pill {
+		flex-wrap: wrap;
+		border-radius: 8px;
 	}
 
 	.order-session-actions {

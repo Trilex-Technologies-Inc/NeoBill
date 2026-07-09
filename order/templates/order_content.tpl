@@ -38,6 +38,7 @@
                     <li class="nav-item"><a class="nav-link" href="index.php?page=cart">Cart</a></li>
                  
                     {if isset($username) && $username != null && $username != " "}
+                    <li class="nav-item"><a class="nav-link" href="index.php?page=myproducts">My Products</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.php?page=review">Review</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.php?page=customerlogin&op=logout">Logout</a></li>
                     {/if}
@@ -77,6 +78,7 @@
                     <span>
                         {echo phrase="WELCOME_BACK"}, {$username}!
                     </span>
+                    <a href="index.php?page=myproducts">My Products</a>
                     <a href="index.php?page=customerlogin&op=logout">Logout</a>
                 </div>
             {/if}
