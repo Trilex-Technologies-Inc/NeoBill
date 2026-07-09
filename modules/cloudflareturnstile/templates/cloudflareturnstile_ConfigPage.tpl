@@ -9,6 +9,13 @@
       <div class="card-body">
         <div class="row g-3">
           <div class="col-12">
+            <label class="form-check">
+              {form_element field="enabled" option="true" value=$module_enabled class="form-check-input"}
+              <span class="form-check-label">{form_description field="enabled" colon="false"}</span>
+            </label>
+          </div>
+
+          <div class="col-12">
             <label class="form-label">{form_description field="site_key"}</label>
             {form_element field="site_key" value=$site_key size="70" class="form-control"}
           </div>
@@ -24,8 +31,12 @@
           </div>
 
           <div class="col-12">
-            <div class="alert alert-info mb-0">
-              Enable or disable this module from the Modules page. Login protection becomes active when the module is enabled and both keys are configured.
+            <div class="alert {if $turnstile_active}alert-success{else}alert-warning{/if} mb-0">
+              {if $turnstile_active}
+                Turnstile is active on manager login and order login.
+              {else}
+                Turnstile is not active. Enable the module and save both keys.
+              {/if}
             </div>
           </div>
         </div>

@@ -26,10 +26,18 @@ class CloudflareTurnstileConfigPage extends SolidStateAdminPage {
 		$this->turnstileModule = ModuleRegistry::getModuleRegistry()->getModule( "cloudflareturnstile" );
 		$this->smarty->assign( "site_key", $this->turnstileModule->getSiteKey() );
 		$this->smarty->assign( "secret_configured", $this->turnstileModule->getSecretKey() != "" );
-		$this->smarty->assign( "module_enabled", $this->turnstileModule->isEnabled() );
+		$this->smarty->assign( "module_enabled", $this->turnstileModule->isEnabled() ? "true" : "" );
+		$this->smarty->assign( "turnstile_active", $this->turnstileModule->isConfigured() );
 	}
 
 	function save() {
+		if ( isset( $this->post['enabled'] ) && $this->post['enabled'] == "true" ) {
+			$this->turnstileModule->enable();
+		}
+		else {
+			$this->turnstileModule->disable();
+		}
+
 		$this->turnstileModule->setSiteKey( $this->post['site_key'] );
 
 		if ( trim( $this->post['secret_key'] ) != "" ) {

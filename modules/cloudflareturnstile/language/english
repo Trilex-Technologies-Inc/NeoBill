@@ -1,5 +1,6 @@
 <translation language="english">
     <phrase id="CLOUDFLARE_TURNSTILE_MODULE">Cloudflare Turnstile</phrase>
+    <phrase id="CLOUDFLARE_TURNSTILE_ENABLE">Enable Cloudflare Turnstile on login pages</phrase>
     <phrase id="CLOUDFLARE_TURNSTILE_SITE_KEY">Site Key</phrase>
     <phrase id="CLOUDFLARE_TURNSTILE_SECRET_KEY">Secret Key</phrase>
     <phrase id="CLOUDFLARE_TURNSTILE_CONFIGURATION_SAVED">Cloudflare Turnstile Configuration Saved</phrase>
