@@ -24,6 +24,8 @@ class MyProductsPage extends SolidStatePage {
         $userDBO = $_SESSION['client']['userdbo'];
         $accountDBO = load_AccountDBO_username( $userDBO->getUsername() );
         $products = array();
+        $recurringProducts = 0;
+        $oneTimeProducts = 0;
 
         foreach ( $accountDBO->getProducts() as $purchaseDBO ) {
             $productDBO = $purchaseDBO->getPurchasable();
@@ -36,10 +38,19 @@ class MyProductsPage extends SolidStatePage {
                         "taxable" => $priceDBO->getTaxable() );
             }
 
+            $isRecurring = $purchaseDBO->getTerm() != null &&
+                    $purchaseDBO->getTerm() != 0;
             $onetimePrice = $purchaseDBO->getOnetimePrice();
-            $recurringPrice = $purchaseDBO->getTerm() == null ?
-                    null :
-                    $purchaseDBO->getRecurringPrice();
+            $recurringPrice = $isRecurring ?
+                    $purchaseDBO->getRecurringPrice() :
+                    null;
+
+            if ( $isRecurring ) {
+                $recurringProducts++;
+            }
+            else {
+                $oneTimeProducts++;
+            }
 
             $products[] = array(
                     "id" => $purchaseDBO->getID(),
@@ -48,6 +59,7 @@ class MyProductsPage extends SolidStatePage {
                     "description" => $productDBO->getDescription(),
                     "public" => $productDBO->getPublic(),
                     "term" => $purchaseDBO->getTerm(),
+                    "isrecurring" => $isRecurring,
                     "onetimeprice" => $onetimePrice,
                     "hasonetimeprice" => $onetimePrice !== null,
                     "recurringprice" => $recurringPrice,
@@ -61,6 +73,8 @@ class MyProductsPage extends SolidStatePage {
 
         $this->smarty->assign( "myProducts", $products );
         $this->smarty->assign( "myProductsCount", count( $products ) );
+        $this->smarty->assign( "myRecurringProductsCount", $recurringProducts );
+        $this->smarty->assign( "myOneTimeProductsCount", $oneTimeProducts );
     }
 }
 ?>

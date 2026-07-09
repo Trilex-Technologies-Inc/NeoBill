@@ -1,29 +1,47 @@
 <div class="order-my-products-page">
-  <div class="d-flex justify-content-between align-items-start gap-3 mb-4">
-    <div>
-      <span class="order-kicker">Account</span>
+  <div class="order-my-products-hero">
+    <div class="order-my-products-title">
+      <span class="order-kicker">Account Library</span>
       <h2 class="mb-1">My Products</h2>
-      <p class="text-muted mb-0">{$myProductsCount} product purchase(s) attached to your account.</p>
+      <p>Review every purchased product, billing term, invoice reference, and configured price from one clean view.</p>
     </div>
     <a href="index.php?page=purchaseproduct" class="btn btn-outline-primary order-register-button">Register Product</a>
   </div>
 
   {if $myProductsCount > 0}
+    <div class="order-product-summary-grid">
+      <div class="order-product-summary-card">
+        <span>Total Products</span>
+        <strong>{$myProductsCount}</strong>
+      </div>
+      <div class="order-product-summary-card">
+        <span>Recurring</span>
+        <strong>{$myRecurringProductsCount}</strong>
+      </div>
+      <div class="order-product-summary-card">
+        <span>One-time</span>
+        <strong>{$myOneTimeProductsCount}</strong>
+      </div>
+    </div>
+
     <div class="order-product-detail-list">
       {foreach from=$myProducts item=product}
         <article class="order-product-detail-card">
           <div class="order-product-detail-header">
-            <div>
-              <span class="order-kicker">Product #{$product.productid} · Purchase #{$product.id}</span>
-              <h3>{$product.name}</h3>
-              {if $product.description != ""}
-                <p>{$product.description}</p>
-              {else}
-                <p>No product description has been added yet.</p>
-              {/if}
+            <div class="order-product-title-row">
+              <span class="order-product-avatar">P</span>
+              <div>
+                <span class="order-kicker">Product #{$product.productid} · Purchase #{$product.id}</span>
+                <h3>{$product.name}</h3>
+                {if $product.description != ""}
+                  <p>{$product.description}</p>
+                {else}
+                  <p>No product description has been added yet.</p>
+                {/if}
+              </div>
             </div>
-            <span class="order-product-status">
-              {if $product.term != 0 && $product.term != ""}
+            <span class="order-product-status {if $product.isrecurring}order-product-status-recurring{else}order-product-status-onetime{/if}">
+              {if $product.isrecurring}
                 Recurring
               {else}
                 One-time
@@ -39,7 +57,7 @@
             <div class="order-product-detail-item">
               <span>Billing Term</span>
               <strong>
-                {if $product.term != 0 && $product.term != ""}
+                {if $product.isrecurring}
                   {$product.term} months
                 {else}
                   N/A
