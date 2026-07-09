@@ -132,6 +132,45 @@ body.sb-nav-fixed .form-select:focus {
 	letter-spacing: 0;
 }
 
+.manager-notification-bell {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.25rem;
+	height: 2.25rem;
+	color: rgba(255, 255, 255, 0.75);
+	border-radius: 4px;
+	text-decoration: none;
+}
+
+.manager-notification-bell:hover,
+.manager-notification-bell:focus {
+	color: #fff;
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.manager-notification-bell .ti {
+	font-size: 1.25rem;
+	line-height: 1;
+}
+
+.manager-notification-badge {
+	position: absolute;
+	top: 0.2rem;
+	right: 0.15rem;
+	min-width: 1rem;
+	height: 1rem;
+	padding: 0 0.25rem;
+	border-radius: 999px;
+	background: #dc3545;
+	color: #fff;
+	font-size: 0.65rem;
+	font-weight: 700;
+	line-height: 1rem;
+	text-align: center;
+}
+
 /* Sidenav + content layout */
 #layoutSidenav {
 	display: flex;

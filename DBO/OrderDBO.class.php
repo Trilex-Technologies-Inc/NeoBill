@@ -1399,6 +1399,9 @@ function count_all_OrderDBO( $filter = null ) {
 
     // Build query
     $sql = "SELECT COUNT(*) FROM `order`";
+    if( $filter != null ) {
+        $sql .= " WHERE " . $filter;
+    }
 
     // Run query
     if( !( $result = @mysql_query( $sql, $DB->handle() ) ) ) {

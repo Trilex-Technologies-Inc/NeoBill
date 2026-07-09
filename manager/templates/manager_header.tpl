@@ -5,7 +5,15 @@
       <i class="ti ti-menu-2"></i>
     </button>
 
-    <span class="d-none d-sm-inline ms-auto me-3 text-white-50 small">{$username}</span>
+    <div class="ms-auto d-flex align-items-center gap-2">
+      <a class="nav-link manager-notification-bell" href="manager_content.php?page=pending_orders" aria-label="Pending orders">
+        <i class="ti ti-bell"></i>
+        {if isset($pending_orders_count) && $pending_orders_count > 0}
+          <span class="manager-notification-badge">{$pending_orders_count}</span>
+        {/if}
+      </a>
+      <span class="d-none d-sm-inline text-white-50 small">{$username}</span>
+    </div>
     <ul class="navbar-nav me-3">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -41,7 +49,12 @@
                 <a class="nav-link" href="manager_content.php?page=accounts_browse">Active Accounts</a>
                 <a class="nav-link" href="manager_content.php?page=accounts_browse_pending">Pending Accounts</a>
                 <a class="nav-link" href="manager_content.php?page=accounts_browse_inactive">Inactive Accounts</a>
-                <a class="nav-link" href="manager_content.php?page=pending_orders">Pending Orders</a>
+                <a class="nav-link d-flex justify-content-between align-items-center gap-2" href="manager_content.php?page=pending_orders">
+                  <span>Pending Orders</span>
+                  {if isset($pending_orders_count) && $pending_orders_count > 0}
+                    <span class="badge text-bg-warning rounded-pill">{$pending_orders_count}</span>
+                  {/if}
+                </a>
                 <a class="nav-link" href="manager_content.php?page=fulfilled_orders">Fulfilled Orders</a>
               </nav>
             </div>

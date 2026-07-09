@@ -155,6 +155,11 @@ class SolidStatePage extends Page {
         $this->smarty->assign( "header_template",
                 $this->selectTemplateFile( "manager_header.tpl" ) );
 
+        if ( isset( $_SESSION['client']['userdbo'] ) ) {
+            $this->smarty->assign( "pending_orders_count",
+                    count_all_OrderDBO( "status='Pending'" ) );
+        }
+
         if( isset( $this->get['sstab'] ) ) {
             $this->smarty->assign( "tab", $this->get['sstab'] );
         }
