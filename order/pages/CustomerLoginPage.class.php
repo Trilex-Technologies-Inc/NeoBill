@@ -12,6 +12,7 @@
 
 require_once BASE_PATH . "include/SolidStatePage.class.php";
 require_once BASE_PATH . "DBO/UserDBO.class.php";
+require_once BASE_PATH . "modules/cloudflareturnstile/cloudflareturnstile.class.php";
 
 /**
  * CustomerLoginPage
@@ -57,6 +58,9 @@ class CustomerLoginPage extends SolidStatePage {
 	function init() {
 		// Suppress the login link
 		$this->smarty->assign( "username", " " );
+		$this->smarty->assign( "turnstile_enabled", cloudflareturnstile::loginProtectionEnabled() );
+		$this->smarty->assign( "turnstile_script", cloudflareturnstile::loginScript() );
+		$this->smarty->assign( "turnstile_widget", cloudflareturnstile::loginWidget() );
 		
 		if ( isset( $_GET["op"] ) && $_GET["op"] == 'logout' ) {
 			if ( $_SESSION['client']['userdbo'] ) {
@@ -70,6 +74,12 @@ class CustomerLoginPage extends SolidStatePage {
 	 * Login Customer
 	 */
 	function login() {
+		if ( !cloudflareturnstile::verifyLoginToken( $this->post['cf-turnstile-response'] ) ) {
+			log_security( "CustomerLoginPage::login()", "Cloudflare Turnstile verification failed." );
+			$this->setError( array( "type" => "Cloudflare Turnstile verification failed." ) );
+			return;
+		}
+
 		if ( $this->post['user']->getPassword() == $this->post['password'] ) {
 		
 			// Only customers are allowed to login to the order form

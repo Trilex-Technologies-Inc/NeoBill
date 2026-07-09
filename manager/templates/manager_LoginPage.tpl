@@ -24,7 +24,8 @@
 
     <script src="./js/jquery.ui.menuitem.js"></script>
 
-	<link rel="stylesheet" href="./css/jquery.ui.all.css" /> 
+    <link rel="stylesheet" href="./css/jquery.ui.all.css" />
+    {if $turnstile_enabled}{$turnstile_script}{/if}
 
   </head>
 
@@ -88,6 +89,10 @@
             {form_element field="theme" class="form-select"}
           </div>
         </div>
+
+        {if $turnstile_enabled}
+          <div class="manager-login-field">{$turnstile_widget}</div>
+        {/if}
 
         <div class="manager-login-actions">{form_element field="continue" class="btn btn-primary"}</div>
 

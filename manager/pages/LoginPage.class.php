@@ -11,6 +11,7 @@
  */
 
 require_once BASE_PATH . "include/SolidStatePage.class.php";
+require_once BASE_PATH . "modules/cloudflareturnstile/cloudflareturnstile.class.php";
 
 /**
  * LoginPage
@@ -51,6 +52,10 @@ class LoginPage extends SolidStatePage {
 		$tField = $this->forms['login']->getField( "theme" );
 		$tField->getWidget()->setType( "manager" );
 		$tField->getValidator()->setType( "manager" );
+
+		$this->smarty->assign( "turnstile_enabled", cloudflareturnstile::loginProtectionEnabled() );
+		$this->smarty->assign( "turnstile_script", cloudflareturnstile::loginScript() );
+		$this->smarty->assign( "turnstile_widget", cloudflareturnstile::loginWidget() );
 	}
 
 	/**
@@ -60,6 +65,11 @@ class LoginPage extends SolidStatePage {
 	 * if the login failed.
 	 */
 	function login() {
+		if ( !cloudflareturnstile::verifyLoginToken( $this->post['cf-turnstile-response'] ) ) {
+			log_security( "Login", "Cloudflare Turnstile verification failed." );
+			throw new SWUserException( "Cloudflare Turnstile verification failed." );
+		}
+
 		try {
 			$user_dbo = load_UserDBO( $this->post['username'] );
 			if ( $user_dbo->getPassword() == $this->post['password'] &&
