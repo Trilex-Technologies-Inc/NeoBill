@@ -27,13 +27,36 @@ class MyProductsPage extends SolidStatePage {
 
         foreach ( $accountDBO->getProducts() as $purchaseDBO ) {
             $productDBO = $purchaseDBO->getPurchasable();
+            $pricing = array();
+            foreach ( $productDBO->getPricing() as $priceDBO ) {
+                $pricing[] = array(
+                        "type" => $priceDBO->getType(),
+                        "term" => $priceDBO->getTermLength(),
+                        "price" => $priceDBO->getPrice(),
+                        "taxable" => $priceDBO->getTaxable() );
+            }
+
+            $onetimePrice = $purchaseDBO->getOnetimePrice();
+            $recurringPrice = $purchaseDBO->getTerm() == null ?
+                    null :
+                    $purchaseDBO->getRecurringPrice();
+
             $products[] = array(
                     "id" => $purchaseDBO->getID(),
+                    "productid" => $productDBO->getID(),
                     "name" => $purchaseDBO->getProductName(),
                     "description" => $productDBO->getDescription(),
+                    "public" => $productDBO->getPublic(),
                     "term" => $purchaseDBO->getTerm(),
+                    "onetimeprice" => $onetimePrice,
+                    "hasonetimeprice" => $onetimePrice !== null,
+                    "recurringprice" => $recurringPrice,
+                    "hasrecurringprice" => $recurringPrice !== null,
+                    "pricing" => $pricing,
                     "date" => $purchaseDBO->getDate(),
-                    "nextbillingdate" => $purchaseDBO->getNextBillingDate() );
+                    "nextbillingdate" => $purchaseDBO->getNextBillingDate(),
+                    "note" => $purchaseDBO->getNote(),
+                    "previnvoiceid" => $purchaseDBO->getPrevInvoiceID() );
         }
 
         $this->smarty->assign( "myProducts", $products );
