@@ -1,5 +1,4 @@
 {form name="login"}
-  {if $turnstile_enabled}{$turnstile_script}{/if}
   <div class="card mb-4">
     <div class="card-header">
       <h5 class="mb-0"> {echo phrase="CUSTOMER_LOGIN"} </h5>

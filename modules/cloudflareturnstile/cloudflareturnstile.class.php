@@ -70,7 +70,9 @@ class cloudflareturnstile extends SolidStateModule {
 			return "";
 		}
 
-		return '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>';
+		return '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer ' .
+				'onload="document.documentElement.setAttribute(\'data-turnstile-cdn\', \'loaded\')" ' .
+				'onerror="document.documentElement.setAttribute(\'data-turnstile-cdn\', \'error\')"></script>';
 	}
 
 	function verify( $token, $remoteIP = null ) {
