@@ -10,14 +10,16 @@
         <div class="row g-3">
           <div class="col-12">
             <label class="form-label">{form_description field="site_key"}</label>
-            {form_element field="site_key" value="$site_key" size="70" class="form-control"}
+            {form_element field="site_key" value=$site_key size="70" class="form-control"}
           </div>
 
           <div class="col-12">
             <label class="form-label">{form_description field="secret_key"}</label>
-            {form_element field="secret_key" size="70" class="form-control"}
             {if $secret_configured}
+              {form_element field="secret_key" size="70" class="form-control" placeholder="Secret key is configured"}
               <div class="form-text">Secret key is configured. Enter a new value only to replace it.</div>
+            {else}
+              {form_element field="secret_key" size="70" class="form-control"}
             {/if}
           </div>
 

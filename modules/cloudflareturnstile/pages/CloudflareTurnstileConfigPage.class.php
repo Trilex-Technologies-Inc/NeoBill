@@ -38,6 +38,7 @@ class CloudflareTurnstileConfigPage extends SolidStateAdminPage {
 
 		$this->turnstileModule->saveSettings();
 		$this->setMessage( array( "type" => "[CLOUDFLARE_TURNSTILE_CONFIGURATION_SAVED]" ) );
+		$this->reload();
 	}
 }
 ?>
