@@ -139,18 +139,22 @@ body.sb-nav-fixed .form-select:focus {
 	justify-content: center;
 	width: 2.25rem;
 	height: 2.25rem;
-	color: rgba(255, 255, 255, 0.75);
+	color: #ffffff !important;
+	border: 1px solid rgba(255, 255, 255, 0.16);
 	border-radius: 4px;
+	background: rgba(255, 255, 255, 0.12);
 	text-decoration: none;
 }
 
 .manager-notification-bell:hover,
 .manager-notification-bell:focus {
-	color: #fff;
-	background: rgba(255, 255, 255, 0.08);
+	color: #fff !important;
+	border-color: rgba(255, 255, 255, 0.3);
+	background: rgba(255, 255, 255, 0.2);
 }
 
 .manager-notification-bell .ti {
+	color: inherit;
 	font-size: 1.25rem;
 	line-height: 1;
 }
