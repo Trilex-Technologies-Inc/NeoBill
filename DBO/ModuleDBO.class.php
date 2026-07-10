@@ -238,7 +238,17 @@ class ModuleDBO extends DBO {
     function saveSetting( $name, $value ) {
         $DB = DBConnection::getDBConnection();
 
-        if( !$this->settingExists( $name ) ) {
+        $lookupSQL = sprintf(
+                "SELECT id FROM `modulesetting` WHERE name=%s AND modulename=%s " .
+                "ORDER BY id DESC LIMIT 1",
+                $DB->quote_smart( $name ),
+                $DB->quote_smart( $this->getName() ) );
+        if( !( $result = @mysql_query( $lookupSQL, $DB->handle() ) ) ) {
+            throw new DBException( "Could not load module setting: " . mysql_error() );
+        }
+
+        $setting = mysql_fetch_array( $result );
+        if( !$setting ) {
             // Initialize setting in DB
             $sql = $DB->build_insert_sql( "modulesetting",
                     array( "name" => $name,
@@ -246,18 +256,29 @@ class ModuleDBO extends DBO {
                     "modulename" => $this->getName() ) );
         }
         else {
-            // Update setting in DB
+            // Update only the canonical (newest) row.
             $sql = $DB->build_update_sql( "modulesetting",
-                    sprintf( "name=%s AND modulename=%s",
-                    $DB->quote_smart( $name ),
-                    $DB->quote_smart( $this->getName() ) ),
+                    sprintf( "id=%d", $setting['id'] ),
                     array( "value" => $value ) );
         }
 
         if( !mysql_query( $sql, $DB->handle() ) ) {
             throw new DBException( "Could not insert/update module setting  " . $name . ": " . mysql_error() );
         }
-        
+
+        // Older versions inserted a new row on every save. Keep only the
+        // newest row so future loads cannot select a stale or empty value.
+        if( $setting ) {
+            $cleanupSQL = sprintf(
+                    "DELETE FROM `modulesetting` WHERE name=%s AND modulename=%s AND id<>%d",
+                    $DB->quote_smart( $name ),
+                    $DB->quote_smart( $this->getName() ),
+                    $setting['id'] );
+            if( !mysql_query( $cleanupSQL, $DB->handle() ) ) {
+                throw new DBException( "Could not remove duplicate module settings: " . mysql_error() );
+            }
+        }
+
         return true;
     }
 }
