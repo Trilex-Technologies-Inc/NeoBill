@@ -7,6 +7,7 @@
 
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>NeoBill Manager - {$location|capitalize}</title>
     <link rel="stylesheet" type="text/css" href="./style.css" /> 
     <link rel="shortcut icon" type="image/png" href="./vendor/flexy/assets/images/logos/favicon.png" />
@@ -92,7 +93,13 @@
 
         <!-- Cloudflare Turnstile enabled: {if $turnstile_enabled}yes{else}no{/if} -->
         {if $turnstile_enabled}
-          <div class="manager-login-field">{$turnstile_widget}</div>
+          <div class="manager-login-field manager-login-turnstile">
+            <div class="manager-login-security-label">
+              <i class="ti ti-shield-check"></i>
+              <span>Security verification</span>
+            </div>
+            {$turnstile_widget}
+          </div>
         {/if}
 
         <div class="manager-login-actions">{form_element field="continue" class="btn btn-primary"}</div>

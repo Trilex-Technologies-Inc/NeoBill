@@ -8597,7 +8597,8 @@ body.login {
 .manager-login-page {
 	min-height: 100vh;
 	background:
-		linear-gradient(135deg, rgba(17, 24, 39, 0.95), rgba(31, 41, 55, 0.9)),
+		radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.24), transparent 32%),
+		linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.94)),
 		#111827;
 	color: #111827;
 }
@@ -8640,9 +8641,9 @@ body.login {
 	grid-template-columns: minmax(0, 1fr) minmax(360px, 430px);
 	overflow: hidden;
 	border: 1px solid rgba(255, 255, 255, 0.16);
-	border-radius: 8px;
+	border-radius: 16px;
 	background: #ffffff;
-	box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 28px 80px rgba(0, 0, 0, 0.36);
 }
 
 .manager-login-intro {
@@ -8712,7 +8713,7 @@ body.login {
 	flex-direction: column;
 	justify-content: center;
 	padding: 3rem;
-	background: #ffffff;
+	background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
 }
 
 .manager-login-alert {
@@ -8819,7 +8820,7 @@ body.login {
 	color: #111827;
 	font-size: 0.9rem;
 	border: 1px solid #d1d5db;
-	border-radius: 5px;
+	border-radius: 8px;
 	background-color: #ffffff;
 	box-shadow: none;
 }
@@ -8836,14 +8837,53 @@ body.login {
 
 .manager-login-actions {
 	display: grid;
-	margin-top: 1.5rem;
+	margin-top: 1.35rem;
 }
 
 .manager-login-actions .btn,
 .manager-login-actions input[type="submit"] {
 	min-height: 46px;
 	font-weight: 700;
-	border-radius: 5px;
+	border: 0;
+	border-radius: 8px;
+	box-shadow: 0 10px 22px rgba(37, 99, 235, 0.22);
+	transition: box-shadow 160ms ease, transform 160ms ease;
+}
+
+.manager-login-actions .btn:hover,
+.manager-login-actions input[type="submit"]:hover {
+	box-shadow: 0 13px 26px rgba(37, 99, 235, 0.3);
+	transform: translateY(-1px);
+}
+
+.manager-login-turnstile {
+	padding: 0.8rem;
+	border: 1px solid #e2e8f0;
+	border-radius: 10px;
+	background: #ffffff;
+}
+
+.manager-login-security-label {
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+	margin-bottom: 0.65rem;
+	color: #475569;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+}
+
+.manager-login-security-label i {
+	color: #16a34a;
+	font-size: 1rem;
+}
+
+.manager-login-turnstile .cf-turnstile {
+	display: flex;
+	max-width: 100%;
+	justify-content: center;
+	overflow: hidden;
 }
 
 @media (max-width: 900px) {
@@ -8854,6 +8894,7 @@ body.login {
 	.manager-login-panel {
 		max-width: 620px;
 		grid-template-columns: 1fr;
+		border-radius: 12px;
 	}
 
 	.manager-login-intro {
@@ -8917,6 +8958,10 @@ body.login {
 
 	.manager-login-form-header {
 		align-items: flex-start;
+	}
+
+	.manager-login-turnstile {
+		padding: 0.65rem;
 	}
 }
 
