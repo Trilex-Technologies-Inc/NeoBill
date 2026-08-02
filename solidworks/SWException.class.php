@@ -20,8 +20,6 @@
  * @author John Diamond <jdiamond@solid-state.org>
  */
 
-require_once dirname(__FILE__).'/Translator.class.php';
-
 class SWException extends Exception {
 	/**
 	 * @var string Error Message
@@ -34,8 +32,11 @@ class SWException extends Exception {
 	public function __construct( $message = null, $args = null ) {
 		parent::__construct();
 
-		//TODO: This probably results in running translate twice - needed a quick fix
-		$message = Translator::getTranslator()->translateString($message);
+		// Translator is loaded after this base exception class during bootstrap.
+		// Translate only when it is already available, avoiding a circular include.
+		if ( isset( $message ) && class_exists( 'Translator', false ) ) {
+			$message = Translator::getTranslator()->translateString($message);
+		}
 
 		if ( !is_null( $args ) && is_array ( $args ) ) {
 			// Insert arguments into message

@@ -21,24 +21,40 @@
  */
 
   $filepath = dirname(__FILE__).'/../../';
+  $minimumPhpVersion = '8.0.0';
   $checkfailed = false;
 ?>
-        <h2><?php echo _INSTALLERREQUIREMENTS; ?></h2>
-        <h3><?php echo _INSTALLERPHPVERSION; ?></h3>
-        <ul class="systemrequirements">
+        <div class="mb-4">
+          <span class="text-uppercase text-success fw-semibold small">Step 2 of 6</span>
+          <h1 class="h3 mt-1 mb-2"><?php echo _INSTALLERREQUIREMENTS; ?></h1>
+          <p class="text-muted mb-0">Confirm that your server is ready before continuing.</p>
+        </div>
+
+        <section class="requirement-section mb-4" aria-labelledby="php-requirement-heading">
+          <h2 id="php-requirement-heading" class="h5 mb-3"><?php echo _INSTALLERPHPVERSION; ?></h2>
+          <ul class="systemrequirements mb-0">
 <?php
   $phpversion = (strpos(phpversion(), '-') !== false)
                  ? substr(phpversion(), 0, strpos(phpversion(), '-')) : phpversion();
-  if (version_compare($phpversion, '4.0.6', '>=')) {
-    echo '          <li class="passed">', str_replace('%0', $phpversion, _INSTALLERPHPVERSIONOK), '.</li>', "\n";
+  if (version_compare($phpversion, $minimumPhpVersion, '>=')) {
+    echo '          <li class="passed">', str_replace(array('%0', '%1'), array(htmlspecialchars($phpversion, ENT_QUOTES, 'UTF-8'), $minimumPhpVersion), _INSTALLERPHPVERSIONOK), '.</li>', "\n";
   } else {
-    echo '          <li class="failed">', str_replace('%0', $phpversion, _INSTALLERPHPVERSIONKO), '.</li>', "\n";
+    echo '          <li class="failed">', str_replace(array('%0', '%1'), array(htmlspecialchars($phpversion, ENT_QUOTES, 'UTF-8'), $minimumPhpVersion), _INSTALLERPHPVERSIONKO), '.</li>', "\n";
+    $checkfailed = true;
+  }
+
+  if (extension_loaded('mysqli')) {
+    echo '          <li class="passed">The mysqli extension is available.</li>', "\n";
+  } else {
+    echo '          <li class="failed">The mysqli extension is required for database access.</li>', "\n";
     $checkfailed = true;
   }
 ?>
-        </ul>
-        <h3><?php echo _INSTALLERPERMISSIONS; ?></h3>
-        <ul class="systemrequirements">
+          </ul>
+        </section>
+        <section class="requirement-section" aria-labelledby="permissions-heading">
+        <h2 id="permissions-heading" class="h5 mb-3"><?php echo _INSTALLERPERMISSIONS; ?></h2>
+        <ul class="systemrequirements mb-3">
           <li class="description"><?php echo _INSTALLERPERMISSIONSFILE, ':'; ?></li>
 <?php
   $config_dir = $filepath . 'config/';
@@ -55,9 +71,9 @@
   }
   
   if (is_writable($file)) {
-    echo '          <li class="passed">', $file, ' ', _INSTALLERPERMISSIONSWRITABLEOK, '.</li>', "\n";
+    echo '          <li class="passed"><span class="path-value">', htmlspecialchars($file, ENT_QUOTES, 'UTF-8'), '</span> ', _INSTALLERPERMISSIONSWRITABLEOK, '.</li>', "\n";
   } else {
-    echo '          <li class="failed">', $file, '</li>', "\n";
+    echo '          <li class="failed"><span class="path-value">', htmlspecialchars($file, ENT_QUOTES, 'UTF-8'), '</span></li>', "\n";
     echo '          <li class="failed">', _INSTALLERPERMISSIONSWRITABLEKOFILE, '.</li>', "\n";
     $checkfailed = true;
   }
@@ -68,16 +84,16 @@
             <li class="description"><?php echo _INSTALLERPERMISSIONSDIRECTORY, ':'; ?></li>
 <?php
   $compiled = '';
-  if (isset($_POST['compiled'])) {
-    $compiled = realpath($_POST['compiled']);
+  if (isset($_POST['compiled']) && is_string($_POST['compiled'])) {
+    $compiled = realpath($_POST['compiled']) ?: $_POST['compiled'];
   }
   if (empty($compiled)) {
     $compiled = realpath($filepath . 'solidworks/smarty/templates_c');
   }
   if (is_writable($compiled)) {
-    echo '            <li class="passed"><input type="text" name="compiled" value="', $compiled, '" size="90" /> ', _INSTALLERPERMISSIONSWRITABLEOK, '.</li>', "\n";
+    echo '            <li class="passed"><input class="form-control path-input" type="text" name="compiled" aria-label="Compiled templates directory" value="', htmlspecialchars($compiled, ENT_QUOTES, 'UTF-8'), '" /> <span>', _INSTALLERPERMISSIONSWRITABLEOK, '.</span></li>', "\n";
   } else {
-    echo '            <li class="failed"><input type="text" name="compiled" value="', $compiled, '" size="90" /></li>', "\n";
+    echo '            <li class="failed"><input class="form-control path-input" type="text" name="compiled" aria-label="Compiled templates directory" value="', htmlspecialchars($compiled, ENT_QUOTES, 'UTF-8'), '" /></li>', "\n";
     echo '            <li class="failed">', _INSTALLERPERMISSIONSWRITABLEKODIRECTORY, '.</li>', "\n";
     $checkfailed = true;
   }
@@ -87,22 +103,22 @@
             <li class="description"><?php echo _INSTALLERPERMISSIONSDIRECTORY, ':'; ?></li>
 <?php
   $cache = '';
-  if (isset($_POST['cache'])) {
-    $cache = realpath($_POST['cache']);
+  if (isset($_POST['cache']) && is_string($_POST['cache'])) {
+    $cache = realpath($_POST['cache']) ?: $_POST['cache'];
   }
   if (empty($cache)) {
     $cache= realpath($filepath . 'solidworks/smarty/cache');
   }
   if (is_writable($cache)) {
-    echo '            <li class="passed"><input type="text" name="cache" value="', $cache, '" size="90" /> ', _INSTALLERPERMISSIONSWRITABLEOK, '.</li>', "\n";
+    echo '            <li class="passed"><input class="form-control path-input" type="text" name="cache" aria-label="Cache directory" value="', htmlspecialchars($cache, ENT_QUOTES, 'UTF-8'), '" /> <span>', _INSTALLERPERMISSIONSWRITABLEOK, '.</span></li>', "\n";
   } else {
-    echo '            <li class="failed"><input type="text" name="cache" value="', $cache, '" size="90" /></li>', "\n";
+    echo '            <li class="failed"><input class="form-control path-input" type="text" name="cache" aria-label="Cache directory" value="', htmlspecialchars($cache, ENT_QUOTES, 'UTF-8'), '" /></li>', "\n";
     echo '            <li class="failed">', _INSTALLERPERMISSIONSWRITABLEKODIRECTORY, '.</li>', "\n";
     $checkfailed = true;
   }
 ?>
           </ul>
-          <div class="submit">
+          <div class="submit d-flex justify-content-end">
 <?php
 	  if ($checkfailed) {
 	    echo '            <input type="hidden" name="install_step" value="2" />', "\n";
@@ -115,3 +131,4 @@
 	?>
 	          </div>
 	        </form>
+          </section>

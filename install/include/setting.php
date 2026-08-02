@@ -1,4 +1,13 @@
 <?php
+// Magic quotes were removed in PHP 8. Keep the installer self-contained even
+// when the database compatibility layer cannot be loaded yet.
+if (!function_exists('get_magic_quotes_gpc')) {
+    function get_magic_quotes_gpc()
+    {
+        return false;
+    }
+}
+
 /*
  * @(#)install/include/solidstate.php
  *

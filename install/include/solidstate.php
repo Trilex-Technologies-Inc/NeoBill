@@ -1,4 +1,13 @@
 <?php
+// Magic quotes were removed in PHP 8. This legacy installer variant may be
+// included directly, so it cannot rely on application bootstrap helpers.
+if (!function_exists('get_magic_quotes_gpc')) {
+    function get_magic_quotes_gpc()
+    {
+        return false;
+    }
+}
+
 /*
  * @(#)install/include/solidstate.php
  *

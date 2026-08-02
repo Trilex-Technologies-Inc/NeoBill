@@ -11,7 +11,7 @@ body {
 
 #content1 {
     width: auto;
-    max-width: 980px;
+    max-width: 1080px;
 }
 
 #content2 {
@@ -21,6 +21,24 @@ body {
 /* Legacy installer CSS sets very small heading sizes. Let Bootstrap handle it. */
 h1, h2, h3 {
     font-size: inherit;
+}
+
+main {
+    min-width: 0;
+}
+
+.card {
+    border-color: #e5e7eb;
+}
+
+#content2 {
+    border: 0;
+    border-radius: 1rem;
+}
+
+#navlist .list-group-item {
+    border-color: #e5e7eb;
+    padding: 0.65rem 0.75rem;
 }
 
 /* Legacy sidebar/main column rules should not fight Bootstrap grid. */
@@ -47,4 +65,3 @@ h1, h2, h3 {
     padding: 0;
     margin-top: 1rem;
 }
-
