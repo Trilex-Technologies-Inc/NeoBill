@@ -1,5 +1,7 @@
-<?php
-/* 
+<?php
+require_once dirname(__DIR__, 4) . '/solidworks/php83_compat.php';
+
+/* 
 	To run sample application you need to have:
 	- PHP
 	- MySQL

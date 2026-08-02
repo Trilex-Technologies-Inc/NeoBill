@@ -59,7 +59,7 @@ class Response
 	* @param string data to be analysed
 	*
 	*/
-	function Response($value)
+	function __construct($value)
 	{
                  
 		$this->data = $value;

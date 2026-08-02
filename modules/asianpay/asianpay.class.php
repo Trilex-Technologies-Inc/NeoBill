@@ -94,7 +94,7 @@ class AsianPay extends PaymentProcessorModule
 	/*
 	 * Constructor
 	 */
-	function asianpay($demo_mode= 0)
+	function __construct($demo_mode = 0)
 	{
 		$this->demo_mode = $demo_mode;
 		$this->pay_url   = "https://asianpay.com/users/single_item/make_payment.php";

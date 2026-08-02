@@ -69,7 +69,7 @@ class Config_File {
 	 *
 	 * @param string $config_path (optional) path to the config files
 	 */
-	function Config_File($config_path = NULL) {
+	function __construct($config_path = NULL) {
 		if (isset($config_path))
 			$this->set_path($config_path);
 	}
@@ -224,7 +224,6 @@ class Config_File {
 		else
 			$config_file = $file_name;
 
-		ini_set('track_errors', true);
 		$fp = @fopen($config_file, "r");
 		if (!is_resource($fp)) {
 			$this->_trigger_error_msg("Could not open config file '$config_file'");

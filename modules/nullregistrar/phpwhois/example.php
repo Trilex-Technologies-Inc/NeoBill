@@ -66,7 +66,7 @@ if (isSet($_GET['query'])) {
 	switch ($output) {
 		case 'object':
 			if ($whois->Query['status'] < 0) {
-				$winfo = implode($whois->Query['errstr'],"\n<br></br>");
+				$winfo = implode("\n<br></br>", $whois->Query['errstr']);
 			}
 			else {
 				$utils = new utils;
@@ -80,7 +80,7 @@ if (isSet($_GET['query'])) {
 				$winfo = $utils->showHTML($result);
 			}
 			else {
-				$winfo= implode($whois->Query['errstr'],"\n<br></br>");
+				$winfo = implode("\n<br></br>", $whois->Query['errstr']);
 			}
 			break;
 
@@ -90,10 +90,10 @@ if (isSet($_GET['query'])) {
 
 		default:
 			if(!empty($result['rawdata'])) {
-				$winfo .= '<pre>'.implode($result['rawdata'],"\n").'</pre>';
+				$winfo .= '<pre>' . implode("\n", $result['rawdata']) . '</pre>';
 			}
 			else {
-				$winfo = implode($whois->Query['errstr'],"\n<br></br>");
+				$winfo = implode("\n<br></br>", $whois->Query['errstr']);
 			}
 	}
 

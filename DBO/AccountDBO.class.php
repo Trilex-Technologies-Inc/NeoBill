@@ -121,7 +121,7 @@ class AccountDBO extends DBO {
 	 *
 	 * @param integer $id New Account ID
 	 */
-	function AccountDBO( ) {
+	function __construct( ) {
 		$this->userDBO = new UserDBO();
 	}
 

@@ -33,7 +33,7 @@
 		* <br>By default wsdl in wsdl dir is used.
 		*
 		*/
-		function Website($wsdlurl="wsdl/Website.wsdl")
+		function __construct($wsdlurl="wsdl/Website.wsdl")
 		{
 			$this->wsdl = $wsdlurl;
 			$this->s = new soapclientw($this->wsdl,"wsdl");

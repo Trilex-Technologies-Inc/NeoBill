@@ -141,7 +141,7 @@ class utils extends Whois {
 		$html_regex = "/(?:^|\b)((((http|https|ftp):\/\/)|(www\.))([\w\.]+)([,:%#&\/?~=\w+\.-]+))(?:\b|$)/is";
 		$ip_regex = "/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/i";
 
-		$out = implode($result['rawdata'],"\n");
+		$out = implode("\n", $result['rawdata']);
 
 		$out = preg_replace ($email_regex, '<a href="mailto:$0">$0</a>', $out);
 		$out = preg_replace_callback ($html_regex, 'href_replace', $out);

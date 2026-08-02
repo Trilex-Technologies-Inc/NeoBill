@@ -88,13 +88,14 @@ class ip_handler extends WhoisClient
 		if ($orgname == '')
 			$orgname = trim($rawdata[1]);
 
-		while (list($string, $whois) = each($this->REGISTRARS))
+		while (list($string, $whois) = each($this->REGISTRARS)) {
 			if (strstr($orgname, $string) != '')
 				{
 				$this->Query['server'] = $whois;
 				$result['regyinfo']['registrar'] = $string;
 				break;
 				}
+		}
 
 		switch ($this->Query['server'])
 			{

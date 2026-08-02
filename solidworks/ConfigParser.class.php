@@ -68,7 +68,7 @@ class ConfigParser {
 	/**
 	 * Constructor
 	 */
-	function ConfigParser() {
+	function __construct() {
 		$this->conf = array( "modules" => array(), "pages" => array(), "forms" => array() );
 	}
 
