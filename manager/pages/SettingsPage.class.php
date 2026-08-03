@@ -27,40 +27,40 @@ class SettingsPage extends SolidStateAdminPage {
 	public function init() {
 		parent::init();
 
-		$this->smarty->assign( "company_name", $this->conf['company']['name'] );
-		$this->smarty->assign( "company_email", $this->conf['company']['email'] );
+		$this->smarty->assign( "company_name", $this->conf['company']['name'] ?? 'NeoBill' );
+		$this->smarty->assign( "company_email", $this->conf['company']['email'] ?? '' );
 		$this->smarty->assign( "company_notification_email",
-				$this->conf['company']['notification_email'] );
+				$this->conf['company']['notification_email'] ?? '' );
 
 		$this->smarty->assign( "confirmation_subject",
-				$this->conf['order']['confirmation_subject'] );
+				$this->conf['order']['confirmation_subject'] ?? '' );
 		$this->smarty->assign( "confirmation_email",
-				$this->conf['order']['confirmation_email'] );
+				$this->conf['order']['confirmation_email'] ?? '' );
 
 		$this->smarty->assign( "notification_subject",
-				$this->conf['order']['notification_subject'] );
+				$this->conf['order']['notification_subject'] ?? '' );
 		$this->smarty->assign( "notification_email",
-				$this->conf['order']['notification_email'] );
+				$this->conf['order']['notification_email'] ?? '' );
 
-		$this->smarty->assign( "welcome_subject", $this->conf['welcome_subject'] );
-		$this->smarty->assign( "welcome_email", $this->conf['welcome_email'] );
+		$this->smarty->assign( "welcome_subject", $this->conf['welcome_subject'] ?? '' );
+		$this->smarty->assign( "welcome_email", $this->conf['welcome_email'] ?? '' );
 
-		$this->smarty->assign( "invoice_text", $this->conf['invoice_text'] );
-		$this->smarty->assign( "invoice_subject", $this->conf['invoice_subject'] );
+		$this->smarty->assign( "invoice_text", $this->conf['invoice_text'] ?? '' );
+		$this->smarty->assign( "invoice_subject", $this->conf['invoice_subject'] ?? '' );
 
-		$this->smarty->assign( "currency", $this->conf['locale']['currency_symbol'] );
+		$this->smarty->assign( "currency", $this->conf['locale']['currency_symbol'] ?? '$' );
 
-		$this->smarty->assign( "default_gateway", $this->conf['payment_gateway']['default_module'] );
+		$this->smarty->assign( "default_gateway", $this->conf['payment_gateway']['default_module'] ?? '' );
 
-		$this->smarty->assign( "order_title", $this->conf['order']['title'] );
+		$this->smarty->assign( "order_title", $this->conf['order']['title'] ?? '' );
 		$this->smarty->assign( "order_accept_checks",
-				$this->conf['order']['accept_checks'] ? "true" : "false" );
+				!empty($this->conf['order']['accept_checks']) ? "true" : "false" );
 		$this->smarty->assign( "order_tos_required",
-				$this->conf['order']['tos_required'] ? "true" : "false" );
-		$this->smarty->assign( "order_tos_url", $this->conf['order']['tos_url'] );
+				!empty($this->conf['order']['tos_required']) ? "true" : "false" );
+		$this->smarty->assign( "order_tos_url", $this->conf['order']['tos_url'] ?? '' );
 
-		$this->smarty->assign( "managerTheme", $this->conf['themes']['manager'] );
-		$this->smarty->assign( "orderTheme", $this->conf['themes']['order'] );
+		$this->smarty->assign( "managerTheme", $this->conf['themes']['manager'] ?? 'default' );
+		$this->smarty->assign( "orderTheme", $this->conf['themes']['order'] ?? 'default' );
 
 		// This flag indicates if any payment_gateway modules are enabled
 		$modules = $this->forms['settings_payment_gateway']->getField( "default_module" )->getWidget()->getData();
