@@ -27,7 +27,7 @@ class CurrencyWidget extends TextWidget {
 	 */
 	function getHTML( $params ) {
 		global $conf;
-		return $conf['locale']['currency_symbol'] .
+		return ($conf['locale']['currency_symbol'] ?? '$') .
 				parent::getHTML( $params );
 	}
 }

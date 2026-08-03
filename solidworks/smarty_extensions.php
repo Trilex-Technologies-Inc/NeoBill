@@ -90,7 +90,7 @@ function smarty_modifier_currency( $value ) {
 	global $conf;
 
 	// Return the numeric value with two decimal places and a $
-	return sprintf( "%s%01.2f", $conf['locale']['currency_symbol'], $value );
+	return sprintf( "%s%01.2f", $conf['locale']['currency_symbol'] ?? '$', $value );
 }
 
 /**
@@ -105,6 +105,9 @@ function smarty_modifier_currency( $value ) {
 function smarty_modifier_datetime( $value, $show_part = null ) {
 	// Convert datetime to a unix time stamp
 	$time = DBConnection::datetime_to_unix( $value );
+	if ($time === null) {
+		return '';
+	}
 
 	// Return a formated date, e.g. 12/11/2005, 11:39:00am
 	// (or just one part, date/time)
@@ -403,13 +406,7 @@ function smarty_form_element( $params, &$smarty ) {
 	$conf =& $page->conf;
 
 	$form_name        = end( $form_stack );
-	$form_field       = $params['field'];
-	$field_size       = $params['size'];
-	$dbo_var_name     = $params['dbo'];
-	$option           = $params['option'];
-	$hide_value       = $params['hide_value'] == "true";
-	$readonly         = $params['readonly'] == "true";
-	$value            = $params['value'];
+	$form_field       = $params['field'] ?? null;
 
 	// Access the Page's session data
 	$session = $page->getPageSession();
@@ -525,7 +522,7 @@ function smarty_form_description( $params, &$smarty ) {
 
 	$form_name        = end( $form_stack );
 	$form_field       = $params['field'];
-	$colon            = $params['colon'];
+	$colon            = $params['colon'] ?? null;
 
 	// Verify form configuration exists
 	$form_data = $conf['forms'][$form_name];
@@ -536,7 +533,7 @@ function smarty_form_description( $params, &$smarty ) {
 
 	// Verify the field exists
 	$field_data = $form_data['fields'][$form_field];
-	$form_field_description = $field_data['description'];
+	$form_field_description = $field_data['description'] ?? null;
 	if ( !isset( $form_field_description ) ) {
 		// Field description is not configured
 		return "Form field description (" .
@@ -549,7 +546,7 @@ function smarty_form_description( $params, &$smarty ) {
 		$form_field_description .= ": ";
 	}
 
-	if ( $field_data['required'] ) {
+	if ( !empty($field_data['required']) ) {
 		// Append a red '*' to required fields
 		$form_field_description .= "<b>*</b> ";
 	}
@@ -617,6 +614,9 @@ function smarty_form_table( $params, $content, &$smarty, &$repeat ) {
 	else {
 		// {form_table} - Beginning of the block
 		$tableWidget->init( $params );
+		// Smarty evaluates the block body before it knows whether the table is
+		// empty. Supply a null-safe placeholder for those first-pass expressions.
+		$smarty->assign( $params['field'], new EmptyTableRow() );
 		echo $tableWidget->getTableHeaderHTML();
 	}
 }

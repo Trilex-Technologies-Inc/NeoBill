@@ -59,6 +59,11 @@ class DBConnection
 	 */
 	public static function datetime_to_unix($datetime)
 	{
+		if ($datetime === null || $datetime === '') {
+			return null;
+		}
+		$datetime = (string)$datetime;
+
 		// Parse the datetime
 		$year   = intval(substr($datetime, 0, 4));
 		$month  = intval(substr($datetime, 5, 2));
@@ -81,6 +86,11 @@ class DBConnection
 	 */
 	public static function date_to_unix($datetime)
 	{
+		if ($datetime === null || $datetime === '') {
+			return null;
+		}
+		$datetime = (string)$datetime;
+
 		// Parse the datetime
 		$year   = intval(substr($datetime, 0, 4));
 		$month  = intval(substr($datetime, 5, 2));
