@@ -138,7 +138,7 @@ function &build_location_stack( $page_name ) {
 		$stack = build_location_stack( $page_data['parent'] );
 
 		// Replace Nav Vars with their values
-		if ( $_SESSION['nav_vars'] != null ) {
+		if ( !empty($_SESSION['nav_vars']) && is_array($_SESSION['nav_vars']) ) {
 			foreach( $_SESSION['nav_vars'] as $name => $value ) {
 				$name = "{" . $name . "}";
 				$page_data['title'] =

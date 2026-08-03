@@ -20,20 +20,20 @@ require_once BASE_PATH . "modules/PaymentGatewayModule.class.php";
 // require_once BASE_PATH . "modules/authorizeaim/sdk/AuthorizeNet.php";
 
 // Positions in the AIM response record
-define(AIM_RESP_CODE, 0);
-define(AIM_RESP_REASON_TEXT, 3);
-define(AIM_RESP_APPROVAL_CODE, 5);
-define(AIM_RESP_TRANSACTION_ID, 6);
+define("AIM_RESP_CODE", 0);
+define("AIM_RESP_REASON_TEXT", 3);
+define("AIM_RESP_APPROVAL_CODE", 5);
+define("AIM_RESP_TRANSACTION_ID", 6);
 
 // AIM Response codes
-define(AIM_APPROVED, "1");
-define(AIM_DECLINED, "2");
-define(AIM_ERROR,    "3");
+define("AIM_APPROVED", "1");
+define("AIM_DECLINED", "2");
+define("AIM_ERROR",    "3");
 
-define(AUTHORIZE_AIM_MODE_LIVE, "live");
-define(AUTHORIZE_AIM_MODE_SANDBOX, "sandbox");
-define(AUTHORIZE_AIM_LIVE_URL, "https://secure.authorize.net/gateway/transact.dll");
-define(AUTHORIZE_AIM_SANDBOX_URL, "https://test.authorize.net/gateway/transact.dll");
+define("AUTHORIZE_AIM_MODE_LIVE", "live");
+define("AUTHORIZE_AIM_MODE_SANDBOX", "sandbox");
+define("AUTHORIZE_AIM_LIVE_URL", "https://secure.authorize.net/gateway/transact.dll");
+define("AUTHORIZE_AIM_SANDBOX_URL", "https://test.authorize.net/gateway/transact.dll");
 
 /**
  * AuthorizeAIM

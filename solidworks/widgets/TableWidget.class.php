@@ -155,7 +155,7 @@ class TableWidget extends HTMLWidget {
 		global $page;
 		$session = $page->getPageSession();
 
-		return $session['tables'][$this->formName][$this->fieldName]['search'];
+		return $session['tables'][$this->formName][$this->fieldName]['search'] ?? array();
 	}
 
 	/**
@@ -167,7 +167,7 @@ class TableWidget extends HTMLWidget {
 		global $page;
 		$session = $page->getPageSession();
 
-		$sortColumn = $_GET[ 'swtablesortcol' ];
+		$sortColumn = $_GET[ 'swtablesortcol' ] ?? '';
 		if (!preg_match('/^[A-Za-z][A-Za-z0-9_]+$/', $sortColumn)) {
 			$sortColumn = '';
 		}
@@ -200,7 +200,7 @@ class TableWidget extends HTMLWidget {
 		global $page;
 		$session = $page->getPageSession();
 
-		return intval($_GET[ 'swtablestart' ]);
+		return intval($_GET[ 'swtablestart' ] ?? 0);
 	}
 
 	/**

@@ -96,7 +96,7 @@ class FormField {
 	 * @return boolean True if this field is a cancel field
 	 */
 	public function isCancel() {
-		return $this->config['cancel'];
+		return !empty($this->config['cancel']);
 	}
 
 	/**
@@ -105,7 +105,7 @@ class FormField {
 	 * @return boolean True if this field is required
 	 */
 	public function isRequired() {
-		return $this->config['required'];
+		return !empty($this->config['required']);
 	}
 
 	/**
@@ -199,7 +199,7 @@ class FormField {
 		$this->rawValue = $data;
 		if ( is_array( $data ) ) {
 			// Handle an array submission
-			if ( !$this->config['array'] ) {
+			if ( empty($this->config['array']) ) {
 				throw new FieldException( "Array Values Not Allowed" );
 			}
 
@@ -209,7 +209,7 @@ class FormField {
 			}
 		}
 		else {
-			$this->value = $this->config['array'] ?
+			$this->value = !empty($this->config['array']) ?
 					array( $this->validator->validate( $data ) ) :
 					$this->validator->validate( $data );
 		}

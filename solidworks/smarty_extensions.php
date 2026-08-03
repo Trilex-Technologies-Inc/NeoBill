@@ -295,7 +295,7 @@ function smarty_form( $params, $content, &$smarty, &$repeat ) {
 function smarty_page_messages( $params, &$smarty ) {
 	global $conf, $page;
 
-	$messages = $_SESSION['messages'];
+	$messages = $_SESSION['messages'] ?? null;
 
 	if ( !isset( $messages ) ) {
 		// No messages to display
@@ -340,7 +340,7 @@ function smarty_page_messages( $params, &$smarty ) {
 function smarty_page_errors( $params, &$smarty ) {
 	global $conf, $page;
 
-	$errors = $_SESSION['errors'];
+	$errors = $_SESSION['errors'] ?? null;
 
 	if ( !isset( $errors ) && !isset( $_SESSION['exceptions'] ) ) {
 		// No errors to display

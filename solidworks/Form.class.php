@@ -49,7 +49,7 @@ class Form {
 		$this->name = $name;
 
 		// Configure all the fields
-		foreach ( $config['fields'] as $fieldName => $fieldConfig ) {
+		foreach ( $config['fields'] ?? array() as $fieldName => $fieldConfig ) {
 			// Create and add a new Field to the form
 			$field = new FormField( $this->name,
 					$fieldName,

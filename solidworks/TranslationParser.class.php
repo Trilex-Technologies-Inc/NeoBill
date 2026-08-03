@@ -59,7 +59,7 @@ class TranslationParser {
 	 * @return array Configuration data
 	 */
 	public static function load( $file ) {
-		if ( self::$loaded[$file] != true ) {
+		if ( empty(self::$loaded[$file]) ) {
 			$xml_parser = xml_parser_create();
 			$translation_parser = new TranslationParser();
 			xml_set_object( $xml_parser, $translation_parser );

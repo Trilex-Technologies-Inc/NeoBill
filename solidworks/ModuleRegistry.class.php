@@ -86,6 +86,8 @@ class ModuleRegistry {
 	 */
 	private $removedModules = array(
 			"asianpay" => true,
+			// Disabled: legacy Authorize.Net AIM integration is not PHP 8 compatible.
+			"authorizeaim" => true,
 			"nullregistrar" => true,
 			"cpanel" => true,
 			"enom" => true,

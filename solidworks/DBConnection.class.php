@@ -389,24 +389,24 @@ class DBConnection
 		// Begin building SELECT statement
 		$sql = sprintf("SELECT %s FROM `%s`", $columns, $table_name);
 
-		if (strlen($filter) > 0) {
+		if ($filter !== null && strlen((string)$filter) > 0) {
 			// A filter is provided - add a WHERE clause to the SQL
 			$sql .= " WHERE " . $filter;
 		}
 
 		// Validate sortby
-		if (strlen($sortby) > 0 && $this->validate_column($sortby, $table_name)) {
+		if ($sortby !== null && strlen((string)$sortby) > 0 && $this->validate_column($sortby, $table_name)) {
 			// A field to sort on is provided - add an ORDER BY clause
 			$sql .= " ORDER BY " . $sortby;
-			if (strlen($sortdir) > 0 && ($sortdir == "ASC" || $sortdir == "DESC")) {
+			if ($sortdir !== null && strlen((string)$sortdir) > 0 && ($sortdir == "ASC" || $sortdir == "DESC")) {
 				// While we're at it, add a direction to the ORDER BY clause
 				$sql .= " " . $sortdir;
 			}
 		}
 
-		if (strlen($limit) > 0) {
+		if ($limit !== null && strlen((string)$limit) > 0) {
 			// Limit the amount of records returned
-			if (!(strlen($start) > 0)) {
+			if ($start === null || strlen((string)$start) === 0) {
 				// No starting position is supplied - default to 0
 				$start = 0;
 			}
@@ -427,7 +427,8 @@ class DBConnection
 	 */
 	public function validate_column($column_name, $table_name)
 	{
-		if (!$db['schema_validation']) {
+		global $db;
+		if (empty($db['schema_validation'])) {
 			return true;
 		}
 
@@ -469,7 +470,8 @@ class DBConnection
 	 */
 	public function validate_table($table_name)
 	{
-		if (!$db['schema_validation']) {
+		global $db;
+		if (empty($db['schema_validation'])) {
 			return true;
 		}
 

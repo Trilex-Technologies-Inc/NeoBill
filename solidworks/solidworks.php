@@ -50,8 +50,9 @@ function solidworks(&$conf, $smarty)
 		Translator::getTranslator()->setActiveLanguage($language);
 	}
 
-	if ($_SESSION['currentpage'] != $_GET['page']) {
-		$_SESSION['lastpage'] = $_SESSION['currentpage'];
+	$currentPage = $_SESSION['currentpage'] ?? null;
+	if ($currentPage != ($_GET['page'] ?? null)) {
+		$_SESSION['lastpage'] = $currentPage;
 	}
 
 	// Get a Page object for the page being requested
@@ -73,7 +74,7 @@ function solidworks(&$conf, $smarty)
 	}
 
 	// Process any forms
-	if ($_SERVER['REQUEST_METHOD'] == "POST") {
+	if (($_SERVER['REQUEST_METHOD'] ?? 'GET') == "POST") {
 		handle_post_request();
 	}
 
@@ -108,11 +109,11 @@ function display_page($page)
 	$smarty->assign("location", $page->getTitle());
 	$smarty->assign("location_stack", $page->getLocationStack());
 	$smarty->assign("company_name", $conf['company']['name']);
-	$smarty->assign("client_ip", $_SERVER['REMOTE_ADDR']);
+	$smarty->assign("client_ip", $_SERVER['REMOTE_ADDR'] ?? '');
 	$smarty->assign("content_template", $page->getTemplateFile());
 	$smarty->assign("url", $page->getUrl());
 	$smarty->assign("version", $conf['application_name']);
-	$smarty->assign("machine", $_SERVER['SERVER_NAME']);
+	$smarty->assign("machine", $_SERVER['SERVER_NAME'] ?? '');
 	if (isset($_SESSION['client']['userdbo'])) {
 		$smarty->assign("username", $_SESSION['client']['userdbo']->getUsername());
 	}
@@ -123,7 +124,7 @@ function display_page($page)
 		unset($_SESSION['jsFunction']);
 	}
 
-	if (intval($_GET['no_headers']) == 1) {
+	if (intval($_GET['no_headers'] ?? 0) == 1) {
 		// Display without headers
 		$smarty->display($page->getTemplateFile());
 	} else {
@@ -153,8 +154,8 @@ function handle_post_request()
 	unset($_SESSION[$page->getName()]['form_errors']);
 
 	// Verify a form name was included with POST data
-	$form_name = $_GET['submit'];
-	if (!isset($form_name)) {
+	$form_name = $_GET['submit'] ?? null;
+	if ($form_name === null || $form_name === '') {
 		throw new SWException("POST received with no form name supplied.");
 	}
 

@@ -347,12 +347,12 @@ class Page {
             $this->setTitle( $page_data['title'] );
             $this->setName( $page_data['name'] );
             $this->setUrl( $page_data['url'] );
-            $this->setLocationStack( $page_data['location_stack'] );
+            $this->setLocationStack( $page_data['location_stack'] ?? array() );
             $this->setTemplate( "default" );
             $this->setTemplateDir( $page_data['templatedir'] );
 
             // This page is disabled according to the configuration file
-            if ( $page_data['disabled'] ) {
+            if ( !empty($page_data['disabled']) ) {
                 $this->disable();
             }
 
@@ -423,9 +423,14 @@ class Page {
      * Jump Back
      */
     public function goback() {
+		if ( empty($_SESSION['navstack']) || !is_array($_SESSION['navstack']) ) {
+			fatal_error( $this->getClassName(), "No page to jump back to!" );
+			return;
+		}
+
         // Pop off this page's entries on the navstack
         $lastPage = array_pop( $_SESSION['navstack'] );
-        while( $lastPage['page'] == $this->getName() ) {
+		while( isset($lastPage['page']) && $lastPage['page'] == $this->getName() && !empty($_SESSION['navstack']) ) {
             $lastPage = array_pop( $_SESSION['navstack'] );
         }
 
@@ -519,7 +524,7 @@ class Page {
      * @return string The name of the last page served
      */
     function getLastPage() {
-        return $_SESSION['lastpage'];
+		return $_SESSION['lastpage'] ?? null;
     }
 
     /**
@@ -598,7 +603,7 @@ class Page {
      * @return boolean True if page has any errors
      */
     function hasErrors() {
-        return count( $_SESSION['errors'] ) > 0;
+		return !empty($_SESSION['errors']) && is_array($_SESSION['errors']);
     }
 
     /**
@@ -745,7 +750,7 @@ class Page {
         }
 
         // Replace Nav Vars with their values
-        if ( $_SESSION['nav_vars'] != null ) {
+        if ( !empty($_SESSION['nav_vars']) ) {
             foreach( $_SESSION['nav_vars'] as $name => $value ) {
                 $url = str_replace( "{" . $name . "}", $value, $url);
             }
@@ -769,7 +774,7 @@ class Page {
      * @return string Template directory
      */
     function getTemplateDir() {
-        return $this->templateDir;
+        return $this->templatedir;
     }
 
     /**
@@ -778,7 +783,7 @@ class Page {
      * @param string $file_name Template directory
      */
     function setTemplateDir( $dir ) {
-        $this->templateDir = $dir;
+        $this->templatedir = $dir;
     }
 
     /**

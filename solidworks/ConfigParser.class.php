@@ -92,7 +92,7 @@ class ConfigParser {
 						"hooks" => array() );
 				$this->conf['main_template'] = $attrs['MAIN_TEMPLATE'];
 				$this->conf['controller'] = $attrs['CONTROLLER'];
-				$this->conf['login_template'] = $attrs['LOGIN_TEMPLATE'];
+				$this->conf['login_template'] = $attrs['LOGIN_TEMPLATE'] ?? null;
 				$this->conf['access_denied_template'] = $attrs['ACCESS_DENIED_TEMPLATE'];
 				$this->conf['application_name'] = $attrs['APPLICATION_NAME'];
 				$this->conf['authenticate_user'] = ($attrs['AUTHENTICATE_USER'] == "true");
@@ -106,18 +106,19 @@ class ConfigParser {
 
 			case "PAGES":
 				$this->conf['pages'] = array();
-				$this->conf['login_page'] = $attrs['LOGIN_PAGE'];
-				$this->conf['home_page'] = $attrs['HOME_PAGE'];
+				$this->conf['login_page'] = $attrs['LOGIN_PAGE'] ?? null;
+				$this->conf['home_page'] = $attrs['HOME_PAGE'] ?? null;
 				break;
 
 			case "PAGE":
 				$this->page_class_name = strtolower( $attrs['CLASS'] );
 				$this->conf['pages'][$this->page_class_name]['name'] = $attrs['NAME'];
 				$this->conf['pages'][$this->page_class_name]['title'] = $attrs['TITLE'];
-				$this->conf['pages'][$this->page_class_name]['class_file'] = $attrs['CLASS_FILE'];
-				$this->conf['pages'][$this->page_class_name]['parent'] = $attrs['PARENT'];
+				$this->conf['pages'][$this->page_class_name]['class_file'] = $attrs['CLASS_FILE'] ?? null;
+				$this->conf['pages'][$this->page_class_name]['parent'] = $attrs['PARENT'] ?? null;
 				$this->conf['pages'][$this->page_class_name]['url'] = $attrs['URL'];
-				$this->conf['pages'][$this->page_class_name]['disabled'] = ($attrs['DISABLED'] == "true");
+				$this->conf['pages'][$this->page_class_name]['disabled'] =
+						(strtolower((string)($attrs['DISABLED'] ?? 'false')) == "true");
 
 				$this->conf['pages'][$this->page_class_name]['templatedir'] =
 						isset( $this->module_name ) ?
@@ -147,7 +148,7 @@ class ConfigParser {
 			case "URLFIELD":
 				$name = $attrs['NAME'];
 				$validator = $attrs['VALIDATOR'];
-				$required = (strtolower( $attrs['REQUIRED'] ) == "true");
+				$required = (strtolower((string)($attrs['REQUIRED'] ?? 'false')) == "true");
 				$this->conf['pages'][$this->page_class_name]['fields'][$name]['validator'] = $validator;
 				$this->conf['pages'][$this->page_class_name]['fields'][$name]['required'] = $required;
 				break;
@@ -159,9 +160,9 @@ class ConfigParser {
 			case "FORM":
 				$this->form_name = $attrs['NAME'];
 				$this->conf['forms'][$this->form_name]['page'] = $attrs['PAGE'];
-				$this->conf['forms'][$this->form_name]['method'] = $attrs['METHOD'];
+				$this->conf['forms'][$this->form_name]['method'] = $attrs['METHOD'] ?? 'POST';
 				$this->conf['forms'][$this->form_name]['dbo_table_search'] =
-						(strtolower( $attrs['DBO_TABLE_SEARCH'] ) == "true");
+						(strtolower((string)($attrs['DBO_TABLE_SEARCH'] ?? 'false')) == "true");
 				break;
 
 			case "FIELDS":
@@ -289,8 +290,8 @@ class ConfigParser {
 
 			case "OPTION":
 				$value = $attrs['VALUE'];
-				$description = $attrs['DESCRIPTION'];
-				$default = ($attrs['DEFAULT'] == "true");
+				$description = $attrs['DESCRIPTION'] ?? null;
+				$default = (strtolower((string)($attrs['DEFAULT'] ?? 'false')) == "true");
 				if ( isset( $description ) ) {
 					$this->conf['forms'][$this->form_name]['fields'][$this->form_field_name]['enum'][$value] =
 							$description;
