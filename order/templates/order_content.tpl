@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
           onload="document.documentElement.setAttribute('data-bootstrap-css-cdn', 'loaded')"
           onerror="document.documentElement.setAttribute('data-bootstrap-css-cdn', 'error')">
-    {if $turnstile_enabled}{$turnstile_script}{/if}
+	{if isset($turnstile_enabled) && $turnstile_enabled}{$turnstile_script}{/if}
 
     <!-- Existing stylesheet -->
     <link rel="stylesheet" type="text/css" href="coffee.css" media="screen"/>
@@ -57,7 +57,7 @@
                 <strong>Complete your order securely</strong>
             </div>
 
-            {if $username == null && !$supressWelcome}
+			{if $username == null && (!isset($supressWelcome) || !$supressWelcome)}
                 <div class="order-session-actions">
                     <a href="index.php?page=purchaseproduct" class="btn btn-outline-primary order-register-button">
                         Register Product
@@ -76,7 +76,7 @@
 
             {elseif $username == " "}
 
-            {elseif isset($username) && !$supressWelcome}
+			{elseif isset($username) && (!isset($supressWelcome) || !$supressWelcome)}
                 <div class="order-user-pill">
                     <span>
                         {echo phrase="WELCOME_BACK"}, {$username}!

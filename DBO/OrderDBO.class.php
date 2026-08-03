@@ -740,7 +740,7 @@ class OrderDBO extends DBO {
     public function getNonRecurringTotal() {
         $total = 0.00;
         foreach( $this->orderitems as $orderitemdbo ) {
-            if( $orderitemdbo->getStatus != "Rejected" ) {
+			if( $orderitemdbo->getStatus() != "Rejected" ) {
                 $total += $orderitemdbo->getOnetimePrice();
             }
         }

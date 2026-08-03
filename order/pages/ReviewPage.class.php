@@ -62,14 +62,16 @@ class ReviewPage extends SolidStatePage {
 		}
 
 		// If required, make sure that the TOS box was checked
-		if ( $this->conf['order']['tos_required'] && !isset( $this->post['accept_tos'] ) ) {
+		if ( !empty( $this->conf['order']['tos_required'] ) &&
+				!isset( $this->post['accept_tos'] ) ) {
 			throw new SWUserException( "[YOU_MUST_ACCEPT_THE_TERMS_OF_SERVICE]" );
 		}
 
 		$this->session['order']->setRemoteIP(
 				ip2long( $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0' ) );
 		$this->session['order']->setDateCreated( DBConnection::format_datetime( time() ) );
-		$this->session['order']->setAcceptedTOS( $this->post['accept_tos'] == "true" ? "Yes" : "No" );
+		$this->session['order']->setAcceptedTOS(
+				($this->post['accept_tos'] ?? '') == "true" ? "Yes" : "No" );
 		
 		/*
 		if ( $this->session['order']->getAccountType() == "Existing Account" ) {
@@ -171,8 +173,9 @@ class ReviewPage extends SolidStatePage {
 		$cartWidget->setOrder( $_SESSION['order'] );
 
 		// Provide the Terms of Service config to the template
-		$this->smarty->assign( "tos_required", $this->conf['order']['tos_required'] );
-		$this->smarty->assign( "tos_url", $this->conf['order']['tos_url'] );
+		$this->smarty->assign( "tos_required",
+				!empty( $this->conf['order']['tos_required'] ) );
+		$this->smarty->assign( "tos_url", $this->conf['order']['tos_url'] ?? '' );
 
 		// Supress the login link
 		$this->smarty->assign( "supressWelcome", true );
