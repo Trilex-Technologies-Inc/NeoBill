@@ -84,7 +84,7 @@ function load_settings( &$conf ) {
 				break;
 
 			case "locale_language":
-				TranslationParser::load( "language/" . $val );
+				TranslationParser::load( ($conf['application_dir'] ?? getcwd()) . "/language/" . $val );
 				Translator::getTranslator()->setActiveLanguage( $val );
 				$conf['locale']['language'] = $val;
 				break;

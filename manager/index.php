@@ -36,7 +36,7 @@ $language = isset( $_SESSION['client']['userdbo'] ) ?
   $_SESSION['client']['userdbo']->getLanguage() : null;
 if( $language != null )
   {
-    TranslationParser::load( "language/" . $language );
+	    TranslationParser::load( ($conf['application_dir'] ?? __DIR__) . "/language/" . $language );
     Translator::getTranslator()->setActiveLanguage( $language );
   }
   

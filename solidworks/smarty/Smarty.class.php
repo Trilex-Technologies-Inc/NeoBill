@@ -1603,10 +1603,13 @@ class Smarty {
 
 		if ($params['resource_type'] == 'file') {
 			if (!preg_match('/^([\/\\\\]|[a-zA-Z]:[\/\\\\])/', $params['resource_name'])) {
-				// relative pathname to $params['resource_base_path']
-				// use the first directory where the file is found
-				foreach ((array)$params['resource_base_path'] as $_curr_path) {
-					$_fullpath = '.' . $_curr_path . DIRECTORY_SEPARATOR . $params['resource_name'];
+					// relative pathname to $params['resource_base_path']
+					// use the first directory where the file is found
+					foreach ((array)$params['resource_base_path'] as $_curr_path) {
+						// Preserve absolute base paths. The original Smarty 2 resolver
+						// prepended a dot unconditionally, corrupting paths such as /var/www.
+						$_path_prefix = preg_match('/^([\/\\\\]|[a-zA-Z]:[\/\\\\])/', $_curr_path) ? '' : '.';
+						$_fullpath = $_path_prefix . $_curr_path . DIRECTORY_SEPARATOR . $params['resource_name'];
 					if (file_exists($_fullpath) && is_file($_fullpath)) {
 						$params['resource_name'] = $_fullpath;
 						return true;
