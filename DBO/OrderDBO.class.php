@@ -919,7 +919,7 @@ class OrderDBO extends DBO {
         // Create user
         $userDBO = new UserDBO();
         $userDBO->setUsername( $this->getUsername() );
-        $userDBO->setPassword( md5( $this->getPassword() ) );
+		$userDBO->setPassword( md5( (string) $this->getPassword() ) );
         $userDBO->setType( "Client" );
         add_UserDBO( $userDBO );
 

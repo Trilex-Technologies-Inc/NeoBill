@@ -59,6 +59,25 @@ require_once('class.soap_server.php');*/
  * @access   public
  */
 class nusoap_base {
+	var $currentElement = false;
+	var $currentComplexType = false;
+	var $name = null;
+	var $value = null;
+	var $type = null;
+	var $element_ns = null;
+	var $type_ns = null;
+	var $attributes = array();
+	var $fp = null;
+	var $SOAPAction = '';
+	var $methodname = '';
+	var $currentPortOperation = '';
+	var $opStatus = '';
+	var $serviceName = '';
+	var $errstr = '';
+	var $methodNamespace = '';
+	var $wsdlFile = '';
+	var $operation = '';
+	var $return = null;
 
     var $title = 'NuSOAP';
     var $version = '0.6.6';
@@ -3868,7 +3887,9 @@ class soap_parser extends nusoap_base {
             // TODO: add an option to disable this for folks who want
             // raw UTF-8 that, e.g., might not map to iso-8859-1
             // TODO: this can also be handled with xml_parser_set_option($this->parser, XML_OPTION_TARGET_ENCODING, "ISO-8859-1");
-            $data = utf8_decode($data);
+			$data = function_exists('mb_convert_encoding') ?
+					mb_convert_encoding((string) $data, 'ISO-8859-1', 'UTF-8') :
+					(function_exists('iconv') ? iconv('UTF-8', 'ISO-8859-1//TRANSLIT', (string) $data) : (string) $data);
         }
         $this->message[$pos]['cdata'] .= $data;
         // for doclit

@@ -33,6 +33,9 @@ class RegisterDomainPage extends SolidStatePage {
 	 */
 	var $purchaseDBO = null;
 
+	/** @var DomainServiceDBO Domain service selected for registration */
+	var $serviceDBO = null;
+
 	/**
 	 * Action
 	 *

@@ -30,8 +30,9 @@ class CCExpireValidator extends TextValidator {
 		$data = parent::validate( $data );
 
 		// Seperate the components of the expiration date
+		$data = (string) $data;
 		$components = explode( "/", $data );
-		if ( $components[0] == $data ) {
+		if ( count( $components ) !== 2 ) {
 			// Seperator not found
 			throw new FieldException();
 		}
@@ -48,7 +49,7 @@ class CCExpireValidator extends TextValidator {
 		$day = 1;
 		$expireTS = mktime( 0, 0, 0, $month, $day, $year ) - 1;
 
-		if ( $expiraTS === false || $expireTS == -1 || $expireTS < time() ) {
+		if ( $expireTS === false || $expireTS == -1 || $expireTS < time() ) {
 			// The expire date is either invalid or already past
 			throw new FieldException();
 		}

@@ -42,11 +42,11 @@ class cloudflareturnstile extends SolidStateModule {
 	}
 
 	function setSiteKey( $siteKey ) {
-		$this->siteKey = trim( $siteKey );
+		$this->siteKey = trim( (string) $siteKey );
 	}
 
 	function setSecretKey( $secretKey ) {
-		$this->secretKey = trim( $secretKey );
+		$this->secretKey = trim( (string) $secretKey );
 	}
 
 	function isConfigured() {
@@ -61,7 +61,7 @@ class cloudflareturnstile extends SolidStateModule {
 		}
 
 		return '<div class="cf-turnstile" data-sitekey="' .
-				htmlspecialchars( $this->getSiteKey(), ENT_QUOTES, "UTF-8" ) .
+				htmlspecialchars( (string) $this->getSiteKey(), ENT_QUOTES, "UTF-8" ) .
 				'"></div>';
 	}
 

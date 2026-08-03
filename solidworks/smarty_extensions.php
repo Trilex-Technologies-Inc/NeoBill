@@ -275,7 +275,7 @@ function smarty_form( $params, $content, &$smarty, &$repeat ) {
 			// proxies or rewrite rules that strip the action query string.
 			$content = sprintf(
 					'<input type="hidden" name="_sw_form" value="%s"/>%s',
-					htmlspecialchars($form_name, ENT_QUOTES, 'UTF-8'),
+					htmlspecialchars((string) $form_name, ENT_QUOTES, 'UTF-8'),
 					$content
 			);
 		}

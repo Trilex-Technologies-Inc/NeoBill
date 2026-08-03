@@ -30,6 +30,11 @@ class AsianPay extends PaymentProcessorModule
 	var $secretcode = 0;
 	var $receiveremail = "a@a.com";
 	var $pay_url = "https://asianpay.com/users/single_item/make_payment.php";
+	var $demo_mode = 0;
+	var $_POST1 = array();
+	var $item_number = null;
+	var $transaction_id = null;
+	var $payment_status = null;
 	
 	/**
 	 * Initialize Module

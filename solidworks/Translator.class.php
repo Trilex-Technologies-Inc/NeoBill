@@ -126,7 +126,7 @@ class Translator {
 	 * @param string Active language
 	 */
 	public function setActiveLanguage( $language ) {
-		$this->activeLanguage = strtolower( $language );
+		$this->activeLanguage = strtolower( (string) $language );
 	}
 
 	/**
@@ -135,7 +135,7 @@ class Translator {
 	 * @param string Default language
 	 */
 	public function setDefaultLanguage( $language ) {
-		$this->defaultLanguage = strtolower( $language );
+		$this->defaultLanguage = strtolower( (string) $language );
 	}
 
 	/**

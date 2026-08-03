@@ -159,7 +159,7 @@ class AuthorizeAIM extends PaymentGatewayModule
 	{
 		$fields = "";
 		foreach ($params as $key => $value) {
-			$fields .= sprintf("%s=%s&", $key, urlencode($value));
+			$fields .= sprintf("%s=%s&", $key, urlencode((string) $value));
 		}
 		return $fields;
 	}
@@ -380,7 +380,7 @@ class AuthorizeAIM extends PaymentGatewayModule
 		$resp = curl_exec($ch);
 		curl_close($ch);
 
-		return explode($this->getDelimiter(), $resp);
+		return explode((string) $this->getDelimiter(), (string) $resp);
 	}
 
 	/**

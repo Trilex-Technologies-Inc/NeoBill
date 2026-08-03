@@ -52,6 +52,7 @@ class TelephoneValidator extends TextValidator {
 	 * @throws InvalidTelephoneException
 	 */
 	protected function validatePhoneNumber( $data ) {
+		$data = (string) $data;
 		// Strip out the international calling code, if there isn't one, set it to 1
 		if (preg_match( "|^\+|", $data )) {
 			// Extract the CC and verify that it's numerical

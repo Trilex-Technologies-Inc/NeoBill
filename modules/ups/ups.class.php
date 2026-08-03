@@ -122,48 +122,48 @@ class ups extends ShippingModule {
 	}
 
 	function setClientID( $clientID ) {
-		$this->clientID = trim( $clientID );
+		$this->clientID = trim( (string) $clientID );
 	}
 
 	function setClientSecret( $clientSecret ) {
-		$this->clientSecret = trim( $clientSecret );
+		$this->clientSecret = trim( (string) $clientSecret );
 	}
 
 	function setShipperNumber( $shipperNumber ) {
-		$this->shipperNumber = trim( $shipperNumber );
+		$this->shipperNumber = trim( (string) $shipperNumber );
 	}
 
 	function setAccountCountry( $country ) {
-		$country = strtoupper( trim( $country ) );
+		$country = strtoupper( trim( (string) $country ) );
 		$this->accountCountry = $country == "" ? "US" : $country;
 	}
 
 	function setAccountPostalCode( $postalCode ) {
-		$this->accountPostalCode = trim( $postalCode );
+		$this->accountPostalCode = trim( (string) $postalCode );
 	}
 
 	function setCurrencyCode( $currencyCode ) {
-		$currencyCode = strtoupper( trim( $currencyCode ) );
+		$currencyCode = strtoupper( trim( (string) $currencyCode ) );
 		$this->currencyCode = $currencyCode == "" ? "USD" : $currencyCode;
 	}
 
 	function setDefaultServiceCode( $serviceCode ) {
-		$serviceCode = trim( $serviceCode );
+		$serviceCode = trim( (string) $serviceCode );
 		$this->defaultServiceCode = $serviceCode == "" ? "03" : $serviceCode;
 	}
 
 	function setDefaultPackagingCode( $packagingCode ) {
-		$packagingCode = trim( $packagingCode );
+		$packagingCode = trim( (string) $packagingCode );
 		$this->defaultPackagingCode = $packagingCode == "" ? "02" : $packagingCode;
 	}
 
 	function setWeightUnit( $weightUnit ) {
-		$weightUnit = strtoupper( trim( $weightUnit ) );
+		$weightUnit = strtoupper( trim( (string) $weightUnit ) );
 		$this->weightUnit = $weightUnit == "" ? "LBS" : $weightUnit;
 	}
 
 	function setDimensionUnit( $dimensionUnit ) {
-		$dimensionUnit = strtoupper( trim( $dimensionUnit ) );
+		$dimensionUnit = strtoupper( trim( (string) $dimensionUnit ) );
 		$this->dimensionUnit = $dimensionUnit == "" ? "IN" : $dimensionUnit;
 	}
 
@@ -175,7 +175,7 @@ class ups extends ShippingModule {
 
 	function trackShipment( $trackingNumber ) {
 		$this->validateConfigured();
-		$trackingNumber = trim( $trackingNumber );
+		$trackingNumber = trim( (string) $trackingNumber );
 		if ( $trackingNumber == "" ) {
 			throw new SWUserException( "Missing UPS tracking number." );
 		}

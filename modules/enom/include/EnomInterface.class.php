@@ -87,7 +87,7 @@ class EnomInterface
   function AddParam( $Name, $Value ) 
   {
     // URL encode the value and add to PostString
-    $this->PostString = $this->PostString . $Name . "=" . urlencode( $Value ) . "&";
+	$this->PostString = $this->PostString . $Name . "=" . urlencode( (string) $Value ) . "&";
   }
   
   function DoTransaction() 

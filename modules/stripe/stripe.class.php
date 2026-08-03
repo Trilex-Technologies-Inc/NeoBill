@@ -93,23 +93,23 @@ class stripe extends PaymentProcessorModule {
 	}
 
 	function setTestPublishableKey( $key ) {
-		$this->testPublishableKey = trim( $key );
+		$this->testPublishableKey = trim( (string) $key );
 	}
 
 	function setTestSecretKey( $key ) {
-		$this->testSecretKey = trim( $key );
+		$this->testSecretKey = trim( (string) $key );
 	}
 
 	function setLivePublishableKey( $key ) {
-		$this->livePublishableKey = trim( $key );
+		$this->livePublishableKey = trim( (string) $key );
 	}
 
 	function setLiveSecretKey( $key ) {
-		$this->liveSecretKey = trim( $key );
+		$this->liveSecretKey = trim( (string) $key );
 	}
 
 	function setCurrencyCode( $currencyCode ) {
-		$currencyCode = strtoupper( trim( $currencyCode ) );
+		$currencyCode = strtoupper( trim( (string) $currencyCode ) );
 		$this->currencyCode = $currencyCode == "" ? "USD" : $currencyCode;
 	}
 
@@ -132,7 +132,8 @@ class stripe extends PaymentProcessorModule {
 		}
 
 		$params["line_items[0][quantity]"] = 1;
-		$params["line_items[0][price_data][currency]"] = strtolower( $this->getCurrencyCode() );
+		$params["line_items[0][price_data][currency]"] =
+				strtolower( (string) $this->getCurrencyCode() );
 		$params["line_items[0][price_data][unit_amount]"] = $this->amountToCents( $order->getTotal() );
 		$params["line_items[0][price_data][product_data][name]"] = "Order #" . $order->getID();
 
@@ -140,7 +141,7 @@ class stripe extends PaymentProcessorModule {
 	}
 
 	function retrieveCheckoutSession( $sessionID ) {
-		$sessionID = trim( $sessionID );
+		$sessionID = trim( (string) $sessionID );
 		if ( $sessionID == "" ) {
 			throw new SWUserException( "Missing Stripe checkout session." );
 		}

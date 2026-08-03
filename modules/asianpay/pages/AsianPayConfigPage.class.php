@@ -12,7 +12,7 @@ class AsianPayConfigPage extends SolidStateAdminPage {
 	/**
 	 * @var asianpay module
 	 */
-	var $AsianPayModule;
+	var $asianpayModule;
 
 	/**
 	 * Action
