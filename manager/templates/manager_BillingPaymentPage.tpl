@@ -24,7 +24,8 @@
         <div class="billing-payment-card-header">
           <span><i class="ti ti-file-invoice"></i></span>
           <div>
-            <h3>Invoice</h3>
+            <span class="billing-payment-step">Step 1</span>
+            <h3>Choose an invoice</h3>
             <p>Choose the invoice that should receive this payment.</p>
           </div>
         </div>
@@ -33,7 +34,7 @@
             <label class="form-label">
               {form_description field="invoiceselect"}
             </label>
-            {form_element field="invoiceselect" class="form-select"}
+            {form_element field="invoiceselect" class="form-select" empty="No outstanding invoices"}
             <small>Select from outstanding invoices.</small>
           </div>
 
@@ -56,6 +57,7 @@
         <div class="billing-payment-card-header">
           <span><i class="ti ti-checkup-list"></i></span>
           <div>
+            <span class="billing-payment-step">Step 2</span>
             <h3>Payment Details</h3>
             <p>Confirm the amount, method, status, and references.</p>
           </div>
@@ -67,10 +69,7 @@
                 <label class="form-label">
                   {form_description field="date"}
                 </label>
-                <div class="billing-payment-input-icon">
-                  <i class="ti ti-calendar"></i>
-                  {form_element field="date" class="form-control"}
-                </div>
+                {form_element field="date" type="date" class="form-control"}
               </div>
             </div>
 
@@ -79,9 +78,8 @@
                 <label class="form-label">
                   {form_description field="amount"}
                 </label>
-                <div class="billing-payment-input-icon">
-                  <i class="ti ti-currency-dollar"></i>
-                  {form_element field="amount" size="7" class="form-control" placeholder="0.00"}
+                <div class="billing-payment-input-icon billing-payment-amount">
+                  {form_element field="amount" size="7" class="form-control" placeholder="0.00" inline_symbol="true"}
                 </div>
               </div>
             </div>

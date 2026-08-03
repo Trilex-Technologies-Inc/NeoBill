@@ -71,9 +71,8 @@
             <div class="col-md-6">
               <div class="billing-payment-field">
                 <label class="form-label">{form_description field="amount"}</label>
-                <div class="billing-payment-input-icon">
-                  <i class="ti ti-currency-dollar"></i>
-                  {form_element field="amount" size="7" class="form-control" placeholder="0.00"}
+				<div class="billing-payment-input-icon billing-payment-amount">
+				  {form_element field="amount" size="7" class="form-control" placeholder="0.00" inline_symbol="true"}
                 </div>
               </div>
             </div>
