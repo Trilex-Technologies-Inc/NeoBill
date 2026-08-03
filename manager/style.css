@@ -396,6 +396,80 @@ body.sb-nav-fixed .manager_error.alert {
 	border-radius: 10px;
 }
 
+.manager-notice {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.8rem;
+	width: 100%;
+	padding: 0.85rem 1rem;
+	border: 1px solid;
+	border-radius: 8px;
+	box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+}
+
+.manager-notice-error {
+	color: #991b1b;
+	border-color: #fecaca;
+	background: #fff7f7;
+}
+
+.manager-notice-info {
+	color: #1e40af;
+	border-color: #bfdbfe;
+	background: #f5f9ff;
+}
+
+.manager-notice-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 34px;
+	flex: 0 0 auto;
+	font-size: 1.05rem;
+	border-radius: 7px;
+}
+
+.manager-notice-error .manager-notice-icon {
+	color: #dc2626;
+	background: #fee2e2;
+}
+
+.manager-notice-info .manager-notice-icon {
+	color: #2563eb;
+	background: #dbeafe;
+}
+
+.manager-notice-content {
+	min-width: 0;
+	padding-top: 0.05rem;
+	font-size: 0.82rem;
+	line-height: 1.45;
+}
+
+.manager-notice-content > strong {
+	display: block;
+	margin-bottom: 0.15rem;
+	color: #7f1d1d;
+	font-size: 0.86rem;
+	font-weight: 750;
+}
+
+.manager-notice .manager-notice-content p.error,
+.manager-notice .manager-notice-content p.message {
+	margin: 0;
+	padding: 0;
+	color: inherit;
+	font-size: inherit;
+	font-weight: 500;
+	border: 0;
+	background: transparent;
+}
+
+.manager-notice .manager-notice-content br:last-child {
+	display: none;
+}
+
 main {
 	flex: 1 0 auto;
 	min-height: 0;
