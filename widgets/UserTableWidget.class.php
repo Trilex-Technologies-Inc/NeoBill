@@ -28,6 +28,7 @@ class UserTableWidget extends TableWidget {
 		// Load the User Table
 		try {
 			// Build the table
+			$where = null;
 			$users = load_array_UserDBO( $where );
 			foreach( $users as $dbo ) {
 				// Put the row into the table

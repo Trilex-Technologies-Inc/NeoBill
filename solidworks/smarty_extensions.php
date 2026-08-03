@@ -438,29 +438,29 @@ function smarty_form_echo( $params, &$smarty ) {
 	global $conf, $form_stack, $page;
 
 	$form_name        = end( $form_stack );
-	$form_field       = $params['field'];
+	$form_field       = $params['field'] ?? null;
 
 	// Access the Page's session data
 	$session = $page->getPageSession();
 
 	// Verify form configuration exists
-	$form_data = $conf['forms'][$form_name];
+	$form_data = $conf['forms'][$form_name] ?? null;
 	if ( !isset( $form_data ) ) {
 		// Form is not configured
 		return "Form (" . $form_name . ") is not valid!";
 	}
 
 	// Verify the field exists
-	$field_data = $form_data['fields'][$form_field];
+	$field_data = $form_data['fields'][$form_field] ?? null;
 	if ( !isset( $field_data ) ) {
 		// Field description is not configured
 		return "Form field (" .
-				$form_field_description .
+					$form_field .
 				") is not configured!";
 	}
 
 	// Return value
-	return $session[$form_name][$form_field];
+	return $session[$form_name][$form_field] ?? null;
 }
 
 /**
@@ -482,13 +482,13 @@ function field_has_error( $field_name ) {
 				"field_has_error must be called from within a {form} {/form} block" );
 	}
 
-	$form_conf = $conf['forms'][$form_name];
-	$page_name = $form_conf['page'];
+	$form_conf = $conf['forms'][$form_name] ?? array();
+	$page_name = $form_conf['page'] ?? null;
 
 	// Access the Page's session data
 	$session = $page->getPageSession();
 
-	$errors = $session['form_errors'];
+	$errors = $session['form_errors'] ?? null;
 
 	if ( !isset( $errors ) ) {
 		// no errors, return
@@ -497,7 +497,7 @@ function field_has_error( $field_name ) {
 
 	// Search errors for field name
 	foreach( $errors as $error ) {
-		if ( $error['field_name'] == $field_name ) {
+		if ( ($error['field_name'] ?? null) == $field_name ) {
 			// Error for field was found
 			return true;
 		}
@@ -639,8 +639,10 @@ function smarty_form_table_column( $params, $content, &$smarty, &$repeat ) {
 		// {/form_table_column} - End of the block
 		if ( $tableWidget->showHeaders() ) {
 			// Display column header on the first loop through
-			echo $tableWidget->getColumnHeaderHTML( $params['columnid'],
-			$params['header'] );
+			echo $tableWidget->getColumnHeaderHTML(
+					$params['columnid'] ?? '',
+					$params['header'] ?? ''
+			);
 		}
 		else {
 			// Create a td tag and evaluate the contents

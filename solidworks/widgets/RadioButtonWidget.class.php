@@ -26,22 +26,24 @@ class RadioButtonWidget extends HTMLWidget {
 	 * @return string HTML code for this widget
 	 */
 	function getHTML( $params ) {
+		$myParams = array();
+		$option = $params['option'] ?? null;
 		// Get widget value if available
 		$value = $this->determineValue( $params );
 
 		// Determine if this radio button is "checked"
-		if ( $params['option'] == $value ) {
+		if ( $option == $value ) {
 			// This option is checked
 			$myParams['checked'] = "checked";
 		}
 
 		// Generate HTML for a text box control
 		$myParams['type'] = "radio";
-		$myParams['value'] = $params['option'];
+		$myParams['value'] = $option;
 		return sprintf( "<input %s/> %s",
 				$this->buildParams( $params, $myParams ),
 				!isset( $params['hideoption'] ) ?
-				$this->fieldConfig['enum'][$params['option']] : null );
+					($this->fieldConfig['enum'][$option] ?? $option) : null );
 	}
 }
 ?>

@@ -30,6 +30,7 @@ class HostingServiceTableWidget extends TableWidget {
 		// Load the HostingService Table
 		try {
 			// Build the table
+			$where = null;
 			$services = load_array_HostingServiceDBO( $where );
 			foreach ( $services as $dbo ) {
 				// Format the pricing for this hosting service

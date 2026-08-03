@@ -28,6 +28,7 @@ class ServerTableWidget extends TableWidget {
 		// Load the Server Table
 		try {
 			// Build the table
+			$where = null;
 			$servers = load_array_ServerDBO( $where );
 			foreach ( $servers as $dbo ) {
 				// Put the row into the table

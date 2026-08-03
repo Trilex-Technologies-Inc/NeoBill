@@ -26,21 +26,22 @@ class CheckBoxWidget extends HTMLWidget {
 	 * @return string HTML code for this widget
 	 */
 	function getHTML( $params ) {
+		$myParams = array();
+		$option = $params['option'] ?? null;
 		// Get widget value if available
 		$value = $this->determineValue( $params );
 
 		// Determine if this radio button is "checked"
-		if ( $params['option'] == $value ) {
+		if ( $option == $value ) {
 			// This option is checked
 			$myParams['checked'] = "checked";
 		}
 
 		// Generate HTML for a text box control
 		$myParams['type'] = "checkbox";
-		$myParams['value'] = $params['option'];
+		$myParams['value'] = $option;
 		return sprintf( "<input %s/>",
-				$this->buildParams( $params, $myParams ),
-				$this->fieldConfig['enum'][$params['option']] );
+				$this->buildParams( $params, $myParams ) );
 	}
 }
 ?>

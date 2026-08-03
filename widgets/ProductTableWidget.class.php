@@ -30,6 +30,7 @@ class ProductTableWidget extends TableWidget {
 		// Load the Product Table
 		try {
 			// Build the table
+			$where = null;
 			$products = load_array_ProductDBO( $where );
 			foreach ( $products as $dbo ) {
 				// Format the pricing for this hosting service

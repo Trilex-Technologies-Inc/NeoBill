@@ -53,8 +53,8 @@ class Form {
 			// Create and add a new Field to the form
 			$field = new FormField( $this->name,
 					$fieldName,
-					$fieldConfig['widget'],
-					$fieldConfig['validator'],
+					$fieldConfig['widget'] ?? null,
+					$fieldConfig['validator'] ?? null,
 					$fieldConfig );
 			$this->addFormField( $field );
 		}
