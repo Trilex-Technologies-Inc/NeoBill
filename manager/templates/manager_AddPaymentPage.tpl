@@ -1,130 +1,111 @@
-<div class="manager_content">
+<div class="manager_content billing-payment-page">
 {form name="new_payment"}
 
-  <div class="form">
-    <div class="card shadow-sm">
-      <div class="card-header bg-gradient bg-primary text-white">
-        <div class="d-flex align-items-center">
-          <i class="bi bi-credit-card fs-4 me-2"></i>
-          <h5 class="mb-0">[ENTER_PAYMENT]</h5>
+  <div class="billing-payment-shell">
+    <div class="billing-payment-header">
+      <div class="billing-payment-title">
+        <span class="billing-payment-icon">
+          <i class="ti ti-cash-banknote"></i>
+        </span>
+        <div>
+          <span class="billing-payment-kicker">Billing</span>
+          <h2>[ENTER_PAYMENT]</h2>
+          <p>Record a payment for {dbo_echo dbo="account_dbo" field="accountname"}.</p>
         </div>
       </div>
-      
-      <div class="card-body">
-        
-        <div class="row">
-          <!-- Left Column -->
-          <div class="col-md-6">
-            <!-- Account -->
-            <div class="row mb-3">
-              <label class="col-sm-5 col-form-label fw-bold">
-                {echo phrase="ACCOUNT"}:
-              </label>
-              <div class="col-sm-7">
-                <p class="form-control-plaintext">
-                  {dbo_echo dbo="account_dbo" field="accountname"}
-                </p>
+    </div>
+
+    <div class="billing-payment-grid">
+      <div class="billing-payment-card">
+        <div class="billing-payment-card-header">
+          <span><i class="ti ti-file-invoice"></i></span>
+          <div>
+            <h3>Account &amp; Invoice</h3>
+            <p>Confirm where this payment should be applied.</p>
+          </div>
+        </div>
+        <div class="billing-payment-card-body">
+          <div class="billing-payment-field">
+            <label class="form-label">{echo phrase="ACCOUNT"}</label>
+            <div class="billing-payment-input-icon">
+              <i class="ti ti-user"></i>
+              <input type="text" class="form-control" value="{dbo_echo dbo="account_dbo" field="accountname"}" readonly="readonly" />
+            </div>
+          </div>
+
+          <div class="billing-payment-field">
+            <label class="form-label">{form_description field="invoice"}</label>
+            {if isset($invoice_id)}
+              <div class="billing-payment-input-icon">
+                <i class="ti ti-hash"></i>
+                <input type="text" class="form-control" value="{echo phrase="INVOICE"} #{$invoice_id}" readonly="readonly" />
+              </div>
+            {else}
+              {form_element field="invoice" class="form-select"}
+              <small>Select the invoice that should receive this payment.</small>
+            {/if}
+          </div>
+        </div>
+      </div>
+
+      <div class="billing-payment-card billing-payment-summary-card">
+        <div class="billing-payment-card-header">
+          <span><i class="ti ti-checkup-list"></i></span>
+          <div>
+            <h3>Payment Details</h3>
+            <p>Enter the amount, method, date, and transaction references.</p>
+          </div>
+        </div>
+        <div class="billing-payment-card-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="billing-payment-field">
+                <label class="form-label">{form_description field="date"}</label>
+                <div class="billing-payment-input-icon">
+                  <i class="ti ti-calendar"></i>
+                  {form_element field="date" class="form-control"}
+                </div>
               </div>
             </div>
 
-            <!-- Invoice -->
-            <div class="row mb-3">
-              <label class="col-sm-5 col-form-label fw-bold">
-                {form_description field="invoice"}
-              </label>
-              <div class="col-sm-7">
-                {if isset($invoice_id)}
-                  <p class="form-control-plaintext">
-                    {echo phrase="INVOICE"} #{$invoice_id}
-                  </p>
-                {else}
-                  {form_element field="invoice" class="form-select"}
-                {/if}
+            <div class="col-md-6">
+              <div class="billing-payment-field">
+                <label class="form-label">{form_description field="amount"}</label>
+                <div class="billing-payment-input-icon">
+                  <i class="ti ti-currency-dollar"></i>
+                  {form_element field="amount" size="7" class="form-control" placeholder="0.00"}
+                </div>
               </div>
             </div>
 
-            <!-- Date -->
-            <div class="row mb-3">
-              <label class="col-sm-5 col-form-label fw-bold">
-                {form_description field="date"}
-              </label>
-              <div class="col-sm-7">
-                {form_element field="date" class="form-control"}
-              </div>
-            </div>
-
-            <!-- Type -->
-            <div class="row mb-3">
-              <label class="col-sm-5 col-form-label fw-bold">
-                {form_description field="type"}
-              </label>
-              <div class="col-sm-7">
+            <div class="col-md-12">
+              <div class="billing-payment-field">
+                <label class="form-label">{form_description field="type"}</label>
                 {form_element field="type" class="form-select"}
               </div>
             </div>
-          </div>
 
-          <!-- Right Column -->
-          <div class="col-md-6">
-            <!-- Amount -->
-            <div class="row mb-3">
-              <label class="col-sm-5 col-form-label fw-bold">
-                {form_description field="amount"}
-              </label>
-              <div class="col-sm-7">
-                <div class="input-group">
-                  <span class="input-group-text">$</span>
-                  {form_element field="amount" size="7" class="form-control"}
-                </div>
+            <div class="col-md-6">
+              <div class="billing-payment-field">
+                <label class="form-label">{form_description field="transaction1"}</label>
+                {form_element field="transaction1" size="20" class="form-control" placeholder="Check number or reference ID"}
               </div>
             </div>
 
-            <!-- Transaction 1 -->
-            <div class="row mb-3">
-              <label class="col-sm-5 col-form-label fw-bold">
-                {form_description field="transaction1"}
-              </label>
-              <div class="col-sm-7">
-                {form_element field="transaction1" size="20" class="form-control"}
-              </div>
-            </div>
-
-            <!-- Transaction 2 -->
-            <div class="row mb-3">
-              <label class="col-sm-5 col-form-label fw-bold">
-                {form_description field="transaction2"}
-              </label>
-              <div class="col-sm-7">
-                {form_element field="transaction2" size="20" class="form-control"}
-              </div>
-            </div>
-
-            <!-- Payment Summary Card -->
-            <div class="card bg-light mt-2">
-              <div class="card-body">
-                <small class="text-muted">{echo phrase="PAYMENT_SUMMARY"}</small>
-                <hr class="my-2">
-                <div class="d-flex justify-content-between">
-                  <span>{echo phrase="TOTAL_PAYMENT"}:</span>
-                  <span class="fw-bold" id="payment_total">$0.00</span>
-                </div>
+            <div class="col-md-6">
+              <div class="billing-payment-field">
+                <label class="form-label">{form_description field="transaction2"}</label>
+                {form_element field="transaction2" size="20" class="form-control" placeholder="Additional reference"}
               </div>
             </div>
           </div>
         </div>
-
-        <!-- Buttons -->
-        <div class="row mt-3">
-          <div class="col-12">
-            <hr>
-            <div class="d-flex gap-2 justify-content-end">
-              {form_element field="cancel" class="btn btn-outline-secondary"}
-              {form_element field="continue" class="btn btn-primary px-4"}
-            </div>
-          </div>
-        </div>
-
       </div>
+    </div>
+
+    <div class="billing-payment-actions">
+      {form_element field="cancel" class="btn btn-outline-secondary"}
+      {form_element field="continue" class="btn btn-primary"}
     </div>
   </div>
 
