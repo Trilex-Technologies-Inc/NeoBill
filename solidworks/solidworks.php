@@ -43,7 +43,7 @@ function solidworks(&$conf, $smarty)
 	validate_client();
 
 	// Load the user's language preference
-	$language = isset($_SESSION['client']['userdbo']) ?
+	$language = !empty($_SESSION['client']['userdbo']) ?
 		$_SESSION['client']['userdbo']->getLanguage() : null;
 	if ($language != null) {
 		TranslationParser::load(($conf['application_dir'] ?? getcwd()) . "/language/" . $language);
@@ -101,20 +101,21 @@ function display_page($page)
 
 	// Update page variables - they may need to be filled in with run-time info
 	generate_location_stack($conf);
-	$page->setLocationStack($conf['pages'][$page->getClassName()]['location_stack']);
-	$page->setTitle($conf['pages'][$page->getClassName()]['title']);
-	$page->setUrl($conf['pages'][$page->getClassName()]['url']);
+	$pageData = $conf['pages'][$page->getClassName()] ?? array();
+	$page->setLocationStack($pageData['location_stack'] ?? array());
+	$page->setTitle($pageData['title'] ?? '');
+	$page->setUrl($pageData['url'] ?? '');
 
 	// Set template variables
 	$smarty->assign("location", $page->getTitle());
 	$smarty->assign("location_stack", $page->getLocationStack());
-	$smarty->assign("company_name", $conf['company']['name']);
+	$smarty->assign("company_name", $conf['company']['name'] ?? 'NeoBill');
 	$smarty->assign("client_ip", $_SERVER['REMOTE_ADDR'] ?? '');
 	$smarty->assign("content_template", $page->getTemplateFile());
 	$smarty->assign("url", $page->getUrl());
-	$smarty->assign("version", $conf['application_name']);
+	$smarty->assign("version", $conf['application_name'] ?? 'NeoBill');
 	$smarty->assign("machine", $_SERVER['SERVER_NAME'] ?? '');
-	if (isset($_SESSION['client']['userdbo'])) {
+	if (!empty($_SESSION['client']['userdbo'])) {
 		$smarty->assign("username", $_SESSION['client']['userdbo']->getUsername());
 	}
 

@@ -26,13 +26,13 @@ require_once dirname(__FILE__)."/../util/settings.php";
 load_settings( $conf );
 
 // Set the current theme
-$theme = isset( $_SESSION['client']['userdbo'] ) ?
-  $_SESSION['client']['userdbo']->getTheme() : $conf['themes']['manager'];
+$theme = !empty( $_SESSION['client']['userdbo'] ) ?
+  $_SESSION['client']['userdbo']->getTheme() : ($conf['themes']['manager'] ?? 'default');
 $conf['themes']['current'] = $theme;
 
 // Load the user's language preference
 session_start();
-$language = isset( $_SESSION['client']['userdbo'] ) ? 
+$language = !empty( $_SESSION['client']['userdbo'] ) ?
   $_SESSION['client']['userdbo']->getLanguage() : null;
 if( $language != null )
   {
@@ -47,7 +47,7 @@ if( $language != null )
 
 // Build the core menu
 $menu = SolidStateMenu::getSolidStateMenu();
-$username = isset( $_SESSION['client']['userdbo'] ) ?
+$username = !empty( $_SESSION['client']['userdbo'] ) ?
   $_SESSION['client']['userdbo']->getUsername() : null;
 $menu->addItem( new SolidStateMenuItem( "myinfo", 
 					"[MY_INFO]", 
@@ -61,7 +61,7 @@ $smarty->assign( "menuItems", $menuItems );
 
 
 // Display frames
- $smarty->assign( "company_name", $conf['company']['name'] );
+ $smarty->assign( "company_name", $conf['company']['name'] ?? 'NeoBill' );
 // $smarty->display( Page::selectTemplateFile( "manager_frames.tpl" ) );
 
 ?>

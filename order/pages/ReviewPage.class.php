@@ -66,7 +66,8 @@ class ReviewPage extends SolidStatePage {
 			throw new SWUserException( "[YOU_MUST_ACCEPT_THE_TERMS_OF_SERVICE]" );
 		}
 
-		$this->session['order']->setRemoteIP( ip2long( $_SERVER['REMOTE_ADDR'] ) );
+		$this->session['order']->setRemoteIP(
+				ip2long( $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0' ) );
 		$this->session['order']->setDateCreated( DBConnection::format_datetime( time() ) );
 		$this->session['order']->setAcceptedTOS( $this->post['accept_tos'] == "true" ? "Yes" : "No" );
 		

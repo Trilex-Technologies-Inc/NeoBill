@@ -74,8 +74,9 @@ class HomePage extends SolidStatePage {
 		switch ( $action_name ) {
 			case "logout":
 				// Logout
-				log_notice( "Logout",
-						"User: " . $_SESSION['client']['userdbo']->getUsername() . " logged out" );
+				$username = !empty( $_SESSION['client']['userdbo'] ) ?
+						$_SESSION['client']['userdbo']->getUsername() : 'unknown';
+				log_notice( "Logout", "User: " . $username . " logged out" );
 				session_destroy();
 				$this->gotoPage( "home" );
 

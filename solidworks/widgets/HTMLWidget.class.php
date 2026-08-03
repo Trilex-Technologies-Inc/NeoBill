@@ -79,7 +79,7 @@ class HTMLWidget {
 		$value = isset( $params['value'] ) ? $params['value'] : $value;
 
 		// 2. DBO
-		if( isset( $params['dbo'] ) ) {
+		if( isset( $params['dbo'] ) && isset( $session[$params['dbo']] ) ) {
 			$dbo = $session[$params['dbo']];
 
 			// Get value for this field from the DBO

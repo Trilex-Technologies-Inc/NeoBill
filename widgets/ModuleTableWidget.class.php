@@ -31,7 +31,7 @@ class ModuleTableWidget extends TableWidget {
 	protected function determineValue( $params ) {
 		$registry = ModuleRegistry::getModuleRegistry();
 		try {
-			$module = $registry->getModule( $params['option'] );
+			$module = $registry->getModule( $params['option'] ?? '' );
 		}
 		catch ( ModuleDoesNotExistException $e ) {
 			return null;

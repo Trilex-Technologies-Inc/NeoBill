@@ -15,8 +15,8 @@ class MyProductsPage extends SolidStatePage {
     public function init() {
         parent::init();
 
-        if ( !isset( $_SESSION['client']['userdbo'] ) ||
-                $_SESSION['client']['userdbo'] == null ) {
+        if ( empty( $_SESSION['client']['userdbo'] ) ||
+                $_SESSION['client']['userdbo']->getType() !== "Client" ) {
             $this->gotoPage( "customerlogin" );
             return;
         }

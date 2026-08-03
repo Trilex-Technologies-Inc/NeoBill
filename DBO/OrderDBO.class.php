@@ -988,6 +988,8 @@ class OrderDBO extends DBO {
      * Set the status to "Pending" and the data completed to now, then update DB
      */
     public function complete() {
+		global $conf;
+
         // Set status to pending and give a timestamp
         $this->setStatus( "Pending" );
         $this->setDateCompleted( DBConnection::format_datetime( time() ) );
@@ -996,12 +998,14 @@ class OrderDBO extends DBO {
         update_OrderDBO( $this );
 
         // Notification e-mail
-        $body = $this->replaceTokens( $conf['order']['notification_email'] );
+		$companyEmail = $conf['company']['email'] ?? '';
+		$companyName = $conf['company']['name'] ?? 'NeoBill';
+		$body = $this->replaceTokens( $conf['order']['notification_email'] ?? '' );
 
         $notifyEmail = new Email();
-        $notifyEmail->addRecipient( $conf['company']['notification_email'] );
-        $notifyEmail->setFrom( $conf['company']['email'], "SolidState" );
-        $notifyEmail->setSubject( $conf['order']['notification_subject'] );
+		$notifyEmail->addRecipient( $conf['company']['notification_email'] ?? '' );
+		$notifyEmail->setFrom( $companyEmail, "SolidState" );
+		$notifyEmail->setSubject( $conf['order']['notification_subject'] ?? '' );
         $notifyEmail->setBody( $body );
         if( !$notifyEmail->send() ) {
             log_error( "OrderDBO::complete()",
@@ -1009,12 +1013,12 @@ class OrderDBO extends DBO {
         }
 
         // Confirmation e-mail
-        $body = $this->replaceTokens( $conf['order']['confirmation_email'] );
+		$body = $this->replaceTokens( $conf['order']['confirmation_email'] ?? '' );
 
         $confirmEmail = new Email();
         $confirmEmail->addRecipient( $this->getContactEmail() );
-        $confirmEmail->setFrom( $conf['company']['email'], $conf['company']['name'] );
-        $confirmEmail->setSubject( $conf['order']['confirmation_subject'] );
+		$confirmEmail->setFrom( $companyEmail, $companyName );
+		$confirmEmail->setSubject( $conf['order']['confirmation_subject'] ?? '' );
         $confirmEmail->setBody( $body );
         if( !$confirmEmail->send() ) {
             log_error( "OrderDBO::complete()",

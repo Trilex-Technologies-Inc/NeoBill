@@ -43,7 +43,7 @@ class OrderItemTableWidget extends TableWidget {
 			return null;
 		}
 
-		$orderitemdbo = $this->order->getItem( intval( $params['option'] ) );
+		$orderitemdbo = $this->order->getItem( intval( $params['option'] ?? 0 ) );
 		if ( $orderitemdbo == null ) {
 			return null;
 		}

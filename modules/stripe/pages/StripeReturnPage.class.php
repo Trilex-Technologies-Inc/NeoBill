@@ -36,7 +36,11 @@ class StripeReturnPage extends SolidStatePage {
 	}
 
 	function recordPayment( $session ) {
-		if ( $this->paymentExists( $session['id'] ) ) {
+		$sessionID = $session['id'] ?? null;
+		if ( $sessionID === null ) {
+			throw new SWUserException( "Stripe did not return a session identifier." );
+		}
+		if ( $this->paymentExists( $sessionID ) ) {
 			return;
 		}
 
@@ -48,7 +52,7 @@ class StripeReturnPage extends SolidStatePage {
 		$paymentDBO->setStatus( "Completed" );
 		$paymentDBO->setStatusMessage( "Stripe Checkout payment completed." );
 		$paymentDBO->setDate( DBConnection::format_datetime( time() ) );
-		$paymentDBO->setTransaction1( $session['id'] );
+		$paymentDBO->setTransaction1( $sessionID );
 		if ( isset( $session['payment_intent'] ) ) {
 			$paymentDBO->setTransaction2( $session['payment_intent'] );
 		}

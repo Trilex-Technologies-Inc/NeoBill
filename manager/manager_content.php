@@ -31,8 +31,8 @@ require_once dirname(__FILE__) . "/../util/settings.php";
 load_settings($conf);
 
 // Set the current theme
-$theme = isset($_SESSION['client']['userdbo']) ?
-	$_SESSION['client']['userdbo']->getTheme() : $conf['themes']['manager'];
+$theme = !empty($_SESSION['client']['userdbo']) ?
+	$_SESSION['client']['userdbo']->getTheme() : ($conf['themes']['manager'] ?? 'default');
 $conf['themes']['current'] = $theme;
 
 // Build the core menu

@@ -105,11 +105,11 @@ class AsianPay extends PaymentProcessorModule
 	function sendVariables($path_url, $pp_vals)
 	{
 		$this->_POST1               = array ();
-		$this->_POST1['receiver']   = $pp_vals['ap_receiver'];
-		$this->_POST1['receiverid'] = $pp_vals['ap_receiverid'];
-		$this->_POST1['account_id'] = $pp_vals['ap_account_id'];
-		$this->_POST1['prod_name']  = $_POST['desc'];
-		$this->_POST1['prod_price'] = number_format($_POST['gross_amount'],2);
+		$this->_POST1['receiver']   = $pp_vals['ap_receiver'] ?? '';
+		$this->_POST1['receiverid'] = $pp_vals['ap_receiverid'] ?? '';
+		$this->_POST1['account_id'] = $pp_vals['ap_account_id'] ?? '';
+		$this->_POST1['prod_name']  = $_POST['desc'] ?? '';
+		$this->_POST1['prod_price'] = number_format($_POST['gross_amount'] ?? 0, 2);
         
 		$this->_POST1['notifyurl']  = $path_url."/ipn.php";
 		$this->_POST1['successurl'] = $path_url."/OK.php";
@@ -129,15 +129,15 @@ class AsianPay extends PaymentProcessorModule
 	 */
 	function ipn(& $BL)
 	{
-		$this->item_number    = $_POST['custom_1'];
-		$this->transaction_id = $_POST['batch'];
-		$this->payment_status = $_POST['status'];
+		$this->item_number    = $_POST['custom_1'] ?? null;
+		$this->transaction_id = $_POST['batch'] ?? null;
+		$this->payment_status = $_POST['status'] ?? null;
 
         $sqlSELECT = "SELECT  * FROM {$BL->props->tbl_payment_processors} WHERE `pp_name` ='asianpay'";
         $temp      = $BL->dbL->executeSELECT($sqlSELECT);
-        $pp_vals   = $temp[0]; 
+		$pp_vals   = $temp[0] ?? array();
         
-		if (!empty ($this->item_number) && ($this->payment_status == 1 || $this->payment_status == 0)  && $_POST['custom_2'] == "AsianPay" && $_POST['receiverid']==$pp_vals['ap_receiverid'] && $_POST['secretcode']==$pp_vals['ap_ecretcode'])
+		if (!empty ($this->item_number) && ($this->payment_status == 1 || $this->payment_status == 0)  && ($_POST['custom_2'] ?? '') == "AsianPay" && ($_POST['receiverid'] ?? '') == ($pp_vals['ap_receiverid'] ?? '') && ($_POST['secretcode'] ?? '') == ($pp_vals['ap_ecretcode'] ?? ''))
 		{
             if($this->payment_status == 0)
             {

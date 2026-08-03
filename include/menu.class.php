@@ -71,7 +71,7 @@ class Menu {
 	$menu = new SolidStateMenu();
 
 	$menu->addItem( new SolidStateMenuItem( "home", 
-						$conf['company']['name'], 
+						$conf['company']['name'] ?? 'NeoBill',
 						"house.png", 
 						"manager_content.php?page=home" ) );
 	$menu->addItem( new SolidStateMenuItem( "accounts", 

@@ -28,7 +28,7 @@ class DomainContactTableWidget extends TableWidget {
 	 * Note: all elements in this table are checked by default
 	 */
 	public function determineValue( $params ) {
-		return $params['option'];
+		return $params['option'] ?? null;
 	}
 
 	/**

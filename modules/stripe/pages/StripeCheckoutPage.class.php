@@ -29,6 +29,9 @@ class StripeCheckoutPage extends SolidStatePage {
 
 	function init() {
 		parent::init();
+		if ( empty( $_SESSION['order'] ) ) {
+			throw new SWUserException( "No active order was found." );
+		}
 
 		$registry = ModuleRegistry::getModuleRegistry();
 		$this->stripeModule = $registry->getModule( "stripe" );
@@ -53,8 +56,8 @@ class StripeCheckoutPage extends SolidStatePage {
 
 	function absoluteOrderURL( $page, $query ) {
 		$scheme = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == "on" ) ? "https" : "http";
-		$host = $_SERVER['HTTP_HOST'];
-		$path = dirname( $_SERVER['SCRIPT_NAME'] );
+		$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+		$path = dirname( $_SERVER['SCRIPT_NAME'] ?? '/order/index.php' );
 		$url = $scheme . "://" . $host . $path . "/index.php?page=" . $page;
 		if ( $query != "" ) {
 			$url .= "&" . $query;

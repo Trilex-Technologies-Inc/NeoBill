@@ -350,7 +350,11 @@ class OrderDomainDBO extends OrderItemDBO {
         global $conf;
 
         $serviceDBO = load_DomainServiceDBO( $this->getTLD() );
-        $module = $conf['modules'][$serviceDBO->getModuleName()];
+		$moduleName = $serviceDBO->getModuleName();
+		$module = $conf['modules'][$moduleName] ?? null;
+		if ( $module === null ) {
+			throw new SWException( "Domain module is not configured: " . $moduleName );
+		}
 
         // Verify that the domain is transferable
         if( !$module->isTransferable( $this->getFullDomainName() ) ) {

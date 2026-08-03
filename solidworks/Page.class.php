@@ -127,7 +127,8 @@ class Page {
         global $conf;
 
         $templateFileName = $defaultDir . $fileName;
-        if ( $conf['themes']['current'] == "default" ) {
+		$currentTheme = $conf['themes']['current'] ?? 'default';
+		if ( $currentTheme == "default" ) {
             // Default theme just returns the template file from the templates/ dir
             return $templateFileName;
         }
@@ -136,7 +137,7 @@ class Page {
             // Smarty loads the template file relative to the parent directory - thus
             // the "../" bellow but not here.
             $themeTemplateFileName = sprintf( "themes/%s/%s",
-                    $conf['themes']['current'],
+					$currentTheme,
                     $fileName );
 
             // If the template file exists in the theme dir, then return that one,
@@ -343,13 +344,13 @@ class Page {
 	
         if ( get_class( $this ) != "Page" ) {
             // This is a subclass - load the page data from the configuration data
-            $page_data = $conf['pages'][$this->getClassName()];
-            $this->setTitle( $page_data['title'] );
-            $this->setName( $page_data['name'] );
-            $this->setUrl( $page_data['url'] );
+			$page_data = $conf['pages'][$this->getClassName()] ?? array();
+			$this->setTitle( $page_data['title'] ?? '' );
+			$this->setName( $page_data['name'] ?? $this->getClassName() );
+			$this->setUrl( $page_data['url'] ?? '' );
             $this->setLocationStack( $page_data['location_stack'] ?? array() );
             $this->setTemplate( "default" );
-            $this->setTemplateDir( $page_data['templatedir'] );
+			$this->setTemplateDir( $page_data['templatedir'] ?? '' );
 
             // This page is disabled according to the configuration file
             if ( !empty($page_data['disabled']) ) {

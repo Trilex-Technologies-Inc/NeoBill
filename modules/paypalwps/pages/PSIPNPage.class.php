@@ -85,6 +85,14 @@ class PSIPNPage extends SolidStatePage {
 	 */
 	function ipn() {
 		log_notice( "PSIPNPage::init()", "Processing an IPN..." );
+		$requiredFields = array( 'txn_id', 'payer_email', 'mc_gross', 'payment_status' );
+		foreach ( $requiredFields as $requiredField ) {
+			if ( !isset( $_POST[$requiredField] ) ) {
+				log_security( "PSIPNPage::ipn()",
+						"Missing required PayPal IPN field: " . $requiredField );
+				return;
+			}
+		}
 
 		// Verify IPN
 		if ( !$this->ppModule->processIPN( $_POST ) ) {
@@ -175,7 +183,7 @@ class PSIPNPage extends SolidStatePage {
 		// Log the new payment
 		log_notice( "PSIPNPage::newPayment()",
 				sprintf( "New payment received from Paypal.  Order ID=%d, TXN=%s, Customer=%s, Amount=%s, Paypal Status=%s",
-				intval( $_POST['custom'] ),
+				intval( $_POST['custom'] ?? 0 ),
 				$_POST['txn_id'],
 				$_POST['payer_email'],
 				$_POST['mc_gross'],
@@ -254,7 +262,7 @@ class PSIPNPage extends SolidStatePage {
 					$_POST['txn_id'],
 					$_POST['payer_email'],
 					$_POST['mc_gross'],
-					$_POST['reason_code'] ) );
+					$_POST['reason_code'] ?? '' ) );
 		}
 
 		// Update the old transaction by setting its status to refunded

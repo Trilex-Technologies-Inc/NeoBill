@@ -29,7 +29,7 @@ function log_message( $type, $module, $message ) {
 	$logdbo->setText( $message );
 	$logdbo->setUsername( !empty( $_SESSION['client']['userdbo'] ) ?
 			$_SESSION['client']['userdbo']->getUsername() : null );
-	$logdbo->setRemoteIP( ip2long( $_SERVER['REMOTE_ADDR'] ) );
+	$logdbo->setRemoteIP( ip2long( $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0' ) );
 	$logdbo->setDate( DBConnection::format_datetime( time() ) );
 
 	// Write the log message

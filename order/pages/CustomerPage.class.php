@@ -84,7 +84,8 @@ class CustomerPage extends SolidStatePage {
 		$domainItems = $this->session['order']->getDomainItems();
 		$this->smarty->assign( "orderHasDomains", !empty( $domainItems ) );
 
-		if ( isset( $_SESSION['client']['userdbo'] ) ) {
+		if ( !empty( $_SESSION['client']['userdbo'] ) &&
+				$_SESSION['client']['userdbo']->getType() === "Client" ) {
 			// Use the account information already on file
 			$userDBO = $_SESSION['client']['userdbo'];
 			//$accountDBO = load_AccountDBO( $_SESSION['nav_vars']['account_id'] );
