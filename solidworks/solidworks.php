@@ -46,7 +46,7 @@ function solidworks(&$conf, $smarty)
 	$language = isset($_SESSION['client']['userdbo']) ?
 		$_SESSION['client']['userdbo']->getLanguage() : null;
 	if ($language != null) {
-		TranslationParser::load("language/" . $language);
+		TranslationParser::load(($conf['application_dir'] ?? getcwd()) . "/language/" . $language);
 		Translator::getTranslator()->setActiveLanguage($language);
 	}
 
@@ -153,10 +153,15 @@ function handle_post_request()
 	// Reset form errors
 	unset($_SESSION[$page->getName()]['form_errors']);
 
-	// Verify a form name was included with POST data
-	$form_name = $_GET['submit'] ?? null;
-	if ($form_name === null || $form_name === '') {
-		throw new SWException("POST received with no form name supplied.");
+	// Prefer the original query parameter, but accept the hidden POST marker
+	// when a web-server rewrite or proxy has stripped the query string.
+	$form_name = $_GET['submit'] ?? ($_POST['_sw_form'] ?? null);
+	unset($_POST['_sw_form']);
+	if (!is_string($form_name) || $form_name === '') {
+		// A POST that cannot be associated with a configured form must not be
+		// processed. Return to the page using GET instead of exposing an exception.
+		header("Location: " . $page->getURL(), true, 303);
+		exit();
 	}
 
 	// Validate the form

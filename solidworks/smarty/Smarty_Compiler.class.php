@@ -65,6 +65,12 @@ class Smarty_Compiler extends Smarty {
 	var $_obj_start_regexp      =   null;
 	var $_obj_params_regexp     =   null;
 	var $_obj_call_regexp       =   null;
+	var $_dvar_math_regexp      =   null;
+	var $_dvar_math_var_regexp  =   null;
+	var $_obj_restricted_param_regexp = null;
+	var $_obj_single_param_regexp = null;
+	var $_param_regexp          =   null;
+	var $_plugins_code          =   '';
 	var $_cacheable_state       =   0;
 	var $_cache_attrs_count     =   0;
 	var $_nocache_count         =   0;
@@ -1497,7 +1503,7 @@ class Smarty_Compiler extends Smarty {
 		preg_match_all('~(?:' . $this->_obj_call_regexp . '|' . $this->_qstr_regexp . ' | (?>[^"\'=\s]+)
                          )+ |
                          [=]
-                        ~x', $tag_args, $match);
+	                        ~x', (string)$tag_args, $match);
 		$tokens       = $match[0];
 
 		$attrs = array();

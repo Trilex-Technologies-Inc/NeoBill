@@ -502,6 +502,12 @@ class Smarty {
 	var $_cache_info           = array();
 
 	/**
+	 * metadata for compiled cache includes
+	 * @var null|array
+	 */
+	var $_cache_include_info   = null;
+
+	/**
 	 * default file permissions
 	 *
 	 * @var integer

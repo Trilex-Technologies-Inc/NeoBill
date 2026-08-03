@@ -262,6 +262,13 @@ function smarty_form( $params, $content, &$smarty, &$repeat ) {
 		// Compose the form action field
 		if ( $form_method == "POST" ) {
 			$action = $page->getURL() . "&submit=" . $form_name;
+			// Keep the form identity in the request body as a fallback for
+			// proxies or rewrite rules that strip the action query string.
+			$content = sprintf(
+					'<input type="hidden" name="_sw_form" value="%s"/>%s',
+					htmlspecialchars($form_name, ENT_QUOTES, 'UTF-8'),
+					$content
+			);
 		}
 		else {
 			$action = $page->getURL();
