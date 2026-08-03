@@ -15,14 +15,28 @@ class MyProductsPage extends SolidStatePage {
     public function init() {
         parent::init();
 
-        if ( empty( $_SESSION['client']['userdbo'] ) ||
-                $_SESSION['client']['userdbo']->getType() !== "Client" ) {
+		if ( empty( $_SESSION['client']['userdbo'] ) ) {
             $this->gotoPage( "customerlogin" );
             return;
         }
 
+		if ( $_SESSION['client']['userdbo']->getType() !== "Client" ) {
+			$this->setError( array(
+					"type" => "Only customer accounts can access My Products. Please sign in with a customer account." ) );
+			$this->gotoPage( "customerlogin" );
+			return;
+		}
+
         $userDBO = $_SESSION['client']['userdbo'];
-        $accountDBO = load_AccountDBO_username( $userDBO->getUsername() );
+		try {
+			$accountDBO = load_AccountDBO_username( $userDBO->getUsername() );
+		}
+		catch ( DBNoRowsFoundException $e ) {
+			$this->setError( array(
+					"type" => "Your login is not linked to a customer account. Please contact support or sign in with another customer account." ) );
+			$this->gotoPage( "customerlogin" );
+			return;
+		}
         $products = array();
         $recurringProducts = 0;
         $oneTimeProducts = 0;
