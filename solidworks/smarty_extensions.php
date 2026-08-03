@@ -49,7 +49,7 @@ function smarty_modifier_country( $value ) {
 	global $cc;
 
 	// Return the country name according to the CC provided
-	return $cc[$value];
+	return $cc[$value] ?? '';
 }
 
 /**
@@ -138,7 +138,7 @@ function smarty_modifier_datetime( $value, $show_part = null ) {
  */
 function smarty_echo( $params, &$smarty ) {
 	global $conf;
-	return "[". $params['phrase'] . "]";
+	return "[". ($params['phrase'] ?? '') . "]";
 }
 
 /**
@@ -155,9 +155,12 @@ function smarty_echo( $params, &$smarty ) {
 function smarty_dbo_assign( $params, &$smarty ) {
 	global $page;
 
-	$dbo_var_name = $params['dbo'];
-	$field_name   = $params['field'];
-	$smarty_var   = $params['var'];
+	$dbo_var_name = $params['dbo'] ?? null;
+	$field_name   = $params['field'] ?? null;
+	$smarty_var   = $params['var'] ?? null;
+	if ( $dbo_var_name === null || $field_name === null || $smarty_var === null ) {
+		return null;
+	}
 
 	// Access the Page's session data
 	$session = $page->getPageSession();
@@ -194,8 +197,11 @@ function smarty_dbo_assign( $params, &$smarty ) {
 function smarty_dbo_echo( $params, &$smarty ) {
 	global $page;
 
-	$dbo_var_name = $params['dbo'];
-	$field_name   = $params['field'];
+	$dbo_var_name = $params['dbo'] ?? null;
+	$field_name   = $params['field'] ?? null;
+	if ( $dbo_var_name === null || $field_name === null ) {
+		return null;
+	}
 
 	// Access the Page's session data
 	$session = $page->getPageSession();
@@ -231,7 +237,7 @@ function smarty_dbo_echo( $params, &$smarty ) {
 function smarty_form( $params, $content, &$smarty, &$repeat ) {
 	global $conf, $form_stack, $page;
 
-	$form_name = $params['name'];
+	$form_name = $params['name'] ?? null;
 
 	// Verify form name parameter is supplied
 	if ( !isset( $form_name ) ) {
@@ -239,7 +245,7 @@ function smarty_form( $params, $content, &$smarty, &$repeat ) {
 	}
 
 	// Verify form is configured
-	$form_data = $conf['forms'][$form_name];
+	$form_data = $form_name !== null ? ($conf['forms'][$form_name] ?? null) : null;
 	if ( !isset( $form_data ) ) {
 		fatal_error( "smarty_form()",
 				"Form (" . $form_name . ") is not configured!" );
@@ -250,13 +256,13 @@ function smarty_form( $params, $content, &$smarty, &$repeat ) {
 		array_pop( $form_stack );
 
 		// Set method
-		$form_method = $form_data['method'];
+		$form_method = $form_data['method'] ?? null;
 		if ( !isset( $form_method ) ) {
 			$form_method="POST";
 		}
 
 		// Set action
-		$page_name = $form_data['page'];
+		$page_name = $form_data['page'] ?? null;
 		if ( !isset( $page_name ) ) {
 			// No page name provided
 			fatal_error( "smarty_form()", "Form page is not configured!" );
@@ -412,7 +418,7 @@ function smarty_form_element( $params, &$smarty ) {
 	$session = $page->getPageSession();
 
 	// Verify form configuration exists
-	$form_data = $conf['forms'][$form_name];
+	$form_data = $form_name !== false ? ($conf['forms'][$form_name] ?? null) : null;
 	if ( !isset( $form_data ) ) {
 		// Form is not configured
 		return "Form (" . $form_name . ") is not valid!";
@@ -521,18 +527,18 @@ function smarty_form_description( $params, &$smarty ) {
 	global $conf, $form_stack;
 
 	$form_name        = end( $form_stack );
-	$form_field       = $params['field'];
+	$form_field       = $params['field'] ?? null;
 	$colon            = $params['colon'] ?? null;
 
 	// Verify form configuration exists
-	$form_data = $conf['forms'][$form_name];
+	$form_data = $form_name !== false ? ($conf['forms'][$form_name] ?? null) : null;
 	if ( !isset( $form_data ) ) {
 		// Form is not configured
 		return "Form (" . $form_name . ") is not valid!";
 	}
 
 	// Verify the field exists
-	$field_data = $form_data['fields'][$form_field];
+	$field_data = $form_field !== null ? ($form_data['fields'][$form_field] ?? null) : null;
 	$form_field_description = $field_data['description'] ?? null;
 	if ( !isset( $form_field_description ) ) {
 		// Field description is not configured
@@ -568,14 +574,18 @@ function smarty_form_description( $params, &$smarty ) {
  */
 function smarty_form_table( $params, $content, &$smarty, &$repeat ) {
 	global $form_stack, $page, $tableWidget;
+	$field = $params['field'] ?? null;
+	if ( $field === null ) {
+		throw new SWException( "No field supplied to form_table" );
+	}
 
 	// Access the TableWidget
-	$tableWidget = $page->getForm( end( $form_stack ) )->getField( $params['field'] )->getWidget();
+	$tableWidget = $page->getForm( end( $form_stack ) )->getField( $field )->getWidget();
 	if ( !($tableWidget instanceof TableWidget) ) {
 		// The widget is not a TableWidget object
 		throw new SWException( sprintf( "Field is not a TableWidget:\n\tForm: %s\n\tField: %s\n",
 		end( $form_stack ),
-		$params['field'] ) );
+		$field ) );
 	}
 
 	// Output something
@@ -584,7 +594,7 @@ function smarty_form_table( $params, $content, &$smarty, &$repeat ) {
 		try {
 			// Advance the table to the next row...
 			$row = $tableWidget->next();
-			$smarty->assign( $params['field'], $row );
+			$smarty->assign( $field, $row );
 
 			if ( $tableWidget->showHeaders() ) {
 				$tableWidget->doNotShowHeaders();
@@ -616,7 +626,7 @@ function smarty_form_table( $params, $content, &$smarty, &$repeat ) {
 		$tableWidget->init( $params );
 		// Smarty evaluates the block body before it knows whether the table is
 		// empty. Supply a null-safe placeholder for those first-pass expressions.
-		$smarty->assign( $params['field'], new EmptyTableRow() );
+		$smarty->assign( $field, new EmptyTableRow() );
 		echo $tableWidget->getTableHeaderHTML();
 	}
 }
@@ -686,6 +696,6 @@ function smarty_form_table_footer( $params, $content, &$smarty, &$repeat ) {
  */
 function smarty_form_table_checkbox( $params, &$smarty ) {
 	global $tableWidget;
-	echo $tableWidget->getCheckboxHTML( $params['option'] );
+	echo $tableWidget->getCheckboxHTML( $params['option'] ?? '' );
 }
 ?>

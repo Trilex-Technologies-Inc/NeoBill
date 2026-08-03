@@ -63,7 +63,7 @@ class CustomerLoginPage extends SolidStatePage {
 		$this->smarty->assign( "turnstile_widget", cloudflareturnstile::loginWidget() );
 		
 		if ( isset( $_GET["op"] ) && $_GET["op"] == 'logout' ) {
-			if ( $_SESSION['client']['userdbo'] ) {
+			if ( !empty( $_SESSION['client']['userdbo'] ) ) {
 				$_SESSION['client']['userdbo'] = null;
 			}
 			$this->gotoPage( "cart" );

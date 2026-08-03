@@ -62,7 +62,7 @@ class CartPage extends SolidStatePage {
 				array_merge( $registry->getModulesByType( "payment_processor", true ),
 				$registry->getModulesByType( "payment_gateway", true ) );
 		$paymentMethods = count( $paymentModules );
-		if ( $this->conf['order']['accept_checks'] ) {
+			if ( !empty( $this->conf['order']['accept_checks'] ) ) {
 			$paymentMethods++;
 		}
 		if ( $paymentMethods == 0 ) {

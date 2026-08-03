@@ -40,7 +40,7 @@ class ReceiptPage extends SolidStatePage {
 				$this->session['order']->getContactEmail() );
 
 		// If the paybycheck flag is set, display the payment information
-		$this->smarty->assign( "paybycheck", $_GET['payByCheck'] == 1 );
+		$this->smarty->assign( "paybycheck", ($_GET['payByCheck'] ?? 0) == 1 );
 
 		// Destroy the order object
 		unset( $_SESSION['order'] );

@@ -30,7 +30,7 @@ class PurchasableTermSelectWidget extends SelectWidget {
 	 */
 	function getData() {
 		global $conf;
-		$cs = $conf['locale']['currency_symbol'];
+		$cs = $conf['locale']['currency_symbol'] ?? '$';
 
 		$terms = array();
 		if ( is_object( $this->purchasable ) ) {

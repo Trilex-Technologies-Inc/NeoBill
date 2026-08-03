@@ -56,13 +56,13 @@ load_settings($conf);
 
 // Set the current theme
 
-$conf['themes']['current'] = $conf['themes']['order'];
+$conf['themes']['current'] = $conf['themes']['order'] ?? 'default';
 
 
 
 // Provide the Order Interface page title to the templates
 
-$smarty->assign("order_title", $conf['order']['title']);
+$smarty->assign("order_title", $conf['order']['title'] ?? '');
 
 
 

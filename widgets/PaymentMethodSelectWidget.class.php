@@ -37,7 +37,7 @@ class PaymentMethodSelectWidget extends SelectWidget {
 			}
 		}
 
-		if ( $conf['order']['accept_checks'] ) {
+		if ( !empty( $conf['order']['accept_checks'] ) ) {
 			$methods['Check'] = "[CHECK_OR_MONEY_ORDER]";
 		}
 

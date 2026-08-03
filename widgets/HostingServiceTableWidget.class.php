@@ -38,7 +38,7 @@ class HostingServiceTableWidget extends TableWidget {
 				$prices = array_merge( $dbo->getPricing( "Onetime" ),
 						$dbo->getPricing( "Recurring" ) );
 				foreach ( $prices as $priceDBO ) {
-					$price = sprintf( "%s%01.2f", $conf['locale']['currency_symbol'],
+					$price = sprintf( "%s%01.2f", $conf['locale']['currency_symbol'] ?? '$',
 							$priceDBO->getPrice() );
 					$priceString .= $priceDBO->getType() == "Onetime" ?
 							sprintf( "[ONETIME]: %s<br/>", $price ) :
