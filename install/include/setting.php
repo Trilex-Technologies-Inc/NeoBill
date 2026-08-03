@@ -168,7 +168,12 @@ function init_db() {
     $sql_file = implode('', file('database/neobill.mysql'));
     $sql_queries = explode(";\n", $sql_file);
     for ($i = 0; $i < count($sql_queries); $i++) {
-        if (!mysql_query($sql_queries[$i])) {
+        $sql_query = trim($sql_queries[$i]);
+        if ($sql_query === '') {
+            continue;
+        }
+
+        if (!mysql_query($sql_query)) {
             if (mysql_errno() != 1065) {
                 return _INSTALLERDBQUERYFAILED . ': ' . mysql_error();
             }
