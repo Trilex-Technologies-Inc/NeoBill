@@ -55,7 +55,7 @@
 
         <div class="manager-login-card">
           {if trim($_page_errors_html) != ""}
-            <div class="alert alert-danger manager-login-alert" role="alert">{$_page_errors_html}</div>
+            {$_page_errors_html}
           {/if}
 
       {form name="login"}  

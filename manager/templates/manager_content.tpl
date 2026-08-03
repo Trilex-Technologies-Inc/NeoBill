@@ -44,19 +44,10 @@
             {capture assign="_page_messages_html"}{page_messages}{/capture}
             {if trim($_page_errors_html) != "" || trim($_page_messages_html) != ""}
               {if trim($_page_errors_html) != ""}
-                <div class="manager-notice manager-notice-error mb-3 manager_error" role="alert">
-                  <span class="manager-notice-icon"><i class="ti ti-alert-triangle"></i></span>
-                  <div class="manager-notice-content">
-                    <strong>Please review this entry</strong>
-                    {$_page_errors_html}
-                  </div>
-                </div>
+                {$_page_errors_html}
               {/if}
               {if trim($_page_messages_html) != ""}
-                <div class="manager-notice manager-notice-info mb-3 manager_error" role="status">
-                  <span class="manager-notice-icon"><i class="ti ti-info-circle"></i></span>
-                  <div class="manager-notice-content">{$_page_messages_html}</div>
-                </div>
+                {$_page_messages_html}
               {/if}
             {/if}
 

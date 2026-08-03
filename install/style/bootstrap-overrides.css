@@ -65,3 +65,41 @@ main {
     padding: 0;
     margin-top: 1rem;
 }
+
+/* Unified installer alerts */
+body .alert {
+	margin-bottom: 1rem;
+	padding: 0.9rem 1rem;
+	font-size: 0.875rem;
+	font-weight: 600;
+	line-height: 1.45;
+	border-width: 1px 1px 1px 4px;
+	border-style: solid;
+	border-radius: 10px;
+	background-image: none;
+	box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+}
+
+body .alert-danger {
+	color: #7f1d1d;
+	border-color: #fecaca #fecaca #fecaca #dc2626;
+	background-color: #fff7f7;
+}
+
+body .alert-success {
+	color: #14532d;
+	border-color: #bbf7d0 #bbf7d0 #bbf7d0 #16a34a;
+	background-color: #f0fdf4;
+}
+
+body .alert-warning {
+	color: #713f12;
+	border-color: #fde68a #fde68a #fde68a #d97706;
+	background-color: #fffbeb;
+}
+
+body .alert-info {
+	color: #1e3a8a;
+	border-color: #bfdbfe #bfdbfe #bfdbfe #2563eb;
+	background-color: #eff6ff;
+}

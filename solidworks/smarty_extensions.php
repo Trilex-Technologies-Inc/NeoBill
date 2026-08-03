@@ -318,8 +318,11 @@ function smarty_page_messages( $params, &$smarty ) {
 		return null;
 	}
 
-	// Build message box HTML
-	$html = "<p class=\"message\">\n";
+	// Build one consistent, accessible success notice.
+	$html = "<div class=\"app-alert app-alert-success\" role=\"status\">\n" .
+			"<span class=\"app-alert-icon\" aria-hidden=\"true\"></span>\n" .
+			"<div class=\"app-alert-content\"><strong>Success</strong>\n" .
+			"<div class=\"app-alert-items\">\n";
 
 	// Write all the error messages currently in the session
 	$translator = Translator::getTranslator();
@@ -331,10 +334,10 @@ function smarty_page_messages( $params, &$smarty ) {
 				$message = str_replace( "{" . $i . "}", $arg, $message );
 			}
 		}
-		$html .= $message . "<br/>\n";
+		$html .= "<div class=\"app-alert-item\">" . $message . "</div>\n";
 	}
 
-	$html .= "</p>\n";
+	$html .= "</div></div></div>\n";
 
 	// Remove messages from session
 	unset( $_SESSION['messages'] );
@@ -363,8 +366,11 @@ function smarty_page_errors( $params, &$smarty ) {
 		return null;
 	}
 
-	// Build error box HTML
-	$html = "<p class=\"error\">\n";
+	// Build one consistent, accessible error notice.
+	$html = "<div class=\"app-alert app-alert-danger\" role=\"alert\">\n" .
+			"<span class=\"app-alert-icon\" aria-hidden=\"true\"></span>\n" .
+			"<div class=\"app-alert-content\"><strong>Please review this entry</strong>\n" .
+			"<div class=\"app-alert-items\">\n";
 
 	// Write all the error errors currently in the session
 	if ( isset( $errors ) ) {
@@ -376,18 +382,18 @@ function smarty_page_errors( $params, &$smarty ) {
 					$error = str_replace( "{" . $i . "}", $arg, $error );
 				}
 			}
-			$html .= $error . "<br/>\n";
+			$html .= "<div class=\"app-alert-item\">" . $error . "</div>\n";
 		}
 	}
 
 	// Write all the exceptions currently in the session
 	if ( isset( $_SESSION['exceptions'] ) ) {
 		foreach( $_SESSION['exceptions'] as $message ) {
-			$html .= $message . "<br/>\n";
+			$html .= "<div class=\"app-alert-item\">" . $message . "</div>\n";
 		}
 	}
 
-	$html .= "</p>\n";
+	$html .= "</div></div></div>\n";
 
 	// Remove errors from session
 	unset( $_SESSION['errors'] );
