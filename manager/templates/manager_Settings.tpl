@@ -222,7 +222,7 @@
                   </div>
                 </div>
                 <div class="settings-card-body settings-compact-fields">
-                  {if $gatewaysAreEnabled}
+				  {if !empty($gatewaysAreEnabled)}
                     <div class="settings-field">
                       <label class="form-label">{form_description field="default_module"}</label>
                       {form_element field="default_module"}
@@ -240,7 +240,7 @@
                 </div>
               </div>
             </div>
-            {if $gatewaysAreEnabled}
+			{if !empty($gatewaysAreEnabled)}
               <div class="settings-actions">
                 {form_element field="save" class="btn btn-primary"}
               </div>

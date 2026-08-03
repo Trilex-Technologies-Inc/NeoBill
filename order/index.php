@@ -63,9 +63,11 @@ $conf['themes']['current'] = $conf['themes']['order'] ?? 'default';
 // Provide the Order Interface page title to the templates
 
 $smarty->assign("order_title", $conf['order']['title'] ?? '');
+$smarty->assign("username", null);
 $smarty->assign("supressWelcome", false);
 $smarty->assign("turnstile_enabled", false);
 $smarty->assign("turnstile_script", '');
+$smarty->assign("turnstile_widget", '');
 
 
 

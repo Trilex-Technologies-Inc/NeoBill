@@ -8,7 +8,7 @@
     <a href="index.php?page=purchaseproduct" class="btn btn-outline-primary order-register-button">Register Product</a>
   </div>
 
-  {if $myProductsCount > 0}
+	{if !empty($myProductsCount)}
     <div class="order-product-summary-grid">
       <div class="order-product-summary-card">
         <span>Total Products</span>

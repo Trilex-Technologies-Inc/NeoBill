@@ -112,7 +112,7 @@
           <dt class="col-sm-6">{form_description field="module"}&nbsp;&nbsp;</dt>
           <dd class="col-sm-6">{form_element field="module"}</dd>
         </dl>
-        {if $tos_required}
+		{if !empty($tos_required)}
           <div class="form-check">
             {form_element field="accept_tos" option="true"}
             [I_HAVE_READ_AND_AGREE_TO_THE]

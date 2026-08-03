@@ -16,7 +16,7 @@
   {$contactemail}.
 </p>
 
-{if $paybycheck}
+{if !empty($paybycheck)}
   <p>
     Your order will be pending until your check/money order for: 
     {dbo_echo|currency dbo="order" field="total"} has been received.  Please make

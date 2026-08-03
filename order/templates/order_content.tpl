@@ -35,7 +35,7 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="index.php?page=purchasesubscription">Subscriptions</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.php?page=purchaseproduct">Register Product</a></li>
-                    {if $username == null}
+					{if !isset($username) || $username == null}
                     <li class="nav-item"><a class="nav-link" href="index.php?page=customer">Sign Up</a></li>
                     {/if}
                     <li class="nav-item"><a class="nav-link" href="index.php?page=cart">Cart</a></li>
@@ -57,7 +57,7 @@
                 <strong>Complete your order securely</strong>
             </div>
 
-			{if $username == null && (!isset($supressWelcome) || !$supressWelcome)}
+			{if (!isset($username) || $username == null) && (!isset($supressWelcome) || !$supressWelcome)}
                 <div class="order-session-actions">
                     <a href="index.php?page=purchaseproduct" class="btn btn-outline-primary order-register-button">
                         Register Product
@@ -74,7 +74,7 @@
                     </a>
                 </div>
 
-            {elseif $username == " "}
+			{elseif isset($username) && $username == " "}
 
 			{elseif isset($username) && (!isset($supressWelcome) || !$supressWelcome)}
                 <div class="order-user-pill">

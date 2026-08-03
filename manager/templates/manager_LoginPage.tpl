@@ -26,7 +26,7 @@
     <script src="./js/jquery.ui.menuitem.js"></script>
 
     <link rel="stylesheet" href="./css/jquery.ui.all.css" />
-    {if $turnstile_enabled}{$turnstile_script}{/if}
+	{if !empty($turnstile_enabled)}{$turnstile_script}{/if}
 
   </head>
 
@@ -91,8 +91,8 @@
           </div>
         </div>
 
-        <!-- Cloudflare Turnstile enabled: {if $turnstile_enabled}yes{else}no{/if} -->
-        {if $turnstile_enabled}
+		<!-- Cloudflare Turnstile enabled: {if !empty($turnstile_enabled)}yes{else}no{/if} -->
+		{if !empty($turnstile_enabled)}
           <div class="manager-login-field manager-login-turnstile">
             <div class="manager-login-security-label">
               <i class="ti ti-shield-check"></i>
