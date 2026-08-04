@@ -5,6 +5,8 @@ require_once BASE_PATH . "util/email_verification.php";
 
 class VerifyEmailPage extends SolidStatePage {
 	function init() {
+		parent::init();
+
 		$user = verify_customer_email_token( $this->get['token'] ?? '' );
 		if ( $user === null ) {
 			$this->smarty->assign( "verification_success", false );
