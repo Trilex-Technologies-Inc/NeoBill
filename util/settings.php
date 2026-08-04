@@ -41,6 +41,24 @@ function load_settings( &$conf ) {
 			case "company_notification_email":
 				$conf['company']['notification_email'] = $val;
 				break;
+			case "mail_transport":
+				$conf['mail']['transport'] = $val;
+				break;
+			case "smtp_host":
+				$conf['mail']['smtp']['host'] = $val;
+				break;
+			case "smtp_port":
+				$conf['mail']['smtp']['port'] = (int)$val;
+				break;
+			case "smtp_encryption":
+				$conf['mail']['smtp']['encryption'] = $val;
+				break;
+			case "smtp_username":
+				$conf['mail']['smtp']['username'] = $val;
+				break;
+			case "smtp_password":
+				$conf['mail']['smtp']['password'] = $val;
+				break;
 
 			case "order_confirmation_email":
 				$conf['order']['confirmation_email'] = $val;
@@ -134,6 +152,12 @@ function save_settings( $conf ) {
 	update_setting( "company_email", $conf['company']['email'] ?? '' );
 	update_setting( "company_notification_email",
 			$conf['company']['notification_email'] ?? '' );
+	update_setting( "mail_transport", $conf['mail']['transport'] ?? 'mail' );
+	update_setting( "smtp_host", $conf['mail']['smtp']['host'] ?? '' );
+	update_setting( "smtp_port", $conf['mail']['smtp']['port'] ?? 587 );
+	update_setting( "smtp_encryption", $conf['mail']['smtp']['encryption'] ?? 'tls' );
+	update_setting( "smtp_username", $conf['mail']['smtp']['username'] ?? '' );
+	update_setting( "smtp_password", $conf['mail']['smtp']['password'] ?? '' );
 
 	update_setting( "order_confirmation_subject", $conf['order']['confirmation_subject'] ?? '' );
 	update_setting( "order_confirmation_email", $conf['order']['confirmation_email'] ?? '' );

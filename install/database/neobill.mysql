@@ -578,3 +578,11 @@ create table `user` (
   `theme` varchar(255) not null default 'default',
   primary key  (`username`)
 ) default charset=utf8;
+
+create table `email_verification` (
+  `username` varchar(32) not null,
+  `token_hash` char(64) not null,
+  `expires_at` datetime not null,
+  primary key (`username`),
+  unique key `token_hash` (`token_hash`)
+) default charset=utf8;

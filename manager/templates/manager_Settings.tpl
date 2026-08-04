@@ -50,6 +50,44 @@
 
               <div class="settings-card">
                 <div class="settings-card-header">
+                  <span><i class="ti ti-server"></i></span>
+                  <div>
+                    <h3>SMTP</h3>
+                    <p>Outgoing mail delivery</p>
+                  </div>
+                </div>
+                <div class="settings-card-body">
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="mail_transport"}</label>
+                    {form_element field="mail_transport" value="$mail_transport"}
+                  </div>
+                  <div class="settings-field settings-inline-fields">
+                    <div>
+                      <label class="form-label">{form_description field="smtp_host"}</label>
+                      {form_element field="smtp_host" value="$smtp_host" size="30"}
+                    </div>
+                    <div>
+                      <label class="form-label">{form_description field="smtp_port"}</label>
+                      {form_element field="smtp_port" value="$smtp_port" size="6"}
+                    </div>
+                  </div>
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="smtp_encryption"}</label>
+                    {form_element field="smtp_encryption" value="$smtp_encryption"}
+                  </div>
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="smtp_username"}</label>
+                    {form_element field="smtp_username" value="$smtp_username" autocomplete="username" size="30"}
+                  </div>
+                  <div class="settings-field">
+                    <label class="form-label">{form_description field="smtp_password"}</label>
+                    {form_element field="smtp_password" autocomplete="new-password" size="30" placeholder="Leave blank to keep current password"}
+                  </div>
+                </div>
+              </div>
+
+              <div class="settings-card">
+                <div class="settings-card-header">
                   <span><i class="ti ti-mail-forward"></i></span>
                   <div>
                     <h3>[WELCOME_EMAIL]</h3>

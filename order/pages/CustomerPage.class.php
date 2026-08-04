@@ -13,6 +13,7 @@
 // Include the parent class
 require_once dirname(__FILE__).'/../../config/config.inc.php';
 require_once BASE_PATH . "include/SolidStatePage.class.php";
+require_once BASE_PATH . "util/email_verification.php";
 
 /**
  * CustomerPage
@@ -179,7 +180,7 @@ class CustomerPage extends SolidStatePage {
 			add_UserDBO( $user_dbo );
 
 			$account_dbo = new AccountDBO();
-			$account_dbo->setStatus( "Active" );
+			$account_dbo->setStatus( "Inactive" );
 			$account_dbo->setType( $this->post['businessname'] != "" ? "Business Account" : "Individual Account" );
 			$account_dbo->setBillingStatus( "Bill" );
 			$account_dbo->setBillingDay( 1 );
@@ -204,9 +205,15 @@ class CustomerPage extends SolidStatePage {
 				throw $e;
 			}
 
-			$_SESSION['client']['userdbo'] = $user_dbo;
 			$this->session['order']->setAccountID( $account_dbo->getID() );
-			$this->setMessage( array( "type" => "[ACCOUNT_ADDED]" ) );
+			if ( !send_customer_verification_email( $user_dbo ) ) {
+				$this->setError( array( "type" => "Your account was created, but the verification email could not be sent. Please contact support." ) );
+				$this->gotoPage( "customerlogin" );
+				return;
+			}
+			$this->setMessage( array( "type" => "Account created. Check your email to activate it before signing in." ) );
+			$this->gotoPage( "customerlogin" );
+			return;
 		}
 
 		$domainItems = $this->session['order']->getDomainItems();

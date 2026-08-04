@@ -128,6 +128,12 @@ class Email {
 	 * @return bool
 	 */
 	function send() {
+		global $conf;
+
+		if ( ( $conf['mail']['transport'] ?? 'mail' ) === 'smtp' ) {
+			return $this->sendSMTP( $conf['mail']['smtp'] ?? array() );
+		}
+
 		// Tells sendmail to parse the message for recipients in the To: field
 		$options = "-t";
 
@@ -139,6 +145,105 @@ class Email {
 				$this->body,
 				$headers,
 				$options );
+	}
+
+	/**
+	 * Send the message directly to an SMTP server.
+	 *
+	 * @param array $config SMTP connection settings
+	 * @return bool
+	 */
+	protected function sendSMTP( $config ) {
+		$host = trim( $config['host'] ?? '' );
+		$port = (int)( $config['port'] ?? 587 );
+		$encryption = $config['encryption'] ?? 'tls';
+		if ( $host === '' || $port < 1 || $port > 65535 ) {
+			return false;
+		}
+
+		$remote = ( $encryption === 'ssl' ? 'ssl://' : '' ) . $host;
+		$socket = @stream_socket_client( $remote . ':' . $port, $errno, $error, 15 );
+		if ( !$socket ) {
+			return false;
+		}
+		stream_set_timeout( $socket, 15 );
+
+		$ok = $this->smtpExpect( $socket, array( 220 ) );
+		$hostname = gethostname() ?: 'localhost';
+		$ok = $ok && $this->smtpCommand( $socket, 'EHLO ' . $hostname, array( 250 ) );
+
+		if ( $ok && $encryption === 'tls' ) {
+			$ok = $this->smtpCommand( $socket, 'STARTTLS', array( 220 ) );
+			$ok = $ok && @stream_socket_enable_crypto( $socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT );
+			$ok = $ok && $this->smtpCommand( $socket, 'EHLO ' . $hostname, array( 250 ) );
+		}
+
+		$username = $config['username'] ?? '';
+		if ( $ok && $username !== '' ) {
+			$ok = $this->smtpCommand( $socket, 'AUTH LOGIN', array( 334 ) );
+			$ok = $ok && $this->smtpCommand( $socket, base64_encode( $username ), array( 334 ) );
+			$ok = $ok && $this->smtpCommand( $socket,
+					base64_encode( $config['password'] ?? '' ), array( 235 ) );
+		}
+
+		$from = $this->extractAddress( $this->from );
+		$recipients = array_map( array( $this, 'extractAddress' ), explode( ',', $this->to ) );
+		$ok = $ok && filter_var( $from, FILTER_VALIDATE_EMAIL ) !== false &&
+				$this->smtpCommand( $socket, 'MAIL FROM:<' . $from . '>', array( 250 ) );
+		foreach ( $recipients as $recipient ) {
+			$ok = $ok && filter_var( $recipient, FILTER_VALIDATE_EMAIL ) !== false &&
+					$this->smtpCommand( $socket, 'RCPT TO:<' . $recipient . '>', array( 250, 251 ) );
+		}
+
+		if ( $ok ) {
+			$ok = $this->smtpCommand( $socket, 'DATA', array( 354 ) );
+			$body = preg_replace( '/\r?\n/', "\r\n", (string)$this->body );
+			$body = preg_replace( '/(^|\r\n)\./', '$1..', $body );
+			$message = 'From: ' . $this->cleanHeader( $this->from ) . "\r\n" .
+					'To: ' . $this->cleanHeader( $this->to ) . "\r\n" .
+					'Subject: ' . $this->cleanHeader( $this->subject ) . "\r\n" .
+					"MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n" .
+					$body . "\r\n.";
+			$ok = $this->smtpCommand( $socket, $message, array( 250 ) );
+		}
+
+		if ( $ok ) {
+			$this->smtpCommand( $socket, 'QUIT', array( 221 ) );
+		}
+		fclose( $socket );
+		return (bool)$ok;
+	}
+
+	protected function smtpCommand( $socket, $command, $codes ) {
+		if ( @fwrite( $socket, $command . "\r\n" ) === false ) {
+			return false;
+		}
+		return $this->smtpExpect( $socket, $codes );
+	}
+
+	protected function smtpExpect( $socket, $codes ) {
+		$response = '';
+		while ( ( $line = fgets( $socket, 515 ) ) !== false ) {
+			$response .= $line;
+			if ( strlen( $line ) < 4 || $line[3] !== '-' ) {
+				break;
+			}
+		}
+		if ( $response === '' ) {
+			return false;
+		}
+		return in_array( (int)substr( $line, 0, 3 ), $codes, true );
+	}
+
+	protected function extractAddress( $address ) {
+		if ( preg_match( '/<([^>]+)>/', $address, $matches ) ) {
+			return trim( $matches[1] );
+		}
+		return trim( $address, " <>\t\r\n" );
+	}
+
+	protected function cleanHeader( $value ) {
+		return str_replace( array( "\r", "\n" ), '', (string)$value );
 	}
 }
 

@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS `email_verification` (
+  `username` varchar(32) NOT NULL,
+  `token_hash` char(64) NOT NULL,
+  `expires_at` datetime NOT NULL,
+  PRIMARY KEY (`username`),
+  UNIQUE KEY `token_hash` (`token_hash`)
+) DEFAULT CHARSET=utf8;

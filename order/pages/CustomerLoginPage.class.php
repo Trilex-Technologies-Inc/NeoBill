@@ -13,6 +13,7 @@
 require_once BASE_PATH . "include/SolidStatePage.class.php";
 require_once BASE_PATH . "DBO/UserDBO.class.php";
 require_once BASE_PATH . "modules/cloudflareturnstile/cloudflareturnstile.class.php";
+require_once BASE_PATH . "util/email_verification.php";
 
 /**
  * CustomerLoginPage
@@ -85,6 +86,18 @@ class CustomerLoginPage extends SolidStatePage {
 			// Only customers are allowed to login to the order form
 			if ( $this->post['user']->getType() != "Client" ) {
 				$this->setError( array( "type" => "[ONLY_CUSTOMERS_CAN_LOGIN]" ) );
+				return;
+			}
+
+			$account = load_AccountDBO_username( $this->post['user']->getUsername() );
+			if ( $account->getStatus() !== "Active" ) {
+				if ( $account->getStatus() === "Inactive" &&
+						send_customer_verification_email( $this->post['user'] ) ) {
+					$this->setMessage( array( "type" => "Your account is not active. A new verification link has been sent to your email." ) );
+				}
+				else {
+					$this->setError( array( "type" => "Your account is not active. Please verify your email address or contact support." ) );
+				}
 				return;
 			}
 

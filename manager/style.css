@@ -3228,6 +3228,18 @@ body.sb-nav-fixed .manager_content.settings-page {
 	margin-bottom: 0;
 }
 
+.settings-inline-fields {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 110px;
+	gap: 0.75rem;
+}
+
+@media (max-width: 520px) {
+	.settings-inline-fields {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
 .settings-field .form-label {
 	margin-bottom: 0.35rem;
 	color: #374151;
@@ -3237,6 +3249,7 @@ body.sb-nav-fixed .manager_content.settings-page {
 
 .settings-page input[type="text"],
 .settings-page input[type="email"],
+.settings-page input[type="password"],
 .settings-page input:not([type]),
 .settings-page select,
 .settings-page textarea {
@@ -3254,6 +3267,7 @@ body.sb-nav-fixed .manager_content.settings-page {
 
 .settings-page input[type="text"]:focus,
 .settings-page input[type="email"]:focus,
+.settings-page input[type="password"]:focus,
 .settings-page input:not([type]):focus,
 .settings-page select:focus,
 .settings-page textarea:focus {
