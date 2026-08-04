@@ -135,12 +135,13 @@ class SettingsPage extends SolidStateAdminPage {
 		$this->conf['company']['email'] = $this->post['email'];
 		$this->conf['company']['notification_email'] = $this->post['notification_email'];
 		$this->conf['mail']['transport'] = $this->post['mail_transport'];
-		$this->conf['mail']['smtp']['host'] = trim( $this->post['smtp_host'] );
-		$this->conf['mail']['smtp']['port'] = (int)$this->post['smtp_port'];
-		$this->conf['mail']['smtp']['encryption'] = $this->post['smtp_encryption'];
-		$this->conf['mail']['smtp']['username'] = trim( $this->post['smtp_username'] );
-		if ( $this->post['smtp_password'] !== '' ) {
-			$this->conf['mail']['smtp']['password'] = $this->post['smtp_password'];
+		$this->conf['mail']['smtp']['host'] = trim( (string)( $this->post['smtp_host'] ?? '' ) );
+		$this->conf['mail']['smtp']['port'] = (int)( $this->post['smtp_port'] ?? 587 );
+		$this->conf['mail']['smtp']['encryption'] = $this->post['smtp_encryption'] ?? 'tls';
+		$this->conf['mail']['smtp']['username'] = trim( (string)( $this->post['smtp_username'] ?? '' ) );
+		$smtpPassword = (string)( $this->post['smtp_password'] ?? '' );
+		if ( $smtpPassword !== '' ) {
+			$this->conf['mail']['smtp']['password'] = $smtpPassword;
 		}
 
 		// Welcome E-mail
