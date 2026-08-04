@@ -182,7 +182,8 @@ class SettingsPage extends SolidStateAdminPage {
 
 		$error = $email->getLastError();
 		$this->setError( array( "type" => "[SMTP_TEST_FAILED]", "args" => array(
-				$error !== '' ? $error : 'The selected mail transport returned an error.' ) ) );
+				htmlspecialchars( $error !== '' ? $error : 'The selected mail transport returned an error.',
+						ENT_QUOTES, 'UTF-8' ) ) ) );
 	}
 
 	/**

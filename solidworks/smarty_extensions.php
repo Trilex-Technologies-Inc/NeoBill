@@ -373,9 +373,10 @@ function smarty_page_errors( $params, &$smarty ) {
 
 	// Write all the error errors currently in the session
 	if ( isset( $errors ) ) {
+		$translator = Translator::getTranslator();
 		foreach( $errors as $error_data ) {
 			// Insert arguments into error errors
-			$error = $error_data['type'];
+			$error = $translator->translateString( $error_data['type'] );
 			if ( isset( $error_data['args'] ) ) {
 				foreach( $error_data['args'] as $i => $arg ) {
 					$error = str_replace( "{" . $i . "}", $arg, $error );
