@@ -42,4 +42,7 @@
     <phrase id="THEMES">Th&#232;mes</phrase>
     <phrase id="THERE_ARE_NO_GATEWAY_MODULES">Aucun module de passerelle n'est activ&#233;</phrase>
     <phrase id="WELCOME_EMAIL">E-mail de bienvenue</phrase>
+    <phrase id="TEST_SMTP">Tester SMTP</phrase>
+    <phrase id="SMTP_TEST_SENT">Message de test SMTP envoy&#233; &#224; {0}.</phrase>
+    <phrase id="SMTP_TEST_FAILED">&#201;chec du test SMTP : {0}</phrase>
 </translation>

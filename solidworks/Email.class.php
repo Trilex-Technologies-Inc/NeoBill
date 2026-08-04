@@ -21,6 +21,8 @@
  * @author John Diamond <jdiamond@solid-state.org>
  */
 class Email {
+	/** @var string Last SMTP transport error */
+	protected $smtpError = '';
 	/**
 	 * @var string To Address(es)
 	 */
@@ -131,7 +133,11 @@ class Email {
 		global $conf;
 
 		if ( ( $conf['mail']['transport'] ?? 'mail' ) === 'smtp' ) {
-			return $this->sendSMTP( $conf['mail']['smtp'] ?? array() );
+			$sent = $this->sendSMTP( $conf['mail']['smtp'] ?? array() );
+			if ( !$sent ) {
+				error_log( 'NeoBill SMTP delivery failed: ' . ( $this->smtpError ?: 'unknown SMTP error' ) );
+			}
+			return $sent;
 		}
 
 		// Tells sendmail to parse the message for recipients in the To: field
@@ -140,11 +146,24 @@ class Email {
 		// Set some extra headers
 		$headers = "From: " . $this->from;
 
-		return @mail( $this->to,
+		$sent = @mail( $this->to,
 				$this->subject,
 				$this->body,
 				$headers,
 				$options );
+		if ( !$sent ) {
+			error_log( 'NeoBill PHP mail() delivery failed.' );
+		}
+		return $sent;
+	}
+
+	/**
+	 * Return the last transport error for an administrator-facing test.
+	 *
+	 * @return string
+	 */
+	public function getLastError() {
+		return $this->smtpError;
 	}
 
 	/**
@@ -158,12 +177,15 @@ class Email {
 		$port = (int)( $config['port'] ?? 587 );
 		$encryption = $config['encryption'] ?? 'tls';
 		if ( $host === '' || $port < 1 || $port > 65535 ) {
+			$this->smtpError = 'SMTP host is empty or the port is invalid';
 			return false;
 		}
 
 		$remote = ( $encryption === 'ssl' ? 'ssl://' : '' ) . $host;
 		$socket = @stream_socket_client( $remote . ':' . $port, $errno, $error, 15 );
 		if ( !$socket ) {
+			$this->smtpError = sprintf( 'connection to %s:%d failed (%d: %s)',
+					$host, $port, $errno, $error );
 			return false;
 		}
 		stream_set_timeout( $socket, 15 );
@@ -174,7 +196,11 @@ class Email {
 
 		if ( $ok && $encryption === 'tls' ) {
 			$ok = $this->smtpCommand( $socket, 'STARTTLS', array( 220 ) );
-			$ok = $ok && @stream_socket_enable_crypto( $socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT );
+			$tlsEnabled = $ok && @stream_socket_enable_crypto( $socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT );
+			if ( $ok && !$tlsEnabled ) {
+				$this->smtpError = 'STARTTLS negotiation failed';
+			}
+			$ok = $ok && $tlsEnabled;
 			$ok = $ok && $this->smtpCommand( $socket, 'EHLO ' . $hostname, array( 250 ) );
 		}
 
@@ -216,6 +242,7 @@ class Email {
 
 	protected function smtpCommand( $socket, $command, $codes ) {
 		if ( @fwrite( $socket, $command . "\r\n" ) === false ) {
+			$this->smtpError = 'failed to write to the SMTP connection';
 			return false;
 		}
 		return $this->smtpExpect( $socket, $codes );
@@ -230,9 +257,15 @@ class Email {
 			}
 		}
 		if ( $response === '' ) {
+			$this->smtpError = 'SMTP server closed the connection without a response';
 			return false;
 		}
-		return in_array( (int)substr( $line, 0, 3 ), $codes, true );
+		$code = (int)substr( $line, 0, 3 );
+		if ( !in_array( $code, $codes, true ) ) {
+			$this->smtpError = 'server replied: ' . trim( preg_replace( '/\s+/', ' ', $response ) );
+			return false;
+		}
+		return true;
 	}
 
 	protected function extractAddress( $address ) {

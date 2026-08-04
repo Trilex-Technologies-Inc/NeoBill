@@ -11,6 +11,7 @@
  */
 
 require BASE_PATH . "include/SolidStateAdminPage.class.php";
+require_once BASE_PATH . "solidworks/Email.class.php";
 
 /**
  * SettingsPage
@@ -157,7 +158,31 @@ class SettingsPage extends SolidStateAdminPage {
 		$this->conf['order']['notification_email'] = $this->post['notify_email'];
 
 		$this->save();
+		if ( isset( $this->post['test_smtp'] ) ) {
+			$this->testSMTP();
+		}
 		$this->smarty->assign( "tab", "general" );
+	}
+
+	/**
+	 * Send a diagnostic message using the saved mail configuration.
+	 */
+	function testSMTP() {
+		$recipient = trim( (string)( $this->conf['company']['email'] ?? '' ) );
+		$email = new Email();
+		$email->addRecipient( $recipient );
+		$email->setFrom( $recipient, $this->conf['company']['name'] ?? 'NeoBill' );
+		$email->setSubject( 'NeoBill SMTP test' );
+		$email->setBody( "Your NeoBill SMTP settings are working.\n\nSent: " . date( 'Y-m-d H:i:s T' ) );
+
+		if ( $email->send() ) {
+			$this->setMessage( array( "type" => "[SMTP_TEST_SENT]", "args" => array( $recipient ) ) );
+			return;
+		}
+
+		$error = $email->getLastError();
+		$this->setError( array( "type" => "[SMTP_TEST_FAILED]", "args" => array(
+				$error !== '' ? $error : 'The selected mail transport returned an error.' ) ) );
 	}
 
 	/**

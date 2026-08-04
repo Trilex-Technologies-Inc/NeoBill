@@ -576,4 +576,7 @@
     <phrase id="SMTP_PASSWORD">Contrase&#241;a SMTP</phrase>
     <phrase id="OUTGOING_MAIL_DELIVERY">Env&#237;o de correo saliente</phrase>
     <phrase id="PHP_MAIL">PHP mail()</phrase>
+    <phrase id="TEST_SMTP">Probar SMTP</phrase>
+    <phrase id="SMTP_TEST_SENT">Mensaje de prueba SMTP enviado a {0}.</phrase>
+    <phrase id="SMTP_TEST_FAILED">La prueba SMTP fall&#243;: {0}</phrase>
  </translation>

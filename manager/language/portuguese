@@ -422,4 +422,7 @@
     <phrase id="OUTGOING_MAIL_DELIVERY">Envio de e-mails</phrase>
     <phrase id="PHP_MAIL">PHP mail()</phrase>
     <phrase id="NONE">Nenhuma</phrase>
+    <phrase id="TEST_SMTP">Testar SMTP</phrase>
+    <phrase id="SMTP_TEST_SENT">Mensagem de teste SMTP enviada para {0}.</phrase>
+    <phrase id="SMTP_TEST_FAILED">O teste SMTP falhou: {0}</phrase>
 </translation>

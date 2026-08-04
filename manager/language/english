@@ -580,4 +580,7 @@
     <phrase id="SMTP_PASSWORD">SMTP password</phrase>
     <phrase id="OUTGOING_MAIL_DELIVERY">Outgoing mail delivery</phrase>
     <phrase id="PHP_MAIL">PHP mail()</phrase>
+    <phrase id="TEST_SMTP">Test SMTP</phrase>
+    <phrase id="SMTP_TEST_SENT">SMTP test message sent to {0}.</phrase>
+    <phrase id="SMTP_TEST_FAILED">SMTP test failed: {0}</phrase>
  </translation>

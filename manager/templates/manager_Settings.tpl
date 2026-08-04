@@ -149,6 +149,7 @@
 
             <div class="settings-actions">
               {form_element field="save" class="btn btn-primary"}
+              {form_element field="test_smtp" class="btn btn-outline-primary"}
             </div>
           {/form}
         </div>
