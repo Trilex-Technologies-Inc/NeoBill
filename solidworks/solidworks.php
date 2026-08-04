@@ -127,11 +127,13 @@ function display_page($page)
 
 	if (intval($_GET['no_headers'] ?? 0) == 1) {
 		// Display without headers
-		$smarty->display($page->getTemplateFile());
+		$output = $smarty->fetch($page->getTemplateFile());
 	} else {
 		// Display with headers
-		$smarty->display(Page::selectTemplateFile($conf['main_template']));
+		$output = $smarty->fetch(Page::selectTemplateFile($conf['main_template']));
 	}
+	// Some legacy Smarty display paths bypass registered output filters.
+	echo Translator::getTranslator()->translateString($output);
 
 	// Remove messages and errors from session
 	$session = &$page->getPageSession();

@@ -137,8 +137,7 @@ function smarty_modifier_datetime( $value, $show_part = null ) {
  * @returns string Table HTML
  */
 function smarty_echo( $params, &$smarty ) {
-	global $conf;
-	return "[". ($params['phrase'] ?? '') . "]";
+	return Translator::getTranslator()->translate( $params['phrase'] ?? '' );
 }
 
 /**
@@ -552,6 +551,7 @@ function smarty_form_description( $params, &$smarty ) {
 				$form_field_description .
 				") is not configured!";
 	}
+	$form_field_description = Translator::getTranslator()->translateString( $form_field_description );
 
 	if ( $colon != "false" ) {
 		// Add a colon unless explicity told not to

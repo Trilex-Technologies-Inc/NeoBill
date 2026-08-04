@@ -580,5 +580,4 @@
     <phrase id="SMTP_PASSWORD">SMTP password</phrase>
     <phrase id="OUTGOING_MAIL_DELIVERY">Outgoing mail delivery</phrase>
     <phrase id="PHP_MAIL">PHP mail()</phrase>
-    <phrase id="NONE">None</phrase>
  </translation>

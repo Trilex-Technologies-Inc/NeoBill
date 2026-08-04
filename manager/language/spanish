@@ -576,5 +576,4 @@
     <phrase id="SMTP_PASSWORD">Contrase&#241;a SMTP</phrase>
     <phrase id="OUTGOING_MAIL_DELIVERY">Env&#237;o de correo saliente</phrase>
     <phrase id="PHP_MAIL">PHP mail()</phrase>
-    <phrase id="NONE">Ninguno</phrase>
  </translation>
