@@ -572,4 +572,13 @@
     <phrase id="CC_CAPTURED">Payment captured.</phrase>
     <phrase id="CC_REFUNDED">Payment refunded.</phrase>
     <phrase id="CC_VOIDED">Payment voided.</phrase>
-</translation>
+    <phrase id="MAIL_TRANSPORT">Mail transport</phrase>
+    <phrase id="SMTP_HOST">SMTP host</phrase>
+    <phrase id="SMTP_PORT">SMTP port</phrase>
+    <phrase id="ENCRYPTION">Encryption</phrase>
+    <phrase id="SMTP_USERNAME">SMTP username</phrase>
+    <phrase id="SMTP_PASSWORD">SMTP password</phrase>
+    <phrase id="OUTGOING_MAIL_DELIVERY">Outgoing mail delivery</phrase>
+    <phrase id="PHP_MAIL">PHP mail()</phrase>
+    <phrase id="NONE">None</phrase>
+ </translation>

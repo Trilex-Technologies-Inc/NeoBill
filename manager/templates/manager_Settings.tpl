@@ -13,7 +13,7 @@
 
     <div id="tabs" class="settings-tabs">
       <ul>
-        <li><a href="#tabs-1"><i class="ti ti-mail"></i> Email</a></li>
+        <li><a href="#tabs-1"><i class="ti ti-mail"></i> [EMAIL]</a></li>
         <li><a href="#tabs-2"><i class="ti ti-palette"></i> Themes</a></li>
         <li><a href="#tabs-3"><i class="ti ti-file-invoice"></i> Invoice</a></li>
         <li><a href="#tabs-4"><i class="ti ti-language"></i> Locale</a></li>
@@ -53,7 +53,7 @@
                   <span><i class="ti ti-server"></i></span>
                   <div>
                     <h3>SMTP</h3>
-                    <p>Outgoing mail delivery</p>
+                    <p>[OUTGOING_MAIL_DELIVERY]</p>
                   </div>
                 </div>
                 <div class="settings-card-body">

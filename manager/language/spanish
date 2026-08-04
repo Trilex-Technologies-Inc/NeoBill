@@ -568,4 +568,13 @@
     <phrase id="CC_CAPTURED">Pago capturado</phrase>
     <phrase id="CC_REFUNDED">Pago reembolsado</phrase>
     <phrase id="CC_VOIDED">Pago anulado</phrase>
-</translation>
+    <phrase id="MAIL_TRANSPORT">M&#233;todo de env&#237;o</phrase>
+    <phrase id="SMTP_HOST">Servidor SMTP</phrase>
+    <phrase id="SMTP_PORT">Puerto SMTP</phrase>
+    <phrase id="ENCRYPTION">Cifrado</phrase>
+    <phrase id="SMTP_USERNAME">Usuario SMTP</phrase>
+    <phrase id="SMTP_PASSWORD">Contrase&#241;a SMTP</phrase>
+    <phrase id="OUTGOING_MAIL_DELIVERY">Env&#237;o de correo saliente</phrase>
+    <phrase id="PHP_MAIL">PHP mail()</phrase>
+    <phrase id="NONE">Ninguno</phrase>
+ </translation>

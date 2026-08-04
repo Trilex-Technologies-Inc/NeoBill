@@ -1,3 +1,12 @@
 <translation language="francais">
     <phrase id="PLACEHOLDER">Manager translation has not been completed yet.</phrase>
+    <phrase id="MAIL_TRANSPORT">M&#233;thode d'envoi</phrase>
+    <phrase id="SMTP_HOST">H&#244;te SMTP</phrase>
+    <phrase id="SMTP_PORT">Port SMTP</phrase>
+    <phrase id="ENCRYPTION">Chiffrement</phrase>
+    <phrase id="SMTP_USERNAME">Nom d'utilisateur SMTP</phrase>
+    <phrase id="SMTP_PASSWORD">Mot de passe SMTP</phrase>
+    <phrase id="OUTGOING_MAIL_DELIVERY">Envoi des e-mails sortants</phrase>
+    <phrase id="PHP_MAIL">PHP mail()</phrase>
+    <phrase id="NONE">Aucun</phrase>
 </translation>

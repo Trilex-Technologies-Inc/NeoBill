@@ -413,4 +413,13 @@
     <phrase id="SETTINGS_UPDATED">Defini&#231;&#245;es Guardadas.</phrase>
     <phrase id="TAX_RULE_CREATED">Taxa de Imposto Criada.</phrase>
     <phrase id="TAX_RULE_DELETED"> Taxa de Imposto Eliminada.</phrase>
+    <phrase id="MAIL_TRANSPORT">M&#233;todo de envio</phrase>
+    <phrase id="SMTP_HOST">Servidor SMTP</phrase>
+    <phrase id="SMTP_PORT">Porta SMTP</phrase>
+    <phrase id="ENCRYPTION">Encripta&#231;&#227;o</phrase>
+    <phrase id="SMTP_USERNAME">Utilizador SMTP</phrase>
+    <phrase id="SMTP_PASSWORD">Palavra-passe SMTP</phrase>
+    <phrase id="OUTGOING_MAIL_DELIVERY">Envio de e-mails</phrase>
+    <phrase id="PHP_MAIL">PHP mail()</phrase>
+    <phrase id="NONE">Nenhuma</phrase>
 </translation>

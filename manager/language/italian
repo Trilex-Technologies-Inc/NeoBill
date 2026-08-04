@@ -409,4 +409,13 @@
         <phrase id="SETTINGS_UPDATED">Configurazione Salvata.</phrase>
         <phrase id="TAX_RULE_CREATED">Tassa Creata.</phrase>
         <phrase id="TAX_RULE_DELETED">Tassa Cancellata.</phrase>
+    <phrase id="MAIL_TRANSPORT">Metodo di invio</phrase>
+    <phrase id="SMTP_HOST">Host SMTP</phrase>
+    <phrase id="SMTP_PORT">Porta SMTP</phrase>
+    <phrase id="ENCRYPTION">Crittografia</phrase>
+    <phrase id="SMTP_USERNAME">Nome utente SMTP</phrase>
+    <phrase id="SMTP_PASSWORD">Password SMTP</phrase>
+    <phrase id="OUTGOING_MAIL_DELIVERY">Invio e-mail in uscita</phrase>
+    <phrase id="PHP_MAIL">PHP mail()</phrase>
+    <phrase id="NONE">Nessuna</phrase>
 </translation>
