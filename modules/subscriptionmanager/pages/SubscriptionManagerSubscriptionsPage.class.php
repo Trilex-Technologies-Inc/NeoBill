@@ -102,17 +102,23 @@ class SubscriptionManagerSubscriptionsPage extends SubscriptionManagerAdminPage 
 
 	function createSubscription() {
 		$DB = $this->db();
-		$price = $this->row( "select * from subscriptionmanager_price where id=" . intval( $this->post['priceid'] ) );
+		$price = $this->row( "select * from subscriptionmanager_price where id=" . intval( $this->post['priceid'] ) .
+				" and planid=" . intval( $this->post['planid'] ) );
 		if ( !$price ) {
 			throw new SWUserException( "Subscription price was not found." );
 		}
 
-		$start = $this->dateValue( $this->post['start_date'] );
-		$periodEnd = $this->service()->nextCycleDate( $start, $price['billing_cycle'], $price['cycle_interval'] );
+		$account = $this->row( "select id from account where id=" . intval( $this->post['accountid'] ) );
+		if ( !$account || intval( $this->post['quantity'] ) < 1 ) {
+			throw new SWUserException( "A valid account and positive quantity are required." );
+		}
+		$orderStart = $this->dateValue( $this->post['start_date'] );
 		$trialEnd = intval( $price['trial_days'] ) > 0 ?
-				date( "Y-m-d", strtotime( "+" . intval( $price['trial_days'] ) . " day", strtotime( $start ) ) ) :
+				date( "Y-m-d", strtotime( "+" . intval( $price['trial_days'] ) . " day", strtotime( $orderStart ) ) ) :
 				null;
-		$nextBillingDate = $trialEnd ? $trialEnd : $start;
+		$start = $trialEnd ? $trialEnd : $orderStart;
+		$periodEnd = $this->service()->nextCycleDate( $start, $price['billing_cycle'], $price['cycle_interval'] );
+		$nextBillingDate = $start;
 		$now = DBConnection::format_datetime( time() );
 
 		$subscription = array( "accountid" => intval( $this->post['accountid'] ),
@@ -122,7 +128,15 @@ class SubscriptionManagerSubscriptionsPage extends SubscriptionManagerAdminPage 
 				"quantity" => intval( $this->post['quantity'] ),
 				"current_period_start" => $this->datetimeValue( $start ),
 				"current_period_end" => $this->datetimeValue( $periodEnd ),
-				"intro_cycles_remaining" => intval( $price['intro_cycles'] ),
+					"intro_cycles_remaining" => intval( $price['intro_cycles'] ),
+					"billing_type" => $price['billing_type'],
+					"billing_cycle" => $price['billing_cycle'],
+					"cycle_interval" => intval( $price['cycle_interval'] ),
+					"amount" => $price['amount'],
+					"included_quantity" => $price['included_quantity'],
+					"unit_amount" => $price['unit_amount'],
+					"intro_amount" => $price['intro_amount'],
+					"taxable" => $price['taxable'],
 				"nextbillingdate" => $this->dateValue( $nextBillingDate ),
 				"created" => $now,
 				"updated" => $now );
@@ -143,12 +157,14 @@ class SubscriptionManagerSubscriptionsPage extends SubscriptionManagerAdminPage 
 		$subscriptionID = intval( $this->post['subscriptionid'] );
 		$planID = intval( $this->post['planid'] );
 		$priceID = intval( $this->post['priceid'] );
-
 		$price = $this->row(
-				"select id from subscriptionmanager_price where id = " . $priceID .
+				"select * from subscriptionmanager_price where id = " . $priceID .
 				" and planid = " . $planID );
 		if ( !$price ) {
 			throw new SWUserException( "Subscription price was not found for this plan." );
+		}
+		if ( intval( $this->post['quantity'] ) < 1 ) {
+			throw new SWUserException( "Subscription quantity must be at least one." );
 		}
 
 		$nextBillingDate = strlen( trim( $this->post['nextbillingdate'] ) ) ?
@@ -160,7 +176,15 @@ class SubscriptionManagerSubscriptionsPage extends SubscriptionManagerAdminPage 
 				"planid" => $planID,
 				"priceid" => $priceID,
 				"status" => $this->post['status'],
-				"quantity" => intval( $this->post['quantity'] ),
+					"quantity" => intval( $this->post['quantity'] ),
+					"billing_type" => $price['billing_type'],
+					"billing_cycle" => $price['billing_cycle'],
+					"cycle_interval" => intval( $price['cycle_interval'] ),
+					"amount" => $price['amount'],
+					"included_quantity" => $price['included_quantity'],
+					"unit_amount" => $price['unit_amount'],
+					"intro_amount" => $price['intro_amount'],
+					"taxable" => $price['taxable'],
 				"current_period_start" => $this->datetimeValue( $this->post['current_period_start'] ),
 				"current_period_end" => $this->datetimeValue( $this->post['current_period_end'] ),
 				"nextbillingdate" => $nextBillingDate,
@@ -180,6 +204,8 @@ class SubscriptionManagerSubscriptionsPage extends SubscriptionManagerAdminPage 
 				"subscriptionid = " . $subscriptionID ) );
 		$this->execute( $DB->build_delete_sql( "subscriptionmanager_discount",
 				"subscriptionid = " . $subscriptionID ) );
+		$this->execute( $DB->build_delete_sql( "subscriptionmanager_billing_period",
+				"subscriptionid = " . $subscriptionID ) );
 		$this->execute( $DB->build_delete_sql( "subscriptionmanager_subscription",
 				"id = " . $subscriptionID ) );
 		$this->setMessage( array( "type" => "Subscription deleted." ) );
@@ -191,6 +217,9 @@ class SubscriptionManagerSubscriptionsPage extends SubscriptionManagerAdminPage 
 		$productID = intval( $this->post['productid'] );
 		$planID = intval( $this->post['planid'] );
 		$priceID = intval( $this->post['priceid'] );
+		if ( intval( $this->post['quantity'] ) < 1 ) {
+			throw new SWUserException( "Subscription mapping quantity must be at least one." );
+		}
 
 		$product = $this->row( "select id from product where id = " . $productID );
 		if ( !$product ) {
@@ -232,6 +261,9 @@ class SubscriptionManagerSubscriptionsPage extends SubscriptionManagerAdminPage 
 		$productID = intval( $this->post['productid'] );
 		$planID = intval( $this->post['planid'] );
 		$priceID = intval( $this->post['priceid'] );
+		if ( intval( $this->post['quantity'] ) < 1 ) {
+			throw new SWUserException( "Subscription mapping quantity must be at least one." );
+		}
 
 		$product = $this->row( "select id from product where id = " . $productID );
 		if ( !$product ) {
@@ -267,15 +299,9 @@ class SubscriptionManagerSubscriptionsPage extends SubscriptionManagerAdminPage 
 		$DB = $this->db();
 		$type = "Onetime";
 		$termLength = 0;
-
-		if ( $price['billing_cycle'] == "monthly" ) {
-			$type = "Recurring";
-			$termLength = max( 1, intval( $price['cycle_interval'] ) );
-		}
-		elseif ( $price['billing_cycle'] == "annually" ) {
-			$type = "Recurring";
-			$termLength = 12 * max( 1, intval( $price['cycle_interval'] ) );
-		}
+		$checkoutAmount = intval( $price['trial_days'] ) > 0 ? 0.00 :
+				( $price['intro_amount'] !== null && intval( $price['intro_cycles'] ) > 0 ?
+				$price['intro_amount'] : $price['amount'] );
 
 		$exists = $this->row(
 				"select productid from productprice where productid = " . intval( $productID ) .
@@ -286,7 +312,7 @@ class SubscriptionManagerSubscriptionsPage extends SubscriptionManagerAdminPage 
 					"productid = " . intval( $productID ) .
 					" and type = " . $this->quote( $type ) .
 					" and termlength = " . intval( $termLength ),
-					array( "price" => $price['amount'],
+					array( "price" => $checkoutAmount,
 					"taxable" => $price['taxable'] ) );
 		}
 		else {
@@ -294,7 +320,7 @@ class SubscriptionManagerSubscriptionsPage extends SubscriptionManagerAdminPage 
 					array( "productid" => intval( $productID ),
 					"type" => $type,
 					"termlength" => $termLength,
-					"price" => $price['amount'],
+					"price" => $checkoutAmount,
 					"taxable" => $price['taxable'] ) );
 		}
 		$this->execute( $sql );

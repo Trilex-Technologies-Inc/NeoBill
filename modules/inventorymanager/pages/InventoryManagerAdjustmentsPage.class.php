@@ -56,12 +56,13 @@ class InventoryManagerAdjustmentsPage extends InventoryManagerAdminPage {
 		$locationID = intval( $this->post['locationid'] );
 		$this->validateItemLocation( $itemID, $locationID );
 
-		$this->execute( $DB->build_update_sql( "inventorymanager_stock",
-				"id = " . $stockID,
-				array( "itemid" => $itemID,
-				"locationid" => $locationID,
-				"quantity" => intval( $this->post['quantity'] ),
-				"updated" => DBConnection::format_datetime( time() ) ) ) );
+		$current = $this->row( "select * from inventorymanager_stock where id = " . $stockID );
+		if ( !$current || intval( $current['itemid'] ) != $itemID || intval( $current['locationid'] ) != $locationID ) {
+			throw new SWUserException( "Move stock between items or locations with separate adjustments." );
+		}
+		$this->service()->adjustStock( $itemID, $locationID,
+				intval( $this->post['quantity'] ) - intval( $current['quantity'] ),
+				"manual", null, "Manager corrected stock total" );
 
 		$this->setMessage( array( "type" => "Inventory stock updated." ) );
 		$this->reload();
@@ -71,39 +72,21 @@ class InventoryManagerAdjustmentsPage extends InventoryManagerAdminPage {
 		$DB = $this->db();
 		$stockID = intval( $this->post['stockid'] );
 
-		$this->execute( $DB->build_delete_sql( "inventorymanager_stock", "id = " . $stockID ) );
-		$this->setMessage( array( "type" => "Inventory stock deleted." ) );
+		$current = $this->row( "select * from inventorymanager_stock where id = " . $stockID );
+		if ( $current && intval( $current['quantity'] ) != 0 ) {
+			$this->service()->adjustStock( $current['itemid'], $current['locationid'],
+					-1 * intval( $current['quantity'] ), "manual", null, "Manager cleared stock total" );
+		}
+		$this->setMessage( array( "type" => "Inventory stock cleared with an audit movement." ) );
 		$this->reload();
 	}
 
 	function updateMovement() {
-		$movementID = intval( $this->post['movementid'] );
-		$itemID = intval( $this->post['itemid'] );
-		$locationID = intval( $this->post['locationid'] );
-		$referenceID = strlen( trim( $this->post['reference_id'] ) ) ? intval( $this->post['reference_id'] ) : null;
-		$this->validateItemLocation( $itemID, $locationID );
-
-		$this->execute(
-				"update inventorymanager_movement set " .
-				"itemid = " . $itemID . ", " .
-				"locationid = " . $locationID . ", " .
-				"quantity_change = " . intval( $this->post['quantity_change'] ) . ", " .
-				"reference_type = " . $this->quote( $this->post['reference_type'] ) . ", " .
-				"reference_id = " . $this->nullableIntSQL( $referenceID ) . ", " .
-				"note = " . $this->quote( $this->post['note'] ) . " " .
-				"where id = " . $movementID );
-
-		$this->setMessage( array( "type" => "Inventory movement updated." ) );
-		$this->reload();
+		throw new SWUserException( "Inventory movements are immutable. Create a correcting adjustment instead." );
 	}
 
 	function deleteMovement() {
-		$DB = $this->db();
-		$movementID = intval( $this->post['movementid'] );
-
-		$this->execute( $DB->build_delete_sql( "inventorymanager_movement", "id = " . $movementID ) );
-		$this->setMessage( array( "type" => "Inventory movement deleted." ) );
-		$this->reload();
+		throw new SWUserException( "Inventory movements are immutable. Create a correcting adjustment instead." );
 	}
 
 	function validateItemLocation( $itemID, $locationID ) {

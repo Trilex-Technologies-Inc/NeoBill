@@ -31,8 +31,11 @@ class SubscriptionManagerBillingPage extends SubscriptionManagerAdminPage
 		return $this->rows(
 			"select s.*, p.name as planname, " .
 				"case when a.type='Individual Account' then a.contactname else a.businessname end as account_name, " .
-				"pr.billing_type, pr.billing_cycle, pr.cycle_interval, " .
-				"pr.amount, pr.included_quantity, pr.unit_amount, pr.intro_amount, pr.intro_cycles " .
+					"coalesce(s.billing_type,pr.billing_type) as billing_type, coalesce(s.billing_cycle,pr.billing_cycle) as billing_cycle, " .
+					"coalesce(s.cycle_interval,pr.cycle_interval) as cycle_interval, coalesce(s.amount,pr.amount) as amount, " .
+					"coalesce(s.included_quantity,pr.included_quantity) as included_quantity, " .
+					"coalesce(s.unit_amount,pr.unit_amount) as unit_amount, coalesce(s.intro_amount,pr.intro_amount) as intro_amount, pr.intro_cycles, " .
+					"coalesce(s.taxable,pr.taxable) as taxable " .
 				"from subscriptionmanager_subscription s " .
 				"join subscriptionmanager_plan p on p.id=s.planid " .
 				"join subscriptionmanager_price pr on pr.id=s.priceid " .
@@ -49,13 +52,24 @@ class SubscriptionManagerBillingPage extends SubscriptionManagerAdminPage
 		$generated = 0;
 
 		foreach ($this->dueSubscriptions($billingDate) as $subscription) {
+			if ($subscription['cancel_at'] !== null && strtotime($subscription['cancel_at']) <= strtotime($billingDate)) {
+				$this->cancelDueSubscription($subscription);
+				continue;
+			}
+			if (!$this->claimPeriod($subscription)) {
+				continue;
+			}
 			$amount = $this->baseAmount($subscription);
 			$usageAmount = $this->unbilledUsageAmount($subscription);
-			$discountAmount = $this->discountAmount($subscription['id'], $amount + $usageAmount);
-			$total = max(0, $amount + $usageAmount - $discountAmount);
+			$baseTotal = $amount * max(1, intval($subscription['quantity']));
+			$discountAmount = $this->discountAmount($subscription['id'], $baseTotal + $usageAmount);
+			$total = max(0, $baseTotal + $usageAmount - $discountAmount);
+			$taxAmount = $this->taxAmount($subscription, $total);
 
 			if ($total <= 0 && $usageAmount <= 0) {
+				$this->markUsageInvoiced($subscription['id'], 0, $subscription);
 				$this->advanceSubscription($subscription, null);
+				$this->completePeriod($subscription, null, "no_charge");
 				continue;
 			}
 
@@ -68,7 +82,7 @@ class SubscriptionManagerBillingPage extends SubscriptionManagerAdminPage
 			$invoice->setNote("Subscription #" . $subscription['id']);
 
 			if ($amount > 0) {
-				$invoice->add_item($subscription['quantity'], $amount, $subscription['planname'], false);
+				$invoice->add_item(max(1, intval($subscription['quantity'])), $amount, $subscription['planname'], false);
 			}
 			if ($usageAmount > 0) {
 				$invoice->add_item(1, $usageAmount, $subscription['planname'] . " usage", false);
@@ -76,15 +90,67 @@ class SubscriptionManagerBillingPage extends SubscriptionManagerAdminPage
 			if ($discountAmount > 0) {
 				$invoice->add_item(1, -1 * $discountAmount, "Subscription discount", false);
 			}
+			if ($taxAmount > 0) {
+				$invoice->add_item(1, $taxAmount, "Subscription tax", true);
+			}
 
 			add_InvoiceDBO($invoice);
-			$this->markUsageInvoiced($subscription['id'], $invoice->getID());
+			$this->markUsageInvoiced($subscription['id'], $invoice->getID(), $subscription);
 			$this->advanceSubscription($subscription, $invoice->getID());
+			$this->completePeriod($subscription, $invoice->getID(), "invoiced");
 			$generated++;
 		}
 
 		$this->setMessage(array("type" => sprintf("%d subscription invoices generated.", $generated)));
 		$this->reload();
+	}
+
+	function cancelDueSubscription($subscription)
+	{
+		$DB = $this->db();
+		$now = DBConnection::format_datetime(time());
+		$this->execute($DB->build_update_sql("subscriptionmanager_subscription",
+			"id=" . intval($subscription['id']), array("status" => "cancelled",
+				"cancelled_at" => $now, "nextbillingdate" => null, "updated" => $now)));
+	}
+
+	function claimPeriod($subscription)
+	{
+		$DB = $this->db();
+		$now = DBConnection::format_datetime(time());
+		$sql = $DB->build_insert_sql("subscriptionmanager_billing_period", array(
+			"subscriptionid" => intval($subscription['id']),
+			"period_start" => $this->datetimeValue($subscription['current_period_start']),
+			"period_end" => $this->datetimeValue($subscription['current_period_end']),
+			"status" => "processing", "created" => $now, "updated" => $now));
+			if (@mysql_query($sql, $DB->handle())) {
+				return true;
+			}
+			if (mysql_errno($DB->handle()) == 1062) {
+				return false;
+			}
+			throw new DBException(mysql_error($DB->handle()));
+	}
+
+	function taxAmount($subscription, $amount)
+	{
+		if ($subscription['taxable'] != "Yes" || $amount <= 0) {
+			return 0.00;
+		}
+		$row = $this->row("select coalesce(sum(t.rate),0) as rate from account a left join taxrule t " .
+			"on t.country=a.country and (t.allstates='YES' or t.state=a.state) where a.id=" .
+			intval($subscription['accountid']));
+		return round($amount * (floatval($row['rate']) / 100), 2);
+	}
+
+	function completePeriod($subscription, $invoiceID, $status)
+	{
+		$DB = $this->db();
+		$this->execute($DB->build_update_sql("subscriptionmanager_billing_period",
+			"subscriptionid=" . intval($subscription['id']) . " and period_start=" .
+			$this->quote($this->datetimeValue($subscription['current_period_start'])),
+			array("invoiceid" => $invoiceID, "status" => $status,
+				"updated" => DBConnection::format_datetime(time()))));
 	}
 
 	function baseAmount($subscription)
@@ -110,7 +176,9 @@ class SubscriptionManagerBillingPage extends SubscriptionManagerAdminPage
 		}
 
 		$row = $this->row("select coalesce(sum(quantity),0) as quantity from subscriptionmanager_usage " .
-			"where subscriptionid=" . intval($subscription['id']) . " and invoiceid is null");
+			"where subscriptionid=" . intval($subscription['id']) . " and invoiceid is null " .
+			"and usage_date >= " . $this->quote($this->datetimeValue($subscription['current_period_start'])) .
+			" and usage_date < " . $this->quote($this->datetimeValue($subscription['current_period_end'])));
 		return $this->service()->usageCharge(
 			floatval($row['quantity']),
 			floatval($subscription['unit_amount']),
@@ -133,12 +201,14 @@ class SubscriptionManagerBillingPage extends SubscriptionManagerAdminPage
 		);
 	}
 
-	function markUsageInvoiced($subscriptionID, $invoiceID)
+	function markUsageInvoiced($subscriptionID, $invoiceID, $subscription)
 	{
 		$DB = $this->db();
 		$sql = $DB->build_update_sql(
 			"subscriptionmanager_usage",
-			"subscriptionid=" . intval($subscriptionID) . " and invoiceid is null",
+			"subscriptionid=" . intval($subscriptionID) . " and invoiceid is null" .
+				" and usage_date >= " . $this->quote($this->datetimeValue($subscription['current_period_start'])) .
+				" and usage_date < " . $this->quote($this->datetimeValue($subscription['current_period_end'])),
 			array("invoiceid" => intval($invoiceID))
 		);
 		$this->execute($sql);
@@ -170,6 +240,13 @@ class SubscriptionManagerBillingPage extends SubscriptionManagerAdminPage
 			)
 		);
 		$this->execute($subSql);
+		$discount = $this->row("select * from subscriptionmanager_discount where subscriptionid=" .
+			intval($subscription['id']) . " and status='active' order by id desc limit 1");
+		if ($discount && $discount['remaining_cycles'] !== null) {
+			$remaining = max(0, intval($discount['remaining_cycles']) - 1);
+			$this->execute($DB->build_update_sql("subscriptionmanager_discount", "id=" . intval($discount['id']),
+				array("remaining_cycles" => $remaining, "status" => $remaining == 0 ? "expired" : "active")));
+		}
 	}
 
 	function deleteSubscription()
@@ -190,6 +267,10 @@ class SubscriptionManagerBillingPage extends SubscriptionManagerAdminPage
 		));
 		$this->execute($DB->build_delete_sql(
 			"subscriptionmanager_discount",
+			"subscriptionid = " . $subscriptionID
+		));
+		$this->execute($DB->build_delete_sql(
+			"subscriptionmanager_billing_period",
 			"subscriptionid = " . $subscriptionID
 		));
 		$this->execute($DB->build_delete_sql(

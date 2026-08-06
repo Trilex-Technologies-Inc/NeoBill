@@ -55,23 +55,12 @@
               </div>
               <span class="subscriptionmanager-badge">{$row.quantity_change}</span>
             </div>
-            {form name="inventorymanager_movement_update"}
-              <input type="hidden" name="movementid" value="{$row.id}"/>
-              <div class="subscriptionmanager-form-grid subscriptionmanager-plan-edit-grid">
-                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="itemid"}</label><select name="itemid">{foreach from=$itemChoices item=choice}<option value="{$choice.id}"{if $row.itemid == $choice.id} selected="selected"{/if}>#{$choice.id} {$choice.sku} {$choice.name}</option>{/foreach}</select></div>
-                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="locationid"}</label><select name="locationid">{foreach from=$locations item=location}<option value="{$location.id}"{if $row.locationid == $location.id} selected="selected"{/if}>#{$location.id} {$location.name}</option>{/foreach}</select></div>
-                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="quantity_change"}</label>{form_element field="quantity_change" value=$row.quantity_change size="8"}</div>
-                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="reference_type"}</label>{form_element field="reference_type" value=$row.reference_type size="16"}</div>
-                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="reference_id"}</label>{form_element field="reference_id" value=$row.reference_id size="8"}</div>
-                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="note"}</label>{form_element field="note" value=$row.note size="30"}</div>
-                <div class="subscriptionmanager-field subscriptionmanager-field-wide"><label class="form-label">Current location</label><div class="subscriptionmanager-readonly">{$row.location_name}</div></div>
-              </div>
-              <div class="subscriptionmanager-plan-actions">{form_element field="save" class="btn btn-primary"}</div>
-            {/form}
-            {form name="inventorymanager_movement_delete"}
-              <input type="hidden" name="movementid" value="{$row.id}"/>
-              <div class="subscriptionmanager-plan-delete">{form_element field="delete" class="btn btn-outline-danger" onclick="return confirm('Delete this movement record?');"}</div>
-            {/form}
+            <div class="subscriptionmanager-form-grid subscriptionmanager-plan-edit-grid">
+              <div class="subscriptionmanager-field"><label class="form-label">Location</label><div class="subscriptionmanager-readonly">{$row.location_name}</div></div>
+              <div class="subscriptionmanager-field"><label class="form-label">Reference</label><div class="subscriptionmanager-readonly">{$row.reference_type} {if $row.reference_id}#{$row.reference_id}{/if}</div></div>
+              <div class="subscriptionmanager-field subscriptionmanager-field-wide"><label class="form-label">Note</label><div class="subscriptionmanager-readonly">{$row.note}</div></div>
+              <div class="subscriptionmanager-field subscriptionmanager-field-wide"><div class="subscriptionmanager-readonly">Movement history is immutable. Use a new stock adjustment to correct it.</div></div>
+            </div>
           </div>
         {/foreach}
       </div>

@@ -168,6 +168,9 @@ class InventoryManagerItemsPage extends InventoryManagerAdminPage {
 	}
 
 	function validateProductMap( $productID, $itemID, $locationID ) {
+		if ( intval( $this->post['quantity'] ) < 1 ) {
+			throw new SWUserException( "Inventory mapping quantity must be at least one." );
+		}
 		$product = $this->row( "select id from product where id = " . intval( $productID ) );
 		if ( !$product ) {
 			throw new SWUserException( "Product was not found." );

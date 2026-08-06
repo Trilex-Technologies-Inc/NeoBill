@@ -64,6 +64,7 @@ class ProductOrderBridge {
 		$result = $this->query(
 				"select * from inventorymanager_product_map where productid = " . intval( $productID ) );
 		$service = new InventoryService();
+		$referenceID = intval( $purchaseDBO->getID() );
 		while ( $row = mysql_fetch_assoc( $result ) ) {
 			$locationID = $row['locationid'] === null ? null : intval( $row['locationid'] );
 			$service->decrementStock(
@@ -71,12 +72,18 @@ class ProductOrderBridge {
 					intval( $row['quantity'] ),
 					$locationID,
 					"productpurchase",
-					$purchaseDBO->getID(),
-					"Product order #" . $purchaseDBO->getID() );
+						$referenceID,
+						"Product order #" . $referenceID );
 		}
 	}
 
 	function fulfillSubscriptionMapping( $productID, AccountDBO $accountDBO, ProductPurchaseDBO $purchaseDBO ) {
+		$existing = $this->row(
+				"select id from subscriptionmanager_subscription where sourcepurchaseid = " .
+				intval( $purchaseDBO->getID() ) . " limit 1" );
+		if ( $existing ) {
+			return;
+		}
 		$map = $this->row(
 				"select * from subscriptionmanager_product_map where productid = " . intval( $productID ) .
 				" order by id asc limit 1" );
@@ -91,12 +98,14 @@ class ProductOrderBridge {
 			return;
 		}
 
-		$start = DBConnection::format_date( time() );
-		$periodEnd = $this->nextCycleDate( $start, $price['billing_cycle'], $price['cycle_interval'] );
+		$orderDate = DBConnection::format_date( time() );
 		$trialEnd = intval( $price['trial_days'] ) > 0 ?
-				date( "Y-m-d", strtotime( "+" . intval( $price['trial_days'] ) . " day", strtotime( $start ) ) ) :
+				date( "Y-m-d", strtotime( "+" . intval( $price['trial_days'] ) . " day", strtotime( $orderDate ) ) ) :
 				null;
-		$nextBillingDate = $trialEnd ? $trialEnd : $start;
+		$start = $trialEnd ? $trialEnd : $orderDate;
+		$periodEnd = $this->nextCycleDate( $start, $price['billing_cycle'], $price['cycle_interval'] );
+		// Checkout owns the first paid period. Trial checkouts are free and bill at trial end.
+		$nextBillingDate = $trialEnd ? $trialEnd : $periodEnd;
 		$now = DBConnection::format_datetime( time() );
 
 		$subscription = array( "accountid" => intval( $accountDBO->getID() ),
@@ -106,9 +115,19 @@ class ProductOrderBridge {
 				"quantity" => intval( $map['quantity'] ),
 				"current_period_start" => DBConnection::format_datetime( strtotime( $start ) ),
 				"current_period_end" => DBConnection::format_datetime( strtotime( $periodEnd ) ),
-				"intro_cycles_remaining" => intval( $price['intro_cycles'] ),
+					"intro_cycles_remaining" => $trialEnd ? intval( $price['intro_cycles'] ) :
+						max( 0, intval( $price['intro_cycles'] ) - 1 ),
 				"nextbillingdate" => $nextBillingDate,
-				"previnvoiceid" => $purchaseDBO->getPrevInvoiceID(),
+					"previnvoiceid" => $purchaseDBO->getPrevInvoiceID(),
+					"sourcepurchaseid" => intval( $purchaseDBO->getID() ),
+					"billing_type" => $price['billing_type'],
+					"billing_cycle" => $price['billing_cycle'],
+					"cycle_interval" => intval( $price['cycle_interval'] ),
+					"amount" => $price['amount'],
+					"included_quantity" => $price['included_quantity'],
+					"unit_amount" => $price['unit_amount'],
+					"intro_amount" => $price['intro_amount'],
+					"taxable" => $price['taxable'],
 				"created" => $now,
 				"updated" => $now );
 

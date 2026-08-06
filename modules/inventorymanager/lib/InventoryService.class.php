@@ -37,7 +37,10 @@ class InventoryService {
 
 		$item = $this->row( "select * from inventorymanager_item where id = " . intval( $itemID ) );
 		if ( !$item ) {
-			return;
+			throw new SWUserException( "Inventory item was not found." );
+		}
+		if ( $item['status'] != "active" ) {
+			throw new SWUserException( "Archived inventory item " . $item['sku'] . " cannot be fulfilled." );
 		}
 
 		if ( $item['item_type'] == "bundle" ) {
@@ -62,17 +65,30 @@ class InventoryService {
 		$itemID = intval( $itemID );
 		$locationID = $locationID ? intval( $locationID ) : $this->defaultLocationID();
 		$quantityChange = intval( $quantityChange );
-
+		if ( $quantityChange == 0 ) {
+			return;
+		}
+		$location = $this->row( "select status from inventorymanager_location where id = " . $locationID );
+		if ( !$location || $location['status'] != "active" ) {
+			throw new SWUserException( "An active inventory location is required." );
+		}
 		$current = $this->row(
 				"select * from inventorymanager_stock where itemid = " . $itemID .
 				" and locationid = " . $locationID );
 		if ( $current ) {
-			$this->query(
+			$result = $this->query(
 					"update inventorymanager_stock set quantity = quantity + " . $quantityChange .
 					", updated = " . $this->quote( DBConnection::format_datetime( time() ) ) .
-					" where itemid = " . $itemID . " and locationid = " . $locationID );
+					" where itemid = " . $itemID . " and locationid = " . $locationID .
+					" and quantity + " . $quantityChange . " >= 0" );
+			if ( mysql_affected_rows( $DB->handle() ) == 0 ) {
+				throw new SWUserException( "Insufficient inventory stock for item #" . $itemID . "." );
+			}
 		}
 		else {
+			if ( $quantityChange < 0 ) {
+				throw new SWUserException( "Insufficient inventory stock for item #" . $itemID . "." );
+			}
 			$sql = $DB->build_insert_sql( "inventorymanager_stock", array(
 					"itemid" => $itemID,
 					"locationid" => $locationID,

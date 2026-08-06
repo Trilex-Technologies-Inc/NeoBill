@@ -24,6 +24,7 @@ class subscriptionmanager extends SolidStateModule {
 
 	function init() {
 		parent::init();
+		$this->ensureWorkflowSchema();
 
 		$this->invoiceTerms = $this->moduleDBO->loadSetting( "invoice_terms" );
 		$this->retrySchedule = $this->moduleDBO->loadSetting( "retry_schedule" );
@@ -58,6 +59,52 @@ class subscriptionmanager extends SolidStateModule {
 
 	function createTables() {
 		$this->runSqlFile( BASE_PATH . "modules/subscriptionmanager/sql/install.sql" );
+	}
+
+	function ensureWorkflowSchema() {
+		$DB = DBConnection::getDBConnection();
+		$table = mysql_query( "show tables like " . $DB->quote_smart( "subscriptionmanager_subscription" ), $DB->handle() );
+		if ( !$table || mysql_num_rows( $table ) == 0 ) {
+			return;
+		}
+		$column = mysql_query( "show columns from subscriptionmanager_subscription like 'sourcepurchaseid'", $DB->handle() );
+		if ( $column && mysql_num_rows( $column ) == 0 ) {
+			if ( !mysql_query( "alter table subscriptionmanager_subscription add sourcepurchaseid int(11) default null, add key sourcepurchaseid (sourcepurchaseid)", $DB->handle() ) ) {
+				throw new DBException( mysql_error( $DB->handle() ) );
+			}
+		}
+		$snapshots = array(
+			"billing_type" => "enum('fixed','usage') default null",
+			"billing_cycle" => "enum('daily','weekly','monthly','annually') default null",
+			"cycle_interval" => "int(10) unsigned default null",
+			"amount" => "decimal(20,2) default null",
+			"included_quantity" => "decimal(20,4) default null",
+			"unit_amount" => "decimal(20,4) default null",
+			"intro_amount" => "decimal(20,2) default null",
+			"taxable" => "enum('Yes','No') default null" );
+		foreach ( $snapshots as $name => $definition ) {
+			$column = mysql_query( "show columns from subscriptionmanager_subscription like " . $DB->quote_smart( $name ), $DB->handle() );
+			if ( $column && mysql_num_rows( $column ) == 0 &&
+					!mysql_query( "alter table subscriptionmanager_subscription add `" . $name . "` " . $definition, $DB->handle() ) ) {
+				throw new DBException( mysql_error( $DB->handle() ) );
+			}
+		}
+		mysql_query( "update subscriptionmanager_subscription s join subscriptionmanager_price p on p.id=s.priceid set " .
+				"s.billing_type=coalesce(s.billing_type,p.billing_type), s.billing_cycle=coalesce(s.billing_cycle,p.billing_cycle)," .
+				"s.cycle_interval=coalesce(s.cycle_interval,p.cycle_interval), s.amount=coalesce(s.amount,p.amount)," .
+				"s.included_quantity=coalesce(s.included_quantity,p.included_quantity), s.unit_amount=coalesce(s.unit_amount,p.unit_amount)," .
+				"s.intro_amount=coalesce(s.intro_amount,p.intro_amount)," .
+				"s.taxable=coalesce(s.taxable,p.taxable) where s.billing_type is null or s.billing_cycle is null or " .
+				"s.cycle_interval is null or s.amount is null or s.included_quantity is null or s.unit_amount is null or s.taxable is null", $DB->handle() );
+		$sql = "create table if not exists subscriptionmanager_billing_period (" .
+				"id int(11) not null auto_increment, subscriptionid int(11) not null default 0," .
+				"period_start datetime not null, period_end datetime not null, invoiceid int(11) default null," .
+				"status enum('processing','invoiced','no_charge','failed') not null default 'processing'," .
+				"created datetime not null, updated datetime not null, primary key (id)," .
+				"unique key subscription_period (subscriptionid,period_start), key invoiceid (invoiceid)) default charset=utf8";
+		if ( !mysql_query( $sql, $DB->handle() ) ) {
+			throw new DBException( mysql_error( $DB->handle() ) );
+		}
 	}
 
 	function uninstallTables() {

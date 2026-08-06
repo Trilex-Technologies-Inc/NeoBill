@@ -102,7 +102,6 @@ class SubscriptionManagerPlansPage extends SubscriptionManagerAdminPage {
 		$DB = $this->db();
 		$planID = intval( $this->post['planid'] );
 		$priceID = intval( $this->post['priceid'] );
-
 		$this->execute( $DB->build_update_sql( "subscriptionmanager_plan",
 				"id = " . $planID,
 				array( "name" => $this->post['name'],
@@ -123,6 +122,10 @@ class SubscriptionManagerPlansPage extends SubscriptionManagerAdminPage {
 				"intro_amount" => $introAmount,
 				"intro_cycles" => intval( $this->post['intro_cycles'] ),
 				"taxable" => $this->post['taxable'] ) ) );
+		$price = $this->row( "select * from subscriptionmanager_price where id=" . $priceID . " and planid=" . $planID );
+		foreach ( $this->rows( "select productid from subscriptionmanager_product_map where priceid=" . $priceID ) as $map ) {
+			$this->syncProductPrice( intval( $map['productid'] ), $price );
+		}
 
 		$this->setMessage( array( "type" => "[SUBSCRIPTION_MANAGER_PLAN_UPDATED]" ) );
 		$this->reload();
@@ -137,6 +140,10 @@ class SubscriptionManagerPlansPage extends SubscriptionManagerAdminPage {
 		if ( $subscriptions && intval( $subscriptions['total'] ) > 0 ) {
 			throw new SWUserException( "[SUBSCRIPTION_MANAGER_PLAN_DELETE_IN_USE]" );
 		}
+		$maps = $this->row( "select count(*) as total from subscriptionmanager_product_map where planid = " . $planID );
+		if ( $maps && intval( $maps['total'] ) > 0 ) {
+			throw new SWUserException( "Remove product links before deleting this plan." );
+		}
 
 		$this->execute( $DB->build_delete_sql( "subscriptionmanager_price", "planid = " . $planID ) );
 		$this->execute( $DB->build_delete_sql( "subscriptionmanager_plan", "id = " . $planID ) );
@@ -150,6 +157,9 @@ class SubscriptionManagerPlansPage extends SubscriptionManagerAdminPage {
 		$productID = intval( $this->post['productid'] );
 		$planID = intval( $this->post['planid'] );
 		$priceID = intval( $this->post['priceid'] );
+		if ( intval( $this->post['quantity'] ) < 1 ) {
+			throw new SWUserException( "Subscription mapping quantity must be at least one." );
+		}
 
 		$product = $this->row( "select id from product where id = " . $productID );
 		if ( !$product ) {
@@ -191,6 +201,9 @@ class SubscriptionManagerPlansPage extends SubscriptionManagerAdminPage {
 		$productID = intval( $this->post['productid'] );
 		$planID = intval( $this->post['planid'] );
 		$priceID = intval( $this->post['priceid'] );
+		if ( intval( $this->post['quantity'] ) < 1 ) {
+			throw new SWUserException( "Subscription mapping quantity must be at least one." );
+		}
 
 		$product = $this->row( "select id from product where id = " . $productID );
 		if ( !$product ) {
@@ -226,15 +239,9 @@ class SubscriptionManagerPlansPage extends SubscriptionManagerAdminPage {
 		$DB = $this->db();
 		$type = "Onetime";
 		$termLength = 0;
-
-		if ( $price['billing_cycle'] == "monthly" ) {
-			$type = "Recurring";
-			$termLength = max( 1, intval( $price['cycle_interval'] ) );
-		}
-		elseif ( $price['billing_cycle'] == "annually" ) {
-			$type = "Recurring";
-			$termLength = 12 * max( 1, intval( $price['cycle_interval'] ) );
-		}
+		$checkoutAmount = intval( $price['trial_days'] ) > 0 ? 0.00 :
+				( $price['intro_amount'] !== null && intval( $price['intro_cycles'] ) > 0 ?
+				$price['intro_amount'] : $price['amount'] );
 
 		$exists = $this->row(
 				"select productid from productprice where productid = " . intval( $productID ) .
@@ -245,7 +252,7 @@ class SubscriptionManagerPlansPage extends SubscriptionManagerAdminPage {
 					"productid = " . intval( $productID ) .
 					" and type = " . $this->quote( $type ) .
 					" and termlength = " . intval( $termLength ),
-					array( "price" => $price['amount'],
+					array( "price" => $checkoutAmount,
 					"taxable" => $price['taxable'] ) );
 		}
 		else {
@@ -253,7 +260,7 @@ class SubscriptionManagerPlansPage extends SubscriptionManagerAdminPage {
 					array( "productid" => intval( $productID ),
 					"type" => $type,
 					"termlength" => $termLength,
-					"price" => $price['amount'],
+					"price" => $checkoutAmount,
 					"taxable" => $price['taxable'] ) );
 		}
 		$this->execute( $sql );

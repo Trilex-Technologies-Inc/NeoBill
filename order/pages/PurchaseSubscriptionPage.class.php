@@ -175,14 +175,13 @@ class PurchaseSubscriptionPage extends SolidStatePage {
 		$type = "Onetime";
 		$termLength = 0;
 
-		if ( $price['billing_cycle'] == "monthly" ) {
-			$type = "Recurring";
-			$termLength = max( 1, intval( $price['cycle_interval'] ) );
-		}
-		elseif ( $price['billing_cycle'] == "annually" ) {
-			$type = "Recurring";
-			$termLength = 12 * max( 1, intval( $price['cycle_interval'] ) );
-		}
+		// The subscription module owns renewals for every cycle. The core product is
+		// deliberately one-time so NeoBill cannot also renew the same purchase.
+		$type = "Onetime";
+		$termLength = 0;
+		$checkoutAmount = intval( $price['trial_days'] ) > 0 ? 0.00 :
+				( $price['intro_amount'] !== null && intval( $price['intro_cycles'] ) > 0 ?
+				$price['intro_amount'] : $price['amount'] );
 
 		$exists = $this->row(
 				"select productid from productprice where productid = " . intval( $productID ) .
@@ -193,7 +192,7 @@ class PurchaseSubscriptionPage extends SolidStatePage {
 					"productid = " . intval( $productID ) .
 					" and type = " . $DB->quote_smart( $type ) .
 					" and termlength = " . intval( $termLength ),
-					array( "price" => $price['amount'],
+					array( "price" => $checkoutAmount,
 					"taxable" => $price['taxable'] ) );
 		}
 		else {
@@ -201,7 +200,7 @@ class PurchaseSubscriptionPage extends SolidStatePage {
 					"productid" => intval( $productID ),
 					"type" => $type,
 					"termlength" => $termLength,
-					"price" => $price['amount'],
+						"price" => $checkoutAmount,
 					"taxable" => $price['taxable'] ) );
 		}
 		$this->execute( $sql );
@@ -215,11 +214,6 @@ class PurchaseSubscriptionPage extends SolidStatePage {
 		$productItem = new OrderProductDBO();
 		$productItem->setPurchasable( $productDBO );
 		$productItem->setStatus( "Accepted" );
-
-		$term = $this->productTerm( $productDBO->getID() );
-		if ( $term !== null ) {
-			$productItem->setTerm( $term );
-		}
 
 		$_SESSION['order']->addItem( $productItem );
 		$this->gotoPage( "cart" );

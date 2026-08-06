@@ -39,11 +39,21 @@ create table if not exists `subscriptionmanager_subscription` (
   `cancelled_at` datetime default null,
   `nextbillingdate` date default null,
   `previnvoiceid` int(11) default null,
+  `sourcepurchaseid` int(11) default null,
+  `billing_type` enum('fixed','usage') default null,
+  `billing_cycle` enum('daily','weekly','monthly','annually') default null,
+  `cycle_interval` int(10) unsigned default null,
+  `amount` decimal(20,2) default null,
+  `included_quantity` decimal(20,4) default null,
+  `unit_amount` decimal(20,4) default null,
+  `intro_amount` decimal(20,2) default null,
+  `taxable` enum('Yes','No') default null,
   `created` datetime not null default '0000-00-00 00:00:00',
   `updated` datetime not null default '0000-00-00 00:00:00',
   primary key (`id`),
   key `accountid` (`accountid`),
-  key `nextbillingdate` (`nextbillingdate`)
+  key `nextbillingdate` (`nextbillingdate`),
+  key `sourcepurchaseid` (`sourcepurchaseid`)
 ) default charset=utf8;
 
 create table if not exists `subscriptionmanager_usage` (
@@ -140,4 +150,18 @@ create table if not exists `subscriptionmanager_product_map` (
   unique key `productid` (`productid`),
   key `planid` (`planid`),
   key `priceid` (`priceid`)
+) default charset=utf8;
+
+create table if not exists `subscriptionmanager_billing_period` (
+  `id` int(11) not null auto_increment,
+  `subscriptionid` int(11) not null default '0',
+  `period_start` datetime not null default '0000-00-00 00:00:00',
+  `period_end` datetime not null default '0000-00-00 00:00:00',
+  `invoiceid` int(11) default null,
+  `status` enum('processing','invoiced','no_charge','failed') not null default 'processing',
+  `created` datetime not null default '0000-00-00 00:00:00',
+  `updated` datetime not null default '0000-00-00 00:00:00',
+  primary key (`id`),
+  unique key `subscription_period` (`subscriptionid`,`period_start`),
+  key `invoiceid` (`invoiceid`)
 ) default charset=utf8;

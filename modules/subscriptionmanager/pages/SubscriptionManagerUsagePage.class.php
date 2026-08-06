@@ -45,6 +45,7 @@ class SubscriptionManagerUsagePage extends SubscriptionManagerAdminPage
 	function recordUsage()
 	{
 		$DB = $this->db();
+		$this->validateUsageInput();
 		$sql = $DB->build_insert_sql(
 			"subscriptionmanager_usage",
 			array(
@@ -63,6 +64,11 @@ class SubscriptionManagerUsagePage extends SubscriptionManagerAdminPage
 	function updateUsage()
 	{
 		$DB = $this->db();
+		$existing = $this->row("select invoiceid from subscriptionmanager_usage where id=" . intval($this->post['usageid']));
+		if (!$existing || $existing['invoiceid'] !== null) {
+			throw new SWUserException("Billed usage records are immutable.");
+		}
+		$this->validateUsageInput();
 		$this->execute($DB->build_update_sql(
 			"subscriptionmanager_usage",
 			"id = " . intval($this->post['usageid']),
@@ -79,12 +85,30 @@ class SubscriptionManagerUsagePage extends SubscriptionManagerAdminPage
 
 	function deleteUsage()
 	{
+		$existing = $this->row("select invoiceid from subscriptionmanager_usage where id=" . intval($this->post['usageid']));
+		if (!$existing || $existing['invoiceid'] !== null) {
+			throw new SWUserException("Billed usage records are immutable.");
+		}
 		$this->execute($this->db()->build_delete_sql(
 			"subscriptionmanager_usage",
 			"id = " . intval($this->post['usageid'])
 		));
 		$this->setMessage(array("type" => "Usage record deleted."));
 		$this->reload();
+	}
+
+	function validateUsageInput()
+	{
+		$subscription = $this->row("select id, current_period_start, current_period_end from subscriptionmanager_subscription " .
+			"where id=" . intval($this->post['subscriptionid']) . " and status in ('trialing','active','past_due')");
+		if (!$subscription || floatval($this->post['quantity']) < 0) {
+			throw new SWUserException("A billable subscription and non-negative usage quantity are required.");
+		}
+		$date = strtotime($this->post['usage_date']);
+		if ($date === false || $date < strtotime($subscription['current_period_start']) ||
+				$date >= strtotime($subscription['current_period_end'])) {
+			throw new SWUserException("Usage date must be inside the subscription's current billing period.");
+		}
 	}
 
 	function deleteSubscription()
@@ -105,6 +129,10 @@ class SubscriptionManagerUsagePage extends SubscriptionManagerAdminPage
 		));
 		$this->execute($DB->build_delete_sql(
 			"subscriptionmanager_discount",
+			"subscriptionid = " . $subscriptionID
+		));
+		$this->execute($DB->build_delete_sql(
+			"subscriptionmanager_billing_period",
 			"subscriptionid = " . $subscriptionID
 		));
 		$this->execute($DB->build_delete_sql(

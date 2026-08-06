@@ -73,8 +73,12 @@ class InventoryManagerBundlesPage extends InventoryManagerAdminPage {
 			throw new SWUserException( "A bundle cannot include itself as a component." );
 		}
 
-		$bundle = $this->row( "select id from inventorymanager_item where id = " . intval( $bundleItemID ) );
-		if ( !$bundle ) {
+		if ( intval( $this->post['quantity'] ) < 1 ) {
+			throw new SWUserException( "Bundle component quantity must be at least one." );
+		}
+
+		$bundle = $this->row( "select id, item_type from inventorymanager_item where id = " . intval( $bundleItemID ) );
+		if ( !$bundle || $bundle['item_type'] != "bundle" ) {
 			throw new SWUserException( "Bundle inventory item was not found." );
 		}
 
@@ -82,6 +86,25 @@ class InventoryManagerBundlesPage extends InventoryManagerAdminPage {
 		if ( !$component ) {
 			throw new SWUserException( "Component inventory item was not found." );
 		}
+		if ( $this->wouldCreateCycle( $bundleItemID, $componentItemID ) ) {
+			throw new SWUserException( "This component would create a circular bundle." );
+		}
+	}
+
+	function wouldCreateCycle( $bundleItemID, $componentItemID, $seen = array() ) {
+		if ( $componentItemID == $bundleItemID ) {
+			return true;
+		}
+		if ( isset( $seen[$componentItemID] ) ) {
+			return false;
+		}
+		$seen[$componentItemID] = true;
+		foreach ( $this->rows( "select component_itemid from inventorymanager_bundle_component where bundle_itemid=" . intval( $componentItemID) ) as $row ) {
+			if ( $this->wouldCreateCycle( $bundleItemID, intval( $row['component_itemid'] ), $seen ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
 ?>

@@ -76,6 +76,11 @@ class OrderProductDBO extends OrderItemDBO {
      * @return boolean True for success
      */
     public function execute( $accountDBO ) {
+		if ( $this->getStatus() == "Fulfilled" ) {
+			return true;
+		}
+		$DB = DBConnection::getDBConnection();
+		mysql_query( "START TRANSACTION", $DB->handle() );
         $bridge = null;
         $bridgeFile = BASE_PATH . "modules/productorderbridge/ProductOrderBridge.class.php";
         if ( file_exists( $bridgeFile ) ) {
@@ -96,15 +101,22 @@ class OrderProductDBO extends OrderItemDBO {
         if( $this->getTerm() != null ) {
             $purchaseDBO->incrementNextBillingDate();
         }
-        add_ProductPurchaseDBO( $purchaseDBO );
+		try {
+			add_ProductPurchaseDBO( $purchaseDBO );
 
-        if ( $bridge && method_exists( $bridge, "fulfillProductOrder" ) ) {
-            $bridge->fulfillProductOrder( $this, $accountDBO, $purchaseDBO );
-        }
+			if ( $bridge && method_exists( $bridge, "fulfillProductOrder" ) ) {
+				$bridge->fulfillProductOrder( $this, $accountDBO, $purchaseDBO );
+			}
 
-        $this->setStatus( "Fulfilled" );
-        update_OrderProductDBO( $this );
-        return true;
+			$this->setStatus( "Fulfilled" );
+			update_OrderProductDBO( $this );
+			mysql_query( "COMMIT", $DB->handle() );
+			return true;
+		}
+		catch ( Exception $e ) {
+			mysql_query( "ROLLBACK", $DB->handle() );
+			throw $e;
+		}
     }
 
     /**
