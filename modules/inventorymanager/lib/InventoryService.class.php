@@ -97,14 +97,13 @@ class InventoryService {
 			$this->query( $sql );
 		}
 
-		$sql = $DB->build_insert_sql( "inventorymanager_movement", array(
-				"itemid" => $itemID,
-				"locationid" => $locationID,
-				"quantity_change" => $quantityChange,
-				"reference_type" => $referenceType,
-				"reference_id" => $referenceID,
-				"note" => $note,
-				"created" => DBConnection::format_datetime( time() ) ) );
+		$sql = "insert into inventorymanager_movement " .
+				"(itemid, locationid, quantity_change, reference_type, reference_id, note, created) values (" .
+				$itemID . ", " . $locationID . ", " . $quantityChange . ", " .
+				$this->quote( $referenceType ) . ", " .
+				( $referenceID === null ? "NULL" : intval( $referenceID ) ) . ", " .
+				$this->quote( $note ) . ", " .
+				$this->quote( DBConnection::format_datetime( time() ) ) . ")";
 		$this->query( $sql );
 	}
 

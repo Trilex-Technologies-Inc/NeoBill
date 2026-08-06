@@ -101,9 +101,15 @@ class CustomerLoginPage extends SolidStatePage {
 				return;
 			}
 
-			// Login success
-			$_SESSION['client']['userdbo'] = $this->post['user'];
-			log_notice( "CustomerLoginPage::login()",
+				// Login success
+				$_SESSION['client']['userdbo'] = $this->post['user'];
+				// Bind the active cart to the authenticated account. Without this the
+				// review page treats the order as a new account and tries to create a
+				// second user with an empty password.
+				if ( isset( $_SESSION['order'] ) ) {
+					$_SESSION['order']->setAccountID( $account->getID() );
+				}
+				log_notice( "CustomerLoginPage::login()",
 					"User: " . $this->post['user']->getUsername() . " logged in." );
 			$this->gotoPage( "cart" );
 		

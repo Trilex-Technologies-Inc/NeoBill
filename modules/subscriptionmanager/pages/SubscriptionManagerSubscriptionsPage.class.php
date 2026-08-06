@@ -135,7 +135,6 @@ class SubscriptionManagerSubscriptionsPage extends SubscriptionManagerAdminPage 
 					"amount" => $price['amount'],
 					"included_quantity" => $price['included_quantity'],
 					"unit_amount" => $price['unit_amount'],
-					"intro_amount" => $price['intro_amount'],
 					"taxable" => $price['taxable'],
 				"nextbillingdate" => $this->dateValue( $nextBillingDate ),
 				"created" => $now,
@@ -143,6 +142,9 @@ class SubscriptionManagerSubscriptionsPage extends SubscriptionManagerAdminPage 
 
 		if ( $trialEnd ) {
 			$subscription['trial_end'] = $this->datetimeValue( $trialEnd );
+		}
+		if ( $price['intro_amount'] !== null ) {
+			$subscription['intro_amount'] = $price['intro_amount'];
 		}
 
 		$sql = $DB->build_insert_sql( "subscriptionmanager_subscription", $subscription );

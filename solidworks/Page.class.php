@@ -452,8 +452,16 @@ class Page {
      *
      * @param string $tail A string to append to the URL
      */
-    public function reload( $tail = null ) {
-        header( "Location: " . $this->getURL() . $tail );
+	public function reload( $tail = null ) {
+		// A successful POST must not keep overriding template/database values with
+		// the submitted form data on the redirected GET. Preserve it only when the
+		// page has validation/user errors so the user can correct the form.
+		$formName = $_GET['submit'] ?? ($_POST['_sw_form'] ?? null);
+		if ( ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && is_string( $formName ) &&
+				$formName !== '' && empty( $this->session['errors'] ) ) {
+			unset( $this->session[$formName] );
+		}
+		header( "Location: " . $this->getURL() . $tail );
         exit();
     }
 

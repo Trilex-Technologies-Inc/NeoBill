@@ -151,7 +151,7 @@ class FormField {
 	 * @throws FieldMissingException
 	 */
 	public function getValue() {
-		if ( $this->isRequired() && $this->value == null ) {
+		if ( $this->isRequired() && $this->value === null ) {
 			// This field is required and no value has been set
 			$e = new FieldMissingException();
 			$e->setField( $this->getName() );
@@ -183,7 +183,10 @@ class FormField {
 	 */
 	public function set( $data ) {
 		// Verify that something has been posted to this field
-		if ( empty( $data ) ) {
+		// PHP's empty() treats both "0" and 0 as missing. Zero is a valid value
+		// for required numeric fields such as trial days and included usage.
+		$missing = $data === null || $data === "" || ( is_array( $data ) && empty( $data ) );
+		if ( $missing ) {
 			if ( $this->isRequired() ) {
 				// This field is required, but missing a value
 				throw new FieldMissingException();

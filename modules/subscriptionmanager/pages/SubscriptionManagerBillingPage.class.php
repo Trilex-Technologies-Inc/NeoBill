@@ -109,9 +109,9 @@ class SubscriptionManagerBillingPage extends SubscriptionManagerAdminPage
 	{
 		$DB = $this->db();
 		$now = DBConnection::format_datetime(time());
-		$this->execute($DB->build_update_sql("subscriptionmanager_subscription",
-			"id=" . intval($subscription['id']), array("status" => "cancelled",
-				"cancelled_at" => $now, "nextbillingdate" => null, "updated" => $now)));
+		$this->execute("update subscriptionmanager_subscription set status='cancelled', cancelled_at=" .
+			$this->quote($now) . ", nextbillingdate=NULL, updated=" . $this->quote($now) .
+			" where id=" . intval($subscription['id']));
 	}
 
 	function claimPeriod($subscription)
@@ -146,11 +146,14 @@ class SubscriptionManagerBillingPage extends SubscriptionManagerAdminPage
 	function completePeriod($subscription, $invoiceID, $status)
 	{
 		$DB = $this->db();
+		$values = array("status" => $status, "updated" => DBConnection::format_datetime(time()));
+		if ($invoiceID !== null) {
+			$values['invoiceid'] = intval($invoiceID);
+		}
 		$this->execute($DB->build_update_sql("subscriptionmanager_billing_period",
 			"subscriptionid=" . intval($subscription['id']) . " and period_start=" .
 			$this->quote($this->datetimeValue($subscription['current_period_start'])),
-			array("invoiceid" => $invoiceID, "status" => $status,
-				"updated" => DBConnection::format_datetime(time()))));
+			$values));
 	}
 
 	function baseAmount($subscription)
@@ -234,11 +237,14 @@ class SubscriptionManagerBillingPage extends SubscriptionManagerAdminPage
 				"current_period_start" => $this->datetimeValue($nextStart),
 				"current_period_end" => $this->datetimeValue($nextEnd),
 				"nextbillingdate" => $this->dateValue($nextStart),
-				"previnvoiceid" => $invoiceID,
-				"intro_cycles_remaining" => $introCycles,
+					"intro_cycles_remaining" => $introCycles,
 				"updated" => DBConnection::format_datetime(time())
 			)
 		);
+		if ($invoiceID !== null) {
+			// Add the invoice reference only for periods that generated an invoice.
+			$subSql = str_replace(" SET ", " SET previnvoiceid=" . intval($invoiceID) . ", ", $subSql);
+		}
 		$this->execute($subSql);
 		$discount = $this->row("select * from subscriptionmanager_discount where subscriptionid=" .
 			intval($subscription['id']) . " and status='active' order by id desc limit 1");

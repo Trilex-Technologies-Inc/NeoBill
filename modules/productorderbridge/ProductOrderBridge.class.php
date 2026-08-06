@@ -126,13 +126,15 @@ class ProductOrderBridge {
 					"amount" => $price['amount'],
 					"included_quantity" => $price['included_quantity'],
 					"unit_amount" => $price['unit_amount'],
-					"intro_amount" => $price['intro_amount'],
 					"taxable" => $price['taxable'],
 				"created" => $now,
 				"updated" => $now );
 
 		if ( $trialEnd ) {
 			$subscription['trial_end'] = DBConnection::format_datetime( strtotime( $trialEnd ) );
+		}
+		if ( $price['intro_amount'] !== null ) {
+			$subscription['intro_amount'] = $price['intro_amount'];
 		}
 
 		$sql = $this->db()->build_insert_sql( "subscriptionmanager_subscription", $subscription );

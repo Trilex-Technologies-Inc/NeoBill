@@ -165,6 +165,11 @@ class ReviewPage extends SolidStatePage {
 	function init() {
 		// Give access to the template
 		$this->session['order'] =& $_SESSION['order'];
+		if ( $this->session['order']->getAccountID() == null &&
+				!empty( $_SESSION['client']['userdbo'] ) ) {
+			$account = load_AccountDBO_username( $_SESSION['client']['userdbo']->getUsername() );
+			$this->session['order']->setAccountID( $account->getID() );
+		}
 
 		// Calculate tax on the order
 		$this->session['order']->calculateTaxes();

@@ -31,7 +31,7 @@
               <div class="subscriptionmanager-form-grid subscriptionmanager-plan-edit-grid">
                 <div class="subscriptionmanager-field"><label class="form-label">{form_description field="itemid"}</label><select name="itemid">{foreach from=$itemChoices item=choice}<option value="{$choice.id}"{if $row.itemid == $choice.id} selected="selected"{/if}>#{$choice.id} {$choice.sku} {$choice.name}</option>{/foreach}</select></div>
                 <div class="subscriptionmanager-field"><label class="form-label">{form_description field="locationid"}</label><select name="locationid">{foreach from=$locations item=location}<option value="{$location.id}"{if $row.locationid == $location.id} selected="selected"{/if}>#{$location.id} {$location.name}</option>{/foreach}</select></div>
-                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="quantity"}</label>{form_element field="quantity" value=$row.quantity size="8"}</div>
+                <div class="subscriptionmanager-field"><label class="form-label">{form_description field="quantity"}</label><input type="text" name="quantity" value="{$row.quantity}" size="8"/></div>
               </div>
               <div class="subscriptionmanager-plan-actions">{form_element field="save" class="btn btn-primary"}</div>
             {/form}

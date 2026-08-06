@@ -337,7 +337,7 @@ class DBConnection
 
 			$sql .= $column . " = ";
 
-			if (is_numeric($value)) {
+				if (is_numeric($value)) {
 				// Numeric - don't use quotes
 				$sql .= $value;
 			} else {
