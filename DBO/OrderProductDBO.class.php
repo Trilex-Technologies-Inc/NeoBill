@@ -183,12 +183,14 @@ function add_OrderProductDBO( OrderProductDBO $dbo ) {
     ensure_OrderProductDBOTable();
     $DB = DBConnection::getDBConnection();
 
-    $sql = $DB->build_insert_sql( "orderproduct",
-            array( "orderid" => intval( $dbo->getOrderID() ),
-            "orderitemid" => intval( $dbo->getOrderItemID() ),
-            "productid" => $dbo->getProductID(),
-            "status" => $dbo->getStatus(),
-            "term" => $dbo->getTerm() ) );
+	$values = array( "orderid" => intval( $dbo->getOrderID() ),
+			"orderitemid" => intval( $dbo->getOrderItemID() ),
+			"productid" => $dbo->getProductID(),
+			"status" => $dbo->getStatus() );
+	if ( $dbo->getTerm() !== null ) {
+		$values['term'] = intval( $dbo->getTerm() );
+	}
+	$sql = $DB->build_insert_sql( "orderproduct", $values );
 
     if( !mysql_query( $sql, $DB->handle() ) ) {
         throw new DBException( mysql_error( $DB->handle() ) );
@@ -210,12 +212,14 @@ function update_OrderProductDBO( OrderProductDBO $dbo ) {
         return;
     }
 
-    $sql = $DB->build_update_sql( "orderproduct",
-            "id = " . intval( $dbo->getID() ),
-            array( "orderid" => intval( $dbo->getOrderID() ),
-            "productid" => $dbo->getProductID(),
-            "status" => $dbo->getStatus(),
-            "term" => $dbo->getTerm() ) );
+	$values = array( "orderid" => intval( $dbo->getOrderID() ),
+			"productid" => $dbo->getProductID(),
+			"status" => $dbo->getStatus() );
+	if ( $dbo->getTerm() !== null ) {
+		$values['term'] = intval( $dbo->getTerm() );
+	}
+	$sql = $DB->build_update_sql( "orderproduct",
+			"id = " . intval( $dbo->getID() ), $values );
 
     if( !mysql_query( $sql, $DB->handle() ) ) {
         throw new DBException( mysql_error( $DB->handle() ) );

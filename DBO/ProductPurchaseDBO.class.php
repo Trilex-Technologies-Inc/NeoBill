@@ -130,14 +130,16 @@ function add_ProductPurchaseDBO( &$dbo ) {
     $DB = DBConnection::getDBConnection();
 
     // Build SQL
-    $sql = $DB->build_insert_sql( "productpurchase",
-            array( "productid" => intval( $dbo->getProductID() ),
-            "accountid" => intval( $dbo->getAccountID() ),
-            "term" => intval( $dbo->getTerm() ),
-            "date" => $dbo->getDate(),
-            "note" => $dbo->getNote(),
-            "nextbillingdate" => $dbo->getNextBillingDate(),
-            "previnvoiceid" => $dbo->getPrevInvoiceID() ) );
+	$values = array( "productid" => intval( $dbo->getProductID() ),
+			"accountid" => intval( $dbo->getAccountID() ),
+			"term" => intval( $dbo->getTerm() ),
+			"date" => $dbo->getDate(),
+			"note" => $dbo->getNote(),
+			"previnvoiceid" => $dbo->getPrevInvoiceID() );
+	if ( $dbo->getNextBillingDate() !== null ) {
+		$values['nextbillingdate'] = $dbo->getNextBillingDate();
+	}
+	$sql = $DB->build_insert_sql( "productpurchase", $values );
 
     // Run query
     if( !mysql_query( $sql, $DB->handle() ) ) {
