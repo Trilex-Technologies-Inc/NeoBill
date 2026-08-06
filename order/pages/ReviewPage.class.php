@@ -96,7 +96,8 @@ class ReviewPage extends SolidStatePage {
 			$user_dbo->setType("Client");
 			$user_dbo->setLanguage("english"); // could change to user-defined
 			$user_dbo->setTheme("default");
-			
+
+			assertUniqueAccountContactEmail( $order->getContactEmail() );
 			add_UserDBO( $user_dbo );
 
 			// Add account info to accountDBO

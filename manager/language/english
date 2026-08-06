@@ -13,6 +13,7 @@
     <phrase id="ACCOUNT_INFORMATION">Account Information</phrase>
     <phrase id="ACCOUNT_MANAGER">Account Manager</phrase>
     <phrase id="ACCOUNT_NAME">Account Name</phrase>
+    <phrase id="ACCOUNT_CONTACT_EMAIL_EXISTS">This contact email is already assigned to another account.</phrase>
     <phrase id="ACCOUNT_STATUS">Account Status</phrase>
     <phrase id="ACCOUNT_TYPE">Account Type</phrase>
     <phrase id="ACCOUNTS">Accounts</phrase>

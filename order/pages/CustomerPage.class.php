@@ -177,6 +177,7 @@ class CustomerPage extends SolidStatePage {
 			$user_dbo->setType( "Client" );
 			$user_dbo->setLanguage( "english" );
 			$user_dbo->setTheme( "default" );
+			assertUniqueAccountContactEmail( $this->post['contactemail'] );
 			add_UserDBO( $user_dbo );
 
 			$account_dbo = new AccountDBO();
