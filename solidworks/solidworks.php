@@ -103,8 +103,17 @@ function display_page($page)
 	generate_location_stack($conf);
 	$pageData = $conf['pages'][$page->getClassName()] ?? array();
 	$page->setLocationStack($pageData['location_stack'] ?? array());
-	$page->setTitle($pageData['title'] ?? '');
-	$page->setUrl($pageData['url'] ?? '');
+	$pageTitle = $pageData['title'] ?? '';
+	$pageUrl = $pageData['url'] ?? '';
+	if (!empty($_SESSION['nav_vars']) && is_array($_SESSION['nav_vars'])) {
+		foreach ($_SESSION['nav_vars'] as $name => $value) {
+			$placeholder = "{" . $name . "}";
+			$pageTitle = str_replace($placeholder, $value, $pageTitle);
+			$pageUrl = str_replace($placeholder, $value, $pageUrl);
+		}
+	}
+	$page->setTitle($pageTitle);
+	$page->setUrl($pageUrl);
 
 	// Set template variables
 	$smarty->assign("location", $page->getTitle());

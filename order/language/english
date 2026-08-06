@@ -162,5 +162,22 @@
     <phrase id="PASSWORD_MISMATCH">Your password was not entered correctly.  Please try again.</phrase>
     <phrase id="PLEASE_ENTER_A_VALUE_FOR">Please enter a value for the following field</phrase>
     <phrase id="YOU_MUST_SELECT_PAYMENT">You must select a payment method.</phrase>
+    <phrase id="CREDIT_CARD_PAYMENT">Credit Card Payment</phrase>
+    <phrase id="CUSTOMER_INFO">Customer Information</phrase>
+    <phrase id="DATES_MUST_BE">Dates must be entered in a valid format.</phrase>
+    <phrase id="DOMAIN_CONTACT">Domain Contact</phrase>
+    <phrase id="FOR">for</phrase>
+    <phrase id="PLEASE_ENTER_A_NUMERIC_VALUE_FOR">Please enter a numeric value for</phrase>
+    <phrase id="PLEASE_ENTER_A_VALID_DATE_FOR">Please enter a valid date for</phrase>
+    <phrase id="PLEASE_ENTER_A_VALID_IP_ADDRESS">Please enter a valid IP address.</phrase>
+    <phrase id="PLEASE_ENTER_A_VALID_TELEPHONE_NUMER_FOR">Please enter a valid telephone number for</phrase>
+    <phrase id="PLEASE_ENTER_A_VALUE_GREATER_THAN">Please enter a value greater than</phrase>
+    <phrase id="PLEASE_ENTER_A_VALUE_LESS_THAN">Please enter a value less than</phrase>
+    <phrase id="PLEASE_SELECT_A_REGISTRATION_OPTION">Please select a domain registration option.</phrase>
+    <phrase id="PLEASE_SELECT_A_VALID_CHOICE_FOR">Please select a valid choice for</phrase>
+    <phrase id="PURCHASE_DOMAIN">Purchase Domain</phrase>
+    <phrase id="PURCHASE_HOSTING">Purchase Hosting</phrase>
+    <phrase id="TELEPHONE_NUMBERS_MUST_BE">Telephone numbers must contain only valid digits.</phrase>
+    <phrase id="TLD">TLD</phrase>
 
 </translation>

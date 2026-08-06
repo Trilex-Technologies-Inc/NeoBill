@@ -89,9 +89,9 @@
                   <span class="service-link-icon"><i class="ti ti-packages"></i></span>
                   <span class="service-link-label">Inventory Items</span>
                 </a>
-                <a class="nav-link service-link service-link-products" href="manager_content.php?page=subscriptionmanager_subscriptions">
+                <a class="nav-link service-link service-link-products" href="manager_content.php?page=subscriptionmanager_plans">
                   <span class="service-link-icon"><i class="ti ti-repeat"></i></span>
-                  <span class="service-link-label">Subscriptions</span>
+                  <span class="service-link-label">Create Plan</span>
                 </a>
               </nav>
             </div>
