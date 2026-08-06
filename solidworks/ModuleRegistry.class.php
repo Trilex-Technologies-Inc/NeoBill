@@ -77,6 +77,14 @@ class ModuleRegistry {
 	private $modules = array();
 
 	/**
+	 * Module which owns each page contributed through module.conf.
+	 *
+	 * Pages remain registered so an administrator can receive a useful message
+	 * when following an old bookmark, but disabled modules must not execute them.
+	 */
+	private $pageModules = array();
+
+	/**
 	 * @var string Path to the directory where modules are installed
 	 */
 	private $modulesPath = null;
@@ -126,6 +134,13 @@ class ModuleRegistry {
 		}
 
 		return $this->modules[$moduleName];
+	}
+
+	/**
+	 * Return the module that contributed a page, or null for a core page.
+	 */
+	public function getPageModule( $pageName ) {
+		return $this->pageModules[$pageName] ?? null;
 	}
 
 	/**
@@ -180,6 +195,11 @@ class ModuleRegistry {
 				// Load the module's config file
 				if (file_exists( $moduleConfFile )){
 					$modConf = load_config_file( $moduleConfFile );
+					foreach ( $modConf['pages'] ?? array() as $pageData ) {
+						if ( !empty( $pageData['name'] ) ) {
+							$this->pageModules[$pageData['name']] = $moduleName;
+						}
+					}
 					$conf['pages'] = array_merge( $conf['pages'], $modConf['pages'] );
 					$conf['forms'] = array_merge( $conf['forms'], $modConf['forms'] );
 					$conf['hooks'] = array_merge( $conf['hooks'], $modConf['hooks'] );

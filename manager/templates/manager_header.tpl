@@ -85,14 +85,18 @@
                   <span class="service-link-icon"><i class="ti ti-package"></i></span>
                   <span class="service-link-label">Other Products</span>
                 </a>
-                <a class="nav-link service-link service-link-products" href="manager_content.php?page=inventorymanager_items">
-                  <span class="service-link-icon"><i class="ti ti-packages"></i></span>
-                  <span class="service-link-label">Inventory Items</span>
-                </a>
-                <a class="nav-link service-link service-link-products" href="manager_content.php?page=subscriptionmanager_plans">
-                  <span class="service-link-icon"><i class="ti ti-repeat"></i></span>
-                  <span class="service-link-label">Create Plan</span>
-                </a>
+				{if !empty($enabled_modules.inventorymanager)}
+				<a class="nav-link service-link service-link-products" href="manager_content.php?page=inventorymanager_items">
+				  <span class="service-link-icon"><i class="ti ti-packages"></i></span>
+				  <span class="service-link-label">Inventory Items</span>
+				</a>
+				{/if}
+				{if !empty($enabled_modules.subscriptionmanager)}
+				<a class="nav-link service-link service-link-products" href="manager_content.php?page=subscriptionmanager_plans">
+				  <span class="service-link-icon"><i class="ti ti-repeat"></i></span>
+				  <span class="service-link-label">Create Plan</span>
+				</a>
+				{/if}
               </nav>
             </div>
 

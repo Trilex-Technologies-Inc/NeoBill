@@ -42,6 +42,10 @@ function solidworks(&$conf, $smarty)
 	// Make sure the client is logged in as a valid user before proceeding
 	validate_client();
 
+	// Module links are omitted from the menu when disabled, but bookmarks and
+	// manually entered URLs still need the same protection.
+	guard_module_page_request($conf);
+
 	// Load the user's language preference
 	$language = !empty($_SESSION['client']['userdbo']) ?
 		$_SESSION['client']['userdbo']->getLanguage() : null;
@@ -94,10 +98,58 @@ function solidworks(&$conf, $smarty)
 	);
 }
 
+/**
+ * Prevent disabled or missing modules from serving manager pages directly.
+ *
+ * Known module pages are tracked while module.conf files are loaded. An unknown
+ * URL containing an underscore is also treated as a possibly removed module
+ * route, instead of exposing the framework's internal "page not found" error.
+ */
+function guard_module_page_request(&$conf)
+{
+	$requestedPage = $_GET['page'] ?? ($conf['home_page'] ?? 'home');
+	$registry = ModuleRegistry::getModuleRegistry();
+	$moduleName = $registry->getPageModule($requestedPage);
+	$unavailable = false;
+	$corePageModules = array(
+			'purchasesubscription' => 'subscriptionmanager'
+	);
+	if ($moduleName === null && isset($corePageModules[$requestedPage])) {
+		$moduleName = $corePageModules[$requestedPage];
+	}
+
+	if ($moduleName !== null) {
+		try {
+			$unavailable = !$registry->getModule($moduleName)->isEnabled();
+		} catch (ModuleDoesNotExistException $e) {
+			$unavailable = true;
+		}
+	} elseif (get_page_class($requestedPage) === null && strpos($requestedPage, '_') !== false) {
+		// A removed module cannot contribute its module.conf, so its exact page
+		// mapping is no longer available. Handle module-shaped legacy URLs safely.
+		$unavailable = true;
+	}
+
+	if (!$unavailable) {
+		return;
+	}
+
+	$_SESSION['errors'][] = array(
+			'type' => 'The requested module is not installed or enabled.'
+	);
+	$_GET['page'] = get_page_class('modules') !== null ? 'modules' : $conf['home_page'];
+	unset($_GET['action'], $_GET['submit']);
+	$_SERVER['REQUEST_METHOD'] = 'GET';
+}
+
 function display_page($page)
 {
 	$conf = $page->conf;
 	$smarty = $page->smarty;
+	$enabledModules = array();
+	foreach (ModuleRegistry::getModuleRegistry()->getAllModules() as $moduleName => $module) {
+		$enabledModules[$moduleName] = $module->isEnabled();
+	}
 
 	// Update page variables - they may need to be filled in with run-time info
 	generate_location_stack($conf);
@@ -124,6 +176,7 @@ function display_page($page)
 	$smarty->assign("url", $page->getUrl());
 	$smarty->assign("version", $conf['application_name'] ?? 'NeoBill');
 	$smarty->assign("machine", $_SERVER['SERVER_NAME'] ?? '');
+	$smarty->assign("enabled_modules", $enabledModules);
 	if (!empty($_SESSION['client']['userdbo'])) {
 		$smarty->assign("username", $_SESSION['client']['userdbo']->getUsername());
 	}
@@ -214,6 +267,19 @@ function &get_page_object($conf, $smarty)
 	if ($page_class == null) {
 		throw new SWException("Could not find the requested page name: " .
 			$requested_page_name);
+	}
+
+	// A module guard may select a fallback after configuration.php performed
+	// its one-time, request-specific class include.
+	if (!class_exists($page_class, false)) {
+		$pageData = $conf['pages'][$page_class] ?? array();
+		$classFile = $pageData['class_file'] ?? null;
+		if ($classFile !== null && is_file(BASE_PATH . $classFile)) {
+			require_once BASE_PATH . $classFile;
+		}
+	}
+	if (!class_exists($page_class, false)) {
+		throw new SWException("Could not load the requested page class: " . $page_class);
 	}
 
 	// Instantiate an object for the requested page and return as a reference

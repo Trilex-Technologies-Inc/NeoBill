@@ -33,7 +33,9 @@
 
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.php?page=purchasesubscription">Subscriptions</a></li>
+					{if !empty($enabled_modules.subscriptionmanager)}
+					<li class="nav-item"><a class="nav-link" href="index.php?page=purchasesubscription">Subscriptions</a></li>
+					{/if}
                     <li class="nav-item"><a class="nav-link" href="index.php?page=purchaseproduct">Register Product</a></li>
 					{if !isset($username) || $username == null}
                     <li class="nav-item"><a class="nav-link" href="index.php?page=customer">Sign Up</a></li>
@@ -62,9 +64,11 @@
                     <a href="index.php?page=purchaseproduct" class="btn btn-outline-primary order-register-button">
                         Register Product
                     </a>
-                    <a href="index.php?page=purchasesubscription" class="btn btn-outline-primary order-register-button">
-                        Subscriptions
-                    </a>
+					{if !empty($enabled_modules.subscriptionmanager)}
+					<a href="index.php?page=purchasesubscription" class="btn btn-outline-primary order-register-button">
+						Subscriptions
+					</a>
+					{/if}
                     <a href="index.php?page=customer" class="btn btn-outline-secondary order-register-button">
                         Sign Up
                     </a>

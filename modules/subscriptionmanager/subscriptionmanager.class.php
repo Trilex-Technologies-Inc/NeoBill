@@ -32,7 +32,7 @@ class subscriptionmanager extends SolidStateModule {
 		$this->failedPaymentEmail = $this->moduleDBO->loadSetting( "failed_payment_email" );
 		$this->cardUpdateUrl = $this->moduleDBO->loadSetting( "card_update_url" );
 
-		if ( class_exists( "SolidStateMenu", false ) ) {
+		if ( $this->isEnabled() && class_exists( "SolidStateMenu", false ) ) {
 			$menu = SolidStateMenu::getSolidStateMenu();
 			$pages = array(
 					"subscriptionmanager_plans" => "Create Plan",

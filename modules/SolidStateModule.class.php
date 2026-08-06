@@ -119,7 +119,7 @@ abstract class SolidStateModule extends Module {
 			$this->install();
 		}
 
-		if ( class_exists( "SolidStateMenu", false ) ) {
+		if ( $this->isEnabled() && class_exists( "SolidStateMenu", false ) ) {
 			// Add this module to the menu
 			$menu = SolidStateMenu::getSolidStateMenu();
 			$menu->addItem( new SolidStateMenuItem( $this->getName(),
