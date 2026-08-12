@@ -37,7 +37,7 @@
       <section class="manager-login-panel" aria-labelledby="manager-login-title">
         <div class="manager-login-intro">
           <a href="index.php" class="manager-login-logo" aria-label="NeoBill home">
-            <img src="images/logo.gif" alt="NeoBill" />
+            <img src="images/logo.png" alt="NeoBill" />
           </a>
 
           <div class="manager-login-intro-copy">

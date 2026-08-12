@@ -134,7 +134,7 @@
 {else}
   <div class="container-fluid py-3">
     <a href="index.php" class="d-inline-flex align-items-center gap-2 text-decoration-none">
-      <img src="images/logo.gif" alt="NeoBill" style="height:48px;" />
+      <img src="images/logo.png" alt="NeoBill" style="height:48px;" />
     </a>
   </div>
 {/if}
