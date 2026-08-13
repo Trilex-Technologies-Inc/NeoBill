@@ -8861,11 +8861,10 @@ body.login {
 	display: inline-flex;
 	align-items: center;
 	align-self: flex-start;
-	padding: 0.65rem 0.75rem;
-	border: 1px solid rgba(255, 255, 255, 0.26);
-	border-radius: 6px;
-	background: rgba(255, 255, 255, 0.92);
-	box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+	padding: 0;
+	border: 0;
+	background: transparent;
+	box-shadow: none;
 }
 
 .manager-login-logo img {
