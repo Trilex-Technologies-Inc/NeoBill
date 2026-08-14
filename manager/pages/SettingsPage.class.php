@@ -55,6 +55,7 @@ class SettingsPage extends SolidStateAdminPage {
 		$this->smarty->assign( "invoice_subject", $this->conf['invoice_subject'] ?? '' );
 
 		$this->smarty->assign( "currency", $this->conf['locale']['currency_symbol'] ?? '$' );
+		$this->smarty->assign( "localeLanguage", $this->conf['locale']['language'] ?? 'english' );
 
 		$this->smarty->assign( "default_gateway", $this->conf['payment_gateway']['default_module'] ?? '' );
 
@@ -223,6 +224,16 @@ class SettingsPage extends SolidStateAdminPage {
 		$this->conf['locale']['currency_symbol'] = $this->post['currency'];
 		$this->conf['locale']['language'] = $this->post['language'];
 		$this->save();
+
+		// The manager UI follows the logged-in user's language preference. Keep
+		// that preference in sync when an administrator changes the locale here.
+		if ( !empty( $_SESSION['client']['userdbo'] ) ) {
+			$_SESSION['client']['userdbo']->setLanguage( $this->post['language'] );
+			update_UserDBO( $_SESSION['client']['userdbo'] );
+			TranslationParser::load( ($this->conf['application_dir'] ?? BASE_PATH . 'manager') .
+					"/language/" . $this->post['language'] );
+			Translator::getTranslator()->setActiveLanguage( $this->post['language'] );
+		}
 		$_SESSION['jsFunction'] = "reloadMenu()";
 		$this->smarty->assign( "tab", "locale" );
 	}

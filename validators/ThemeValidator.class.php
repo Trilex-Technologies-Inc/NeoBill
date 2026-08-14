@@ -32,14 +32,13 @@ class ThemeValidator extends ChoiceValidator {
 	 * @return array An array of valid theme choices
 	 */
 	function getValidChoices() {
-		$themes = array();
-
 		$themeDir = sprintf( "%s%s/themes", BASE_PATH, $this->type );
-		if ( false == ($dh = @opendir( $themeDir )) ) {
-			throw new SWException( "Could not open theme directory: " . $themeDir );
+		$results = array( "default" => "default" );
+		$dh = @opendir( $themeDir );
+		if ( $dh === false ) {
+			return $results;
 		}
 
-		$results = array( "default" => "default" );
 		while ( $file = readdir( $dh ) ) {
 			if ( !($file == "." || $file == "..") && is_dir( $themeDir . "/" . $file ) ) {
 				// Add this theme
@@ -47,6 +46,7 @@ class ThemeValidator extends ChoiceValidator {
 				$results[$name] = $name;
 			}
 		}
+		closedir( $dh );
 
 		return $results;
 	}

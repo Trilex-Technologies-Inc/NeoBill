@@ -23,10 +23,6 @@
 $company      = '';
 $email        = '';
 $currency     = '€';
-$nameserver_1 = '';
-$nameserver_2 = '';
-$nameserver_3 = '';
-$nameserver_4 = '';
 
 if (isset($_POST['company'])) {
     $company = $_POST['company'];
@@ -36,18 +32,6 @@ if (isset($_POST['email'])) {
 }
 if (isset($_POST['currency'])) {
     $currency = $_POST['currency'];
-}
-if (isset($_POST['nameserver-1'])) {
-    $nameserver_1 = $_POST['nameserver-1'];
-}
-if (isset($_POST['nameserver-2'])) {
-    $nameserver_2 = $_POST['nameserver-2'];
-}
-if (isset($_POST['nameserver-3'])) {
-    $nameserver_3 = $_POST['nameserver-3'];
-}
-if (isset($_POST['nameserver-4'])) {
-    $nameserver_4 = $_POST['nameserver-4'];
 }
 ?>
 <h2><?php echo _INSTALLERCOMPANY; ?></h2>
@@ -69,18 +53,6 @@ if (isset($_POST['nameserver-4'])) {
 	        </tr><tr>
 	            <td class="dbtitle"><?php echo _INSTALLERCOMPANYCURRENCY; ?>: *</td>
 	            <td><input class="form-control form-control-sm" type="text" name="currency" value="<?php echo $currency; ?>" size="1" /></td>
-	        </tr><tr>
-	            <td class="dbtitle"><?php echo _INSTALLERCOMPANYNAMESERVER; ?> 1: *</td>
-	            <td><input class="form-control form-control-sm" type="text" name="nameserver-1" value="<?php echo $nameserver_1; ?>" /></td>
-	        </tr><tr>
-	            <td class="dbtitle"><?php echo _INSTALLERCOMPANYNAMESERVER; ?> 2: *</td>
-	            <td><input class="form-control form-control-sm" type="text" name="nameserver-2" value="<?php echo $nameserver_2; ?>" /></td>
-	        </tr><tr>
-	            <td class="dbtitle"><?php echo _INSTALLERCOMPANYNAMESERVER; ?> 3:</td>
-	            <td><input class="form-control form-control-sm" type="text" name="nameserver-3" value="<?php echo $nameserver_3; ?>" /></td>
-	        </tr><tr>
-	            <td class="dbtitle"><?php echo _INSTALLERCOMPANYNAMESERVER; ?> 4:</td>
-	            <td><input class="form-control form-control-sm" type="text" name="nameserver-4" value="<?php echo $nameserver_4; ?>" /></td>
 	        </tr></table>
 	    <div class="submit d-grid">
 	        <input type="hidden" name="function" value="create_company" />
