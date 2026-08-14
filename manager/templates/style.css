@@ -1,0 +1,17 @@
+/* NeoBill: small overrides for StartBootstrap SB Admin */
+
+.sb-topnav .navbar-brand {
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.sb-nav-link-icon i {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* Keep NeoBill's legacy "manager_error" looking ok inside SB Admin */
+.manager_error {
+  border-radius: 0.35rem;
+}
+

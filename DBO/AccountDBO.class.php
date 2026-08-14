@@ -121,7 +121,7 @@ class AccountDBO extends DBO {
 	 *
 	 * @param integer $id New Account ID
 	 */
-	function AccountDBO( ) {
+	function __construct( ) {
 		$this->userDBO = new UserDBO();
 	}
 
@@ -578,12 +578,42 @@ class AccountDBO extends DBO {
 }
 
 /**
+ * Ensure that a contact email belongs to at most one account.
+ *
+ * @param string $email Contact email to check
+ * @param int|null $excludeID Account ID to ignore while updating
+ */
+function assertUniqueAccountContactEmail( $email, $excludeID = null ) {
+	$DB = DBConnection::getDBConnection();
+	$email = trim( (string) $email );
+	if ( $email === "" ) {
+		return;
+	}
+
+	$escapedEmail = mysql_real_escape_string( $email, $DB->handle() );
+	$where = "LOWER(contactemail) = LOWER('" . $escapedEmail . "')";
+	if ( $excludeID !== null ) {
+		$where .= " AND id != " . intval( $excludeID );
+	}
+
+	$sql = $DB->build_select_sql( "account", "id", $where, null, null, 1, null );
+	$result = @mysql_query( $sql, $DB->handle() );
+	if ( !$result ) {
+		throw new DBException( mysql_error( $DB->handle() ) );
+	}
+	if ( mysql_num_rows( $result ) > 0 ) {
+		throw new SWUserException( "[ACCOUNT_CONTACT_EMAIL_EXISTS]" );
+	}
+}
+
+/**
  * Insert AccountDBO into database
  *
  * @param AccountDBO &$dbo AccountDBO to add
  */
 function add_AccountDBO( &$dbo ) {
 	$DB = DBConnection::getDBConnection();
+	assertUniqueAccountContactEmail( $dbo->getContactEmail() );
 
 	// Build SQL
 	$sql = $DB->build_insert_sql( "account",
@@ -635,6 +665,7 @@ function add_AccountDBO( &$dbo ) {
  */
 function update_AccountDBO( &$dbo ) {
 	$DB = DBConnection::getDBConnection();
+	assertUniqueAccountContactEmail( $dbo->getContactEmail(), $dbo->getID() );
 
 	// Build SQL
 	$sql = $DB->build_update_sql( "account",

@@ -68,7 +68,7 @@ class ConfigParser {
 	/**
 	 * Constructor
 	 */
-	function ConfigParser() {
+	function __construct() {
 		$this->conf = array( "modules" => array(), "pages" => array(), "forms" => array() );
 	}
 
@@ -92,7 +92,7 @@ class ConfigParser {
 						"hooks" => array() );
 				$this->conf['main_template'] = $attrs['MAIN_TEMPLATE'];
 				$this->conf['controller'] = $attrs['CONTROLLER'];
-				$this->conf['login_template'] = $attrs['LOGIN_TEMPLATE'];
+				$this->conf['login_template'] = $attrs['LOGIN_TEMPLATE'] ?? null;
 				$this->conf['access_denied_template'] = $attrs['ACCESS_DENIED_TEMPLATE'];
 				$this->conf['application_name'] = $attrs['APPLICATION_NAME'];
 				$this->conf['authenticate_user'] = ($attrs['AUTHENTICATE_USER'] == "true");
@@ -106,18 +106,19 @@ class ConfigParser {
 
 			case "PAGES":
 				$this->conf['pages'] = array();
-				$this->conf['login_page'] = $attrs['LOGIN_PAGE'];
-				$this->conf['home_page'] = $attrs['HOME_PAGE'];
+				$this->conf['login_page'] = $attrs['LOGIN_PAGE'] ?? null;
+				$this->conf['home_page'] = $attrs['HOME_PAGE'] ?? null;
 				break;
 
 			case "PAGE":
 				$this->page_class_name = strtolower( $attrs['CLASS'] );
 				$this->conf['pages'][$this->page_class_name]['name'] = $attrs['NAME'];
 				$this->conf['pages'][$this->page_class_name]['title'] = $attrs['TITLE'];
-				$this->conf['pages'][$this->page_class_name]['class_file'] = $attrs['CLASS_FILE'];
-				$this->conf['pages'][$this->page_class_name]['parent'] = $attrs['PARENT'];
+				$this->conf['pages'][$this->page_class_name]['class_file'] = $attrs['CLASS_FILE'] ?? null;
+				$this->conf['pages'][$this->page_class_name]['parent'] = $attrs['PARENT'] ?? null;
 				$this->conf['pages'][$this->page_class_name]['url'] = $attrs['URL'];
-				$this->conf['pages'][$this->page_class_name]['disabled'] = ($attrs['DISABLED'] == "true");
+				$this->conf['pages'][$this->page_class_name]['disabled'] =
+						(strtolower((string)($attrs['DISABLED'] ?? 'false')) == "true");
 
 				$this->conf['pages'][$this->page_class_name]['templatedir'] =
 						isset( $this->module_name ) ?
@@ -138,6 +139,7 @@ class ConfigParser {
 				$template_file = $attrs['FILE'];
 				$this->conf['pages'][$this->page_class_name]['templates'][$template_name] =
 						$template_file;
+				break;
 
 			case "URLFIELDS":
 				$this->conf['pages'][$this->page_class_name]['fields'] = array();
@@ -146,7 +148,7 @@ class ConfigParser {
 			case "URLFIELD":
 				$name = $attrs['NAME'];
 				$validator = $attrs['VALIDATOR'];
-				$required = (strtolower( $attrs['REQUIRED'] ) == "true");
+				$required = (strtolower((string)($attrs['REQUIRED'] ?? 'false')) == "true");
 				$this->conf['pages'][$this->page_class_name]['fields'][$name]['validator'] = $validator;
 				$this->conf['pages'][$this->page_class_name]['fields'][$name]['required'] = $required;
 				break;
@@ -158,9 +160,9 @@ class ConfigParser {
 			case "FORM":
 				$this->form_name = $attrs['NAME'];
 				$this->conf['forms'][$this->form_name]['page'] = $attrs['PAGE'];
-				$this->conf['forms'][$this->form_name]['method'] = $attrs['METHOD'];
+				$this->conf['forms'][$this->form_name]['method'] = $attrs['METHOD'] ?? 'POST';
 				$this->conf['forms'][$this->form_name]['dbo_table_search'] =
-						(strtolower( $attrs['DBO_TABLE_SEARCH'] ) == "true");
+						(strtolower((string)($attrs['DBO_TABLE_SEARCH'] ?? 'false')) == "true");
 				break;
 
 			case "FIELDS":
@@ -177,6 +179,83 @@ class ConfigParser {
 							(strtolower( $value ) == "true" || strtolower( $value ) == "false") ?
 							strtolower( $value ) == "true" :
 							$value;
+				}
+
+				// Bootstrap-friendly default classes (can be overridden in application.conf)
+				if ( !isset( $field_data['class'] ) && isset( $field_data['widget'] ) ) {
+					switch ( strtolower( $field_data['widget'] ) ) {
+						// Text-like inputs
+						case "text":
+						case "password":
+						case "date":
+						case "currency":
+							$field_data['class'] = "form-control";
+							break;
+
+						// Textareas
+						case "textarea":
+							$field_data['class'] = "form-control";
+							break;
+
+						// Select-like controls
+						case "select":
+						case "country":
+						case "themeselect":
+						case "languageselect":
+						case "accountselect":
+						case "invoiceselect":
+						case "tldselect":
+						case "productselect":
+						case "hostingselect":
+						case "serverselect":
+						case "ipselect":
+						case "purchasabletermselect":
+						case "registrarmoduleselect":
+						case "moduleselect":
+						case "paymentmoduleselect":
+							$field_data['class'] = "form-select";
+							break;
+
+						// Checkboxes & radios
+						case "checkbox":
+						case "radio":
+							$field_data['class'] = "form-check-input";
+							break;
+
+						// Buttons: leave unset by default (primary/secondary/danger varies per field)
+						case "submit":
+							$fieldNameLower = strtolower( $this->form_field_name );
+
+							// Cancel-type actions
+							if ( isset( $field_data['cancel'] ) && $field_data['cancel'] == true ) {
+								$field_data['class'] = "btn btn-secondary";
+								break;
+							}
+
+							// Destructive actions
+							if ( strpos( $fieldNameLower, "delete" ) !== false ||
+									strpos( $fieldNameLower, "remove" ) !== false ||
+									strpos( $fieldNameLower, "kill" ) !== false ||
+									strpos( $fieldNameLower, "void" ) !== false ) {
+								$field_data['class'] = "btn btn-danger";
+								break;
+							}
+
+							// Back/secondary navigation
+							if ( $fieldNameLower == "back" ||
+									$fieldNameLower == "goback" ||
+									strpos( $fieldNameLower, "cancel" ) !== false ) {
+								$field_data['class'] = "btn btn-secondary";
+								break;
+							}
+
+							// Default primary button
+							$field_data['class'] = "btn btn-primary";
+							break;
+
+						default:
+							break;
+					}
 				}
 				/*
 	$field_data['widget'] = $attrs['WIDGET'];
@@ -211,8 +290,8 @@ class ConfigParser {
 
 			case "OPTION":
 				$value = $attrs['VALUE'];
-				$description = $attrs['DESCRIPTION'];
-				$default = ($attrs['DEFAULT'] == "true");
+				$description = $attrs['DESCRIPTION'] ?? null;
+				$default = (strtolower((string)($attrs['DEFAULT'] ?? 'false')) == "true");
 				if ( isset( $description ) ) {
 					$this->conf['forms'][$this->form_name]['fields'][$this->form_field_name]['enum'][$value] =
 							$description;

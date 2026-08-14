@@ -293,7 +293,7 @@ create table `log` (
   `module` varchar(255) not null default '',
   `text` varchar(255) not null default '',
   `username` varchar(255) not null default '0',
-  `remoteip` int(11) not null default '0',
+  `remoteip` int(10) unsigned not null default '0',
   `date` datetime not null default '0000-00-00 00:00:00',
   primary key  (`id`)
 ) default charset=utf8 auto_increment=1 ;
@@ -324,7 +324,8 @@ create table `modulesetting` (
   `name` varchar(255) not null default '',
   `value` mediumtext,
   `modulename` varchar(255) not null default '',
-  primary key  (`id`)
+  primary key  (`id`),
+  unique key `modulesetting_modulename_name` (`modulename`,`name`)
 ) default charset=utf8 auto_increment=1 ;
 
 -- --------------------------------------------------------
@@ -354,7 +355,7 @@ create table `order` (
   `datecreated` datetime not null default '0000-00-00 00:00:00',
   `datecompleted` datetime default null,
   `datefulfilled` datetime default null,
-  `remoteip` int(11) not null default '0',
+  `remoteip` int(10) unsigned not null default '0',
   `businessname` varchar(255) not null default '',
   `contactname` varchar(255) not null default '',
   `contactemail` varchar(255) not null default '',
@@ -412,6 +413,22 @@ create table `orderhosting` (
   `serviceid` int(10) unsigned not null default '0',
   `term` int(11) default null,
   `domainname` varchar(255) default null,
+  primary key  (`id`)
+) default charset=utf8 auto_increment=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for table `orderproduct`
+--
+
+create table `orderproduct` (
+  `id` int(10) unsigned not null auto_increment,
+  `orderid` int(10) unsigned not null default '0',
+  `orderitemid` int(10) unsigned not null default '0',
+  `status` enum('Rejected','Pending','Accepted','Fulfilled') not null default 'Pending',
+  `productid` int(10) unsigned not null default '0',
+  `term` int(11) default null,
   primary key  (`id`)
 ) default charset=utf8 auto_increment=1 ;
 
@@ -560,4 +577,12 @@ create table `user` (
   `language` varchar(255) not null,
   `theme` varchar(255) not null default 'default',
   primary key  (`username`)
+) default charset=utf8;
+
+create table `email_verification` (
+  `username` varchar(32) not null,
+  `token_hash` char(64) not null,
+  `expires_at` datetime not null,
+  primary key (`username`),
+  unique key `token_hash` (`token_hash`)
 ) default charset=utf8;

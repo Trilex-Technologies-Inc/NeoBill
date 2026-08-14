@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * EditDomainPage.class.php
  *

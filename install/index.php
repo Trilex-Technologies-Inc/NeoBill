@@ -38,7 +38,11 @@
     require_once 'languages/' . $_COOKIE['language'] . '.php';
   } else {
     require_once 'languages/english.php';
-	require_once 'languages/deutsch.php';
+  }
+
+  // NeoBill's legacy database layer is bridged to mysqli on PHP 8.
+  if (extension_loaded('mysqli')) {
+    require_once dirname(__DIR__) . '/solidworks/php83_compat.php';
   }
   require_once 'include/setting.php';
   

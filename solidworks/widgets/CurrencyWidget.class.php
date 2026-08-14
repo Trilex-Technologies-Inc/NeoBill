@@ -27,8 +27,13 @@ class CurrencyWidget extends TextWidget {
 	 */
 	function getHTML( $params ) {
 		global $conf;
-		return $conf['locale']['currency_symbol'] .
-				parent::getHTML( $params );
+		$symbol = $conf['locale']['currency_symbol'] ?? '$';
+		if ( !empty( $params['inline_symbol'] ) ) {
+			$symbol = '<span class="currency-symbol" aria-hidden="true">' .
+					$symbol . '</span>';
+		}
+		unset( $params['inline_symbol'] );
+		return $symbol . parent::getHTML( $params );
 	}
 }
 ?>

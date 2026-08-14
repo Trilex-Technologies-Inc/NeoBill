@@ -106,6 +106,7 @@ class NewAccountPage extends SolidStatePage {
 	function add_account() {
 		// Extract AccountDBO from the session
 		$account_dbo =& $this->session['new_account_dbo'];
+		assertUniqueAccountContactEmail( $account_dbo->getContactEmail() );
 
 		// Insert UserBO into database
 		add_UserDBO( $this->session['user_dbo'] );

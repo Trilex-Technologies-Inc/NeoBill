@@ -23,17 +23,17 @@ load_settings( $conf );
 require_once dirname(__FILE__)."/../include/SolidStateMenu.class.php";
 
 // Set the current theme
-$theme = isset( $_SESSION['client']['userdbo'] ) ?
-  $_SESSION['client']['userdbo']->getTheme() : $conf['themes']['manager'];
+$theme = !empty( $_SESSION['client']['userdbo'] ) ?
+  $_SESSION['client']['userdbo']->getTheme() : ($conf['themes']['manager'] ?? 'default');
 $conf['themes']['current'] = $theme;
 
 // Load the user's language preference
 session_start();
-$language = isset( $_SESSION['client']['userdbo'] ) ? 
+$language = !empty( $_SESSION['client']['userdbo'] ) ?
   $_SESSION['client']['userdbo']->getLanguage() : null;
 if( $language != null )
   {
-    TranslationParser::load( "language/" . $language );
+	    TranslationParser::load( ($conf['application_dir'] ?? __DIR__) . "/language/" . $language );
     Translator::getTranslator()->setActiveLanguage( $language );
   }
   
@@ -42,7 +42,7 @@ header( "Content-type: text/html; charset=utf-8" );
 
 // Build the core menu
 $menu = SolidStateMenu::getSolidStateMenu();
-$username = isset( $_SESSION['client']['userdbo'] ) ?
+$username = !empty( $_SESSION['client']['userdbo'] ) ?
   $_SESSION['client']['userdbo']->getUsername() : null;
 $menu->addItem( new SolidStateMenuItem( "myinfo", 
 					"[MY_INFO]", 

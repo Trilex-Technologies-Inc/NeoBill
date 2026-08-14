@@ -52,8 +52,13 @@ class OrderHostingDBO extends OrderItemDBO {
      *
      * @param HostingServiceDBO The hosting service to be purchased
      */
-    public function setPurchasable( HostingServiceDBO $purchasable ) {
-        // The purpose of this function is to force the purchasable to be a HostingServiceDBO
+    public function setPurchasable( PurchasableDBO $purchasable ) {
+        // Keep compatibility with SaleDBO::setPurchasable(PurchasableDBO $purchasable)
+        // while still enforcing HostingServiceDBO at runtime.
+        if( !( $purchasable instanceof HostingServiceDBO ) ) {
+            throw new InvalidArgumentException( "Expected HostingServiceDBO" );
+        }
+
         parent::setPurchasable( $purchasable );
     }
 

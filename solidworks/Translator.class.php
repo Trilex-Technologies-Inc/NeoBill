@@ -106,6 +106,11 @@ class Translator {
 
 		// Check for duplicates
 		if ( isset( $this->translations[$language][$phraseid] ) ) {
+			// Loading the same source more than once is harmless. Continue to
+			// reject genuinely conflicting translations for the same phrase.
+			if ( $this->translations[$language][$phraseid] === $translation ) {
+				return;
+			}
 			throw new DuplicateTranslationException( $language,
 			$phraseid,
 			$translation );
@@ -121,7 +126,7 @@ class Translator {
 	 * @param string Active language
 	 */
 	public function setActiveLanguage( $language ) {
-		$this->activeLanguage = strtolower( $language );
+		$this->activeLanguage = strtolower( (string) $language );
 	}
 
 	/**
@@ -130,7 +135,7 @@ class Translator {
 	 * @param string Default language
 	 */
 	public function setDefaultLanguage( $language ) {
-		$this->defaultLanguage = strtolower( $language );
+		$this->defaultLanguage = strtolower( (string) $language );
 	}
 
 	/**

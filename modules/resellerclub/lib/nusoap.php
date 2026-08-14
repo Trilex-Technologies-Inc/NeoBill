@@ -59,6 +59,25 @@ require_once('class.soap_server.php');*/
  * @access   public
  */
 class nusoap_base {
+	var $currentElement = false;
+	var $currentComplexType = false;
+	var $name = null;
+	var $value = null;
+	var $type = null;
+	var $element_ns = null;
+	var $type_ns = null;
+	var $attributes = array();
+	var $fp = null;
+	var $SOAPAction = '';
+	var $methodname = '';
+	var $currentPortOperation = '';
+	var $opStatus = '';
+	var $serviceName = '';
+	var $errstr = '';
+	var $methodNamespace = '';
+	var $wsdlFile = '';
+	var $operation = '';
+	var $return = null;
 
     var $title = 'NuSOAP';
     var $version = '0.6.6';
@@ -590,7 +609,7 @@ class soap_fault extends nusoap_base {
      * @param string $faultstring human readable error message
      * @param string $faultdetail
      */
-    function soap_fault($faultcode,$faultactor='',$faultstring='',$faultdetail='') {
+    function __construct($faultcode,$faultactor='',$faultstring='',$faultdetail='') {
         $this->faultcode = $faultcode;
         $this->faultactor = $faultactor;
         $this->faultstring = $faultstring;
@@ -662,7 +681,7 @@ class XMLSchema extends nusoap_base {
      * @param    string $xml xml document URI
      * @access   public
      */
-    function XMLSchema($schema='',$xml='') {
+    function __construct($schema='',$xml='') {
 
         $this->debug('xmlschema class instantiated, inside constructor');
         // files
@@ -1324,7 +1343,7 @@ class soapval extends nusoap_base {
      * @param	array $attributes associative array of attributes to add to element serialization
      * @access   public
      */
-    function soapval($name='soapval',$type=false,$value=-1,$element_ns=false,$type_ns=false,$attributes=false) {
+    function __construct($name='soapval',$type=false,$value=-1,$element_ns=false,$type_ns=false,$attributes=false) {
         $this->name = $name;
         $this->value = $value;
         $this->type = $type;
@@ -1391,7 +1410,7 @@ class soap_transport_http extends nusoap_base {
     /**
      * constructor
      */
-    function soap_transport_http($url) {
+    function __construct($url) {
         $this->url = $url;
 
         $u = parse_url($url);
@@ -1577,7 +1596,6 @@ class soap_transport_http extends nusoap_base {
         $this->outgoing_headers['Accept-Encoding'] = $enc;
         $this->outgoing_headers['Connection'] = 'close';
         $this->persistentConnection = false;
-        set_magic_quotes_runtime(0);
         // deprecated
         $this->encoding = $enc;
     }
@@ -1922,13 +1940,13 @@ class soap_server extends nusoap_base {
      * @param string $wsdl path or URL to a WSDL file
      * @access   public
      */
-    function soap_server($wsdl=false) {
+    function __construct($wsdl=false) {
 
         // turn on debugging?
         global $debug;
         global $_REQUEST;
         global $_SERVER;
-        global $HTTP_SERVER_VARS;
+        global $_SERVER;
 
         if (isset($debug)) {
             $this->debug_flag = $debug;
@@ -1941,8 +1959,8 @@ class soap_server extends nusoap_base {
                     $this->debug_flag = substr($v, 6);
                 }
             }
-        } else if (isset($HTTP_SERVER_VARS['QUERY_STRING'])) {
-            $qs = explode('&', $HTTP_SERVER_VARS['QUERY_STRING']);
+        } else if (isset($_SERVER['QUERY_STRING'])) {
+            $qs = explode('&', $_SERVER['QUERY_STRING']);
             foreach ($qs as $v) {
                 if (substr($v, 0, 6) == 'debug=') {
                     $this->debug_flag = substr($v, 6);
@@ -2062,7 +2080,7 @@ class soap_server extends nusoap_base {
      * @access   private
      */
     function parse_request($data='') {
-        global $HTTP_SERVER_VARS;
+        global $_SERVER;
         $this->debug('entering parseRequest() on '.date('H:i Y-m-d'));
         $dump = '';
         // get headers
@@ -2118,8 +2136,8 @@ class soap_server extends nusoap_base {
                     $this->debug("$k: $v");
                 }
             }
-        } elseif (is_array($HTTP_SERVER_VARS)) {
-            foreach ($HTTP_SERVER_VARS as $k => $v) {
+        } elseif (is_array($_SERVER)) {
+            foreach ($_SERVER as $k => $v) {
                 if (substr($k, 0, 5) == 'HTTP_') {
                     $k = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($k, 5)))));
                     if ($k == 'Soapaction') {
@@ -2594,7 +2612,7 @@ class wsdl extends XMLSchema {
      * @param string $proxypassword
      * @access public
      */
-    function wsdl($wsdl = '',$proxyhost=false,$proxyport=false,$proxyusername=false,$proxypassword=false) {
+    function __construct($wsdl = '',$proxyhost=false,$proxyport=false,$proxyusername=false,$proxypassword=false) {
         $this->wsdl = $wsdl;
         $this->proxyhost = $proxyhost;
         $this->proxyport = $proxyport;
@@ -3577,7 +3595,7 @@ class soap_parser extends nusoap_base {
      * @param    string $encoding character encoding scheme of message
      * @access   public
      */
-    function soap_parser($xml,$encoding='UTF-8',$method='') {
+    function __construct($xml,$encoding='UTF-8',$method='') {
         $this->xml = $xml;
         $this->xml_encoding = $encoding;
         $this->method = $method;
@@ -3869,7 +3887,9 @@ class soap_parser extends nusoap_base {
             // TODO: add an option to disable this for folks who want
             // raw UTF-8 that, e.g., might not map to iso-8859-1
             // TODO: this can also be handled with xml_parser_set_option($this->parser, XML_OPTION_TARGET_ENCODING, "ISO-8859-1");
-            $data = utf8_decode($data);
+			$data = function_exists('mb_convert_encoding') ?
+					mb_convert_encoding((string) $data, 'ISO-8859-1', 'UTF-8') :
+					(function_exists('iconv') ? iconv('UTF-8', 'ISO-8859-1//TRANSLIT', (string) $data) : (string) $data);
         }
         $this->message[$pos]['cdata'] .= $data;
         // for doclit
@@ -4100,7 +4120,7 @@ class soapclientw extends nusoap_base {
      * @param	string $proxypassword
      * @access   public
      */
-    function soapclientw($endpoint,$wsdl = false,$proxyhost = false,$proxyport = false,$proxyusername = false, $proxypassword = false) {
+    function __construct($endpoint,$wsdl = false,$proxyhost = false,$proxyport = false,$proxyusername = false, $proxypassword = false) {
         $this->endpoint = $endpoint;
         $this->proxyhost = $proxyhost;
         $this->proxyport = $proxyport;

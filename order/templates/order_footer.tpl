@@ -1,3 +1,4 @@
-<!-- div class="footer">
-  <p>Customize this footer in order/templates/order_footer.tpl</p>
-</div -->
+<div class="order-footer">
+  <span>Need help with your order?</span>
+  <a href="mailto:support@example.com">Contact support</a>
+</div>

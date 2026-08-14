@@ -28,6 +28,7 @@ class TaxRuleTableWidget extends TableWidget {
 		// Load the TaxRule Table
 		try {
 			// Build the table
+			$where = null;
 			$taxRules = load_array_TaxRuleDBO( $where );
 			foreach ( $taxRules as $dbo ) {
 				// Put the row into the table

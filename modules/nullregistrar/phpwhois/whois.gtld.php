@@ -35,7 +35,9 @@ if (!defined('__GTLD_HANDLER__'))
 require_once('whois.parser.php');
 
 class gtld_handler extends WhoisClient
-	{
+{
+	var $SUBVERSION = '';
+	var $result = null;
 	// Deep whois ?
 	var $deep_whois = true;
 	

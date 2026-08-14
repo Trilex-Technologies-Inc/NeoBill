@@ -1,122 +1,142 @@
-<script type="text/javascript" src="../include/dhtmlxTabbar/js/dhtmlXCommon.js"></script>
-<script type="text/javascript" src="../include/dhtmlxTabbar/js/dhtmlXTabbar.js"></script>
-<script type="text/javascript" src="../include/dhtmlxTabbar/js/dhtmlXTabbar_start.js"></script>
-
-{if $tab != null}
-  <script type="text/javascript">
-    var activeTab = "{$tab}";
-  </script>
-{/if}
-<div class="manager_content"
-<div id="a_tabbar" 
-     class="dhtmlxTabBar" 
-     style="margin-top: 0.5em;"  
-     imgpath="../include/dhtmlxTabbar/imgs/"
-     skinColors="#FFFFFF,#F4F3EE">
-
-  <div id="general" name="[GENERAL]" width="80">
-    {form name="edit_product"}
-      <div class="form">
-        <table>
-          <thead>
-            <tr>
-              <th colspan="2"> [PRODUCT] ([ID]: {dbo_echo dbo="product_dbo" field="id"}) </th>
-            </tr>
-          </thead>
-          <tfoot>
-            <tr>
-              <td class="left">
-                {form_element field="cancel"}
-              </td>
-              <td class="right">
-                {form_element field="save"}
-              </td>
-          </tfoot>
-          <tbody>
-            <tr>
-              <th> {form_description field="name"} </th>
-              <td> {form_element dbo="product_dbo" field="name" size="20"} </td>
-            </tr>
-            <tr>
-              <th> {form_description field="description"} </th>
-              <td> {form_element dbo="product_dbo" field="description" cols="40" rows="3"} </td>
-            </tr>
-            <tr>
-              <th> {form_description field="public"} </th>
-              <td> {form_element dbo="product_dbo" field="public" option="Yes"} </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    {/form}
-  </div>
-
-  <div id="pricing" name="[PRICING]" width="80">
-    {form name="edit_product_pricing"}
-      <div class="table">
-        {form_table field="prices" style="width: 650px"}
-
-          {form_table_column columnid="id" header=""}
-            <center> {form_table_checkbox option=$prices.id} </center>
-          {/form_table_column}
-
-          {form_table_column columnid="type" header="[TYPE]"}
-            {$prices.type}
-          {/form_table_column}
-
-          {form_table_column columnid="termlength" header="[TERM_LENGTH]"}
-            {if $prices.type == "Onetime"}
-              [N/A]
-            {else}
-              {$prices.termlength} [MONTHS]
-            {/if}
-          {/form_table_column}
-
-          {form_table_column columnid="price" header="[PRICE]"}
-            {$prices.price|currency}
-          {/form_table_column}
-
-          {form_table_column columnid="taxable" header="[TAXABLE]"}
-            {$prices.taxable}
-          {/form_table_column}
-
-          {form_table_footer}
-            {form_element field="delete"}
-          {/form_table_footer}
-
-        {/form_table}
-      </div>
-    {/form}
-
-    {form name="edit_product_add_price"}
-      <div class="form">
-        <table>
-          <thead>
-            <tr>
-              <th colspan="4"> [ADD_OR_UPDATE_PRICE] </th>
-            </tr>
-          </thead>
-          <tfoot>
-            <tr>
-              <td colspan="4" class="right"> {form_element field="add"} </td>
-            </tr>
-          </tfoot>
-          <tbody>
-            <tr>
-              <th style="width: 25%"> {form_description field="type"} </th>
-              <th style="width: 25%"> {form_description field="termlength"} </th>
-              <th style="width: 25%"> {form_description field="price"} </th>
-              <th style="width: 25%"> {form_description field="taxable"} </th>
-            </tr>
-            <tr>
-              <td style="width: 25%"> {form_element field="type"} </td>
-              <td style="width: 25%"> {form_element field="termlength" size="4"} </td>
-              <td style="width: 25%"> {form_element field="price" size="6"} </td>
-              <td style="width: 25%"> {form_element field="taxable"} </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    {/form}
-  </div>
+<div class="manager_content services-edit-page services-products-page">
+  <div class="services-edit-shell">
+    <div class="services-list-header">
+      <div class="services-list-title">
+        <span class="services-list-icon"><i class="ti ti-package"></i></span>
+        <div>
+          <span class="services-list-kicker">Products &amp; Services</span>
+          <h2>{echo phrase="EDIT_PRODUCT"}</h2>
+          <p>{dbo_echo dbo="product_dbo" field="name"} &middot; [ID]: {dbo_echo dbo="product_dbo" field="id"}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="services-edit-grid">
+      {form name="edit_product"}
+        <div class="services-edit-card services-edit-details">
+          <div class="services-edit-card-header">
+            <span><i class="ti ti-file-pencil"></i></span>
+            <div>
+              <h3>[GENERAL]</h3>
+              <p>[PRODUCT]</p>
+            </div>
+          </div>
+
+          <div class="services-edit-card-body">
+            <div class="services-edit-field">
+              <label class="form-label">{form_description field="name"}</label>
+              {form_element dbo="product_dbo" field="name" size="20" class="form-control"}
+            </div>
+
+            <div class="services-edit-field">
+              <label class="form-label">{form_description field="description"}</label>
+              {form_element dbo="product_dbo" field="description" cols="40" rows="5" class="form-control"}
+            </div>
+
+            <div class="services-edit-check">
+              {form_element dbo="product_dbo" field="public" option="Yes" class="form-check-input"}
+              <div>
+                <label class="form-check-label">{form_description field="public"}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="services-edit-actions">
+            {form_element field="cancel" class="btn btn-light"}
+            {form_element field="save" class="btn btn-primary"}
+          </div>
+        </div>
+      {/form}
+
+      <div class="services-edit-stack">
+        {form name="edit_product_pricing"}
+          <div class="services-edit-card">
+            <div class="services-edit-card-header">
+              <span><i class="ti ti-cash"></i></span>
+              <div>
+                <h3>[PRICING]</h3>
+                <p>[PRICE]</p>
+              </div>
+            </div>
+
+            <div class="services-edit-table">
+              {form_table field="prices" class="table table-hover align-middle mb-0"}
+                {form_table_column columnid="id" header=""}
+                  <span class="services-list-check">{form_table_checkbox option=$prices.id}</span>
+                {/form_table_column}
+
+                {form_table_column columnid="type" header="[TYPE]"}
+                  <span class="services-list-pricing">{$prices.type}</span>
+                {/form_table_column}
+
+                {form_table_column columnid="termlength" header="[TERM_LENGTH]"}
+                  {if $prices.type == "Onetime"}
+                    <span class="services-list-muted">[N/A]</span>
+                  {else}
+                    {$prices.termlength} [MONTHS]
+                  {/if}
+                {/form_table_column}
+
+                {form_table_column columnid="price" header="[PRICE]"}
+                  <strong>{$prices.price|currency}</strong>
+                {/form_table_column}
+
+                {form_table_column columnid="taxable" header="[TAXABLE]"}
+                  {if $prices.taxable == "Yes"}
+                    <span class="services-list-status services-list-status-public">{$prices.taxable}</span>
+                  {else}
+                    <span class="services-list-status services-list-status-private">{$prices.taxable}</span>
+                  {/if}
+                {/form_table_column}
+
+                {form_table_footer}
+                  <div class="services-list-remove-actions">
+                    {form_element field="delete" class="btn btn-outline-danger"}
+                  </div>
+                {/form_table_footer}
+              {/form_table}
+            </div>
+          </div>
+        {/form}
+
+        {form name="edit_product_add_price"}
+          <div class="services-edit-card services-edit-price-card">
+            <div class="services-edit-card-header">
+              <span><i class="ti ti-circle-plus"></i></span>
+              <div>
+                <h3>[ADD_OR_UPDATE_PRICE]</h3>
+                <p>[PRICING]</p>
+              </div>
+            </div>
+
+            <div class="services-edit-price-grid">
+              <div class="services-edit-field">
+                <label class="form-label">{form_description field="type"}</label>
+                {form_element field="type" class="form-select"}
+              </div>
+
+              <div class="services-edit-field">
+                <label class="form-label">{form_description field="termlength"}</label>
+                {form_element field="termlength" size="4" class="form-control"}
+              </div>
+
+              <div class="services-edit-field">
+                <label class="form-label">{form_description field="price"}</label>
+                {form_element field="price" size="6" class="form-control"}
+              </div>
+
+              <div class="services-edit-field">
+                <label class="form-label">{form_description field="taxable"}</label>
+                {form_element field="taxable" class="form-select"}
+              </div>
+            </div>
+
+            <div class="services-edit-actions services-edit-actions-end">
+              {form_element field="add" class="btn btn-primary"}
+            </div>
+          </div>
+        {/form}
+      </div>
+    </div>
+  </div>
 </div>

@@ -62,13 +62,16 @@ class ReviewPage extends SolidStatePage {
 		}
 
 		// If required, make sure that the TOS box was checked
-		if ( $this->conf['order']['tos_required'] && !isset( $this->post['accept_tos'] ) ) {
+		if ( !empty( $this->conf['order']['tos_required'] ) &&
+				!isset( $this->post['accept_tos'] ) ) {
 			throw new SWUserException( "[YOU_MUST_ACCEPT_THE_TERMS_OF_SERVICE]" );
 		}
 
-		$this->session['order']->setRemoteIP( ip2long( $_SERVER['REMOTE_ADDR'] ) );
+		$this->session['order']->setRemoteIP(
+				ip2long( $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0' ) );
 		$this->session['order']->setDateCreated( DBConnection::format_datetime( time() ) );
-		$this->session['order']->setAcceptedTOS( $this->post['accept_tos'] == "true" ? "Yes" : "No" );
+		$this->session['order']->setAcceptedTOS(
+				($this->post['accept_tos'] ?? '') == "true" ? "Yes" : "No" );
 		
 		/*
 		if ( $this->session['order']->getAccountType() == "Existing Account" ) {
@@ -93,7 +96,8 @@ class ReviewPage extends SolidStatePage {
 			$user_dbo->setType("Client");
 			$user_dbo->setLanguage("english"); // could change to user-defined
 			$user_dbo->setTheme("default");
-			
+
+			assertUniqueAccountContactEmail( $order->getContactEmail() );
 			add_UserDBO( $user_dbo );
 
 			// Add account info to accountDBO
@@ -161,6 +165,11 @@ class ReviewPage extends SolidStatePage {
 	function init() {
 		// Give access to the template
 		$this->session['order'] =& $_SESSION['order'];
+		if ( $this->session['order']->getAccountID() == null &&
+				!empty( $_SESSION['client']['userdbo'] ) ) {
+			$account = load_AccountDBO_username( $_SESSION['client']['userdbo']->getUsername() );
+			$this->session['order']->setAccountID( $account->getID() );
+		}
 
 		// Calculate tax on the order
 		$this->session['order']->calculateTaxes();
@@ -170,8 +179,9 @@ class ReviewPage extends SolidStatePage {
 		$cartWidget->setOrder( $_SESSION['order'] );
 
 		// Provide the Terms of Service config to the template
-		$this->smarty->assign( "tos_required", $this->conf['order']['tos_required'] );
-		$this->smarty->assign( "tos_url", $this->conf['order']['tos_url'] );
+		$this->smarty->assign( "tos_required",
+				!empty( $this->conf['order']['tos_required'] ) );
+		$this->smarty->assign( "tos_url", $this->conf['order']['tos_url'] ?? '' );
 
 		// Supress the login link
 		$this->smarty->assign( "supressWelcome", true );

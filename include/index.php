@@ -18,10 +18,12 @@
  *
  */
 
-  $folder = 'include';
-  if (strrpos($_SERVER['PHP_SELF'], '/' . $folder . '/index.php') === (strlen($_SERVER['PHP_SELF']) - strlen('/' . $folder . '/index.php'))) {
-    header('Location: http://' . $_SERVER['HTTP_HOST'] . '/' . substr($_SERVER['PHP_SELF'], 1, strrpos($_SERVER['PHP_SELF'], '/' . $folder . '/index.php')));
+	$folder = 'include';
+	$phpSelf = $_SERVER['PHP_SELF'] ?? '/include/index.php';
+	$httpHost = $_SERVER['HTTP_HOST'] ?? 'localhost';
+	if (strrpos($phpSelf, '/' . $folder . '/index.php') === (strlen($phpSelf) - strlen('/' . $folder . '/index.php'))) {
+		header('Location: http://' . $httpHost . '/' . substr($phpSelf, 1, strrpos($phpSelf, '/' . $folder . '/index.php')));
   } else {
-    header('Location: http://' . $_SERVER['HTTP_HOST'] . '/');
+		header('Location: http://' . $httpHost . '/');
   }
 ?>

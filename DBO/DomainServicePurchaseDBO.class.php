@@ -100,9 +100,14 @@ class DomainServicePurchaseDBO extends PurchaseDBO {
      *
      * @param DomainServiceDBO The domain service that is/was purchased
      */
-    public function setPurchasable( DomainServiceDBO $serviceDBO ) {
-        // This function is meant to force purchasable to be a DomainServiceDBO
-        parent::setPurchasable( $serviceDBO );
+    public function setPurchasable( PurchasableDBO $purchasable ) {
+        // Keep compatibility with SaleDBO::setPurchasable(PurchasableDBO $purchasable)
+        // while still enforcing DomainServiceDBO at runtime.
+        if( !( $purchasable instanceof DomainServiceDBO ) ) {
+            throw new InvalidArgumentException( "Expected DomainServiceDBO" );
+        }
+
+        parent::setPurchasable( $purchasable );
     }
 
     /**

@@ -41,6 +41,24 @@ function load_settings( &$conf ) {
 			case "company_notification_email":
 				$conf['company']['notification_email'] = $val;
 				break;
+			case "mail_transport":
+				$conf['mail']['transport'] = $val;
+				break;
+			case "smtp_host":
+				$conf['mail']['smtp']['host'] = $val;
+				break;
+			case "smtp_port":
+				$conf['mail']['smtp']['port'] = (int)$val;
+				break;
+			case "smtp_encryption":
+				$conf['mail']['smtp']['encryption'] = $val;
+				break;
+			case "smtp_username":
+				$conf['mail']['smtp']['username'] = $val;
+				break;
+			case "smtp_password":
+				$conf['mail']['smtp']['password'] = $val;
+				break;
 
 			case "order_confirmation_email":
 				$conf['order']['confirmation_email'] = $val;
@@ -84,7 +102,7 @@ function load_settings( &$conf ) {
 				break;
 
 			case "locale_language":
-				TranslationParser::load( "language/" . $val );
+				TranslationParser::load( ($conf['application_dir'] ?? getcwd()) . "/language/" . $val );
 				Translator::getTranslator()->setActiveLanguage( $val );
 				$conf['locale']['language'] = $val;
 				break;
@@ -130,43 +148,49 @@ function load_settings( &$conf ) {
  * @param array $conf Configuration data
  */
 function save_settings( $conf ) {
-	update_setting( "company_name", $conf['company']['name'] );
-	update_setting( "company_email", $conf['company']['email'] );
+	update_setting( "company_name", $conf['company']['name'] ?? 'NeoBill' );
+	update_setting( "company_email", $conf['company']['email'] ?? '' );
 	update_setting( "company_notification_email",
-			$conf['company']['notification_email'] );
+			$conf['company']['notification_email'] ?? '' );
+	update_setting( "mail_transport", $conf['mail']['transport'] ?? 'mail' );
+	update_setting( "smtp_host", $conf['mail']['smtp']['host'] ?? '' );
+	update_setting( "smtp_port", $conf['mail']['smtp']['port'] ?? 587 );
+	update_setting( "smtp_encryption", $conf['mail']['smtp']['encryption'] ?? 'tls' );
+	update_setting( "smtp_username", $conf['mail']['smtp']['username'] ?? '' );
+	update_setting( "smtp_password", $conf['mail']['smtp']['password'] ?? '' );
 
-	update_setting( "order_confirmation_subject", $conf['order']['confirmation_subject'] );
-	update_setting( "order_confirmation_email", $conf['order']['confirmation_email'] );
+	update_setting( "order_confirmation_subject", $conf['order']['confirmation_subject'] ?? '' );
+	update_setting( "order_confirmation_email", $conf['order']['confirmation_email'] ?? '' );
 
-	update_setting( "order_notification_subject", $conf['order']['notification_subject'] );
-	update_setting( "order_notification_email", $conf['order']['notification_email'] );
+	update_setting( "order_notification_subject", $conf['order']['notification_subject'] ?? '' );
+	update_setting( "order_notification_email", $conf['order']['notification_email'] ?? '' );
 
-	update_setting( "welcome_email", $conf['welcome_email'] );
-	update_setting( "welcome_subject", $conf['welcome_subject'] );
+	update_setting( "welcome_email", $conf['welcome_email'] ?? '' );
+	update_setting( "welcome_subject", $conf['welcome_subject'] ?? '' );
 
-	update_setting( "nameservers_ns1", $conf['dns']['nameservers'][0] );
-	update_setting( "nameservers_ns2", $conf['dns']['nameservers'][1] );
-	update_setting( "nameservers_ns3", $conf['dns']['nameservers'][2] );
-	update_setting( "nameservers_ns4", $conf['dns']['nameservers'][3] );
+	update_setting( "nameservers_ns1", $conf['dns']['nameservers'][0] ?? '' );
+	update_setting( "nameservers_ns2", $conf['dns']['nameservers'][1] ?? '' );
+	update_setting( "nameservers_ns3", $conf['dns']['nameservers'][2] ?? '' );
+	update_setting( "nameservers_ns4", $conf['dns']['nameservers'][3] ?? '' );
 
-	update_setting( "invoice_text", $conf['invoice_text'] );
-	update_setting( "invoice_subject", $conf['invoice_subject'] );
+	update_setting( "invoice_text", $conf['invoice_text'] ?? '' );
+	update_setting( "invoice_subject", $conf['invoice_subject'] ?? '' );
 
-	update_setting( "locale_currency_symbol", $conf['locale']['currency_symbol'] );
-	update_setting( "locale_language", $conf['locale']['language'] );
+	update_setting( "locale_currency_symbol", $conf['locale']['currency_symbol'] ?? '$' );
+	update_setting( "locale_language", $conf['locale']['language'] ?? 'english' );
 
 	update_setting( "payment_gateway_default_module",
-			$conf['payment_gateway']['default_module'] );
+			$conf['payment_gateway']['default_module'] ?? '' );
 	update_setting( "payment_gateway_order_method",
-			$conf['payment_gateway']['order_method'] );
+			$conf['payment_gateway']['order_method'] ?? '' );
 
-	update_setting( "order_title", $conf['order']['title'] );
-	update_setting( "order_accept_checks", $conf['order']['accept_checks'] ? "1" : "0" );
-	update_setting( "order_tos_required", $conf['order']['tos_required'] ? "1" : "0" );
-	update_setting( "order_tos_url", $conf['order']['tos_url'] );
+	update_setting( "order_title", $conf['order']['title'] ?? '' );
+	update_setting( "order_accept_checks", !empty($conf['order']['accept_checks']) ? "1" : "0" );
+	update_setting( "order_tos_required", !empty($conf['order']['tos_required']) ? "1" : "0" );
+	update_setting( "order_tos_url", $conf['order']['tos_url'] ?? '' );
 
-	update_setting( "theme_manager", $conf['themes']['manager'] );
-	update_setting( "theme_order", $conf['themes']['order'] );
+	update_setting( "theme_manager", $conf['themes']['manager'] ?? 'default' );
+	update_setting( "theme_order", $conf['themes']['order'] ?? 'default' );
 
 	// Reload
 	load_settings( $conf );

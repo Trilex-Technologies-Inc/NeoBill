@@ -38,6 +38,8 @@ class TransferDomainPage extends SolidStatePage {
 	 * @param string $action_name Action
 	 */
 	function action( $action_name ) {
+		throw new SWUserException( "Domain transfer has been disabled." );
+
 		switch ( $action_name ) {
 			case "transfer_domain":
 				if ( isset( $this->post['continue'] ) ) {

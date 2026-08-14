@@ -495,4 +495,16 @@
     <phrase id="CC_CAPTURED">Ödeme saklandý.</phrase>
     <phrase id="CC_REFUNDED">Ödeme iade edildi.</phrase>
     <phrase id="CC_VOIDED">Ödeme iptal edildi.</phrase>
+    <phrase id="MAIL_TRANSPORT">Posta g&#246;nderim y&#246;ntemi</phrase>
+    <phrase id="SMTP_HOST">SMTP sunucusu</phrase>
+    <phrase id="SMTP_PORT">SMTP portu</phrase>
+    <phrase id="ENCRYPTION">&#350;ifreleme</phrase>
+    <phrase id="SMTP_USERNAME">SMTP kullan&#305;c&#305; ad&#305;</phrase>
+    <phrase id="SMTP_PASSWORD">SMTP parolas&#305;</phrase>
+    <phrase id="OUTGOING_MAIL_DELIVERY">Giden e-posta teslimat&#305;</phrase>
+    <phrase id="PHP_MAIL">PHP mail()</phrase>
+    <phrase id="NONE">Yok</phrase>
+    <phrase id="TEST_SMTP">SMTP'yi test et</phrase>
+    <phrase id="SMTP_TEST_SENT">SMTP test iletisi {0} adresine g&#246;nderildi.</phrase>
+    <phrase id="SMTP_TEST_FAILED">SMTP testi ba&#351;ar&#305;s&#305;z: {0}</phrase>
 </translation>

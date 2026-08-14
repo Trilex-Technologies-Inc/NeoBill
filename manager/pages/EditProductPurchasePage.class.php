@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * EditProductPurchasePage.class.php
  *

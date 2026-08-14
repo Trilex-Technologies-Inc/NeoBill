@@ -59,12 +59,12 @@ class Response
 	* @param string data to be analysed
 	*
 	*/
-        /*function Response($value,$extra)
+        /*function __construct($value,$extra)
         *{
         *  $this->data = $value;
         *} 
 	*/
-	function Response($value)
+	function __construct($value)
 	{
                  
 		$this->data = $value;
@@ -475,7 +475,7 @@ function printData3($dataToPrint)
 				</tr>
 			</table>
 		</form>
-		<?
+		<?php
 	}
 
     function PrintContactData($dataToPrint)
@@ -555,7 +555,7 @@ function printData3($dataToPrint)
 				</tr>
 			</table>
 		</form>
-		<?
+		<?php
 	}
 
 }

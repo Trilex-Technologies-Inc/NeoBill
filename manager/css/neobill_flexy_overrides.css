@@ -1,0 +1,34 @@
+/* NeoBill overrides for Flexy sidebar usability */
+
+/* Make sidebar wider so labels + arrows fit comfortably */
+.left-sidebar {
+  width: 280px !important;
+}
+
+/* Ensure content doesn't overlap the wider sidebar on desktop */
+@media (min-width: 1200px) {
+  .body-wrapper {
+    margin-left: 280px !important;
+  }
+}
+
+/* Allow the sidebar menu to actually scroll */
+.left-sidebar .scroll-sidebar {
+  max-height: calc(100vh - 70px);
+  overflow-y: auto !important;
+}
+
+/* Keep link layout stable with icon + text */
+.sidebar-nav ul .sidebar-item .sidebar-link {
+  white-space: nowrap;
+}
+
+/* Give nested menus some indentation so they don't stick to the edge */
+.sidebar-nav ul .sidebar-item > ul.first-level {
+  padding-left: 12px;
+}
+
+.sidebar-nav ul .sidebar-item .first-level .sidebar-item > .sidebar-link {
+  padding-left: 18px;
+}
+

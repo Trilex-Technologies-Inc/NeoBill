@@ -33,12 +33,6 @@ class CartPage extends SolidStatePage {
 				if ( isset( $this->post['remove'] ) ) {
 					$this->removeCartItems( $this->post['cart'] );
 				}
-				elseif ( isset( $this->post['addhosting'] ) ) {
-					$this->gotoPage( "purchasehosting" );
-				}
-				elseif ( isset( $this->post['adddomain'] ) ) {
-					$this->gotoPage( "purchasedomain" );
-				}
 				break;
 
 			case "cart_nav":
@@ -62,35 +56,13 @@ class CartPage extends SolidStatePage {
 	 * Initialize the Cart Page
 	 */
 	function init() {
-		// Make sure we have things to sell
-		$stuffToSell = false;
-		try {
-			load_array_DomainServiceDBO();
-			$stuffToSell = true;
-		}
-		catch ( DBNoRowsFoundException $e ) {
-
-		}
-
-		try {
-			load_array_HostingServiceDBO();
-			$stuffToSell = true;
-		}
-		catch ( DBNoRowsFoundException $E ) {
-
-		}
-
-		if ( !$stuffToSell ) {
-			throw new SWUserException( "No hosting or domain services have been configured.  The HSP must configure hosting and/or domain services before using the Order wizard" );
-		}
-
 		// Make sure we have a way to collect payment
 		$registry = ModuleRegistry::getModuleRegistry();
 		$paymentModules =
 				array_merge( $registry->getModulesByType( "payment_processor", true ),
 				$registry->getModulesByType( "payment_gateway", true ) );
 		$paymentMethods = count( $paymentModules );
-		if ( $this->conf['order']['accept_checks'] ) {
+			if ( !empty( $this->conf['order']['accept_checks'] ) ) {
 			$paymentMethods++;
 		}
 		if ( $paymentMethods == 0 ) {
@@ -121,7 +93,7 @@ class CartPage extends SolidStatePage {
 	function newOrder() {
 		// Start a new order
 		$_SESSION['order'] = new OrderDBO();
-		$this->gotoPage( "purchasehosting" );
+		$this->gotoPage( "cart" );
 	}
 
 	/**

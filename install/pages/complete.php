@@ -29,11 +29,11 @@ if (!check_installed()) {
 ?>
 <h2><?php echo _INSTALLCOMPLETE; ?></h2>
 <br />
-<p><?php echo _INSTALLERCONGRATULATIONS; ?>!</p>
-<p style="color: red;">
-    <?php
-    echo '          ', _INSTALLERSECURITY0, ':<br />', "\n";
-    $file = $filepath . 'config/config.inc.php';
+	<p><?php echo _INSTALLERCONGRATULATIONS; ?>!</p>
+	<p class="text-danger">
+	    <?php
+	    echo '          ', _INSTALLERSECURITY0, ':<br />', "\n";
+	    $file = $filepath . 'config/config.inc.php';
     echo '';
     if (is_writable($file)) {
         echo '          1. ', _INSTALLERSECURITY1, '.<br />', "\n";
@@ -42,9 +42,9 @@ if (!check_installed()) {
         echo '          ', _INSTALLERSECURITY1, '.', "\n";
     }
     ?>
-</p>
-<form action="../manager/" method="post">
-    <div class="submit">
-        <input type="submit" value="<?php echo _MANAGERINTERFACE; ?>" />
-    </div>
-</form>
+	</p>
+	<form action="../manager/" method="post">
+	    <div class="submit d-grid">
+	        <input class="btn btn-primary" type="submit" value="<?php echo _MANAGERINTERFACE; ?>" />
+	    </div>
+	</form>

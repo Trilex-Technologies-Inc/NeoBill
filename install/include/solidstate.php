@@ -1,4 +1,13 @@
 <?php
+// Magic quotes were removed in PHP 8. This legacy installer variant may be
+// included directly, so it cannot rely on application bootstrap helpers.
+if (!function_exists('get_magic_quotes_gpc')) {
+    function get_magic_quotes_gpc()
+    {
+        return false;
+    }
+}
+
 /*
  * @(#)install/include/solidstate.php
  *
@@ -20,7 +29,8 @@
  *
 */
 
-function check_installed() {
+function check_installed()
+{
     $file = fopen('../config/config.inc.php', 'r');
     if (!$file) {
         return false;
@@ -38,7 +48,8 @@ function check_installed() {
     return $installed;
 }
 
-function modify_config_install() {
+function modify_config_install()
+{
     $config_php = join('', file('../config/config.inc.php'));
 
     $config_php = preg_replace('/\[\'installed\'\]\s*=\s*(.*);/', "['installed'] = 1;", $config_php);
@@ -48,7 +59,8 @@ function modify_config_install() {
     fclose($fp);
 }
 
-function modify_config_db() {
+function modify_config_db()
+{
     $config_php = join('', file('../config/config.inc.php'));
 
     if (get_magic_quotes_gpc()) {
@@ -73,7 +85,8 @@ function modify_config_db() {
     fclose($fp);
 }
 
-function modify_config_system() {
+function modify_config_system()
+{
     $config_php = join('', file('../config/config.inc.php'));
 
     if (get_magic_quotes_gpc()) {
@@ -92,7 +105,8 @@ function modify_config_system() {
     fclose($fp);
 }
 
-function init_db() {
+function init_db()
+{
     require_once '../config/config.inc.php';
 
     if (!mysql_connect($db['hostname'], $db['username'], base64_decode($db['password']))) {
@@ -119,7 +133,12 @@ function init_db() {
     $sql_file = implode('', file('database/solidstate.mysql'));
     $sql_queries = explode(";\n", $sql_file);
     for ($i = 0; $i < count($sql_queries); $i++) {
-        if (!mysql_query($sql_queries[$i])) {
+        $sql_query = trim($sql_queries[$i]);
+        if ($sql_query === '') {
+            continue;
+        }
+
+        if (!mysql_query($sql_query)) {
             if (mysql_errno() != 1065) {
                 return _INSTALLERDBQUERYFAILED . ': ' . mysql_error();
             }
@@ -131,14 +150,46 @@ function init_db() {
     return '';
 }
 
-function valid_email($_email) {
+function valid_email($_email)
+{
     return preg_match('/^[A-Za-z0-9\&\'\+\-\_]+(\.[A-Za-z0-9\&\'\+\-\_]+)*@[A-Za-z0-9\-]+\.([A-Za-z0-9\-]+\.)*?[A-Za-z]+$/', stripslashes($_email));
 }
 
-function create_admin() {
+function valid_currency_code($_currency)
+{
+    return preg_match('/^[A-Za-z]{3}$/', $_currency);
+}
+
+function valid_nameserver($_nameserver, $required = true)
+{
+    if (!$required && $_nameserver === '') {
+        return true;
+    }
+
+    // Allow hostname-ish strings and IPv4 literals; block obvious injection characters.
+    if (!preg_match('/^[A-Za-z0-9\\.\\-]+$/', $_nameserver)) {
+        return false;
+    }
+
+    // Basic sanity: disallow consecutive dots.
+    if (strpos($_nameserver, '..') !== false) {
+        return false;
+    }
+
+    return true;
+}
+
+function create_admin()
+{
     global $message;
 
     if ('' == $_POST['username'] || '' == $_POST['password-1'] || '' == $_POST['email']) {
+        $_POST['install_step'] = '4';
+        $message = _INSTALLERREQUIREDFIELDSKO;
+        return;
+    }
+
+    if (strlen($_POST['username']) > 64 || !preg_match('/^[A-Za-z0-9_\\.\\-]+$/', $_POST['username'])) {
         $_POST['install_step'] = '4';
         $message = _INSTALLERREQUIREDFIELDSKO;
         return;
@@ -156,33 +207,59 @@ function create_admin() {
         return;
     }
 
-    if (get_magic_quotes_gpc()) {
-        $firstname = $_POST['firstname'];
-        $lastname  = $_POST['lastname'];
-        $username  = $_POST['username'];
-        $password  = md5(stripslashes($_POST['password-1']));
-        $email     = $_POST['email'];
-    } else {
-        $firstname = addslashes($_POST['firstname']);
-        $lastname  = addslashes($_POST['lastname']);
-        $username  = addslashes($_POST['username']);
-        $password  = md5($_POST['password-1']);
-        $email     = addslashes($_POST['email']);
-    }
-    $contactname = $firstname . ' ' . $lastname;
-
     require_once '../config/config.inc.php';
-    mysql_connect($db['hostname'], $db['username'], base64_decode($db['password'])) or die(_INSTALLERDBCONNECTFAILED . ': ' . mysql_error());
-    mysql_query("set names 'utf8' collate 'utf8_general_ci';") or die(_INSTALLERDBNAMESFAILED . ': ' . mysql_error());
-    mysql_select_db($db['database']) or die(_INSTALLERDBSELECTFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `user` (`username`, `password`, `type`, `contactname`, `email`, `language`) VALUES ('$username', '$password', 'Administrator', '$contactname', '$email', '{$_COOKIE['language']}');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_close();
+    $dbh = mysql_connect($db['hostname'], $db['username'], base64_decode($db['password'])) or die(_INSTALLERDBCONNECTFAILED . ': ' . mysql_error());
+    mysql_query("set names 'utf8' collate 'utf8_general_ci';", $dbh) or die(_INSTALLERDBNAMESFAILED . ': ' . mysql_error());
+    mysql_select_db($db['database'], $dbh) or die(_INSTALLERDBSELECTFAILED . ': ' . mysql_error());
+
+    $firstname_raw = isset($_POST['firstname']) ? $_POST['firstname'] : '';
+    $lastname_raw  = isset($_POST['lastname']) ? $_POST['lastname'] : '';
+    $username_raw  = isset($_POST['username']) ? $_POST['username'] : '';
+    $email_raw     = isset($_POST['email']) ? $_POST['email'] : '';
+
+    if (get_magic_quotes_gpc()) {
+        $firstname_raw = stripslashes($firstname_raw);
+        $lastname_raw  = stripslashes($lastname_raw);
+        $username_raw  = stripslashes($username_raw);
+        $email_raw     = stripslashes($email_raw);
+    }
+
+    $firstname = mysql_real_escape_string($firstname_raw, $dbh);
+    $lastname  = mysql_real_escape_string($lastname_raw, $dbh);
+    $username  = mysql_real_escape_string($username_raw, $dbh);
+    $email     = mysql_real_escape_string($email_raw, $dbh);
+
+    $password_raw = isset($_POST['password-1']) ? $_POST['password-1'] : '';
+    if (get_magic_quotes_gpc()) {
+        $password_raw = stripslashes($password_raw);
+    }
+    $password = md5($password_raw);
+
+    $contactname_raw = trim($firstname_raw . ' ' . $lastname_raw);
+    $contactname = mysql_real_escape_string($contactname_raw, $dbh);
+
+    $allowed_languages = get_languages_installer();
+    $language_cookie = isset($_COOKIE['language']) ? $_COOKIE['language'] : '';
+    if (!in_array($language_cookie, $allowed_languages)) {
+        $language_cookie = count($allowed_languages) > 0 ? $allowed_languages[0] : 'english';
+    }
+    $language = mysql_real_escape_string($language_cookie, $dbh);
+
+    mysql_query("INSERT INTO `user` (`username`, `password`, `type`, `contactname`, `email`, `language`) VALUES ('$username', '$password', 'Administrator', '$contactname', '$email', '$language');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_close($dbh);
 }
 
-function create_company() {
+function create_company()
+{
     global $message;
 
     if ('' == $_POST['company'] || '' == $_POST['email'] || '' == $_POST['currency'] || '' == $_POST['nameserver-1'] || '' == $_POST['nameserver-2']) {
+        $_POST['install_step'] = '5';
+        $message = _INSTALLERREQUIREDFIELDSKO;
+        return;
+    }
+
+    if (strlen($_POST['company']) > 255) {
         $_POST['install_step'] = '5';
         $message = _INSTALLERREQUIREDFIELDSKO;
         return;
@@ -194,49 +271,77 @@ function create_company() {
         return;
     }
 
+    if (!valid_currency_code($_POST['currency'])) {
+        $_POST['install_step'] = '5';
+        $message = _INSTALLERREQUIREDFIELDSKO;
+        return;
+    }
+
+    if (!valid_nameserver($_POST['nameserver-1'], true) || !valid_nameserver($_POST['nameserver-2'], true) || !valid_nameserver($_POST['nameserver-3'], false) || !valid_nameserver($_POST['nameserver-4'], false)) {
+        $_POST['install_step'] = '5';
+        $message = _INSTALLERREQUIREDFIELDSKO;
+        return;
+    }
+
     if (get_magic_quotes_gpc()) {
-        $company     = $_POST['company'];
-        $email       = $_POST['email'];
-        $currency    = $_POST['currency'];
-        $nameserver_1 = $_POST['nameserver-1'];
-        $nameserver_2 = $_POST['nameserver-2'];
-        $nameserver_3 = $_POST['nameserver-3'];
-        $nameserver_4 = $_POST['nameserver-4'];
+        $company_raw      = stripslashes($_POST['company']);
+        $email_raw        = stripslashes($_POST['email']);
+        $currency_raw     = stripslashes($_POST['currency']);
+        $nameserver_1_raw = stripslashes($_POST['nameserver-1']);
+        $nameserver_2_raw = stripslashes($_POST['nameserver-2']);
+        $nameserver_3_raw = stripslashes($_POST['nameserver-3']);
+        $nameserver_4_raw = stripslashes($_POST['nameserver-4']);
     } else {
-        $company     = addslashes($_POST['company']);
-        $email       = addslashes($_POST['email']);
-        $currency    = addslashes($_POST['currency']);
-        $nameserver_1 = addslashes($_POST['nameserver-1']);
-        $nameserver_2 = addslashes($_POST['nameserver-2']);
-        $nameserver_3 = addslashes($_POST['nameserver-3']);
-        $nameserver_4 = addslashes($_POST['nameserver-4']);
+        $company_raw      = $_POST['company'];
+        $email_raw        = $_POST['email'];
+        $currency_raw     = $_POST['currency'];
+        $nameserver_1_raw = $_POST['nameserver-1'];
+        $nameserver_2_raw = $_POST['nameserver-2'];
+        $nameserver_3_raw = $_POST['nameserver-3'];
+        $nameserver_4_raw = $_POST['nameserver-4'];
     }
 
     require_once '../config/config.inc.php';
-    mysql_connect($db['hostname'], $db['username'], base64_decode($db['password'])) or die(_INSTALLERDBCONNECTFAILED . ': ' . mysql_error());
-    mysql_query("set names 'utf8' collate 'utf8_general_ci';") or die(_INSTALLERDBNAMESFAILED . ': ' . mysql_error());
-    mysql_select_db($db['database']) or die(_INSTALLERDBSELECTFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('company_name', '$company');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('email_contact', '$email');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('email_notification', '$email');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('locale_language', '{$_COOKIE['language']}');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('locale_currency', '$currency');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_1', '$nameserver_1');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_2', '$nameserver_2');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_3', '$nameserver_3');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_4', '$nameserver_4');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_close();
+    $dbh = mysql_connect($db['hostname'], $db['username'], base64_decode($db['password'])) or die(_INSTALLERDBCONNECTFAILED . ': ' . mysql_error());
+    mysql_query("set names 'utf8' collate 'utf8_general_ci';", $dbh) or die(_INSTALLERDBNAMESFAILED . ': ' . mysql_error());
+    mysql_select_db($db['database'], $dbh) or die(_INSTALLERDBSELECTFAILED . ': ' . mysql_error());
+
+    $company      = mysql_real_escape_string($company_raw, $dbh);
+    $email        = mysql_real_escape_string($email_raw, $dbh);
+    $currency     = mysql_real_escape_string($currency_raw, $dbh);
+    $nameserver_1 = mysql_real_escape_string($nameserver_1_raw, $dbh);
+    $nameserver_2 = mysql_real_escape_string($nameserver_2_raw, $dbh);
+    $nameserver_3 = mysql_real_escape_string($nameserver_3_raw, $dbh);
+    $nameserver_4 = mysql_real_escape_string($nameserver_4_raw, $dbh);
+
+    $allowed_languages = get_languages_installer();
+    $language_cookie = isset($_COOKIE['language']) ? $_COOKIE['language'] : '';
+    if (!in_array($language_cookie, $allowed_languages)) {
+        $language_cookie = count($allowed_languages) > 0 ? $allowed_languages[0] : 'english';
+    }
+    $language = mysql_real_escape_string($language_cookie, $dbh);
+
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('company_name', '$company');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('email_contact', '$email');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('email_notification', '$email');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('locale_language', '$language');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('locale_currency', '$currency');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_1', '$nameserver_1');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_2', '$nameserver_2');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_3', '$nameserver_3');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_4', '$nameserver_4');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_close($dbh);
 }
 
-function get_languages_installer() {
+function get_languages_installer()
+{
     $languages = array();
-	
-	$inifile = dirname(__FILE__) . "/../languages/accepted.ini";
-	if ( file_exists( $inifile ))
-	{
-		$languages_ini = parse_ini_file( $inifile );
-		$languages = $languages_ini['languages'];
-	}
+
+    $inifile = dirname(__FILE__) . "/../languages/accepted.ini";
+    if (file_exists($inifile)) {
+        $languages_ini = parse_ini_file($inifile);
+        $languages = $languages_ini['languages'];
+    }
 
     return $languages;
 }
@@ -299,4 +404,3 @@ if (isset($_POST['install_step'])) {
             break;
     }
 }
-?>

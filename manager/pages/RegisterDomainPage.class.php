@@ -33,6 +33,9 @@ class RegisterDomainPage extends SolidStatePage {
 	 */
 	var $purchaseDBO = null;
 
+	/** @var DomainServiceDBO Domain service selected for registration */
+	var $serviceDBO = null;
+
 	/**
 	 * Action
 	 *
@@ -46,6 +49,8 @@ class RegisterDomainPage extends SolidStatePage {
 	 * @param string $action_name Action
 	 */
 	function action( $action_name ) {
+		throw new SWUserException( "Domain registration has been disabled." );
+
 		switch ( $action_name ) {
 			case "register_domain":
 				if ( isset( $this->post['continue'] ) ) {

@@ -59,8 +59,13 @@ class OrderDomainDBO extends OrderItemDBO {
      *
      * @param DomainServiceDBO The domain service to be purchased
      */
-    public function setPurchasable( DomainServiceDBO $purchasable ) {
-        // The purpose of this function is to forc the purchasable to be a DomainServiceDBO
+    public function setPurchasable( PurchasableDBO $purchasable ) {
+        // Keep compatibility with SaleDBO::setPurchasable(PurchasableDBO $purchasable)
+        // while still enforcing DomainServiceDBO at runtime.
+        if( !( $purchasable instanceof DomainServiceDBO ) ) {
+            throw new InvalidArgumentException( "Expected DomainServiceDBO" );
+        }
+
         parent::setPurchasable( $purchasable );
     }
 
@@ -345,7 +350,11 @@ class OrderDomainDBO extends OrderItemDBO {
         global $conf;
 
         $serviceDBO = load_DomainServiceDBO( $this->getTLD() );
-        $module = $conf['modules'][$serviceDBO->getModuleName()];
+		$moduleName = $serviceDBO->getModuleName();
+		$module = $conf['modules'][$moduleName] ?? null;
+		if ( $module === null ) {
+			throw new SWException( "Domain module is not configured: " . $moduleName );
+		}
 
         // Verify that the domain is transferable
         if( !$module->isTransferable( $this->getFullDomainName() ) ) {

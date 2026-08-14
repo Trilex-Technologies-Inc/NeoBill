@@ -1,7 +1,8 @@
 {form name="execute_order"}
 
   <div class="form">
-    <table>
+    <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
       <thead>
         <tr>
           <th colspan="2"> [ACCOUNT_INFORMATION] </th>
@@ -24,10 +25,12 @@
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
 
   <div class="form">
-    <table>
+    <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
       <thead>
         <tr>
           <th colspan="2"> [BILLING_INFORMATION] </th>
@@ -46,12 +49,14 @@
         </tr>
       </tbody>
     </table>  
+    </div>
   </div>
 
   <h2 style="width: 650px"> [ORDER_INFORMATION] </h2>
 
   <div class="properties">
-    <table style="width: 650px"> 
+    <div class="table-responsive">
+    <table style="width: 650px" class="table table-sm table-striped align-middle"> 
         <tr>
           <th> {echo phrase="BUSINESS_NAME"}: </th>
           <td> {dbo_echo dbo="orderdbo" field="businessname"} </td>
@@ -100,6 +105,7 @@
           <td> {dbo_echo dbo="orderdbo" field="fax"} </td>
         </tr>
     </table>
+    </div>
   </div>
 
   <div class="table">
@@ -125,7 +131,8 @@
   </div>
 
   <div class="form">
-    <table>
+    <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
       <tfoot>
         <tr>
           <td class="left">
@@ -137,5 +144,6 @@
         </tr>
       </tfoot>
     </table>
+    </div>
   </div>
 {/form}

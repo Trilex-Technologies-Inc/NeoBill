@@ -46,7 +46,7 @@ class TextValidator extends FieldValidator {
 	 * @throws FieldException, FieldSizeException
 	 */
 	protected function validateMaxLength( $data ) {
-		$len = strlen( $data );
+		$len = strlen( (string) $data );
 
 		if ( isset( $this->fieldConfig['max_length'] ) ) {
 			// Verify that the field is not too long
@@ -69,7 +69,7 @@ class TextValidator extends FieldValidator {
 	 * @throws FieldException, FieldSizeException
 	 */
 	protected function validateMinLength( $data ) {
-		$len = strlen( $data );
+		$len = strlen( (string) $data );
 
 		if ( isset( $this->fieldConfig['min_length'] ) ) {
 			// Verify that the field is not too short

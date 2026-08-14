@@ -40,6 +40,9 @@ class TaxRuleDBO extends DBO
    */
   var $allstates;
 
+	/** @var float Tax rate */
+	var $rate;
+
   /**
    * @var string Description
    */

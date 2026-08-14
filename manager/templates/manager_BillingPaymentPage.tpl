@@ -1,54 +1,128 @@
-<div class="manager_content"</div>
-{form name="billing_payment"}
-  <div class="form">
-    <table>
-      <thead>
-        <tr>
-          <th colspan="2"> [ENTER_PAYMENT] </th>
-        </tr>
-      </thead>
-      <tfoot>
-        <tr>
-          <td/>
-          <td class="right">
-            {form_element field="continue"} 
-          </th>
-        </tr>
-      </tfoot>
-      <tbody>
-        <tr>
-          <th> {form_description field="invoiceselect"} </th>
-          <td> {form_element field="invoiceselect"} </td>
-        </tr>
-        <tr>
-          <th> &nbsp;&nbsp; or {form_description field="invoiceint"} </th>
-          <td> {form_element field="invoiceint" size="5"} </td>
-        </tr>
-        <tr>
-          <th> {form_description field="date"} </th>
-          <td> {form_element field="date"} </td>
-        </tr>
-        <tr>
-          <th> {form_description field="type"} </th>
-          <td> {form_element field="type"} </td>
-        </tr>
-        <tr>
-          <th> {form_description field="amount"} </th>
-          <td> {form_element field="amount" size="7"} </td>
-        </tr>
-        <tr>
-          <th> {form_description field="status"} </th>
-          <td> {form_element field="status"} </td>
-        </tr>
-        <tr>
-          <th> {form_description field="transaction1"} </th>
-          <td> {form_element field="transaction1" size="20"} </td>
-        </tr>
-        <tr>
-          <th> {form_description field="transaction2"} </th>
-          <td> {form_element field="transaction2" size="20"} </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-{/form}
+<div class="manager_content billing-payment-page">
+{form name="billing_payment"}
+
+  <div class="billing-payment-shell">
+    <div class="billing-payment-header">
+      <div class="billing-payment-title">
+        <span class="billing-payment-icon">
+          <i class="ti ti-cash-banknote"></i>
+        </span>
+        <div>
+          <span class="billing-payment-kicker">Billing</span>
+          <h2>[ENTER_PAYMENT]</h2>
+          <p>Record a payment against an outstanding invoice.</p>
+        </div>
+      </div>
+      <a href="manager_content.php?page=billing" class="btn btn-outline-secondary">
+        <i class="ti ti-arrow-left"></i>
+        Billing
+      </a>
+    </div>
+
+    <div class="billing-payment-grid">
+      <div class="billing-payment-card">
+        <div class="billing-payment-card-header">
+          <span><i class="ti ti-file-invoice"></i></span>
+          <div>
+            <span class="billing-payment-step">Step 1</span>
+            <h3>Choose an invoice</h3>
+            <p>Choose the invoice that should receive this payment.</p>
+          </div>
+        </div>
+        <div class="billing-payment-card-body">
+          <div class="billing-payment-field">
+            <label class="form-label">
+              {form_description field="invoiceselect"}
+            </label>
+            {form_element field="invoiceselect" class="form-select" empty="No outstanding invoices"}
+            <small>Select from outstanding invoices.</small>
+          </div>
+
+          <div class="billing-payment-divider">
+            <span>or</span>
+          </div>
+
+          <div class="billing-payment-field">
+            <label class="form-label">{form_description field="invoiceint"}</label>
+            <div class="billing-payment-input-icon">
+              <i class="ti ti-hash"></i>
+              {form_element field="invoiceint" size="5" class="form-control" placeholder="Invoice number"}
+            </div>
+            <small>Enter an invoice ID manually.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="billing-payment-card billing-payment-summary-card">
+        <div class="billing-payment-card-header">
+          <span><i class="ti ti-checkup-list"></i></span>
+          <div>
+            <span class="billing-payment-step">Step 2</span>
+            <h3>Payment Details</h3>
+            <p>Confirm the amount, method, status, and references.</p>
+          </div>
+        </div>
+        <div class="billing-payment-card-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="billing-payment-field">
+                <label class="form-label">
+                  {form_description field="date"}
+                </label>
+                {form_element field="date" type="date" class="form-control"}
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="billing-payment-field">
+                <label class="form-label">
+                  {form_description field="amount"}
+                </label>
+                <div class="billing-payment-input-icon billing-payment-amount">
+                  {form_element field="amount" size="7" class="form-control" placeholder="0.00" inline_symbol="true"}
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="billing-payment-field">
+                <label class="form-label">
+                  {form_description field="type"}
+                </label>
+                {form_element field="type" class="form-select"}
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="billing-payment-field">
+                <label class="form-label">{form_description field="status"}</label>
+                {form_element field="status" class="form-select"}
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="billing-payment-field">
+                <label class="form-label">{form_description field="transaction1"}</label>
+                {form_element field="transaction1" size="20" class="form-control" placeholder="Check number or reference ID"}
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="billing-payment-field">
+                <label class="form-label">{form_description field="transaction2"}</label>
+                {form_element field="transaction2" size="20" class="form-control" placeholder="Additional reference"}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="billing-payment-actions">
+      {form_element field="cancel" class="btn btn-outline-secondary"}
+      {form_element field="continue" class="btn btn-primary"}
+    </div>
+  </div>
+
+{/form}
+</div>

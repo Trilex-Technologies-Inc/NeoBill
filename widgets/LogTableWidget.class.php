@@ -28,6 +28,7 @@ class LogTableWidget extends TableWidget {
 		// Load the Log Table
 		try {
 			// Build the table
+			$where = null;
 			$logs = load_array_LogDBO( $where );
 			foreach ( $logs as $dbo ) {
 				// Put the row into the table

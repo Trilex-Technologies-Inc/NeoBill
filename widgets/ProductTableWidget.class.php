@@ -30,6 +30,7 @@ class ProductTableWidget extends TableWidget {
 		// Load the Product Table
 		try {
 			// Build the table
+			$where = null;
 			$products = load_array_ProductDBO( $where );
 			foreach ( $products as $dbo ) {
 				// Format the pricing for this hosting service
@@ -37,7 +38,7 @@ class ProductTableWidget extends TableWidget {
 				$prices = array_merge( $dbo->getPricing( "Onetime" ),
 						$dbo->getPricing( "Recurring" ) );
 				foreach ( $prices as $priceDBO ) {
-					$price = sprintf( "%s%01.2f", $conf['locale']['currency_symbol'],
+					$price = sprintf( "%s%01.2f", $conf['locale']['currency_symbol'] ?? '$',
 							$priceDBO->getPrice() );
 					$priceString .= $priceDBO->getType() == "Onetime" ?
 							sprintf( "[ONETIME]: %s<br/>", $price ) :

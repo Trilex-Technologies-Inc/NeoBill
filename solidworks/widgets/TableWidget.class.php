@@ -17,6 +17,16 @@ class TableEmptyException extends SWException {
 
 }
 
+/**
+ * Null-safe placeholder used while Smarty evaluates an empty table body.
+ */
+class EmptyTableRow implements ArrayAccess {
+	public function offsetExists($offset): bool { return true; }
+	public function offsetGet($offset): mixed { return null; }
+	public function offsetSet($offset, $value): void { }
+	public function offsetUnset($offset): void { }
+}
+
 function array_shift2( &$array ) {
 	reset( $array );
 	$key = key( $array );
@@ -71,6 +81,11 @@ class TableWidget extends HTMLWidget {
 	 * @var boolean Show headers flag
 	 */
 	protected $showHeadersFlag = true;
+
+	/**
+	 * @var array Rows queued for rendering
+	 */
+	protected $tableRows = array();
 
 	/**
 	 * Do Not Show Headers
@@ -155,7 +170,7 @@ class TableWidget extends HTMLWidget {
 		global $page;
 		$session = $page->getPageSession();
 
-		return $session['tables'][$this->formName][$this->fieldName]['search'];
+		return $session['tables'][$this->formName][$this->fieldName]['search'] ?? array();
 	}
 
 	/**
@@ -167,7 +182,7 @@ class TableWidget extends HTMLWidget {
 		global $page;
 		$session = $page->getPageSession();
 
-		$sortColumn = $_GET[ 'swtablesortcol' ];
+		$sortColumn = $_GET[ 'swtablesortcol' ] ?? '';
 		if (!preg_match('/^[A-Za-z][A-Za-z0-9_]+$/', $sortColumn)) {
 			$sortColumn = '';
 		}
@@ -183,10 +198,12 @@ class TableWidget extends HTMLWidget {
 		global $page;
 		$session = $page->getPageSession();
 
-		if (!preg_match('/^(asc|desc)$/i', $sortColumn)) {
-			$sortColumn = '';
+		$sortDirection = isset( $_GET[ 'swtablesortdir' ] ) ?
+				$_GET[ 'swtablesortdir' ] : '';
+		if (!preg_match('/^(asc|desc)$/i', $sortDirection)) {
+			$sortDirection = '';
 		}
-		return $sortColumn;
+		return strtoupper( $sortDirection );
 	}
 
 	/**
@@ -198,7 +215,7 @@ class TableWidget extends HTMLWidget {
 		global $page;
 		$session = $page->getPageSession();
 
-		return intval($_GET[ 'swtablestart' ]);
+		return intval($_GET[ 'swtablestart' ] ?? 0);
 	}
 
 	/**
@@ -209,6 +226,7 @@ class TableWidget extends HTMLWidget {
 	 * @return string HTML code for the beginning of the table
 	 */
 	public function getTableHeaderHTML() {
+		$myParams = array();
 		// Start the table
 		$startIndex = $this->getStartIndex();
 		if ( isset( $this->size ) ) {
@@ -318,6 +336,7 @@ class TableWidget extends HTMLWidget {
 		$this->colCount = 0;
 		$this->rowCount = 0;
 		$this->data = array();
+		$this->tableRows = array();
 		$this->parameters = $params;
 		$this->size = isset( $params['size'] ) ? intval( $params['size'] ) : 20;
 		$this->showHeadersFlag = true;
@@ -332,8 +351,8 @@ class TableWidget extends HTMLWidget {
 		global $page;
 		$session = $page->getPageSession();
 
-		return $session['tables']['sortform'] == $this->formName &&
-				$session['tables']['sorttable'] == $this->fieldName;
+		return ($session['tables']['sortform'] ?? null) == $this->formName &&
+				($session['tables']['sorttable'] ?? null) == $this->fieldName;
 	}
 
 	/**

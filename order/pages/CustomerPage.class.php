@@ -13,6 +13,7 @@
 // Include the parent class
 require_once dirname(__FILE__).'/../../config/config.inc.php';
 require_once BASE_PATH . "include/SolidStatePage.class.php";
+require_once BASE_PATH . "util/email_verification.php";
 
 /**
  * CustomerPage
@@ -21,6 +22,11 @@ require_once BASE_PATH . "include/SolidStatePage.class.php";
  * @author John Diamond <jdiamond@solid-state.org>
  */
 class CustomerPage extends SolidStatePage {
+	/**
+	 * @var boolean Whether the page was opened as direct signup instead of checkout
+	 */
+	protected $directSignup = false;
+
 	/**
 	 * Action
 	 *
@@ -64,9 +70,12 @@ class CustomerPage extends SolidStatePage {
 	 * Initialize Customer Page
 	 */
 	function init() {
-		if ( !isset( $_SESSION['order'] ) || $_SESSION['order']->isEmpty() ) {
-			// No order, or order is empty.  Go back the the cart and start a new one
-			$this->gotoPage( "cart" );
+		if ( !isset( $_SESSION['order'] ) ) {
+			$_SESSION['order'] = new OrderDBO();
+			$this->directSignup = true;
+		}
+		elseif ( $_SESSION['order']->isEmpty() ) {
+			$this->directSignup = true;
 		}
 
 		// Give access to the template
@@ -76,7 +85,8 @@ class CustomerPage extends SolidStatePage {
 		$domainItems = $this->session['order']->getDomainItems();
 		$this->smarty->assign( "orderHasDomains", !empty( $domainItems ) );
 
-		if ( isset( $_SESSION['client']['userdbo'] ) ) {
+		if ( !empty( $_SESSION['client']['userdbo'] ) &&
+				$_SESSION['client']['userdbo']->getType() === "Client" ) {
 			// Use the account information already on file
 			$userDBO = $_SESSION['client']['userdbo'];
 			//$accountDBO = load_AccountDBO( $_SESSION['nav_vars']['account_id'] );
@@ -158,9 +168,61 @@ class CustomerPage extends SolidStatePage {
 			$this->session['order']->setFax( $this->post['fax'] );
 			$this->session['order']->setUsername( $this->post['username'] );
 			$this->session['order']->setPassword( $this->post['password'] );
+
+			$user_dbo = new UserDBO();
+			$user_dbo->setUsername( $this->post['username'] );
+			$user_dbo->setPassword( $this->post['password'] );
+			$user_dbo->setEmail( $this->post['contactemail'] );
+			$user_dbo->setContactName( $this->post['contactname'] );
+			$user_dbo->setType( "Client" );
+			$user_dbo->setLanguage( "english" );
+			$user_dbo->setTheme( "default" );
+			assertUniqueAccountContactEmail( $this->post['contactemail'] );
+			add_UserDBO( $user_dbo );
+
+			$account_dbo = new AccountDBO();
+			$account_dbo->setStatus( "Inactive" );
+			$account_dbo->setType( $this->post['businessname'] != "" ? "Business Account" : "Individual Account" );
+			$account_dbo->setBillingStatus( "Bill" );
+			$account_dbo->setBillingDay( 1 );
+			$account_dbo->setBusinessName( $this->post['businessname'] );
+			$account_dbo->setContactName( $this->post['contactname'] );
+			$account_dbo->setContactEmail( $this->post['contactemail'] );
+			$account_dbo->setAddress1( $this->post['address1'] );
+			$account_dbo->setAddress2( $this->post['address2'] );
+			$account_dbo->setCity( $this->post['city'] );
+			$account_dbo->setState( $this->post['state'] );
+			$account_dbo->setCountry( $this->post['country'] );
+			$account_dbo->setPostalCode( $this->post['postalcode'] );
+			$account_dbo->setPhone( $this->post['phone'] );
+			$account_dbo->setMobilePhone( $this->post['mobilephone'] );
+			$account_dbo->setFax( $this->post['fax'] );
+			$account_dbo->setUsername( $this->post['username'] );
+			try {
+				add_AccountDBO( $account_dbo );
+			}
+			catch ( DBException $e ) {
+				delete_UserDBO( $user_dbo );
+				throw $e;
+			}
+
+			$this->session['order']->setAccountID( $account_dbo->getID() );
+			if ( !send_customer_verification_email( $user_dbo ) ) {
+				$this->setError( array( "type" => "Your account was created, but the verification email could not be sent. Please contact support." ) );
+				$this->gotoPage( "customerlogin" );
+				return;
+			}
+			$this->setMessage( array( "type" => "Account created. Check your email to activate it before signing in." ) );
+			$this->gotoPage( "customerlogin" );
+			return;
 		}
 
 		$domainItems = $this->session['order']->getDomainItems();
+		if ( $this->directSignup && empty( $domainItems ) ) {
+			$this->gotoPage( "cart" );
+			return;
+		}
+
 		if ( !empty( $domainItems ) &&
 				($this->session['customer_information']['domaincontact'] == "same" ||
 						$this->session['repeat_customer']['domaincontact'] == "same") ) {

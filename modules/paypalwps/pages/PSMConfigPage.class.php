@@ -62,6 +62,7 @@ class PSMConfigPage extends SolidStateAdminPage {
 		$this->smarty->assign( "cartURL", $this->ppModule->getCartURL() );
 		$this->smarty->assign( "idToken", $this->ppModule->getIdToken() );
 		$this->smarty->assign( "currency", $this->ppModule->getCurrencyCode() );
+		$this->smarty->assign( "mode", $this->ppModule->getMode() );
 	}
 
 	/**
@@ -73,6 +74,7 @@ class PSMConfigPage extends SolidStateAdminPage {
 		$this->ppModule->setCartURL( $this->post['carturl'] );
 		$this->ppModule->setIdToken( $this->post['idtoken'] );
 		$this->ppModule->setCurrencyCode( $this->post['currency'] );
+		$this->ppModule->setMode( $this->post['mode'] );
 		$this->ppModule->saveSettings();
 
 		$this->setMessage( array( "type" => "[PS_CONFIGURATION_SAVED]" ) );

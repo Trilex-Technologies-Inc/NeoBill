@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DateValidator.class.php
  *
@@ -20,7 +21,8 @@ require BASE_PATH . "solidworks/exceptions/InvalidDateException.class.php";
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DateValidator extends TextValidator {
+class DateValidator extends TextValidator
+{
 	/**
 	 * @var string Date input format: MDY or DMY
 	 */
@@ -34,9 +36,10 @@ class DateValidator extends TextValidator {
 	 * @param array $fieldConfig The configuration for this field
 	 * @param string $format Date input format: MDY or DMY
 	 */
-	public function __construct( $formName, $fieldName, $fieldConfig, $format = "MDY" ) {
-		parent::__construct( $formName, $fieldName, $fieldConfig );
-		$this->setFormat( $format );
+	public function __construct($formName, $fieldName, $fieldConfig, $format = "MDY")
+	{
+		parent::__construct($formName, $fieldName, $fieldConfig);
+		$this->setFormat($format);
 	}
 
 	/**
@@ -44,7 +47,8 @@ class DateValidator extends TextValidator {
 	 *
 	 * @return string Date input format: MDY or DMY
 	 */
-	public function getFormat() {
+	public function getFormat()
+	{
 		return $this->format;
 	}
 
@@ -54,9 +58,10 @@ class DateValidator extends TextValidator {
 	 * @param string $format Date input format: MDY or DMY
 	 * @throws InvalidDateInputFormat
 	 */
-	public function setFormat( $format ) {
-		if ( !($format == "MDY" || $format == "DMY") ) {
-			throw new InvalidDateInputFormatException( $format );
+	public function setFormat($format)
+	{
+		if (!($format == "MDY" || $format == "DMY")) {
+			throw new InvalidDateInputFormatException($format);
 		}
 
 		$this->format = $format;
@@ -73,9 +78,10 @@ class DateValidator extends TextValidator {
 	 * @return int Date as a timestamp value
 	 * @throws InvalidDateException
 	 */
-	public function validate( $data ) {
-		$data = parent::validate( $data );
-		$data = $this->validateDate( $data );
+	public function validate($data)
+	{
+		$data = parent::validate($data);
+		$data = $this->validateDate($data);
 		return $data;
 	}
 
@@ -86,21 +92,42 @@ class DateValidator extends TextValidator {
 	 * @return string This function may alter data before validating it, if so this is the result
 	 * @throws InvalidDateException
 	 */
-	protected function validateDate( $data ) {
-		// Strip out white space and valid characters: '/' and '-'
-		$data = preg_replace( "|([ 	]+)|", "", $data );
-		$data = preg_replace("|[-/]|", " ", $data );
+	protected function validateDate($data)
+	{
+		// Strip out white space
+		$data = preg_replace("|([ \t]+)|", "", $data);
+
+		// Support HTML5 date format YYYY-MM-DD or YYYY/MM/DD
+		if (preg_match("|^(\d{4})[\/-](\d{2})[\/-](\d{2})$|", $data, $matches)) {
+			$year = intval($matches[1]);
+			$month = intval($matches[2]);
+			$day = intval($matches[3]);
+
+			if (!checkdate($month, $day, $year)) {
+				throw new InvalidDateException();
+			}
+
+			if (($data = mktime(0, 0, 0, $month, $day, $year)) < 1) {
+				throw new InvalidDateException();
+			}
+
+			return $data;
+		}
+
+		$data = preg_replace("|[-/]|", " ", $data);
 
 		// Explode the date into an array
-		$components = explode( " ", $data );
-		if ( !$components || count( $components ) != 3 ) {
+		$components = explode(" ", $data);
+		if (!$components || count($components) != 3) {
 			throw new InvalidDateException();
 		}
 
 		// Verify that the components are all numerical
-		if ( !ctype_digit( $components[0] ) ||
-				!ctype_digit( $components[1] ) ||
-				!ctype_digit( $components[2] ) ) {
+		if (
+			!ctype_digit($components[0]) ||
+			!ctype_digit($components[1]) ||
+			!ctype_digit($components[2])
+		) {
 			throw new InvalidDateException();
 		}
 
@@ -110,21 +137,20 @@ class DateValidator extends TextValidator {
 		$year = $components[2];
 
 		// If the year is only 2 digits: < 70 = add 2000, > 70 = add 1900
-		if ( strlen( $year ) < 4 ) {
-			$year += intval( $year ) > 70 ? 1900 : 2000;
+		if (strlen($year) < 4) {
+			$year += intval($year) > 70 ? 1900 : 2000;
 		}
 
 		// Verify that the date is legal
-		if ( !checkdate( $month, $day, $year ) ) {
+		if (!checkdate($month, $day, $year)) {
 			throw new InvalidDateException();
 		}
 
 		// Return the date as an integer timestamp
-		if ( ($data = mktime( 0, 0, 0, $month, $day, $year )) < 1 ) {
+		if (($data = mktime(0, 0, 0, $month, $day, $year)) < 1) {
 			throw new InvalidDateException();
 		}
 
 		return $data;
 	}
 }
-?>

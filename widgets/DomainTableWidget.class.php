@@ -32,6 +32,7 @@ class DomainTableWidget extends TableWidget {
 
 		// Load the Domain Table
 		try {
+			$where = null;
 			$domains = load_array_DomainServicePurchaseDBO( $where );
 
 			// Build the table

@@ -45,6 +45,7 @@
   $pathinfo = pathinfo(__FILE__);
   // define('BASE_PATH', realpath(dirname(__FILE__).'/../'))
   define('BASE_PATH', preg_replace('|config|', '', $pathinfo['dirname']));
+  require_once BASE_PATH . 'solidworks/php83_compat.php';
   
   /*
    * Database configuration

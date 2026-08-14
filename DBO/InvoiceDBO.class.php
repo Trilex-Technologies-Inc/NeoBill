@@ -554,6 +554,7 @@ class InvoiceDBO extends DBO {
      */
     function text( $email_text ) {
         global $conf;
+		$currencySymbol = $conf['locale']['currency_symbol'] ?? '$';
 
         // Generate Invoice & E-mail text
         $email_text = str_replace( "{invoice_id}", $this->getID(), $email_text );
@@ -565,37 +566,37 @@ class InvoiceDBO extends DBO {
 
         $email_text = str_replace( "{invoice_subtotal}",
                 sprintf( "%s%01.2f",
-                $conf['locale']['currency_symbol'],
+                $currencySymbol,
                 $this->getSubTotal() ),
                 $email_text );
 
         $email_text = str_replace( "{invoice_taxtotal}",
                 sprintf( "%s%01.2f",
-                $conf['locale']['currency_symbol'],
+                $currencySymbol,
                 $this->getTaxTotal() ),
                 $email_text );
 
         $email_text = str_replace( "{invoice_total}",
                 sprintf( "%s%01.2f",
-                $conf['locale']['currency_symbol'],
+                $currencySymbol,
                 $this->getTotal() ),
                 $email_text );
 
         $email_text = str_replace( "{invoice_payments}",
                 sprintf( "%s%01.2f",
-                $conf['locale']['currency_symbol'],
+                $currencySymbol,
                 $this->getTotalPayments() ),
                 $email_text );
 
         $email_text = str_replace( "{invoice_balance}",
                 sprintf( "%s%.2f",
-                $conf['locale']['currency_symbol'],
+                $currencySymbol,
                 $this->getBalance() ),
                 $email_text );
 
         $email_text = str_replace( "{outstanding_balance}",
                 sprintf( "%s%.2f",
-                $conf['locale']['currency_symbol'],
+                $currencySymbol,
                 $this->getOutstandingBalance() ),
                 $email_text );
 
@@ -608,10 +609,10 @@ class InvoiceDBO extends DBO {
             foreach( $item_dbo_array as $item_dbo ) {
                 $line_items .= sprintf( "%-40s%s%6.2f %3d    %s%6.2f\n",
                         $item_dbo->getText(),
-                        $conf['locale']['currency_symbol'],
+                        $currencySymbol,
                         $item_dbo->getUnitAmount(),
                         $item_dbo->getQuantity(),
-                        $conf['locale']['currency_symbol'],
+                        $currencySymbol,
                         $item_dbo->getAmount() );
             }
         }

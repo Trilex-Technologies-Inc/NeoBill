@@ -20,7 +20,7 @@ class InvoiceSelectWidget extends SelectWidget {
 	/**
 	 * @var integer Account ID
 	 */
-	protected $accountid = null;
+	protected $accountID = null;
 
 	/**
 	 * @var boolean Filter Oustanding flag
@@ -45,7 +45,7 @@ class InvoiceSelectWidget extends SelectWidget {
 	public function getData() {
 		// Check if there is a specific account ID to show invoices for
 		$where = null;
-		if ( $this->accountid != null ) {
+		if ( $this->accountID != null ) {
 			$where = "accountid=" . $this->accountID . " ";
 		}
 

@@ -71,7 +71,7 @@ class Menu {
 	$menu = new SolidStateMenu();
 
 	$menu->addItem( new SolidStateMenuItem( "home", 
-						$conf['company']['name'], 
+						$conf['company']['name'] ?? 'NeoBill',
 						"house.png", 
 						"manager_content.php?page=home" ) );
 	$menu->addItem( new SolidStateMenuItem( "accounts", 
@@ -158,16 +158,6 @@ class Menu {
 						"[ADD_ONS]", 
 						"bricks.png", 
 						"manager_content.php?page=addon" ),
-			"services" );
-	$menu->addItem( new SolidStateMenuItem( "servers", 
-						"[SERVERS]", 
-						"server_database.png", 
-						"manager_content.php?page=services_servers" ),
-			"services" );
-	$menu->addItem( new SolidStateMenuItem( "ipaddresses", 
-						"[IP_ADDRESSES]", 
-						"server_lightning.png", 
-						"manager_content.php?page=services_ip_manager" ),
 			"services" );
 	$menu->addItem( new SolidStateMenuItem( "domains", 
 						"[DOMAINS]", 

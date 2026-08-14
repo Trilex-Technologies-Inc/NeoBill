@@ -12,6 +12,8 @@
 
 require_once BASE_PATH . "include/SolidStatePage.class.php";
 require_once BASE_PATH . "DBO/UserDBO.class.php";
+require_once BASE_PATH . "modules/cloudflareturnstile/cloudflareturnstile.class.php";
+require_once BASE_PATH . "util/email_verification.php";
 
 /**
  * CustomerLoginPage
@@ -57,12 +59,15 @@ class CustomerLoginPage extends SolidStatePage {
 	function init() {
 		// Suppress the login link
 		$this->smarty->assign( "username", " " );
+		$this->smarty->assign( "turnstile_enabled", cloudflareturnstile::loginProtectionEnabled() );
+		$this->smarty->assign( "turnstile_script", cloudflareturnstile::loginScript() );
+		$this->smarty->assign( "turnstile_widget", cloudflareturnstile::loginWidget() );
 		
-		if ($_GET["op"] == 'logout'){
-			//print "logout";
-			if ($_SESSION['client']['userdbo']){
+		if ( isset( $_GET["op"] ) && $_GET["op"] == 'logout' ) {
+			if ( !empty( $_SESSION['client']['userdbo'] ) ) {
 				$_SESSION['client']['userdbo'] = null;
 			}
+			$this->gotoPage( "cart" );
 		}
 	}
 
@@ -70,6 +75,12 @@ class CustomerLoginPage extends SolidStatePage {
 	 * Login Customer
 	 */
 	function login() {
+		if ( !cloudflareturnstile::verifyLoginToken( $this->post['cf-turnstile-response'] ) ) {
+			log_security( "CustomerLoginPage::login()", "Cloudflare Turnstile verification failed." );
+			$this->setError( array( "type" => "Cloudflare Turnstile verification failed." ) );
+			return;
+		}
+
 		if ( $this->post['user']->getPassword() == $this->post['password'] ) {
 		
 			// Only customers are allowed to login to the order form
@@ -78,9 +89,27 @@ class CustomerLoginPage extends SolidStatePage {
 				return;
 			}
 
-			// Login success
-			$_SESSION['client']['userdbo'] = $this->post['user'];
-			log_notice( "CustomerLoginPage::login()",
+			$account = load_AccountDBO_username( $this->post['user']->getUsername() );
+			if ( $account->getStatus() !== "Active" ) {
+				if ( $account->getStatus() === "Inactive" &&
+						send_customer_verification_email( $this->post['user'] ) ) {
+					$this->setMessage( array( "type" => "Your account is not active. A new verification link has been sent to your email." ) );
+				}
+				else {
+					$this->setError( array( "type" => "Your account is not active. Please verify your email address or contact support." ) );
+				}
+				return;
+			}
+
+				// Login success
+				$_SESSION['client']['userdbo'] = $this->post['user'];
+				// Bind the active cart to the authenticated account. Without this the
+				// review page treats the order as a new account and tries to create a
+				// second user with an empty password.
+				if ( isset( $_SESSION['order'] ) ) {
+					$_SESSION['order']->setAccountID( $account->getID() );
+				}
+				log_notice( "CustomerLoginPage::login()",
 					"User: " . $this->post['user']->getUsername() . " logged in." );
 			$this->gotoPage( "cart" );
 		

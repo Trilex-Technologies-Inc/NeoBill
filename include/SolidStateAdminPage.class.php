@@ -31,6 +31,7 @@ class SolidStateAdminPage extends SolidStatePage {
 	 */
 	function control_access() {
 		// return true if user is "Administrator" type
-		return ( $_SESSION['client']['userdbo']->getType() == "Administrator" );
+		return !empty( $_SESSION['client']['userdbo'] ) &&
+				$_SESSION['client']['userdbo']->getType() == "Administrator";
 	}
 }

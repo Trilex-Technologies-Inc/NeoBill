@@ -69,8 +69,8 @@
    */
   define('_INSTALLERREQUIREMENTS', 'Exigences système');
   define('_INSTALLERPHPVERSION', 'version php');
-  define('_INSTALLERPHPVERSIONOK', 'Votre version php est %0 ce qui correspond à notre exigence système php version 4.0.6');
-  define('_INSTALLERPHPVERSIONKO', 'Votre version php est %0 ce qui ne correspond pas à notre exigence système php version 4.0.6');
+  define('_INSTALLERPHPVERSIONOK', 'PHP %0 répond à la version minimale requise PHP %1');
+  define('_INSTALLERPHPVERSIONKO', 'PHP %0 ne répond pas à la version minimale requise PHP %1');
   define('_INSTALLERPERMISSIONS', 'Permissions système fichiers');
   define('_INSTALLERPERMISSIONSFILE', 'Veuillez vous assurer que le serveur web a le droit d\'écriture sur le fichier suivant');
   define('_INSTALLERPERMISSIONSDIRECTORY', 'Veuillez vous assurer que le serveur web a le droit d\'écriture sur le répertoire suivant');

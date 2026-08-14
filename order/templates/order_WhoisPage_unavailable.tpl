@@ -1,7 +1,10 @@
-<h3> {$fqdn} [IS_ALREADY_REGISTERED] </h3>
+<div class="order-page-heading">
+  <span class="order-kicker">Domain search</span>
+  <h2>{$fqdn} [IS_ALREADY_REGISTERED]</h2>
+</div>
 
 {form name="whois"}
-  <div class="domainoption">
+  <div class="domainoption order-form-card">
     <table>
       <tr class="reverse">
         <th> [TRY_ANOTHER_DOMAIN] </th>
@@ -12,11 +15,7 @@
     </table>
   </div>
 
-  <div class="buttoncontainer">
-    <table>
-      <tr>
-        <td class="right"> {form_element field="submit"} </td>
-      </tr>
-    </table>
+  <div class="buttoncontainer order-actions justify-content-end">
+    <div>{form_element field="submit"}</div>
   </div>
 {/form}

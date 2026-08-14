@@ -35,6 +35,7 @@ require BASE_PATH . "DBO/NoteDBO.class.php";
 require BASE_PATH . "DBO/OrderItemDBO.class.php";
 require BASE_PATH . "DBO/OrderDomainDBO.class.php";
 require BASE_PATH . "DBO/OrderHostingDBO.class.php";
+require BASE_PATH . "DBO/OrderProductDBO.class.php";
 require BASE_PATH . "DBO/OrderDBO.class.php";
 require BASE_PATH . "DBO/PaymentDBO.class.php";
 require BASE_PATH . "DBO/ProductDBO.class.php";
@@ -153,6 +154,11 @@ class SolidStatePage extends Page {
 
         $this->smarty->assign( "header_template",
                 $this->selectTemplateFile( "manager_header.tpl" ) );
+
+        if ( isset( $_SESSION['client']['userdbo'] ) ) {
+            $this->smarty->assign( "pending_orders_count",
+                    count_all_OrderDBO( "status='Pending'" ) );
+        }
 
         if( isset( $this->get['sstab'] ) ) {
             $this->smarty->assign( "tab", $this->get['sstab'] );

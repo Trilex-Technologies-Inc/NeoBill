@@ -124,9 +124,14 @@ class HostingServicePurchaseDBO extends PurchaseDBO {
      *
      * @param HostingServiceDBO The hosting service that is/was purchased
      */
-    public function setPurchasable( HostingServiceDBO $serviceDBO ) {
-        // This function is meant to force purchasable to be a HostingServiceDBO
-        parent::setPurchasable( $serviceDBO );
+    public function setPurchasable( PurchasableDBO $purchasable ) {
+        // Keep compatibility with SaleDBO::setPurchasable(PurchasableDBO $purchasable)
+        // while still enforcing HostingServiceDBO at runtime.
+        if( !( $purchasable instanceof HostingServiceDBO ) ) {
+            throw new InvalidArgumentException( "Expected HostingServiceDBO" );
+        }
+
+        parent::setPurchasable( $purchasable );
     }
 
     /**

@@ -1,4 +1,13 @@
 <?php
+// Magic quotes were removed in PHP 8. Keep the installer self-contained even
+// when the database compatibility layer cannot be loaded yet.
+if (!function_exists('get_magic_quotes_gpc')) {
+    function get_magic_quotes_gpc()
+    {
+        return false;
+    }
+}
+
 /*
  * @(#)install/include/solidstate.php
  *
@@ -21,7 +30,14 @@
 */
 
 function check_installed() {
-    $file = fopen('../config/config.inc.php', 'r');
+    $target = '../config/config.inc.php';
+    if (!file_exists($target)) {
+        if (!create_config_file()) {
+            return false;
+        }
+    }
+
+    $file = fopen($target, 'r');
     if (!$file) {
         return false;
     }
@@ -46,6 +62,39 @@ function modify_config_install() {
     $fp = fopen('../config/config.inc.php', 'w+');
     fwrite($fp, $config_php);
     fclose($fp);
+}
+
+function create_config_file() {
+    $source = '../config/config-sample.inc.php';
+    $target = '../config/config.inc.php';
+
+    if (file_exists($target)) {
+        return true;
+    }
+
+    if (!file_exists($source)) {
+        return false;
+    }
+
+    $config_php = file_get_contents($source);
+    if ($config_php === false) {
+        return false;
+    }
+
+    $config_php = preg_replace("/\\\$config\['installed'\]\\s*=\\s*1;/", "\$config['installed'] = 0;", $config_php, 1);
+    if ($config_php === null) {
+        return false;
+    }
+
+    $fp = fopen($target, 'w+');
+    if (!$fp) {
+        return false;
+    }
+
+    fwrite($fp, $config_php);
+    fclose($fp);
+
+    return true;
 }
 
 function modify_config_db() {
@@ -119,7 +168,12 @@ function init_db() {
     $sql_file = implode('', file('database/neobill.mysql'));
     $sql_queries = explode(";\n", $sql_file);
     for ($i = 0; $i < count($sql_queries); $i++) {
-        if (!mysql_query($sql_queries[$i])) {
+        $sql_query = trim($sql_queries[$i]);
+        if ($sql_query === '') {
+            continue;
+        }
+
+        if (!mysql_query($sql_query)) {
             if (mysql_errno() != 1065) {
                 return _INSTALLERDBQUERYFAILED . ': ' . mysql_error();
             }

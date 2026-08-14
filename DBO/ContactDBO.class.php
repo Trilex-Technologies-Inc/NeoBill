@@ -117,7 +117,7 @@ class ContactDBO extends DBO {
      * @param string $mobilePhone Contact name
      * @param string $fax Contact name
      */
-    function ContactDBO( $contactName = null,
+    function __construct( $contactName = null,
             $businessName = null,
             $email = null,
             $address1 = null,

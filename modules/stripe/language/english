@@ -1,0 +1,13 @@
+<translation language="english">
+    <phrase id="STRIPE_MODULE">Stripe Module</phrase>
+    <phrase id="STRIPE_MODE">Stripe Mode</phrase>
+    <phrase id="STRIPE_TEST_PUBLISHABLE_KEY">Test Publishable Key</phrase>
+    <phrase id="STRIPE_TEST_SECRET_KEY">Test Secret Key</phrase>
+    <phrase id="STRIPE_LIVE_PUBLISHABLE_KEY">Live Publishable Key</phrase>
+    <phrase id="STRIPE_LIVE_SECRET_KEY">Live Secret Key</phrase>
+    <phrase id="STRIPE_CURRENCY">Stripe Currency</phrase>
+    <phrase id="STRIPE_CONFIGURATION_SAVED">Stripe Configuration Saved</phrase>
+    <phrase id="PAY_WITH_STRIPE">Pay with Stripe</phrase>
+    <phrase id="PAY_WITH_STRIPE_BUTTON">Pay with Stripe</phrase>
+    <phrase id="PAY_WITH_STRIPE_TEXT">You have selected to pay using Stripe. When you click "Pay with Stripe", you will be redirected to Stripe's secure checkout to complete your payment.</phrase>
+</translation>

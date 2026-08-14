@@ -29,21 +29,11 @@ class ServersPage extends SolidStatePage {
 	 * @param string $action_name Action
 	 */
 	function action( $action_name ) {
-		switch ( $action_name ) {
-			case "servers_action":
-				if ( isset( $this->post['add'] ) ) {
-					$this->gotoPage( "services_add_server" );
-				}
-				break;
+		throw new SWUserException( "Server management has been disabled." );
+	}
 
-			case "search_servers":
-				$this->searchTable( "servers", "servers", $this->post );
-				break;
-
-			default:
-				// No matching action, refer to base class
-				parent::action( $action_name );
-		}
+	function init() {
+		throw new SWUserException( "Server management has been disabled." );
 	}
 }
 ?>

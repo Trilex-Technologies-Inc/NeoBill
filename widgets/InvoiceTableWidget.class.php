@@ -71,7 +71,7 @@ class InvoiceTableWidget extends TableWidget {
 						"terms" => $dbo->getTerms(),
 						"outstanding" => $dbo->getOutstanding(),
 						"total" => $dbo->getTotal(),
-						"totalpayments", $dbo->getTotalPayments(),
+						"totalpayments" => $dbo->getTotalPayments(),
 						"balance" => $dbo->getBalance() );
 			}
 		}

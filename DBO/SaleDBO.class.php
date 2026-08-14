@@ -64,7 +64,8 @@ abstract class SaleDBO extends DBO {
      * @return float Total amount due for taxes on the onetime price
      */
     public function getOnetimeTaxes() {
-        $priceDBO = array_shift( $this->purchasable->getPricing( "Onetime" ) );
+        $prices = $this->purchasable->getPricing( "Onetime" );
+        $priceDBO = array_shift( $prices );
         if( $priceDBO == null || !$priceDBO->isTaxable() ) {
             return 0;
         }
@@ -106,8 +107,8 @@ abstract class SaleDBO extends DBO {
      * @return float Total amount due for taxes on the recurring price
      */
     public function getRecurringTaxes() {
-        $priceDBO = array_shift( $this->purchasable->getPricing( "Recurring",
-                $this->getTerm() ) );
+        $prices = $this->purchasable->getPricing( "Recurring", $this->getTerm() );
+        $priceDBO = array_shift( $prices );
         if( $priceDBO == null || !$priceDBO->isTaxable() ) {
             return 0;
         }

@@ -32,11 +32,29 @@ require "Page.class.php";
 // Create a Smarty object
 $smarty = new Smarty();
 
-// Set Smarty directories
-$smarty->template_dir = "/templates";
-$smarty->compile_dir  = "../solidworks/smarty/templates_c";
-$smarty->cache_dir    = "../solidworks/smarty/cache";
-$smarty->config_dir   = "../solidworks/smarty/configs";
+// Resolve application assets from the executing controller (manager, order,
+// etc.), not from PHP's process working directory.
+$applicationRoot = dirname($_SERVER['SCRIPT_FILENAME'] ?? '');
+if ($applicationRoot === '' || !is_file($applicationRoot . '/application.conf')) {
+	$applicationRoot = getcwd();
+}
+
+// Use absolute paths so Smarty works regardless of the web server's current
+// working directory. Runtime directories may be absent from fresh deployments.
+$smartyRuntimeDirs = array(
+	BASE_PATH . "solidworks/smarty/templates_c",
+	BASE_PATH . "solidworks/smarty/cache"
+);
+foreach ($smartyRuntimeDirs as $smartyRuntimeDir) {
+	if (!is_dir($smartyRuntimeDir) && !mkdir($smartyRuntimeDir, 0770, true)) {
+		throw new RuntimeException("Unable to create Smarty runtime directory: " . $smartyRuntimeDir);
+	}
+}
+
+$smarty->template_dir = $applicationRoot . "/templates";
+$smarty->compile_dir  = BASE_PATH . "solidworks/smarty/templates_c";
+$smarty->cache_dir    = BASE_PATH . "solidworks/smarty/cache";
+$smarty->config_dir   = BASE_PATH . "solidworks/smarty/configs";
 
 // Register the translator's smarty output filte
 $smarty->register_outputfilter( array( "Translator", "filter" ) );
@@ -48,10 +66,11 @@ $oldHandler = set_exception_handler( "SWExceptionHandler" );
 error_reporting( E_ALL ^ E_NOTICE );
 
 // Load application configuration
-$conf = load_config_file( "application.conf" );
+$conf = load_config_file( $applicationRoot . "/application.conf" );
+$conf['application_dir'] = $applicationRoot;
 
 // Load the default language
-TranslationParser::load( "language/english" );
+TranslationParser::load( $applicationRoot . "/language/english" );
 
 // Setup database confing
 $conf['db'] = $db;
@@ -128,35 +147,39 @@ function generate_location_stack( &$conf ) {
  *
  * @return array A reference to the location stack.
  */
-function &build_location_stack( $page_name ) {
+function build_location_stack( $page_name ) {
 	global $conf;
 
-	$page_data =& $conf['pages'][get_page_class( $page_name )];
+	$pageClass = get_page_class( $page_name );
+	if ($pageClass === null || !isset($conf['pages'][$pageClass])) {
+		return array();
+	}
+	$page_data =& $conf['pages'][$pageClass];
 
-	if ( $page_data['parent'] != null ) {
+	if ( !empty($page_data['parent']) ) {
 		// Use recursion to build a stack of page names
 		$stack = build_location_stack( $page_data['parent'] );
 
 		// Replace Nav Vars with their values
-		if ( $_SESSION['nav_vars'] != null ) {
+		if ( !empty($_SESSION['nav_vars']) && is_array($_SESSION['nav_vars']) ) {
 			foreach( $_SESSION['nav_vars'] as $name => $value ) {
 				$name = "{" . $name . "}";
-				$page_data['title'] =
-						str_replace( $name, $value, $page_data['title'] );
-				$page_data['url']   = str_replace( $name, $value, $page_data['url'] );
+					$page_data['title'] =
+							str_replace( $name, $value, $page_data['title'] ?? '' );
+					$page_data['url']   = str_replace( $name, $value, $page_data['url'] ?? '' );
 			}
 		}
 
 		// Push page onto nav stack
-		array_push( $stack, array( "name" => $page_data['title'],
-				"url"  => $page_data['url'] ) );
+		array_push( $stack, array( "name" => $page_data['title'] ?? '',
+				"url"  => $page_data['url'] ?? '' ) );
 
 		return $stack;
 	}
 	else {
 		// No more - allocate the stack and push this page on the bottom (top for now)
-		$stack = array( array( "name" => $page_data['title'],
-						"url"  => $page_data['url'] ) );
+		$stack = array( array( "name" => $page_data['title'] ?? '',
+						"url"  => $page_data['url'] ?? '' ) );
 		return $stack;
 	}
 }
@@ -171,8 +194,8 @@ function &build_location_stack( $page_name ) {
 function get_page_class( $name ) {
 	global $conf;
 
-	foreach( $conf['pages'] as $class_name => $page_data ) {
-		if ( $page_data['name'] == $name ) {
+	foreach( $conf['pages'] ?? array() as $class_name => $page_data ) {
+		if ( ($page_data['name'] ?? null) == $name ) {
 			return $class_name;
 		}
 	}

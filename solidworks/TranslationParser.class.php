@@ -59,7 +59,14 @@ class TranslationParser {
 	 * @return array Configuration data
 	 */
 	public static function load( $file ) {
-		if ( self::$loaded[$file] != true ) {
+		// The same language file may be referenced through relative, absolute,
+		// or symlinked paths. Cache by its canonical path to parse it only once.
+		$canonicalFile = realpath($file);
+		if ($canonicalFile !== false) {
+			$file = $canonicalFile;
+		}
+
+		if ( empty(self::$loaded[$file]) ) {
 			$xml_parser = xml_parser_create();
 			$translation_parser = new TranslationParser();
 			xml_set_object( $xml_parser, $translation_parser );

@@ -33,7 +33,10 @@ class GenerateInvoicesPage extends SolidStatePage {
 	function action( $action_name ) {
 		switch ( $action_name ) {
 			case "generate_invoices":
-				if ( isset( $this->post['continue'] ) ) {
+				if ( isset( $this->post['cancel'] ) ) {
+					$this->goback();
+				}
+				elseif ( isset( $this->post['continue'] ) ) {
 					// Generate Invoice Batch
 					$this->generate_invoices();
 				}
@@ -106,7 +109,14 @@ class GenerateInvoicesPage extends SolidStatePage {
 		if ( !isset( $this->post['periodend'] ) ) {
 			// Set the end of the invoice period to be 1 month ahead of today
 			$today = getdate( time() );
-			$newDate = DBConnection::format_datetime( mktime( null, null, null, $today['mon']+1 ) );
+			$newDate = DBConnection::format_datetime( mktime(
+					$today['hours'],
+					$today['minutes'],
+					$today['seconds'],
+					$today['mon'] + 1,
+					$today['mday'],
+					$today['year']
+			) );
 			$this->smarty->assign( "nextMonth", $newDate );
 		}
 	}

@@ -5,6 +5,7 @@
     <phrase id="12_MONTHS">12 Months</phrase>
     <phrase id="A_CONFIRMATION_EMAIL">A confirmation e-mail has been sent to</phrase>
     <phrase id="ACCEPT_TOS">Accept Terms of Service</phrase>
+    <phrase id="ACCOUNT_ADDED">New account created successfully</phrase>
     <phrase id="ADD_ANOTHER_DOMAIN">Add Another Domain</phrase>
     <phrase id="ADD_DOMAIN">Add Domain</phrase>
     <phrase id="ADD_HOSTING">Add Web Hosting Package</phrase>
@@ -32,6 +33,7 @@
     <phrase id="CHECKOUT">Checkout</phrase>
     <phrase id="CITY">City</phrase>
     <phrase id="CONTACT_EMAIL">Contact E-Mail</phrase>
+    <phrase id="ACCOUNT_CONTACT_EMAIL_EXISTS">This contact email is already assigned to another account.</phrase>
     <phrase id="CONTACT_INFORMATION">Contact Information</phrase>
     <phrase id="CONTACT_INFORMATION_NEW">Domain contact information is different from my contact information</phrase>
     <phrase id="CONTACT_INFORMATION_USE_BILLING">Domain contact information is the same as my contact information</phrase>
@@ -87,6 +89,7 @@
     <phrase id="PLEASE_SELECT_A_DOMAIN_OPTION">Please select a domain option</phrase>
     <phrase id="POSTALCODE">Zip Code</phrase>
     <phrase id="PRICE">Price</phrase>
+    <phrase id="PRODUCT">Product</phrase>
     <phrase id="PURCHASE_A_DOMAIN">Purchase a Domain</phrase>
     <phrase id="RECURRING">Recurring</phrase>
     <phrase id="RECURRING_TOTAL">Recurring Items</phrase>
@@ -158,6 +161,24 @@
     <phrase id="LOGIN_FAILED">Login failed.</phrase>
     <phrase id="ONLY_CUSTOMERS_CAN_LOGIN">Only customers may login to the order interface.</phrase>
     <phrase id="PASSWORD_MISMATCH">Your password was not entered correctly.  Please try again.</phrase>
+    <phrase id="PLEASE_ENTER_A_VALUE_FOR">Please enter a value for the following field</phrase>
     <phrase id="YOU_MUST_SELECT_PAYMENT">You must select a payment method.</phrase>
+    <phrase id="CREDIT_CARD_PAYMENT">Credit Card Payment</phrase>
+    <phrase id="CUSTOMER_INFO">Customer Information</phrase>
+    <phrase id="DATES_MUST_BE">Dates must be entered in a valid format.</phrase>
+    <phrase id="DOMAIN_CONTACT">Domain Contact</phrase>
+    <phrase id="FOR">for</phrase>
+    <phrase id="PLEASE_ENTER_A_NUMERIC_VALUE_FOR">Please enter a numeric value for</phrase>
+    <phrase id="PLEASE_ENTER_A_VALID_DATE_FOR">Please enter a valid date for</phrase>
+    <phrase id="PLEASE_ENTER_A_VALID_IP_ADDRESS">Please enter a valid IP address.</phrase>
+    <phrase id="PLEASE_ENTER_A_VALID_TELEPHONE_NUMER_FOR">Please enter a valid telephone number for</phrase>
+    <phrase id="PLEASE_ENTER_A_VALUE_GREATER_THAN">Please enter a value greater than</phrase>
+    <phrase id="PLEASE_ENTER_A_VALUE_LESS_THAN">Please enter a value less than</phrase>
+    <phrase id="PLEASE_SELECT_A_REGISTRATION_OPTION">Please select a domain registration option.</phrase>
+    <phrase id="PLEASE_SELECT_A_VALID_CHOICE_FOR">Please select a valid choice for</phrase>
+    <phrase id="PURCHASE_DOMAIN">Purchase Domain</phrase>
+    <phrase id="PURCHASE_HOSTING">Purchase Hosting</phrase>
+    <phrase id="TELEPHONE_NUMBERS_MUST_BE">Telephone numbers must contain only valid digits.</phrase>
+    <phrase id="TLD">TLD</phrase>
 
 </translation>

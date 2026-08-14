@@ -1,0 +1,6 @@
+--
+-- Allow stored IPv4 addresses above the signed INT range.
+--
+
+alter table `log` change `remoteip` `remoteip` int(10) unsigned not null default '0';
+alter table `order` change `remoteip` `remoteip` int(10) unsigned not null default '0';

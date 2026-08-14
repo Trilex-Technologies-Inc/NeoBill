@@ -21,9 +21,12 @@
  */
 ?>
 
-        </div>
-        <div style="clear: both;"></div>
-    </div>
+</main>
 </div>
+</div>
+</div>
+</div>
+<script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

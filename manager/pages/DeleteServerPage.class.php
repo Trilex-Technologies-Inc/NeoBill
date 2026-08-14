@@ -26,17 +26,7 @@ class DeleteServerPage extends SolidStateAdminPage {
 	 * Initialize Delete Server Page
 	 */
 	function init() {
-		parent::init();
-
-		// Set URL Fields
-		$this->setURLField( "server", $this->get['server']->getID() );
-
-		// Store Server DBO in session
-		$this->session['server_dbo'] =& $this->get['server'];
-
-		// Set this page's Nav Vars
-		$this->setNavVar( "id",   $this->get['server']->getID() );
-		$this->setNavVar( "hostname", $this->get['server']->getHostName() );
+		throw new SWUserException( "Server management has been disabled." );
 	}
 
 	/**
@@ -48,35 +38,7 @@ class DeleteServerPage extends SolidStateAdminPage {
 	 * @param string $action_name Action
 	 */
 	function action( $action_name ) {
-		switch ( $action_name ) {
-			case "delete_server":
-				if ( isset( $this->post['delete'] ) ) {
-					$this->deleteServer();
-				}
-				else {
-					$this->goback();
-				}
-				break;
-
-			default:
-				// No matching action, refer to base class
-				parent::action( $action_name );
-		}
-	}
-
-	/**
-	 * Delete Server
-	 *
-	 * Remove this Server from the database
-	 */
-	function deleteServer() {
-		// Delete Server
-		delete_ServerDBO( $this->get['server'] );
-
-		// Success!
-		$this->setMessage( array( "type" => "[SERVER_DELETED]",
-				"args" => array( $this->session['server_dbo']->getHostName() ) ) );
-		$this->gotoPage( "services_servers" );
+		throw new SWUserException( "Server management has been disabled." );
 	}
 }
 ?>

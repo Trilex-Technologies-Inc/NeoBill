@@ -271,7 +271,7 @@ class OrderDBO extends DBO {
      * @param string $date Date and time when the order was completed (MySQL DATETIME)
      */
     public function setDateCompleted( $date ) {
-        $this->datecompleted = $date;
+        $this->datecompleted = $date === "" ? null : $date;
     }
 
     /**
@@ -289,7 +289,7 @@ class OrderDBO extends DBO {
      * @param string $date Date and time when the order was fulfilled (MySQL DATETIME)
      */
     public function setDateFulfilled( $date ) {
-        $this->datefulfilled = $date;
+        $this->datefulfilled = $date === "" ? null : $date;
     }
 
     /**
@@ -307,7 +307,12 @@ class OrderDBO extends DBO {
      * @param integer $ip Remote IP address in long-word form
      */
     public function setRemoteIP( $ip ) {
-        $this->remoteip = $ip;
+        if( $ip === false || $ip === null || $ip === "" ) {
+            $this->remoteip = 0;
+            return;
+        }
+
+        $this->remoteip = sprintf( "%u", $ip );
     }
 
     /**
@@ -678,6 +683,22 @@ class OrderDBO extends DBO {
     }
 
     /**
+     * Get Product Order Items
+     *
+     * @return array Order product DBOs
+     */
+    public function getProductItems() {
+        $productitems = array();
+        foreach( $this->orderitems as $orderitemdbo ) {
+            if( is_a( $orderitemdbo, "OrderProductDBO" ) ) {
+                $productitems[] = $orderitemdbo;
+            }
+        }
+
+        return $productitems;
+    }
+
+    /**
      * Remove an Item from the Order
      *
      * @param integer $orderitemid Order Item ID
@@ -719,7 +740,7 @@ class OrderDBO extends DBO {
     public function getNonRecurringTotal() {
         $total = 0.00;
         foreach( $this->orderitems as $orderitemdbo ) {
-            if( $orderitemdbo->getStatus != "Rejected" ) {
+			if( $orderitemdbo->getStatus() != "Rejected" ) {
                 $total += $orderitemdbo->getOnetimePrice();
             }
         }
@@ -898,7 +919,7 @@ class OrderDBO extends DBO {
         // Create user
         $userDBO = new UserDBO();
         $userDBO->setUsername( $this->getUsername() );
-        $userDBO->setPassword( md5( $this->getPassword() ) );
+		$userDBO->setPassword( md5( (string) $this->getPassword() ) );
         $userDBO->setType( "Client" );
         add_UserDBO( $userDBO );
 
@@ -967,6 +988,8 @@ class OrderDBO extends DBO {
      * Set the status to "Pending" and the data completed to now, then update DB
      */
     public function complete() {
+		global $conf;
+
         // Set status to pending and give a timestamp
         $this->setStatus( "Pending" );
         $this->setDateCompleted( DBConnection::format_datetime( time() ) );
@@ -975,12 +998,14 @@ class OrderDBO extends DBO {
         update_OrderDBO( $this );
 
         // Notification e-mail
-        $body = $this->replaceTokens( $conf['order']['notification_email'] );
+		$companyEmail = $conf['company']['email'] ?? '';
+		$companyName = $conf['company']['name'] ?? 'NeoBill';
+		$body = $this->replaceTokens( $conf['order']['notification_email'] ?? '' );
 
         $notifyEmail = new Email();
-        $notifyEmail->addRecipient( $conf['company']['notification_email'] );
-        $notifyEmail->setFrom( $conf['company']['email'], "SolidState" );
-        $notifyEmail->setSubject( $conf['order']['notification_subject'] );
+		$notifyEmail->addRecipient( $conf['company']['notification_email'] ?? '' );
+		$notifyEmail->setFrom( $companyEmail, "SolidState" );
+		$notifyEmail->setSubject( $conf['order']['notification_subject'] ?? '' );
         $notifyEmail->setBody( $body );
         if( !$notifyEmail->send() ) {
             log_error( "OrderDBO::complete()",
@@ -988,12 +1013,12 @@ class OrderDBO extends DBO {
         }
 
         // Confirmation e-mail
-        $body = $this->replaceTokens( $conf['order']['confirmation_email'] );
+		$body = $this->replaceTokens( $conf['order']['confirmation_email'] ?? '' );
 
         $confirmEmail = new Email();
         $confirmEmail->addRecipient( $this->getContactEmail() );
-        $confirmEmail->setFrom( $conf['company']['email'], $conf['company']['name'] );
-        $confirmEmail->setSubject( $conf['order']['confirmation_subject'] );
+		$confirmEmail->setFrom( $companyEmail, $companyName );
+		$confirmEmail->setSubject( $conf['order']['confirmation_subject'] ?? '' );
         $confirmEmail->setBody( $body );
         if( !$confirmEmail->send() ) {
             log_error( "OrderDBO::complete()",
@@ -1075,12 +1100,29 @@ class OrderDBO extends DBO {
             $services = array();
         }
 
-        // Combine domains and services into the orderitems array
+        try {
+            $products = load_array_OrderProductDBO( "orderid=" . intval( $data['id'] ) );
+        }
+        catch( DBNoRowsFoundException $e ) {
+            $products = array();
+        }
+
+        // Combine domains, services, and products into the orderitems array
+        $maxOrderItemID = -1;
         foreach( $domains as $domainItem ) {
             $this->orderitems[$domainItem->getOrderItemID()] = $domainItem;
+            $maxOrderItemID = max( $maxOrderItemID, intval( $domainItem->getOrderItemID() ) );
         }
         foreach( $services as $serviceItem ) {
             $this->orderitems[$serviceItem->getOrderItemID()] = $serviceItem;
+            $maxOrderItemID = max( $maxOrderItemID, intval( $serviceItem->getOrderItemID() ) );
+        }
+        foreach( $products as $productItem ) {
+            $this->orderitems[$productItem->getOrderItemID()] = $productItem;
+            $maxOrderItemID = max( $maxOrderItemID, intval( $productItem->getOrderItemID() ) );
+        }
+        if ( $maxOrderItemID >= 0 ) {
+            $this->orderitemid = $maxOrderItemID + 1;
         }
 
         // Calculate taxes
@@ -1097,11 +1139,8 @@ function add_OrderDBO( &$dbo ) {
     $DB = DBConnection::getDBConnection();
 
     // Build SQL
-    $sql = $DB->build_insert_sql( "order",
-            array( "businessname" => $dbo->getBusinessName(),
+    $cols = array( "businessname" => $dbo->getBusinessName(),
             "datecreated" => $dbo->getDateCreated(),
-            "datecompleted" => $dbo->getDateCompleted(),
-            "datefulfilled" => $dbo->getDateFulfilled(),
             "remoteip" => $dbo->getRemoteIP(),
             "contactname" => $dbo->getContactName(),
             "contactemail" => $dbo->getContactEmail(),
@@ -1119,7 +1158,16 @@ function add_OrderDBO( &$dbo ) {
             "accountid" => $dbo->getAccountID(),
             "status" => $dbo->getStatus(),
             "note" => $dbo->getNote(),
-            "accepted_tos" => $dbo->getAcceptedTOS() ) );
+            "accepted_tos" => $dbo->getAcceptedTOS() );
+
+    if( $dbo->getDateCompleted() != null ) {
+        $cols["datecompleted"] = $dbo->getDateCompleted();
+    }
+    if( $dbo->getDateFulfilled() != null ) {
+        $cols["datefulfilled"] = $dbo->getDateFulfilled();
+    }
+
+    $sql = $DB->build_insert_sql( "order", $cols );
 
     // Run query
     if( !mysql_query( $sql, $DB->handle() ) ) {
@@ -1148,6 +1196,9 @@ function add_OrderDBO( &$dbo ) {
         elseif( is_a( $orderItemDBO, "OrderDomainDBO" ) ) {
             add_OrderDomainDBO( $orderItemDBO );
         }
+        elseif( is_a( $orderItemDBO, "OrderProductDBO" ) ) {
+            add_OrderProductDBO( $orderItemDBO );
+        }
     }
 
     // Store ID in DBO
@@ -1170,15 +1221,14 @@ function update_OrderDBO( &$dbo ) {
         elseif( is_a( $orderItemDBO, "OrderDomainDBO" ) ) {
             update_OrderDomainDBO( $orderItemDBO );
         }
+        elseif( is_a( $orderItemDBO, "OrderProductDBO" ) ) {
+            update_OrderProductDBO( $orderItemDBO );
+        }
     }
 
     // Build SQL
-    $sql = $DB->build_update_sql( "order",
-            "id = " . intval( $dbo->getID() ),
-            array( "businessname" => $dbo->getBusinessName(),
+    $cols = array( "businessname" => $dbo->getBusinessName(),
             "datecreated" => $dbo->getDateCreated(),
-            "datecompleted" => $dbo->getDateCompleted(),
-            "datefulfilled" => $dbo->getDateFulfilled(),
             "remoteip" => $dbo->getRemoteIP(),
             "contactname" => $dbo->getContactName(),
             "contactemail" => $dbo->getContactEmail(),
@@ -1196,7 +1246,18 @@ function update_OrderDBO( &$dbo ) {
             "accountid" => $dbo->getAccountID(),
             "status" => $dbo->getStatus(),
             "note" => $dbo->getNote(),
-            "accepted_tos" => $dbo->getAcceptedTOS() ) );
+            "accepted_tos" => $dbo->getAcceptedTOS() );
+
+    if( $dbo->getDateCompleted() != null ) {
+        $cols["datecompleted"] = $dbo->getDateCompleted();
+    }
+    if( $dbo->getDateFulfilled() != null ) {
+        $cols["datefulfilled"] = $dbo->getDateFulfilled();
+    }
+
+    $sql = $DB->build_update_sql( "order",
+            "id = " . intval( $dbo->getID() ),
+            $cols );
 
     // Run query
     if( !mysql_query( $sql, $DB->handle() ) ) {
@@ -1219,6 +1280,10 @@ function delete_OrderDBO( &$dbo ) {
 
     foreach( $dbo->getDomainItems() as $orderItemDBO ) {
         delete_OrderDomainDBO( $orderItemDBO );
+    }
+
+    foreach( $dbo->getProductItems() as $orderItemDBO ) {
+        delete_OrderProductDBO( $orderItemDBO );
     }
 
     // Build SQL
@@ -1338,6 +1403,9 @@ function count_all_OrderDBO( $filter = null ) {
 
     // Build query
     $sql = "SELECT COUNT(*) FROM `order`";
+    if( $filter != null ) {
+        $sql .= " WHERE " . $filter;
+    }
 
     // Run query
     if( !( $result = @mysql_query( $sql, $DB->handle() ) ) ) {

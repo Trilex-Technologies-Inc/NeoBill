@@ -11,6 +11,7 @@
  */
 
 require BASE_PATH . "include/SolidStateAdminPage.class.php";
+require_once BASE_PATH . "solidworks/Email.class.php";
 
 /**
  * SettingsPage
@@ -27,45 +28,45 @@ class SettingsPage extends SolidStateAdminPage {
 	public function init() {
 		parent::init();
 
-		$this->smarty->assign( "company_name", $this->conf['company']['name'] );
-		$this->smarty->assign( "company_email", $this->conf['company']['email'] );
+		$this->smarty->assign( "company_name", $this->conf['company']['name'] ?? 'NeoBill' );
+		$this->smarty->assign( "company_email", $this->conf['company']['email'] ?? '' );
 		$this->smarty->assign( "company_notification_email",
-				$this->conf['company']['notification_email'] );
+				$this->conf['company']['notification_email'] ?? '' );
+		$this->smarty->assign( "mail_transport", $this->conf['mail']['transport'] ?? 'mail' );
+		$this->smarty->assign( "smtp_host", $this->conf['mail']['smtp']['host'] ?? '' );
+		$this->smarty->assign( "smtp_port", $this->conf['mail']['smtp']['port'] ?? 587 );
+		$this->smarty->assign( "smtp_encryption", $this->conf['mail']['smtp']['encryption'] ?? 'tls' );
+		$this->smarty->assign( "smtp_username", $this->conf['mail']['smtp']['username'] ?? '' );
 
 		$this->smarty->assign( "confirmation_subject",
-				$this->conf['order']['confirmation_subject'] );
+				$this->conf['order']['confirmation_subject'] ?? '' );
 		$this->smarty->assign( "confirmation_email",
-				$this->conf['order']['confirmation_email'] );
+				$this->conf['order']['confirmation_email'] ?? '' );
 
 		$this->smarty->assign( "notification_subject",
-				$this->conf['order']['notification_subject'] );
+				$this->conf['order']['notification_subject'] ?? '' );
 		$this->smarty->assign( "notification_email",
-				$this->conf['order']['notification_email'] );
+				$this->conf['order']['notification_email'] ?? '' );
 
-		$this->smarty->assign( "welcome_subject", $this->conf['welcome_subject'] );
-		$this->smarty->assign( "welcome_email", $this->conf['welcome_email'] );
+		$this->smarty->assign( "welcome_subject", $this->conf['welcome_subject'] ?? '' );
+		$this->smarty->assign( "welcome_email", $this->conf['welcome_email'] ?? '' );
 
-		$this->smarty->assign( "nameservers_ns1", $this->conf['dns']['nameservers'][0] );
-		$this->smarty->assign( "nameservers_ns2", $this->conf['dns']['nameservers'][1] );
-		$this->smarty->assign( "nameservers_ns3", $this->conf['dns']['nameservers'][2] );
-		$this->smarty->assign( "nameservers_ns4", $this->conf['dns']['nameservers'][3] );
+		$this->smarty->assign( "invoice_text", $this->conf['invoice_text'] ?? '' );
+		$this->smarty->assign( "invoice_subject", $this->conf['invoice_subject'] ?? '' );
 
-		$this->smarty->assign( "invoice_text", $this->conf['invoice_text'] );
-		$this->smarty->assign( "invoice_subject", $this->conf['invoice_subject'] );
+		$this->smarty->assign( "currency", $this->conf['locale']['currency_symbol'] ?? '$' );
 
-		$this->smarty->assign( "currency", $this->conf['locale']['currency_symbol'] );
+		$this->smarty->assign( "default_gateway", $this->conf['payment_gateway']['default_module'] ?? '' );
 
-		$this->smarty->assign( "default_gateway", $this->conf['payment_gateway']['default_module'] );
-
-		$this->smarty->assign( "order_title", $this->conf['order']['title'] );
+		$this->smarty->assign( "order_title", $this->conf['order']['title'] ?? '' );
 		$this->smarty->assign( "order_accept_checks",
-				$this->conf['order']['accept_checks'] ? "true" : "false" );
+				!empty($this->conf['order']['accept_checks']) ? "true" : "false" );
 		$this->smarty->assign( "order_tos_required",
-				$this->conf['order']['tos_required'] ? "true" : "false" );
-		$this->smarty->assign( "order_tos_url", $this->conf['order']['tos_url'] );
+				!empty($this->conf['order']['tos_required']) ? "true" : "false" );
+		$this->smarty->assign( "order_tos_url", $this->conf['order']['tos_url'] ?? '' );
 
-		$this->smarty->assign( "managerTheme", $this->conf['themes']['manager'] );
-		$this->smarty->assign( "orderTheme", $this->conf['themes']['order'] );
+		$this->smarty->assign( "managerTheme", $this->conf['themes']['manager'] ?? 'default' );
+		$this->smarty->assign( "orderTheme", $this->conf['themes']['order'] ?? 'default' );
 
 		// This flag indicates if any payment_gateway modules are enabled
 		$modules = $this->forms['settings_payment_gateway']->getField( "default_module" )->getWidget()->getData();
@@ -91,7 +92,6 @@ class SettingsPage extends SolidStateAdminPage {
 	 *   order
 	 *   settings_company (form)
 	 *   settings_welcome (form)
-	 *   settings_nameservers (form)
 	 *
 	 * @param string $action_name Action
 	 */
@@ -103,10 +103,6 @@ class SettingsPage extends SolidStateAdminPage {
 
 			case "settings_themes":
 				$this->updateThemes();
-				break;
-
-			case "settings_nameservers":
-				$this->update_nameservers();
 				break;
 
 			case "settings_invoice":
@@ -139,6 +135,15 @@ class SettingsPage extends SolidStateAdminPage {
 		$this->conf['company']['name'] = $this->post['name'];
 		$this->conf['company']['email'] = $this->post['email'];
 		$this->conf['company']['notification_email'] = $this->post['notification_email'];
+		$this->conf['mail']['transport'] = $this->post['mail_transport'];
+		$this->conf['mail']['smtp']['host'] = trim( (string)( $this->post['smtp_host'] ?? '' ) );
+		$this->conf['mail']['smtp']['port'] = (int)( $this->post['smtp_port'] ?? 587 );
+		$this->conf['mail']['smtp']['encryption'] = $this->post['smtp_encryption'] ?? 'tls';
+		$this->conf['mail']['smtp']['username'] = trim( (string)( $this->post['smtp_username'] ?? '' ) );
+		$smtpPassword = (string)( $this->post['smtp_password'] ?? '' );
+		if ( $smtpPassword !== '' ) {
+			$this->conf['mail']['smtp']['password'] = $smtpPassword;
+		}
 
 		// Welcome E-mail
 		$this->conf['welcome_subject'] = $this->post['welcome_subject'];
@@ -153,7 +158,32 @@ class SettingsPage extends SolidStateAdminPage {
 		$this->conf['order']['notification_email'] = $this->post['notify_email'];
 
 		$this->save();
+		if ( isset( $this->post['test_smtp'] ) ) {
+			$this->testSMTP();
+		}
 		$this->smarty->assign( "tab", "general" );
+	}
+
+	/**
+	 * Send a diagnostic message using the saved mail configuration.
+	 */
+	function testSMTP() {
+		$recipient = trim( (string)( $this->conf['company']['email'] ?? '' ) );
+		$email = new Email();
+		$email->addRecipient( $recipient );
+		$email->setFrom( $recipient, $this->conf['company']['name'] ?? 'NeoBill' );
+		$email->setSubject( 'NeoBill SMTP test' );
+		$email->setBody( "Your NeoBill SMTP settings are working.\n\nSent: " . date( 'Y-m-d H:i:s T' ) );
+
+		if ( $email->send() ) {
+			$this->setMessage( array( "type" => "[SMTP_TEST_SENT]", "args" => array( $recipient ) ) );
+			return;
+		}
+
+		$error = $email->getLastError();
+		$this->setError( array( "type" => "[SMTP_TEST_FAILED]", "args" => array(
+				htmlspecialchars( $error !== '' ? $error : 'The selected mail transport returned an error.',
+						ENT_QUOTES, 'UTF-8' ) ) ) );
 	}
 
 	/**
@@ -174,19 +204,6 @@ class SettingsPage extends SolidStateAdminPage {
 		$this->conf['order']['tos_url'] = $this->post['tos_url'];
 		$this->save();
 		$this->smarty->assign( "tab", "order_interface" );
-	}
-
-	/**
-	 * Update Nameserver Settings
-	 */
-	function update_nameservers() {
-		$this->conf['dns']['nameservers'] =
-				array( $this->post['nameservers_ns1'],
-				$this->post['nameservers_ns2'],
-				$this->post['nameservers_ns3'],
-				$this->post['nameservers_ns4'] );
-		$this->save();
-		$this->smarty->assign( "tab", "dns" );
 	}
 
 	/**

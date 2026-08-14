@@ -1,0 +1,22 @@
+<translation language="english">
+  <phrase id="INVENTORY_MANAGER">Inventory Manager</phrase>
+  <phrase id="INVENTORY_MANAGER_ITEMS">Inventory Items</phrase>
+  <phrase id="INVENTORY_MANAGER_LOCATIONS">Inventory Locations</phrase>
+  <phrase id="INVENTORY_MANAGER_BUNDLES">Bundles and Variants</phrase>
+  <phrase id="INVENTORY_MANAGER_ADJUSTMENTS">Stock Adjustments</phrase>
+  <phrase id="INVENTORY_MANAGER_ALERTS">Low-Stock Alerts</phrase>
+  <phrase id="INVENTORY_MANAGER_SKU">SKU</phrase>
+  <phrase id="INVENTORY_MANAGER_ITEM_TYPE">Item type</phrase>
+  <phrase id="INVENTORY_MANAGER_PARENT_ITEM_ID">Parent item ID for variant</phrase>
+  <phrase id="INVENTORY_MANAGER_REORDER_THRESHOLD">Low-stock threshold</phrase>
+  <phrase id="INVENTORY_MANAGER_LOCATION_TYPE">Location type</phrase>
+  <phrase id="INVENTORY_MANAGER_BUNDLE_ITEM_ID">Bundle item ID</phrase>
+  <phrase id="INVENTORY_MANAGER_COMPONENT_ITEM_ID">Component item ID</phrase>
+  <phrase id="INVENTORY_MANAGER_ITEM_ID">Item ID</phrase>
+  <phrase id="INVENTORY_MANAGER_LOCATION_ID">Location ID</phrase>
+  <phrase id="INVENTORY_MANAGER_QUANTITY_CHANGE">Quantity change</phrase>
+  <phrase id="INVENTORY_MANAGER_ITEM_CREATED">Inventory item created.</phrase>
+  <phrase id="INVENTORY_MANAGER_LOCATION_CREATED">Inventory location created.</phrase>
+  <phrase id="INVENTORY_MANAGER_COMPONENT_CREATED">Bundle component created.</phrase>
+  <phrase id="INVENTORY_MANAGER_STOCK_ADJUSTED">Stock adjusted.</phrase>
+</translation>

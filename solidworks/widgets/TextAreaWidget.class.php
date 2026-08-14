@@ -28,6 +28,7 @@ class TextAreaWidget extends HTMLWidget {
 	function getHTML( $params ) {
 		// Get widget value if available
 		$value = $this->determineValue( $params );
+		$myParams = array();
 
 		// Generate HTML for a text box control
 		unset( $myParams['type'] );

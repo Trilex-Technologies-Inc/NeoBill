@@ -25,14 +25,14 @@ $languages = get_languages_installer();
 <script type="text/javascript" src="javascript/language.js"></script>
 <h2><?php echo _INSTALLERWELCOME; ?></h2>
 <br />
-<form action="index.php" method="post">
-    <div>
-        <div>
-            <?php echo _INSTALLERCHOOSELANGUAGE; ?> :
-            <select name="language" onchange="_language();" onkeyup="_language();">
-                <?php
-                foreach($languages as $key=>$value) {
-                    echo '                <option value="', $value, '"';
+	<form action="index.php" method="post">
+	    <div>
+	        <div>
+	            <?php echo _INSTALLERCHOOSELANGUAGE; ?> :
+	            <select class="form-select form-select-sm d-inline-block w-auto ms-2" name="language" onchange="_language();" onkeyup="_language();">
+	                <?php
+	                foreach($languages as $key=>$value) {
+	                    echo '                <option value="', $value, '"';
                     if (isset($_POST['language'])) {
                         if ($_POST['language'] == $value) {
                             echo ' selected="selected"';
@@ -47,13 +47,13 @@ $languages = get_languages_installer();
                         }
                     }
                     echo '>', ucfirst($value), '</option>', "\n";
-                }
-                ?>
-            </select>
-        </div>
-        <div class="submit">
-            <input type="hidden" name="install_step" value="1" />
-            <input type="submit" value="<?php echo _INSTALLERNEXT; ?>" />
-        </div>
-    </div>
-</form>
+	                }
+	                ?>
+	            </select>
+	        </div>
+	        <div class="submit d-grid mt-3">
+	            <input type="hidden" name="install_step" value="1" />
+	            <input class="btn btn-primary" type="submit" value="<?php echo _INSTALLERNEXT; ?>" />
+	        </div>
+	    </div>
+	</form>

@@ -502,6 +502,12 @@ class Smarty {
 	var $_cache_info           = array();
 
 	/**
+	 * metadata for compiled cache includes
+	 * @var null|array
+	 */
+	var $_cache_include_info   = null;
+
+	/**
 	 * default file permissions
 	 *
 	 * @var integer
@@ -565,7 +571,7 @@ class Smarty {
 	/**
 	 * The class constructor.
 	 */
-	function Smarty() {
+	function __construct() {
 		$this->assign('SCRIPT_NAME', isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME']
 				: @$GLOBALS['HTTP_SERVER_VARS']['SCRIPT_NAME']);
 	}
@@ -1597,10 +1603,13 @@ class Smarty {
 
 		if ($params['resource_type'] == 'file') {
 			if (!preg_match('/^([\/\\\\]|[a-zA-Z]:[\/\\\\])/', $params['resource_name'])) {
-				// relative pathname to $params['resource_base_path']
-				// use the first directory where the file is found
-				foreach ((array)$params['resource_base_path'] as $_curr_path) {
-					$_fullpath = '.' . $_curr_path . DIRECTORY_SEPARATOR . $params['resource_name'];
+					// relative pathname to $params['resource_base_path']
+					// use the first directory where the file is found
+					foreach ((array)$params['resource_base_path'] as $_curr_path) {
+						// Preserve absolute base paths. The original Smarty 2 resolver
+						// prepended a dot unconditionally, corrupting paths such as /var/www.
+						$_path_prefix = preg_match('/^([\/\\\\]|[a-zA-Z]:[\/\\\\])/', $_curr_path) ? '' : '.';
+						$_fullpath = $_path_prefix . $_curr_path . DIRECTORY_SEPARATOR . $params['resource_name'];
 					if (file_exists($_fullpath) && is_file($_fullpath)) {
 						$params['resource_name'] = $_fullpath;
 						return true;

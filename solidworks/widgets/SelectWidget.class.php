@@ -23,7 +23,7 @@ class SelectWidget extends HTMLWidget {
 	 * @return array value => description
 	 */
 	function getData() {
-		return $this->fieldConfig['enum'];
+		return $this->fieldConfig['enum'] ?? array();
 	}
 
 	/**
@@ -37,6 +37,8 @@ class SelectWidget extends HTMLWidget {
 	function getHTML( $params ) {
 		// Get widget value if available
 		$value = $this->determineValue( $params );
+		$myParams = array();
+		$optParams = array();
 
 		// Create <select> tag
 		$html = sprintf( "<select %s>\n",
@@ -44,7 +46,7 @@ class SelectWidget extends HTMLWidget {
 				$myParams ) );
 
 		// Add a "null" option if enabled
-		if ( strtolower( $params['nulloption'] ) == "true" ) {
+		if ( strtolower((string)($params['nulloption'] ?? 'false')) == "true" ) {
 			$html .= "\t<option value=\"\"></option>\n";
 		}
 

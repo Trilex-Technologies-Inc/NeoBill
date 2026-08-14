@@ -46,7 +46,7 @@ class Menu_Item {
      * @param string $icon
      * @param string $url
     */
-    function Menu_Item($name, $description, $icon, $url) {
+    function __construct($name, $description, $icon, $url) {
         $this->name        = $name;
         $this->description = $description;
         $this->icon        = $icon;

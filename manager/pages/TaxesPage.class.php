@@ -53,7 +53,8 @@ class TaxesPage extends SolidStatePage {
 	 * Remove Tax Rule
 	 */
 	function remove() {
-		if ( $_SESSION['client']['userdbo']->getType() != "Administrator" ) {
+		if ( empty( $_SESSION['client']['userdbo'] ) ||
+				$_SESSION['client']['userdbo']->getType() != "Administrator" ) {
 			throw new SWUserException( "[ACCESS_DENIED]" );
 		}
 

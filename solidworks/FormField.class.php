@@ -96,7 +96,7 @@ class FormField {
 	 * @return boolean True if this field is a cancel field
 	 */
 	public function isCancel() {
-		return $this->config['cancel'];
+		return !empty($this->config['cancel']);
 	}
 
 	/**
@@ -105,7 +105,7 @@ class FormField {
 	 * @return boolean True if this field is required
 	 */
 	public function isRequired() {
-		return $this->config['required'];
+		return !empty($this->config['required']);
 	}
 
 	/**
@@ -151,7 +151,7 @@ class FormField {
 	 * @throws FieldMissingException
 	 */
 	public function getValue() {
-		if ( $this->isRequired() && $this->value == null ) {
+		if ( $this->isRequired() && $this->value === null ) {
 			// This field is required and no value has been set
 			$e = new FieldMissingException();
 			$e->setField( $this->getName() );
@@ -183,7 +183,10 @@ class FormField {
 	 */
 	public function set( $data ) {
 		// Verify that something has been posted to this field
-		if ( empty( $data ) ) {
+		// PHP's empty() treats both "0" and 0 as missing. Zero is a valid value
+		// for required numeric fields such as trial days and included usage.
+		$missing = $data === null || $data === "" || ( is_array( $data ) && empty( $data ) );
+		if ( $missing ) {
 			if ( $this->isRequired() ) {
 				// This field is required, but missing a value
 				throw new FieldMissingException();
@@ -199,7 +202,7 @@ class FormField {
 		$this->rawValue = $data;
 		if ( is_array( $data ) ) {
 			// Handle an array submission
-			if ( !$this->config['array'] ) {
+			if ( empty($this->config['array']) ) {
 				throw new FieldException( "Array Values Not Allowed" );
 			}
 
@@ -209,7 +212,7 @@ class FormField {
 			}
 		}
 		else {
-			$this->value = $this->config['array'] ?
+			$this->value = !empty($this->config['array']) ?
 					array( $this->validator->validate( $data ) ) :
 					$this->validator->validate( $data );
 		}

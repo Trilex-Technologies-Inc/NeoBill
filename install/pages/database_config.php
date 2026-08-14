@@ -35,32 +35,32 @@ if (isset($_POST['database'])) {
 }
 ?>
 <h2><?php echo _INSTALLERDBSETUP; ?></h2>
-<br />
-<form action="index.php" method="post">
-    <table border="0" cellpadding="5" summary="Database Setup"><tr>
-            <td class="dbtitle"><?php echo _INSTALLERDBHOSTNAME; ?>:</td>
-            <td><input type="text" name="hostname" value="<?php echo $hostname; ?>" /></td>
-            <td class="dbdescription"><?php echo _INSTALLERDBHOSTNAMEEXPLANATION; ?></td>
-        </tr><tr>
-            <td class="dbtitle"><?php echo _INSTALLERDBUSERNAME; ?>:</td>
-            <td><input type="text" name="username" value="<?php echo $username; ?>"/></td>
-            <td class="dbdescription"><?php echo _INSTALLERDBUSERNAMEEXPLANATION; ?></td>
-        </tr><tr>
-            <td class="dbtitle"><?php echo _INSTALLERDBPASSWORD; ?>:</td>
-            <td><input type="password" name="password" /></td>
-            <td class="dbdescription"><?php echo _INSTALLERDBPASSWORDEXPLANATION; ?></td>
-        </tr><tr>
-            <td class="dbtitle"><?php echo _INSTALLERDBDATABASE; ?>:</td>
-            <td><input type="text" name="database" value="<?php echo $database; ?>"/></td>
-            <td class="dbdescription"><?php echo _INSTALLERDBDATABASEEXPLANATION; ?></td>
-        </tr><tr>
-            <td class="dbtitle"><?php echo _INSTALLERDBCREATE; ?>:</td>
-            <td><input type="checkbox" name="create" /></td>
-            <td class="dbdescription"><?php echo _INSTALLERDBCREATEEXPLANATION; ?></td>
-        </tr></table>
-    <div class="submit">
-        <input type="hidden" name="function" value="config_db" />
-        <input type="hidden" name="install_step" value="3" />
-        <input type="submit" value="<?php echo _INSTALLERINIT; ?>" />
-    </div>
-</form>
+	<br />
+	<form action="index.php" method="post">
+	    <table class="table table-sm align-middle" border="0" cellpadding="5" summary="Database Setup"><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERDBHOSTNAME; ?>:</td>
+	            <td><input class="form-control form-control-sm" type="text" name="hostname" value="<?php echo $hostname; ?>" /></td>
+	            <td class="dbdescription"><?php echo _INSTALLERDBHOSTNAMEEXPLANATION; ?></td>
+	        </tr><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERDBUSERNAME; ?>:</td>
+	            <td><input class="form-control form-control-sm" type="text" name="username" value="<?php echo $username; ?>"/></td>
+	            <td class="dbdescription"><?php echo _INSTALLERDBUSERNAMEEXPLANATION; ?></td>
+	        </tr><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERDBPASSWORD; ?>:</td>
+	            <td><input class="form-control form-control-sm" type="password" name="password" /></td>
+	            <td class="dbdescription"><?php echo _INSTALLERDBPASSWORDEXPLANATION; ?></td>
+	        </tr><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERDBDATABASE; ?>:</td>
+	            <td><input class="form-control form-control-sm" type="text" name="database" value="<?php echo $database; ?>"/></td>
+	            <td class="dbdescription"><?php echo _INSTALLERDBDATABASEEXPLANATION; ?></td>
+	        </tr><tr>
+	            <td class="dbtitle"><?php echo _INSTALLERDBCREATE; ?>:</td>
+	            <td><input class="form-check-input" type="checkbox" name="create" /></td>
+	            <td class="dbdescription"><?php echo _INSTALLERDBCREATEEXPLANATION; ?></td>
+	        </tr></table>
+	    <div class="submit d-grid">
+	        <input type="hidden" name="function" value="config_db" />
+	        <input type="hidden" name="install_step" value="3" />
+	        <input class="btn btn-primary" type="submit" value="<?php echo _INSTALLERINIT; ?>" />
+	    </div>
+	</form>

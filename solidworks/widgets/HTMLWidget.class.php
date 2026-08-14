@@ -42,7 +42,7 @@ class HTMLWidget {
 	public function __construct( $formName, $fieldName, $fieldConfig ) {
 		$this->formName = $formName;
 		$this->fieldName = $fieldName;
-		$this->fieldConfig = $fieldConfig;
+		$this->fieldConfig = is_array($fieldConfig) ? $fieldConfig : array();
 	}
 
 	/**
@@ -79,7 +79,7 @@ class HTMLWidget {
 		$value = isset( $params['value'] ) ? $params['value'] : $value;
 
 		// 2. DBO
-		if( isset( $params['dbo'] ) ) {
+		if( isset( $params['dbo'] ) && isset( $session[$params['dbo']] ) ) {
 			$dbo = $session[$params['dbo']];
 
 			// Get value for this field from the DBO
@@ -114,13 +114,17 @@ class HTMLWidget {
 	 */
 	protected function buildParams( $params, $myParams ) {
 		// If the array parameter is true, add '[]' to the end of the field name
-		$fieldName = strtolower( $params['array'] ) == "true" ?
+		$fieldName = strtolower((string)($params['array'] ?? 'false')) == "true" ?
 				$this->fieldName . "[]" : $this->fieldName;
 
 		// Start the parameter list with the basics
-		$finalParams = array( "name" => $fieldName,
-				"size" => $this->fieldConfig['size'],
-				"class" => $this->fieldConfig['class'] );
+		$finalParams = array( "name" => $fieldName );
+		if ( isset($this->fieldConfig['size']) ) {
+			$finalParams['size'] = $this->fieldConfig['size'];
+		}
+		if ( isset($this->fieldConfig['class']) ) {
+			$finalParams['class'] = $this->fieldConfig['class'];
+		}
 
 		// Strip out irrelevant parameters passed to the {form_field} tag
 		unset( $params['field'] );

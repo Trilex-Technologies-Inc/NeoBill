@@ -1,4 +1,5 @@
 <?php
+
 /**
  * manager_content.php
  *
@@ -18,20 +19,20 @@
 
 // Load config file
 
-require_once dirname(__FILE__)."/../config/config.inc.php";
+require_once dirname(__FILE__) . "/../config/config.inc.php";
 
 // require_once dirname(__FILE__)."/../include/SolidStateMenu.class.php";
 
 // Load SolidWorks
-require_once dirname(__FILE__)."/../solidworks/solidworks.php";
+require_once dirname(__FILE__) . "/../solidworks/solidworks.php";
 
 // Load settings from database
-require_once dirname(__FILE__)."/../util/settings.php";
-load_settings( $conf );
+require_once dirname(__FILE__) . "/../util/settings.php";
+load_settings($conf);
 
 // Set the current theme
-$theme = isset( $_SESSION['client']['userdbo'] ) ?
-  $_SESSION['client']['userdbo']->getTheme() : $conf['themes']['manager'];
+$theme = !empty($_SESSION['client']['userdbo']) ?
+	$_SESSION['client']['userdbo']->getTheme() : ($conf['themes']['manager'] ?? 'default');
 $conf['themes']['current'] = $theme;
 
 // Build the core menu
@@ -39,10 +40,10 @@ $conf['themes']['current'] = $theme;
 //$username = isset( $_SESSION['client']['userdbo'] ) ?
 //  $_SESSION['client']['userdbo']->getUsername() : null;
 //$menu->addItem( new SolidStateMenuItem( "myinfo", 
-	//				"[MY_INFO]", 
-		//			"vcard_edit.png", 
-			//		"manager_content.php?page=config_edit_user&user=" . $username ),
-		// "administration" );
+//				"[MY_INFO]", 
+//			"vcard_edit.png", 
+//		"manager_content.php?page=config_edit_user&user=" . $username ),
+// "administration" );
 
 // $menuItems = $menu->getItemArray();
 // $smarty->assign( "menuItems", $menuItems );
@@ -52,9 +53,7 @@ require_once BASE_PATH . "modules/SolidStateModule.class.php";
 removeMissingModules();
 
 // Hand off to SolidWorks
-solidworks( $conf, $smarty );
+solidworks($conf, $smarty);
 
-ini_set('display_errors',1); 
+ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
-?>

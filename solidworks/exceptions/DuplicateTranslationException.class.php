@@ -10,6 +10,8 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+require_once dirname(__FILE__) . '/../SWException.class.php';
+
 /**
  * DuplicateTranslationException
  *

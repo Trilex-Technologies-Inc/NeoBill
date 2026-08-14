@@ -127,7 +127,8 @@ class Page {
         global $conf;
 
         $templateFileName = $defaultDir . $fileName;
-        if ( $conf['themes']['current'] == "default" ) {
+		$currentTheme = $conf['themes']['current'] ?? 'default';
+		if ( $currentTheme == "default" ) {
             // Default theme just returns the template file from the templates/ dir
             return $templateFileName;
         }
@@ -136,7 +137,7 @@ class Page {
             // Smarty loads the template file relative to the parent directory - thus
             // the "../" bellow but not here.
             $themeTemplateFileName = sprintf( "themes/%s/%s",
-                    $conf['themes']['current'],
+					$currentTheme,
                     $fileName );
 
             // If the template file exists in the theme dir, then return that one,
@@ -343,16 +344,16 @@ class Page {
 	
         if ( get_class( $this ) != "Page" ) {
             // This is a subclass - load the page data from the configuration data
-            $page_data = $conf['pages'][$this->getClassName()];
-            $this->setTitle( $page_data['title'] );
-            $this->setName( $page_data['name'] );
-            $this->setUrl( $page_data['url'] );
-            $this->setLocationStack( $page_data['location_stack'] );
+			$page_data = $conf['pages'][$this->getClassName()] ?? array();
+			$this->setTitle( $page_data['title'] ?? '' );
+			$this->setName( $page_data['name'] ?? $this->getClassName() );
+			$this->setUrl( $page_data['url'] ?? '' );
+            $this->setLocationStack( $page_data['location_stack'] ?? array() );
             $this->setTemplate( "default" );
-            $this->setTemplateDir( $page_data['templatedir'] );
+			$this->setTemplateDir( $page_data['templatedir'] ?? '' );
 
             // This page is disabled according to the configuration file
-            if ( $page_data['disabled'] ) {
+            if ( !empty($page_data['disabled']) ) {
                 $this->disable();
             }
 
@@ -367,8 +368,8 @@ class Page {
                 }
             }
 
-            if ( !isset( $_SESSION[$this->getName()] ) ) {
-                // Create a place holder in the session for this Page's data
+            if ( !isset( $_SESSION[$this->getName()] ) || !is_array( $_SESSION[$this->getName()] ) ) {
+                // Create (or repair) a place holder in the session for this Page's data
                 $_SESSION[$this->getName()] = array();
             }
 
@@ -423,9 +424,14 @@ class Page {
      * Jump Back
      */
     public function goback() {
+		if ( empty($_SESSION['navstack']) || !is_array($_SESSION['navstack']) ) {
+			fatal_error( $this->getClassName(), "No page to jump back to!" );
+			return;
+		}
+
         // Pop off this page's entries on the navstack
         $lastPage = array_pop( $_SESSION['navstack'] );
-        while( $lastPage['page'] == $this->getName() ) {
+		while( isset($lastPage['page']) && $lastPage['page'] == $this->getName() && !empty($_SESSION['navstack']) ) {
             $lastPage = array_pop( $_SESSION['navstack'] );
         }
 
@@ -446,8 +452,16 @@ class Page {
      *
      * @param string $tail A string to append to the URL
      */
-    public function reload( $tail = null ) {
-        header( "Location: " . $this->getURL() . $tail );
+	public function reload( $tail = null ) {
+		// A successful POST must not keep overriding template/database values with
+		// the submitted form data on the redirected GET. Preserve it only when the
+		// page has validation/user errors so the user can correct the form.
+		$formName = $_GET['submit'] ?? ($_POST['_sw_form'] ?? null);
+		if ( ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && is_string( $formName ) &&
+				$formName !== '' && empty( $this->session['errors'] ) ) {
+			unset( $this->session[$formName] );
+		}
+		header( "Location: " . $this->getURL() . $tail );
         exit();
     }
 
@@ -519,7 +533,7 @@ class Page {
      * @return string The name of the last page served
      */
     function getLastPage() {
-        return $_SESSION['lastpage'];
+		return $_SESSION['lastpage'] ?? null;
     }
 
     /**
@@ -598,7 +612,7 @@ class Page {
      * @return boolean True if page has any errors
      */
     function hasErrors() {
-        return count( $_SESSION['errors'] ) > 0;
+		return !empty($_SESSION['errors']) && is_array($_SESSION['errors']);
     }
 
     /**
@@ -745,7 +759,7 @@ class Page {
         }
 
         // Replace Nav Vars with their values
-        if ( $_SESSION['nav_vars'] != null ) {
+        if ( !empty($_SESSION['nav_vars']) ) {
             foreach( $_SESSION['nav_vars'] as $name => $value ) {
                 $url = str_replace( "{" . $name . "}", $value, $url);
             }
@@ -769,7 +783,7 @@ class Page {
      * @return string Template directory
      */
     function getTemplateDir() {
-        return $this->templateDir;
+        return $this->templatedir;
     }
 
     /**
@@ -778,7 +792,7 @@ class Page {
      * @param string $file_name Template directory
      */
     function setTemplateDir( $dir ) {
-        $this->templateDir = $dir;
+        $this->templatedir = $dir;
     }
 
     /**
