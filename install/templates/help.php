@@ -23,6 +23,6 @@
 
 	        <div class="fw-semibold mb-2"><?php echo _INSTALLERNEEDHELP; ?>?</div>
 	        <div class="d-grid gap-2">
-	            <a class="btn btn-outline-secondary btn-sm" href="http://forums.neobill.net"><?php echo _INSTALLERPUBLICFORUMS; ?></a>
+	            <a class="btn btn-outline-secondary btn-sm" href="https://neobill.net/module.php?modname=forum"><?php echo _INSTALLERPUBLICFORUMS; ?></a>
 	            <a class="btn btn-outline-secondary btn-sm" href="http://www.neobill.net"><?php echo _INSTALLERPUBLICSITE; ?></a>
 	        </div>
