@@ -253,7 +253,7 @@ function create_company()
 {
     global $message;
 
-    if ('' == $_POST['company'] || '' == $_POST['email'] || '' == $_POST['currency'] || '' == $_POST['nameserver-1'] || '' == $_POST['nameserver-2']) {
+    if ('' == $_POST['company'] || '' == $_POST['email'] || '' == $_POST['currency']) {
         $_POST['install_step'] = '5';
         $message = _INSTALLERREQUIREDFIELDSKO;
         return;
@@ -277,28 +277,14 @@ function create_company()
         return;
     }
 
-    if (!valid_nameserver($_POST['nameserver-1'], true) || !valid_nameserver($_POST['nameserver-2'], true) || !valid_nameserver($_POST['nameserver-3'], false) || !valid_nameserver($_POST['nameserver-4'], false)) {
-        $_POST['install_step'] = '5';
-        $message = _INSTALLERREQUIREDFIELDSKO;
-        return;
-    }
-
     if (get_magic_quotes_gpc()) {
         $company_raw      = stripslashes($_POST['company']);
         $email_raw        = stripslashes($_POST['email']);
         $currency_raw     = stripslashes($_POST['currency']);
-        $nameserver_1_raw = stripslashes($_POST['nameserver-1']);
-        $nameserver_2_raw = stripslashes($_POST['nameserver-2']);
-        $nameserver_3_raw = stripslashes($_POST['nameserver-3']);
-        $nameserver_4_raw = stripslashes($_POST['nameserver-4']);
     } else {
         $company_raw      = $_POST['company'];
         $email_raw        = $_POST['email'];
         $currency_raw     = $_POST['currency'];
-        $nameserver_1_raw = $_POST['nameserver-1'];
-        $nameserver_2_raw = $_POST['nameserver-2'];
-        $nameserver_3_raw = $_POST['nameserver-3'];
-        $nameserver_4_raw = $_POST['nameserver-4'];
     }
 
     require_once '../config/config.inc.php';
@@ -309,10 +295,6 @@ function create_company()
     $company      = mysql_real_escape_string($company_raw, $dbh);
     $email        = mysql_real_escape_string($email_raw, $dbh);
     $currency     = mysql_real_escape_string($currency_raw, $dbh);
-    $nameserver_1 = mysql_real_escape_string($nameserver_1_raw, $dbh);
-    $nameserver_2 = mysql_real_escape_string($nameserver_2_raw, $dbh);
-    $nameserver_3 = mysql_real_escape_string($nameserver_3_raw, $dbh);
-    $nameserver_4 = mysql_real_escape_string($nameserver_4_raw, $dbh);
 
     $allowed_languages = get_languages_installer();
     $language_cookie = isset($_COOKIE['language']) ? $_COOKIE['language'] : '';
@@ -326,10 +308,6 @@ function create_company()
     mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('email_notification', '$email');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
     mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('locale_language', '$language');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
     mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('locale_currency', '$currency');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_1', '$nameserver_1');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_2', '$nameserver_2');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_3', '$nameserver_3');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_4', '$nameserver_4');", $dbh) or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
     mysql_close($dbh);
 }
 
