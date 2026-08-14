@@ -4,21 +4,23 @@
       <div class="settings-title">
         <span class="settings-icon"><i class="ti ti-settings"></i></span>
         <div>
-          <span class="settings-kicker">[SETTINGS]</span>
-          <h2>[SETTINGS]</h2>
-          <p>[GENERAL]</p>
+          <span class="settings-kicker">{echo phrase="SETTINGS"}</span>
+          <h2>{echo phrase="SETTINGS"}</h2>
+          <p>{echo phrase="GENERAL"}</p>
         </div>
       </div>
     </div>
 
-    <div id="tabs" class="settings-tabs">
+    <div id="settings-tabs" class="settings-tabs" data-initial-panel="{$tab|default:'general'}">
       <ul>
-        <li><a href="#tabs-1"><i class="ti ti-mail"></i> [EMAIL]</a></li>
-        <li><a href="#tabs-2"><i class="ti ti-palette"></i> Themes</a></li>
-        <li><a href="#tabs-3"><i class="ti ti-file-invoice"></i> Invoice</a></li>
-        <li><a href="#tabs-4"><i class="ti ti-language"></i> Locale</a></li>
-        <li><a href="#tabs-5"><i class="ti ti-credit-card"></i> Payment Gateway</a></li>
-        <li><a href="#tabs-6"><i class="ti ti-shopping-cart"></i> Order Interface</a></li>
+        <li><a href="#tabs-1"><i class="ti ti-mail"></i> {echo phrase="EMAIL"}</a></li>
+        <li><a href="#tabs-2"><i class="ti ti-palette"></i> {echo phrase="THEMES"}</a></li>
+        <li><a href="#tabs-3"><i class="ti ti-file-invoice"></i> {echo phrase="INVOICE"}</a></li>
+        <li><a href="#tabs-4"><i class="ti ti-language"></i> {echo phrase="LOCALE"}</a></li>
+        {if !empty($gatewaysAreEnabled)}
+          <li><a href="#tabs-5"><i class="ti ti-credit-card"></i> {echo phrase="PAYMENT_GATEWAY"}</a></li>
+        {/if}
+        <li><a href="#tabs-6"><i class="ti ti-shopping-cart"></i> {echo phrase="ORDER_INTERFACE"}</a></li>
       </ul>
       <div id="tabs-1">
         <div id="general" class="settings-panel">
@@ -28,8 +30,8 @@
                 <div class="settings-card-header">
                   <span><i class="ti ti-building"></i></span>
                   <div>
-                    <h3>[COMPANY]</h3>
-                    <p>[GENERAL]</p>
+                    <h3>{echo phrase="COMPANY"}</h3>
+                    <p>{echo phrase="GENERAL"}</p>
                   </div>
                 </div>
                 <div class="settings-card-body">
@@ -53,7 +55,7 @@
                   <span><i class="ti ti-server"></i></span>
                   <div>
                     <h3>SMTP</h3>
-                    <p>[OUTGOING_MAIL_DELIVERY]</p>
+                    <p>{echo phrase="OUTGOING_MAIL_DELIVERY"}</p>
                   </div>
                 </div>
                 <div class="settings-card-body">
@@ -90,7 +92,7 @@
                 <div class="settings-card-header">
                   <span><i class="ti ti-mail-forward"></i></span>
                   <div>
-                    <h3>[WELCOME_EMAIL]</h3>
+                    <h3>{echo phrase="WELCOME_EMAIL"}</h3>
                     <p>{form_description field="welcome_subject"}</p>
                   </div>
                 </div>
@@ -110,7 +112,7 @@
                 <div class="settings-card-header">
                   <span><i class="ti ti-mail-check"></i></span>
                   <div>
-                    <h3>[ORDER_CONFIRMATION_EMAIL]</h3>
+                    <h3>{echo phrase="ORDER_CONFIRMATION_EMAIL"}</h3>
                     <p>{form_description field="confirm_subject"}</p>
                   </div>
                 </div>
@@ -130,7 +132,7 @@
                 <div class="settings-card-header">
                   <span><i class="ti ti-bell"></i></span>
                   <div>
-                    <h3>[ORDER_NOTIFICATION_EMAIL]</h3>
+                    <h3>{echo phrase="ORDER_NOTIFICATION_EMAIL"}</h3>
                     <p>{form_description field="notify_subject"}</p>
                   </div>
                 </div>
@@ -163,8 +165,8 @@
                 <div class="settings-card-header">
                   <span><i class="ti ti-palette"></i></span>
                   <div>
-                    <h3>[THEMES]</h3>
-                    <p>[MANAGER_THEME]</p>
+                    <h3>{echo phrase="THEMES"}</h3>
+                    <p>{echo phrase="MANAGER_THEME"}</p>
                   </div>
                 </div>
                 <div class="settings-card-body settings-compact-fields">
@@ -194,7 +196,7 @@
                 <div class="settings-card-header">
                   <span><i class="ti ti-file-invoice"></i></span>
                   <div>
-                    <h3>[INVOICE]</h3>
+                    <h3>{echo phrase="INVOICE"}</h3>
                     <p>{form_description field="subject"}</p>
                   </div>
                 </div>
@@ -225,14 +227,14 @@
                 <div class="settings-card-header">
                   <span><i class="ti ti-language"></i></span>
                   <div>
-                    <h3>[LOCALE]</h3>
-                    <p>[LANGUAGE]</p>
+                    <h3>{echo phrase="LOCALE"}</h3>
+                    <p>{echo phrase="LANGUAGE"}</p>
                   </div>
                 </div>
                 <div class="settings-card-body settings-compact-fields">
                   <div class="settings-field">
                     <label class="form-label">{form_description field="language"}</label>
-                    {form_element field="language"}
+                    {form_element field="language" value="$localeLanguage"}
                   </div>
                   <div class="settings-field settings-currency-field">
                     <label class="form-label">{form_description field="currency"}</label>
@@ -248,20 +250,20 @@
         </div>
       </div>
 
-      <div id="tabs-5">
-        <div id="payment_gateway" class="settings-panel">
-          {form name="settings_payment_gateway"}
-            <div class="settings-grid">
-              <div class="settings-card">
-                <div class="settings-card-header">
-                  <span><i class="ti ti-credit-card"></i></span>
-                  <div>
-                    <h3>[PAYMENT_GATEWAY]</h3>
-                    <p>[PAYMENT_METHOD_FOR_ORDERS]</p>
+      {if !empty($gatewaysAreEnabled)}
+        <div id="tabs-5">
+          <div id="payment_gateway" class="settings-panel">
+            {form name="settings_payment_gateway"}
+              <div class="settings-grid">
+                <div class="settings-card">
+                  <div class="settings-card-header">
+                    <span><i class="ti ti-credit-card"></i></span>
+                    <div>
+                      <h3>{echo phrase="PAYMENT_GATEWAY"}</h3>
+                      <p>{echo phrase="PAYMENT_METHOD_FOR_ORDERS"}</p>
+                    </div>
                   </div>
-                </div>
-                <div class="settings-card-body settings-compact-fields">
-				  {if !empty($gatewaysAreEnabled)}
+                  <div class="settings-card-body settings-compact-fields">
                     <div class="settings-field">
                       <label class="form-label">{form_description field="default_module"}</label>
                       {form_element field="default_module"}
@@ -270,23 +272,16 @@
                       <label class="form-label">{form_description field="order_method"}</label>
                       {form_element field="order_method"}
                     </div>
-                  {else}
-                    <div class="settings-empty">
-                      <i class="ti ti-alert-circle"></i>
-                      <span>[THERE_ARE_NO_GATEWAY_MODULES]</span>
-                    </div>
-                  {/if}
+                  </div>
                 </div>
               </div>
-            </div>
-			{if !empty($gatewaysAreEnabled)}
               <div class="settings-actions">
                 {form_element field="save" class="btn btn-primary"}
               </div>
-            {/if}
-          {/form}
+            {/form}
+          </div>
         </div>
-      </div>
+      {/if}
 
       <div id="tabs-6">
         <div id="order_interface" class="settings-panel">
@@ -296,8 +291,8 @@
                 <div class="settings-card-header">
                   <span><i class="ti ti-shopping-cart"></i></span>
                   <div>
-                    <h3>[ORDER_INTERFACE]</h3>
-                    <p>[ORDER_INTERFACE_PAGE_TITLE]</p>
+                    <h3>{echo phrase="ORDER_INTERFACE"}</h3>
+                    <p>{echo phrase="ORDER_INTERFACE_PAGE_TITLE"}</p>
                   </div>
                 </div>
                 <div class="settings-card-body settings-compact-fields">
