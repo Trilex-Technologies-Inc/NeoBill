@@ -27,7 +27,8 @@ class SubmitWidget extends HTMLWidget {
 	 */
 	function getHTML( $params ) {
 		// Generate HTML for a text box control
-		$myParams['value'] = $this->fieldConfig['description'];
+		$description = $this->fieldConfig['description'] ?? '';
+		$myParams['value'] = Translator::getTranslator()->translateString( $description );
 		$myParams['type'] = "submit";
 		return "<input " . $this->buildParams( $params, $myParams ) . "/>";
 	}

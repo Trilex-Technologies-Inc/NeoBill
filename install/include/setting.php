@@ -236,7 +236,7 @@ function create_admin() {
 function create_company() {
     global $message;
 
-    if ('' == $_POST['company'] || '' == $_POST['email'] || '' == $_POST['currency'] || '' == $_POST['nameserver-1'] || '' == $_POST['nameserver-2']) {
+    if ('' == $_POST['company'] || '' == $_POST['email'] || '' == $_POST['currency']) {
         $_POST['install_step'] = '5';
         $message = _INSTALLERREQUIREDFIELDSKO;
         return;
@@ -252,18 +252,10 @@ function create_company() {
         $company     = $_POST['company'];
         $email       = $_POST['email'];
         $currency    = $_POST['currency'];
-        $nameserver_1 = $_POST['nameserver-1'];
-        $nameserver_2 = $_POST['nameserver-2'];
-        $nameserver_3 = $_POST['nameserver-3'];
-        $nameserver_4 = $_POST['nameserver-4'];
     } else {
         $company     = addslashes($_POST['company']);
         $email       = addslashes($_POST['email']);
         $currency    = addslashes($_POST['currency']);
-        $nameserver_1 = addslashes($_POST['nameserver-1']);
-        $nameserver_2 = addslashes($_POST['nameserver-2']);
-        $nameserver_3 = addslashes($_POST['nameserver-3']);
-        $nameserver_4 = addslashes($_POST['nameserver-4']);
     }
 
     require_once '../config/config.inc.php';
@@ -275,10 +267,6 @@ function create_company() {
     mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('email_notification', '$email');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
     mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('locale_language', '{$_COOKIE['language']}');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
     mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('locale_currency', '$currency');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_1', '$nameserver_1');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_2', '$nameserver_2');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_3', '$nameserver_3');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `settings` (`setting`, `value`) VALUES ('nameserver_4', '$nameserver_4');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
     mysql_close();
 }
 

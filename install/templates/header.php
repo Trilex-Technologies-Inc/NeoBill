@@ -61,7 +61,7 @@
 					<main class="col-12 col-md-9">
 						<div class="d-flex align-items-center justify-content-between mb-3">
 							<div class="d-flex align-items-center gap-2">
-								<img src="images/logo.png" alt="NEOBILL" style="max-height: 48px;" />
+								<img src="../manager/images/logo.png" alt="NEOBILL" style="max-height: 48px;" />
 							</div>
 						</div>
 						<?php include "templates/graph.php"; ?>

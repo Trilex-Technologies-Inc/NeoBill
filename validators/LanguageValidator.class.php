@@ -25,17 +25,35 @@ class LanguageValidator extends ChoiceValidator {
 	 * @return array An array of valid language choices
 	 */
 	function getValidChoices() {
-		$languages = array();
+		global $conf;
 
-		// Read all the languages in the "language/" directory
-		$langDir = opendir( "language/" );
+		$languages = array();
+		$applicationDir = $conf['application_dir'] ?? getcwd();
+		$languageDir = rtrim( (string)$applicationDir, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR . "language";
+
+		// Resolve the directory from the application, not PHP's process CWD.
+		$langDir = @opendir( $languageDir );
+		if ( $langDir === false ) {
+			return $languages;
+		}
+		$fileLanguages = array();
+		$directoryLanguages = array();
 		while ( false !== ($file = readdir( $langDir )) ) {
-			if ( is_file( "language/" . $file ) ) {
-				$languages[$file] = $file;
+			if ( $file == "." || $file == ".." ) {
+				continue;
+			}
+
+			$languagePath = $languageDir . DIRECTORY_SEPARATOR . $file;
+			if ( is_dir( $languagePath ) ) {
+				$directoryLanguages[$file] = $file;
+			}
+			elseif ( is_file( $languagePath ) ) {
+				$fileLanguages[$file] = $file;
 			}
 		}
+		closedir( $langDir );
 
-		return $languages;
+		return !empty( $directoryLanguages ) ? $directoryLanguages : $fileLanguages;
 	}
 }
 ?>
