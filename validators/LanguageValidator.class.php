@@ -36,14 +36,24 @@ class LanguageValidator extends ChoiceValidator {
 		if ( $langDir === false ) {
 			return $languages;
 		}
+		$fileLanguages = array();
+		$directoryLanguages = array();
 		while ( false !== ($file = readdir( $langDir )) ) {
-			if ( is_file( $languageDir . DIRECTORY_SEPARATOR . $file ) ) {
-				$languages[$file] = $file;
+			if ( $file == "." || $file == ".." ) {
+				continue;
+			}
+
+			$languagePath = $languageDir . DIRECTORY_SEPARATOR . $file;
+			if ( is_dir( $languagePath ) ) {
+				$directoryLanguages[$file] = $file;
+			}
+			elseif ( is_file( $languagePath ) ) {
+				$fileLanguages[$file] = $file;
 			}
 		}
 		closedir( $langDir );
 
-		return $languages;
+		return !empty( $directoryLanguages ) ? $directoryLanguages : $fileLanguages;
 	}
 }
 ?>
